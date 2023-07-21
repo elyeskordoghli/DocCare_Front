@@ -9,7 +9,7 @@ const instance = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
+ 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
   // Do something before request is sent

@@ -17,7 +17,7 @@ const useLoginSubmit = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = ({ name, email, verifyEmail, password, role }) => {
+  const onSubmit = ({ name, email, last_login_at, last_login_ip, status, previleges, password }) => {
     setLoading(true);
     const cookieTimeOut = 0.5;
 
@@ -28,7 +28,7 @@ const useLoginSubmit = () => {
             setLoading(false);
             notifySuccess('Login Success!');
             dispatch({ type: 'USER_LOGIN', payload: res });
-            Cookies.set('adminInfo', JSON.stringify(res), {
+            Cookies.set('adminInfo', JSON.stringify(res.Admin), {
               expires: cookieTimeOut,
             });
             history.replace('/');
@@ -41,13 +41,13 @@ const useLoginSubmit = () => {
     }
 
     if (location.pathname === '/signup') {
-      AdminServices.registerAdmin({ name, email, password, role })
+      AdminServices.registerAdmin({ name, email, password, last_login_at, last_login_ip, status, previleges})
         .then((res) => {
           if (res) {
             setLoading(false);
             notifySuccess('Register Success!');
             dispatch({ type: 'USER_LOGIN', payload: res });
-            Cookies.set('adminInfo', JSON.stringify(res), {
+            Cookies.set('adminInfo', JSON.stringify(res.Admin), {
               expires: cookieTimeOut,
             });
             history.replace('/');
@@ -59,17 +59,17 @@ const useLoginSubmit = () => {
         });
     }
 
-    if (location.pathname === '/forgot-password') {
-      AdminServices.forgetPassword({ verifyEmail })
-        .then((res) => {
-          setLoading(false);
-          notifySuccess(res.message);
-        })
-        .catch((err) => {
-          setLoading(false);
-          notifyError(err ? err.response.data.message : err.message);
-        });
-    }
+    // if (location.pathname === '/forgot-password') {
+    //   AdminServices.forgetPassword({ verifyEmail })
+    //     .then((res) => {
+    //       setLoading(false);
+    //       notifySuccess(res.message);
+    //     })
+    //     .catch((err) => {
+    //       setLoading(false);
+    //       notifyError(err ? err.response.data.message : err.message);
+    //     });
+    // }
   };
   return {
     onSubmit,
