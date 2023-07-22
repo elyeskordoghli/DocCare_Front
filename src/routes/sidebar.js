@@ -28,28 +28,36 @@ const sidebar = [
     name: "Catalog",
     routes: [
       {
-        path: "/products",
-        name: "Products",
+        path: "/projects",
+        name: "Projects",
       },
       {
         path: "/categories",
         name: "Categories",
       },
       {
-        path: "/attributes",
-        name: "Attributes",
+        path: "/departments",
+        name: "Departments",
       },
       {
-        path: "/coupons",
-        name: "Coupons",
+        path: "/services",
+        name: "Services",
+      },
+      {
+        path: "/careers",
+        name: "Careers",
+      },
+      {
+        path: "/blogs",
+        name: "Blogs",
       },
     ],
   },
 
   {
-    path: "/customers",
+    path: "/Users",
     icon: FiUsers,
-    name: "Customers",
+    name: "Users",
   },
   {
     path: "/orders",
@@ -79,6 +87,14 @@ const sidebar = [
       {
         path: "/currencies",
         name: "Currencies",
+      },
+      {
+        path: "/details",
+        name: "Our Details",
+      },
+      {
+        path: "/references",
+        name: "References",
       },
     ],
   },

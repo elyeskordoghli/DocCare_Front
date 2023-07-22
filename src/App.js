@@ -27,10 +27,10 @@ const App = () => {
           <Route path="/forgot-password" component={ForgetPassword} />
           <Route path="/reset-password/:token" component={ResetPassword} />
 
-          <PrivateRoute>
-            {' '}
+          {/* <PrivateRoute> */}
+            {/* {' '} */}
             <Route path="/" component={Layout} />
-          </PrivateRoute>
+          {/* </PrivateRoute> */}
           <Redirect exact from="/" to="/login" />
         </Switch>
       </Router>

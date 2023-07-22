@@ -5,6 +5,8 @@ const Dashboard = lazy(() => import("../pages/Dashboard"));
 const Attributes = lazy(() => import("../pages/Attributes"));
 const ChildAttributes = lazy(() => import("../pages/ChildAttributes"));
 const Products = lazy(() => import("../pages/Products"));
+const Projects = lazy(() => import("../pages/Projects"));
+
 const ProductDetails = lazy(() => import("../pages/ProductDetails"));
 const Category = lazy(() => import("../pages/Category"));
 const ChildCategory = lazy(() => import("../pages/ChildCategory"));
@@ -36,6 +38,10 @@ const routes = [
   {
     path: "/dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/projects",
+    component: Projects,
   },
   {
     path: "/products",

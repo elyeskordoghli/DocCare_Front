@@ -20,7 +20,6 @@ const useLoginSubmit = () => {
   const onSubmit = ({ name, email, last_login_at, last_login_ip, status, previleges, password }) => {
     setLoading(true);
     const cookieTimeOut = 0.5;
-
     if (location.pathname === '/login') {
       AdminServices.loginAdmin({ email, password })
         .then((res) => {
@@ -31,7 +30,7 @@ const useLoginSubmit = () => {
             Cookies.set('adminInfo', JSON.stringify(res.Admin), {
               expires: cookieTimeOut,
             });
-            history.replace('/');
+            history.replace('/dashboard');
           }
         })
         .catch((err) => {
@@ -50,7 +49,7 @@ const useLoginSubmit = () => {
             Cookies.set('adminInfo', JSON.stringify(res.Admin), {
               expires: cookieTimeOut,
             });
-            history.replace('/');
+            history.replace('/dashboard');
           }
         })
         .catch((err) => {
