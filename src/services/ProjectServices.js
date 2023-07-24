@@ -1,6 +1,6 @@
 import requests from "./httpService";
     const ProjectServices = {
-      getAllProjects: async ({ category_id, title, subtitle, short_description, description }) => {
+      getAllProjects: async ({id, category_id, title, subtitle, short_description, description,image}) => {
         const searchCategory = category_id !== null ? category_id : "";
         const searchTitle = title !== null ? title : "";
         const searchSubTitle = subtitle !== null ? subtitle : "";
