@@ -30,7 +30,7 @@ const useLoginSubmit = () => {
             Cookies.set('adminInfo', JSON.stringify(res.Admin), {
               expires: cookieTimeOut,
             });
-            history.replace('/dashboard');
+            history.replace('/');
           }
         })
         .catch((err) => {

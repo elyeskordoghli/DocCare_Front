@@ -57,8 +57,8 @@ const Projects = () => {
 
   const { data, loading } = useAsync(() =>
     ProjectServices.getAllProjects({
-      page: currentPage,
-      limit: limitData,
+      // page: currentPage,
+      // limit: limitData,
       category_id: category,
       title: searchText,
       subtitle: subtitle,
