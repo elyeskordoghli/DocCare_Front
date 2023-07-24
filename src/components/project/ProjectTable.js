@@ -20,7 +20,7 @@ import { showingTranslateValue } from "utils/translate";
 
 //internal import
 
-const ProjectTable = ({ datas, isCheck, setIsCheck, currency, lang }) => {
+const ProjectTable = ({ data, isCheck, setIsCheck, currency, lang }) => {
   const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
 
   const handleClick = (e) => {
@@ -44,21 +44,21 @@ const ProjectTable = ({ datas, isCheck, setIsCheck, currency, lang }) => {
       )}
 
       <TableBody>
-        {datas?.map((data, i) => (
+        {data?.map((data, i) => (
           <TableRow key={i + 1}>
             <TableCell>
               <CheckBox
                 type="checkbox"
-                name={data?.title?.en}
+                name={data?.data?.title}
                 id={data.id}
                 handleClick={handleClick}
-                isChecked={isCheck?.includes(data._id)}
+                isChecked={isCheck?.includes(data.data.id)}
               />
             </TableCell>
 
             <TableCell>
               <div className="flex items-center">
-                {data?.image ? (
+                {data?.data?.image ? (
                   <Avatar
                     className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
                     src={data?.image}
@@ -72,7 +72,7 @@ const ProjectTable = ({ datas, isCheck, setIsCheck, currency, lang }) => {
                 )}
                 <div>
                   <h2 className="text-sm font-medium">
-                    {showingTranslateValue(data?.title, lang)?.substring(
+                    {showingTranslateValue(data?.data?.title, lang)?.substring(
                       0,
                       28
                     )}
@@ -90,7 +90,7 @@ const ProjectTable = ({ datas, isCheck, setIsCheck, currency, lang }) => {
             <TableCell>
               <span className="text-sm font-semibold">
                 {currency}
-                {Number(data?.prices?.originalPrice).toFixed(2)}
+                {data?.data?.title}
               </span>
             </TableCell>
 
