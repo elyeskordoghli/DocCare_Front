@@ -122,15 +122,12 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
               {data.category_id}
             </TableCell>
 
+
             <TableCell>
-              {/* <span className="text-sm font-semibold">
-                {currency}
-                {Number(data?.prices?.price).toFixed(2)}
-              </span> */}
               {data.short_description}
             </TableCell>
 
-            <TableCell>
+            <TableCell >
               {/* <span className="text-sm">{data.title}</span> */}
               {data.description}
             </TableCell>
@@ -160,7 +157,7 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
             </TableCell>
             <TableCell>
               {/* <EditDeleteButton
-                id={data._id}
+                id={data.id}
                 data={data}
                 isCheck={isCheck}
                 handleUpdate={handleUpdate}
