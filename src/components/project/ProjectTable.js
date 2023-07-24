@@ -12,6 +12,7 @@ import DeleteModal from "components/modal/DeleteModal";
 import EditDeleteButton from "components/table/EditDeleteButton";
 import ShowHideButton from "components/table/ShowHideButton";
 import Tooltip from "components/tooltip/Tooltip";
+import ProjectServices from "services/ProjectServices";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import { t } from "i18next";
 import { FiZoomIn } from "react-icons/fi";
@@ -46,6 +47,7 @@ const ProjectTable = ({ datas, isCheck, setIsCheck, currency, lang }) => {
       <TableBody>
         {datas?.map((data, i) => (
           <TableRow key={i + 1}>
+               <TableCell>{data.short_description}</TableCell>
             <TableCell>
               <CheckBox
                 type="checkbox"
@@ -55,6 +57,8 @@ const ProjectTable = ({ datas, isCheck, setIsCheck, currency, lang }) => {
                 isChecked={isCheck?.includes(data._id)}
               />
             </TableCell>
+
+         
 
             <TableCell>
               <div className="flex items-center">
@@ -79,7 +83,7 @@ const ProjectTable = ({ datas, isCheck, setIsCheck, currency, lang }) => {
                   </h2>
                 </div>
               </div>
-            </TableCell>
+            </TableCell> 
 
             <TableCell>
               <span className="text-sm">
@@ -122,11 +126,11 @@ const ProjectTable = ({ datas, isCheck, setIsCheck, currency, lang }) => {
                   title={t("DetailsTbl")}
                   bgColor="#10B981"
                 />
-              </Link>
+              </Link> 
             </TableCell>
             <TableCell className="text-center">
               <ShowHideButton id={data._id} status={data.status} />
-              {/* {project.status} */}
+              // {project.status} 
             </TableCell>
             <TableCell>
               <EditDeleteButton

@@ -7,7 +7,7 @@ import requests from "./httpService";
         const searchShortDescription = short_description !== null ? short_description : "";
         const searchDescription = description !== null ? description : "";
         return requests.get(
-          `/Projects?category_id=${searchCategory}&title=${searchTitle}&subtitle=${searchSubTitle}&short_description=${searchShortDescription}&description=${searchDescription}`
+          `/admin/projects`
         );
       },
   
