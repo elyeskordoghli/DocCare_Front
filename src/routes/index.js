@@ -10,6 +10,7 @@ const Services = lazy(() => import("../pages/Services"));
 
 const ProductDetails = lazy(() => import("../pages/ProductDetails"));
 const ServiceDetails = lazy(() => import("../pages/ServiceDetails"));
+const ProjectDetails = lazy(() => import("../pages/ProjectDetails"));
 
 const Category = lazy(() => import("../pages/Category"));
 const ChildCategory = lazy(() => import("../pages/ChildCategory"));
@@ -69,6 +70,10 @@ const routes = [
   {
     path: "/service/:id",
     component: ServiceDetails,
+  },
+  {
+    path: "/project/:id",
+    component: ProjectDetails,
   },
   {
     path: "/categories",

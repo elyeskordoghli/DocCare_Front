@@ -64,45 +64,37 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
 
   return (
     <>
-      {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}
+      {isCheck?.length < 1 && <DeleteModal id={data.id} title={data.title} />}
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ProjectDrawer currency={currency} id={serviceId} />
+          <ProjectDrawer  id={data.id} />
         </MainDrawer>
-      )} */}
+      )}
 
       <TableBody>
         {data?.map((data, i) => (
           <TableRow key={i + 1}>
                
             <TableCell>
-              {/* <CheckBox
+              <CheckBox
                 type="checkbox"
                 name={data?.title}
                 id={data.id}
                 handleClick={handleClick}
                 isChecked={isCheck?.includes(data.id)}
-              /> */}
+              />
             </TableCell>
 
          
 
             <TableCell>
               <div className="flex items-center">
-                {/* {data?.image ? ( */}
                   <Avatar
                     className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
                     src={data?.image}
                     alt="project"
                   />
-                {/* ) : ( */}
-                  {/* <Avatar */}
-                  {/* //   src={`https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png`}
-                  //   alt="project"
-                  // />
-                // ) */}
-               {/* } */}
                 <div>
                   <h2 className="text-sm font-medium">
                     {data.title}
@@ -113,39 +105,40 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
             </TableCell> 
 
             <TableCell>
-              {/* <span className="text-sm">
-                {showingTranslateValue(data?.category?.id, lang)}
-              </span> */}
+            <span className="text-sm font-semibold">
               {data.subtitle}
+              </span> 
             </TableCell>
 
             <TableCell>
-              {/* <span className="text-sm font-semibold">
-                {currency}
-                {data?.data?.title}
-              </span> */}
-              {data.category_id}
+               <span className="text-sm font-semibold">
+                    {data.category_id}
+              </span> 
+         
             </TableCell>
 
 
-            <TableCell>
-              {data.short_description}
+            <TableCell className="truncate max-w-xs">
+              <span className="text-sm font-semibold">
+                {data.short_description.length > 30
+                  ? data.short_description.substring(0, 30) + "..."
+                  : data.short_description}
+              </span>
             </TableCell>
 
+            
+
+{/* 
             <TableCell >
-              {/* <span className="text-sm">{data.title}</span> */}
-              {data.description}
-            </TableCell>
-            <TableCell>
-              {/* {data.stock > 0 ? (
-                <Badge type="success">{t("Selling")}</Badge>
-              ) : (
-                <Badge type="danger">{t("SoldOut")}</Badge>
-              )} */}
-            </TableCell>
+              <span className="text-sm font-semibold">
+              {data.description.length >20 ? data.description.substring(0,30) +"...": data.description}
+              </span>
+            </TableCell> */}
+
+            
             <TableCell>
               <Link
-                to={`/admin/projects/project/${data.id}`}
+                to={`/project/${data.id}`}
                 className="flex justify-center text-gray-400 hover:text-green-600"
               >
                 <Tooltip
@@ -156,10 +149,7 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
                 />
               </Link> 
             </TableCell>
-            <TableCell className="text-center">
-              {/* <ShowHideButton id={data._id} status={data.status} />
-              // {project.status}  */}
-            </TableCell>
+           
             <TableCell>
               <EditDeleteButton
                 id={data.id}
