@@ -174,19 +174,19 @@ const Services = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Product"
+                placeholder="Search Service"
               />
               <button
                 type="submit"
                 className="absolute right-0 top-0 mt-5 mr-1"
               ></button>
             </div>
-
+{/* 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <SelectCategory setCategory={setCategory} lang={lang} />
-            </div>
+            </div> */}
 
-            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+            {/* <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select
                 onChange={(e) => setSortedField(e.target.value)}
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
@@ -207,7 +207,7 @@ const Services = () => {
                   {t("DateUpdatedDesc")}
                 </option>
               </Select>
-            </div>
+            </div> */}
           </form>
         </CardBody>
       </Card>

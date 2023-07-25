@@ -135,7 +135,7 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
        
             <TableCell>
             <span className="text-sm">   
-              {data.catalogue}
+             <a href={data.catalogue}>{data.title} Catalogue</a> 
               </span>
             </TableCell>
             <TableCell>
