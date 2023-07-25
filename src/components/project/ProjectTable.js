@@ -23,6 +23,11 @@ import React, { useState,useEffect } from 'react'
 
 const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
   const [data, setData] = useState([]); 
+  const {
+    handleModalOpen,
+    handleUpdate,
+    // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
+  } = useToggleDrawer();
 
   useEffect(() => {
     // Utilisez la fonction getAllProjects pour récupérer les données des projets depuis l'API
@@ -72,13 +77,13 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
           <TableRow key={i + 1}>
                
             <TableCell>
-              <CheckBox
+              {/* <CheckBox
                 type="checkbox"
                 name={data?.title}
                 id={data.id}
                 handleClick={handleClick}
                 isChecked={isCheck?.includes(data.id)}
-              />
+              /> */}
             </TableCell>
 
          
@@ -156,14 +161,14 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
               // {project.status}  */}
             </TableCell>
             <TableCell>
-              {/* <EditDeleteButton
+              <EditDeleteButton
                 id={data.id}
                 data={data}
                 isCheck={isCheck}
                 handleUpdate={handleUpdate}
                 handleModalOpen={handleModalOpen}
                 title={showingTranslateValue(data?.title, lang)}
-              /> */}
+              />
             </TableCell>
           </TableRow>
         ))}
@@ -173,3 +178,5 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
 };
 
 export default ProjectTable;
+
+
