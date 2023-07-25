@@ -39,6 +39,8 @@ const Projects = () => {
   const { title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
 
+  
+
   const { t } = useTranslation();
   const {
     toggleDrawer,
@@ -183,7 +185,8 @@ const Projects = () => {
             </div>
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <SelectCategory setCategory={setCategory} lang={lang} />
+              <SelectCategory setCategory={setCategory} lang={lang}/>
+              
             </div>
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
@@ -232,12 +235,12 @@ const Projects = () => {
                 <TableCell>{t("Project SubTitle")}</TableCell>
                 <TableCell>{t("CategoryTbl")}</TableCell>
                 <TableCell>{t("short description")}</TableCell>
-                <TableCell>{t("description")}</TableCell>
-                <TableCell>{t("StatusTbl")}</TableCell>
+                {/* <TableCell>{t("description")}</TableCell> */}
+                {/* <TableCell>{t("StatusTbl")}</TableCell> */}
                 <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
-                <TableCell className="text-center">
+                {/* <TableCell className="text-center">
                   {t("PublishedTbl")}
-                </TableCell>
+                </TableCell> */}
                 <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>

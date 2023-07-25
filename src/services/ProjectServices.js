@@ -14,7 +14,7 @@ import requests from "./httpService";
       
   
   getProjectById: async (id) => {
-    return requests.post(`admin/projects/project/${id}`);
+    return requests.get(`admin/projects/project/${id}`);
   },
   addProject: async (body) => {
     return requests.post("admin/projects/store", body);

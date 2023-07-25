@@ -8,6 +8,7 @@ const Products = lazy(() => import("../pages/Products"));
 const Projects = lazy(() => import("../pages/Projects"));
 
 const ProductDetails = lazy(() => import("../pages/ProductDetails"));
+const ProjectDetails = lazy(() => import("../pages/ProjectDetails"));
 const Category = lazy(() => import("../pages/Category"));
 const ChildCategory = lazy(() => import("../pages/ChildCategory"));
 const Staff = lazy(() => import("../pages/Staff"));
@@ -58,6 +59,10 @@ const routes = [
   {
     path: "/product/:id",
     component: ProductDetails,
+  },
+  {
+    path: "/project/:id",
+    component: ProjectDetails,
   },
   {
     path: "/categories",
