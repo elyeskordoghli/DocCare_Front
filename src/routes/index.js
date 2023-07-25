@@ -6,8 +6,11 @@ const Attributes = lazy(() => import("../pages/Attributes"));
 const ChildAttributes = lazy(() => import("../pages/ChildAttributes"));
 const Products = lazy(() => import("../pages/Products"));
 const Projects = lazy(() => import("../pages/Projects"));
+const Services = lazy(() => import("../pages/Services"));
 
 const ProductDetails = lazy(() => import("../pages/ProductDetails"));
+const ServiceDetails = lazy(() => import("../pages/ServiceDetails"));
+
 const Category = lazy(() => import("../pages/Category"));
 const ChildCategory = lazy(() => import("../pages/ChildCategory"));
 const Staff = lazy(() => import("../pages/Staff"));
@@ -44,6 +47,10 @@ const routes = [
     component: Projects,
   },
   {
+    path: "/services",
+    component: Services,
+  },
+  {
     path: "/products",
     component: Products,
   },
@@ -58,6 +65,10 @@ const routes = [
   {
     path: "/product/:id",
     component: ProductDetails,
+  },
+  {
+    path: "/service/:id",
+    component: ServiceDetails,
   },
   {
     path: "/categories",

@@ -527,7 +527,7 @@ export const translationEn = {
   Iagree: "I agree to the",
   CreateAccountBtn: "Create Account",
   AlreadyAccount: "Already have an account? Login",
-  Welcome: "Welcome to Dashtar!",
+  Welcome: "Welcome to SIM!",
   Cookies: "Cookies",
   License: "License",
   Content: "Content Liability",
