@@ -5,7 +5,7 @@ import { Button, WindmillContext } from "@windmill/react-ui";
 import { IoLogOutOutline } from "react-icons/io5";
 import logoDark from "assets/img/logo/sim_new.svg";
 import logoLight from "assets/img/logo/sim_new_white.svg";
-import logoDark from "assets/img/logo/logo-dark.svg";
+// import logoDark from "assets/img/logo/logo-dark.svg";
 
 
 import sidebar from "routes/sidebar";
