@@ -42,7 +42,7 @@ const useLoginSubmit = () => {
     if (location.pathname === '/signup') {
       AdminServices.registerAdmin({ name, email, password, last_login_at, last_login_ip, status, previleges})
         .then((res) => {
-          if (res) {
+          if (res) { 
             setLoading(false);
             notifySuccess('Register Success!');
             dispatch({ type: 'USER_LOGIN', payload: res });
