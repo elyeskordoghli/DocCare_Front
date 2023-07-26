@@ -12,6 +12,7 @@ import ProductServices from "services/ProductServices";
 import { notifyError, notifySuccess } from "utils/toast";
 import SettingServices from "services/SettingServices";
 import { showingTranslateValue } from "utils/translate";
+import ProjectServices from "services/ProjectServices";
 
 const useProductSubmit = (id) => {
   const location = useLocation();
@@ -31,7 +32,7 @@ const useProductSubmit = (id) => {
   let [variants, setVariants] = useState([]);
   const [variant, setVariant] = useState([]);
   // const [totalStock, setTotalStock] = useState(0);
-  // const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(0);
 
   const [originalPrice, setOriginalPrice] = useState(0);
   const [price, setPrice] = useState(0);
