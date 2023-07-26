@@ -38,7 +38,7 @@ const DrawerButton = ({ id, title, isSubmitting }) => {
                   {t("UpdateBtn")} {title}
                 </span>
               ) : (
-                <span>Add {title}</span>
+                <span>{title}</span>
               )}
             </Button>
           )}

@@ -9,8 +9,9 @@ import CategoryServices from "services/CategoryServices";
 import { showingTranslateValue } from "utils/translate";
 
 const SelectCategory = ({ setCategory, lang }) => {
-  const { data } = useAsync(CategoryServices.getAllCategories);
-  // console.log('data category',data)
+  const response = useAsync(CategoryServices.getAllCategories);
+  const { data } = response.data;
+  
   const { t } = useTranslation();
   return (
     <>
@@ -21,9 +22,9 @@ const SelectCategory = ({ setCategory, lang }) => {
         <option value="All" defaultValue hidden>
           {t("Category")}
         </option>
-        {data?.map((cat) => (
-          <option key={cat._id} value={cat._id}>
-            {showingTranslateValue(cat?.name, lang)}
+        {Array.isArray(data) && data.map((cat) => (
+          <option key={cat.id} value={cat.id}>
+            {cat.name}
           </option>
         ))}
       </Select>

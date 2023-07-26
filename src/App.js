@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from './utils/toast';
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
-import PrivateRoute from './components/login/PrivateRoute';
 
 const Layout = lazy(() => import('./layout/Layout'));
 const Login = lazy(() => import('./pages/Login'));
