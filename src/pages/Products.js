@@ -64,6 +64,10 @@ const Products = () => {
     })
   );
 
+  const filter = (category_id) => {
+    //API CALL 
+  }
+
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
   // console.log("product page", data);
@@ -179,7 +183,7 @@ const Products = () => {
             </div>
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <SelectCategory setCategory={setCategory} lang={lang} />
+              <SelectCategory setCategory={filter} lang={lang} />
             </div>
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">

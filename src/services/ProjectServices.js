@@ -13,6 +13,10 @@ import requests from "./httpService";
 
       
   
+  getProjectByCategoryId: async(id) =>{
+    return requests.get('user/projects/projects_by_category');
+  },
+  
   getProjectById: async (id) => {
     return requests.get(`admin/projects/project/${id}`);
   },

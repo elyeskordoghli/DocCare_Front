@@ -138,7 +138,7 @@ const ProductDrawer = ({ id }) => {
           <li className="mr-2">
             <ActiveButton
               tapValue={tapValue}
-              activeValue="Basic Info"
+              activeValue="Anglais"
               handleProductTap={handleProductTap}
             />
           </li>
@@ -164,37 +164,96 @@ const ProductDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">{productId}</div>
               </div> */}
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductTitleName")} />
+                <LabelArea label={t("Project Title")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`title`, {
-                      required: "TItle is required!",
+                      required: "Title is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title"
                     type="text"
-                    placeholder={t("ProductTitleName")}
+                    placeholder={t("Project Title")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
                   <Error errorName={errors.title} />
                 </div>
               </div>
+
+             
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductDescription")} />
+                <LabelArea label={t("Project SubTitle ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`SubTitle`, {
+                      required: "SubTitle is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="title"
+                    type="text"
+                    placeholder={t("Project SubTitle ")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.SubTitle} />
+                </div>
+              </div>
+
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Project Short_Description")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("description", {
+                    {...register("Short_Description", {
                       required: false,
                     })}
                     name="description"
-                    placeholder={t("ProductDescription")}
+                    placeholder={t("Project Short_Description")}
+                    rows="4"
+                    spellCheck="false"
+                  />
+                  <Error errorName={errors.Short_Description} />
+                </div>
+              </div>
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Project Description")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                    {...register("Description", {
+                      required: false,
+                    })}
+                    name="description"
+                    placeholder={t("Project Description")}
                     rows="4"
                     spellCheck="false"
                   />
                   <Error errorName={errors.description} />
                 </div>
               </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Seo Description")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                    {...register("Seo Description", {
+                      required: false,
+                    })}
+                    name="description"
+                    placeholder={t("Seo Description")}
+                    rows="4"
+                    spellCheck="false"
+                  />
+                  <Error errorName={errors.Seo_Description} />
+                </div>
+              </div>
+
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductImage")} />
                 <div className="col-span-8 sm:col-span-4">
@@ -207,7 +266,7 @@ const ProductDrawer = ({ id }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductSKU")} />
                 <div className="col-span-8 sm:col-span-4">
                   <InputArea
@@ -220,9 +279,9 @@ const ProductDrawer = ({ id }) => {
                   />
                   <Error errorName={errors.sku} />
                 </div>
-              </div>
+              </div> */}
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductBarcode")} />
                 <div className="col-span-8 sm:col-span-4">
                   <InputArea
@@ -235,7 +294,7 @@ const ProductDrawer = ({ id }) => {
                   />
                   <Error errorName={errors.barcode} />
                 </div>
-              </div>
+              </div> */}
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Category")} />
@@ -490,6 +549,9 @@ const ProductDrawer = ({ id }) => {
             </div>
           )}
       </Scrollbars>
+
+     
+
     </>
   );
 };

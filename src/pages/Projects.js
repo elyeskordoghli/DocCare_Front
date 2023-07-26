@@ -34,7 +34,7 @@ import BulkActionDrawer from "components/drawer/BulkActionDrawer";
 import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
 import ProjectServices from "services/ProjectServices";
-
+import CategoryServices from "services/CategoryServices";
 const Projects = () => {
   const { title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
@@ -69,6 +69,9 @@ const Projects = () => {
     //  price: sortedField,
     })
   );
+
+
+
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
@@ -185,9 +188,9 @@ const Projects = () => {
             </div>
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <SelectCategory setCategory={setCategory} lang={lang}/>
-              
+              <SelectCategory setCategory={setCategory} lang={lang} />
             </div>
+            
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select

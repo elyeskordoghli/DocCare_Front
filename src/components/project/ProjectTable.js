@@ -19,6 +19,9 @@ import { FiZoomIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { showingTranslateValue } from "utils/translate";
 import React, { useState,useEffect } from 'react'
+import {useAsync} from "hooks/useAsync";
+import CategoryServices from "services/CategoryServices";
+
 //internal import 
 
 const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
@@ -29,6 +32,7 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
 
+  
   useEffect(() => {
     // Utilisez la fonction getAllProjects pour récupérer les données des projets depuis l'API
     const fetchProjects = async () => {
@@ -61,6 +65,7 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
       setIsCheck(isCheck.filter((item) => item !== id));
     }
   };
+
 
   return (
     <>
@@ -113,7 +118,7 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
             <TableCell>
                <span className="text-sm font-semibold">
                     {data.category_id}
-              </span> 
+              </span>
          
             </TableCell>
 
