@@ -69,7 +69,7 @@ const ProductDrawer = ({ id }) => {
     setTapValue,
     resetRefTwo,
     handleSkuBarcode,
-    handleProductTap,
+    handleProjectTap,
     selectedCategory,
     setSelectedCategory,
     setDefaultCategory,
@@ -139,7 +139,7 @@ const ProductDrawer = ({ id }) => {
             <ActiveButton
               tapValue={tapValue}
               activeValue="Basic Info"
-              handleProductTap={handleProductTap}
+              handleProjectTap={handleProjectTap}
             />
           </li>
 
@@ -148,7 +148,7 @@ const ProductDrawer = ({ id }) => {
               <ActiveButton
                 tapValue={tapValue}
                 activeValue="Combination"
-                handleProductTap={handleProductTap}
+                handleProjectTap={handleProjectTap}
               />
             </li>
           )}
@@ -438,7 +438,7 @@ const ProductDrawer = ({ id }) => {
               save
               title="Product"
               isSubmitting={isSubmitting}
-              handleProductTap={handleProductTap}
+              handleProjectTap={handleProjectTap}
             />
           ) : (
             <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />

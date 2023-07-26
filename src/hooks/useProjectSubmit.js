@@ -26,20 +26,19 @@ const useProductSubmit = (id) => {
   const resetRefTwo = useRef("");
 
   // react hook
-  const [imageUrl, setImageUrl] = useState([]);
   const [tag, setTag] = useState([]);
   const [values, setValues] = useState({});
   let [variants, setVariants] = useState([]);
   const [variant, setVariant] = useState([]);
-  const [totalStock, setTotalStock] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  // const [totalStock, setTotalStock] = useState(0);
+  // const [quantity, setQuantity] = useState(0);
 
   const [originalPrice, setOriginalPrice] = useState(0);
   const [price, setPrice] = useState(0);
   const [sku, setSku] = useState("");
   const [barcode, setBarcode] = useState("");
   const [isBasicComplete, setIsBasicComplete] = useState(false);
-  const [tapValue, setTapValue] = useState("Basic Info");
+  const [tapValue, setTapValue] = useState("Anglais");
   const [isCombination, setIsCombination] = useState(false);
   const [attTitle, setAttTitle] = useState([]);
   const [variantTitle, setVariantTitle] = useState([]);
@@ -49,12 +48,23 @@ const useProductSubmit = (id) => {
   const [imgId, setImgId] = useState("");
   const [isBulkUpdate, setIsBulkUpdate] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const [defaultCategory, setDefaultCategory] = useState([]);
   const [resData, setResData] = useState({});
   const [language, setLanguage] = useState(lang);
   const [openModal, setOpenModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [slug, setSlug] = useState("");
+
+  const [imageUrl, setImageUrl] = useState([]);
+  const [title,setTitle]=useState("");
+  const [subtitle,setSubtitle]=useState("");
+  const [short_description,setShort_description]=useState("");
+  const [description,setDescription]=useState("");
+  const [seo_keywords,setSeo_keywords]=useState("");
+  const [seo_description,setSeo_description]=useState("");
+  const [defaultCategory, setDefaultCategory] = useState([]);
+  const [defaultReference,setDefaultReference]=useState("");
+  const [slug,setSlug]=useState("");
+
+
 
   // console.log("lang", lang);
 
@@ -81,68 +91,80 @@ const useProductSubmit = (id) => {
       setIsSubmitting(true);
       if (!imageUrl) return notifyError("Image is required!");
 
-      if (data.originalPrice < data.price) {
+      if (!title) {
         setIsSubmitting(false);
-        return notifyError(
-          "SalePrice must be less then or equal of product price!"
-        );
+        return notifyError("Project Title is required!");
       }
+
+      if (!subtitle) {
+        setIsSubmitting(false);
+        return notifyError("Project subtitle is required!");
+      }
+
+      if (!short_description) {
+        setIsSubmitting(false);
+        return notifyError("short description is required!");
+      }
+
+      if (!description) {
+        setIsSubmitting(false);
+        return notifyError("description is required!");
+      }
+
+      if (!seo_keywords) {
+        setIsSubmitting(false);
+        return notifyError("seo_keywords is required!");
+      }
+
+      if (!seo_description) {
+        setIsSubmitting(false);
+        return notifyError("seo_description is required!");
+      }
+
       if (!defaultCategory[0]) {
         setIsSubmitting(false);
         return notifyError("Default Category is required!");
       }
 
-      const updatedVariants = variants.map((v, i) => {
-        const newObj = {
-          ...v,
-          price: Number(v?.price || 0),
-          originalPrice: Number(v?.originalPrice || 0),
-          discount: Number(v?.discount || 0),
-          quantity: Number(v?.quantity || 0),
-        };
-        return newObj;
-      });
+      if (!defaultReference[0]) {
+        setIsSubmitting(false);
+        return notifyError("Default Reference is required!");
+      }
 
+      if (!slug) {
+        setIsSubmitting(false);
+        return notifyError("slug is required!");
+      }
+
+
+      setTitle(data.title);
+      setSubtitle(data.subtitle);
+      setShort_description(data.short_description);
+      setDescription(data.description);
+      setSeo_keywords(data.seo_keywords);
+      setSeo_description(data.seo_description);
+      setDefaultCategory(data.defaultCategory);
+      setDefaultReference(data.defaultReference);
+      setSlug(data.slug);
       setIsBasicComplete(true);
-      setPrice(data.price);
-      setQuantity(data.stock);
-      setBarcode(data.barcode);
-      setSku(data.sku);
-      setOriginalPrice(data.originalPrice);
 
-      const productData = {
-        productId: productId,
-        sku: data.sku || "",
-        barcode: data.barcode || "",
-        title: {
-          [language]: data.title,
-        },
-        description: { [language]: data.description ? data.description : "" },
-        slug: data.slug
-          ? data.slug
-          : data.title.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"),
-
-        categories: selectedCategory.map((item) => item._id),
-        category: defaultCategory[0]._id,
-
-        image: imageUrl,
-        stock: variants?.length < 1 ? data.stock : Number(totalStock),
-        tag: JSON.stringify(tag),
-
-        prices: {
-          price: Number(data.price) || 0,
-          originalPrice: data.originalPrice || 0,
-          discount: Number(data.originalPrice) - Number(data.price),
-        },
-        isCombination: updatedVariants?.length > 0 ? isCombination : false,
-        variants: isCombination ? updatedVariants : [],
+      const projectData = {
+        // ... autres champs déjà définis ...
+        title: data.title,
+        subtitle: data.subtitle,
+        short_description: data.short_description,
+        description: data.description,
+        seo_keywords: data.seo_keywords,
+        seo_description: data.seo_description,
+        defaultReference: data.defaultReference,
+        slug: data.slug,
       };
 
       // console.log("productData ===========>", productData, "data", data);
       // return setIsSubmitting(false);
 
       if (updatedId) {
-        const res = await ProductServices.updateProduct(updatedId, productData);
+        const res = await ProjectServices.updateProject(updatedId, projectData);
         if (res) {
           if (isCombination) {
             setIsUpdate(true);
@@ -164,48 +186,28 @@ const useProductSubmit = (id) => {
           closeDrawer();
         }
       } else {
-        const res = await ProductServices.addProduct(productData);
+        const res = await ProductServices.addProduct(projectData);
         // console.log("res is ", res);
         if (isCombination) {
           setUpdatedId(res._id);
-          setValue("title", res.title[language ? language : "en"]);
-          setValue("description", res.description[language ? language : "en"]);
-          setValue("slug", res.slug);
-          setValue("show", res.show);
-          setValue("barcode", res.barcode);
-          setValue("stock", res.stock);
-          setTag(JSON.parse(res.tag));
-          setImageUrl(res.image);
-          setVariants(res.variants);
-          setValue("productId", res.productId);
-          setProductId(res.productId);
-          setOriginalPrice(res?.prices?.originalPrice);
-          setPrice(res?.prices?.price);
-          setBarcode(res.barcode);
-          setSku(res.sku);
-          const result = res.variants.map(
-            ({
-              originalPrice,
-              price,
-              discount,
-              quantity,
-              barcode,
-              sku,
-              productId,
-              image,
-              ...rest
-            }) => rest
-          );
-
-          setVariant(result);
+          setTitle(data.title);
+          setSubtitle(data.subtitle);
+          setShort_description(data.short_description);
+          setDescription(data.description);
+          setSeo_keywords(data.seo_keywords);
+          setSeo_description(data.seo_description);
+          setDefaultCategory(data.defaultCategory);
+          setDefaultReference(data.defaultReference);
+          setSlug(data.slug);
+          
           setIsUpdate(true);
           setIsBasicComplete(true);
           setIsSubmitting(false);
           handleProjectTap("Combination", true);
           notifySuccess("Product Added Successfully!");
         } else {
-          setIsUpdate(true);
-          notifySuccess("Product Added Successfully!");
+          setIsUpdate(false);
+          notifySuccess("Failed to Add Product");
         }
 
         if (
@@ -229,7 +231,7 @@ const useProductSubmit = (id) => {
       setSlug("");
       setLanguage(lang);
       setValue("language", language);
-      handleProjectTap("Basic Info", true);
+      handleProjectTap("Anglais", true);
       setResData({});
       setValue("sku");
       setValue("title");
@@ -249,7 +251,7 @@ const useProductSubmit = (id) => {
       setVariants([]);
       setVariant([]);
       setValues({});
-      setTotalStock(0);
+      // setTotalStock(0);
       setSelectedCategory([]);
       setDefaultCategory([]);
       if (location.pathname === "/products") {
@@ -276,7 +278,7 @@ const useProductSubmit = (id) => {
       setUpdatedId();
       return;
     } else {
-      handleProjectTap("Basic Info", true);
+      handleProjectTap("French", true);
     }
 
     if (id) {
@@ -327,7 +329,7 @@ const useProductSubmit = (id) => {
             setVariants(res.variants);
             setIsCombination(res.isCombination);
             setQuantity(res?.stock);
-            setTotalStock(res.stock);
+            // setTotalStock(res.stock);
             setOriginalPrice(res?.prices?.originalPrice);
             setPrice(res?.prices?.price);
           }
@@ -363,10 +365,10 @@ const useProductSubmit = (id) => {
     const res = Object?.keys(Object.assign({}, ...variants));
     const varTitle = attribue?.filter((att) => res.includes(att._id));
 
-    if (variants?.length > 0) {
-      const totalStock = variants?.reduce((pre, acc) => pre + acc.quantity, 0);
-      setTotalStock(Number(totalStock));
-    }
+    // if (variants?.length > 0) {
+    //   const totalStock = variants?.reduce((pre, acc) => pre + acc.quantity, 0);
+    //   setTotalStock(Number(totalStock));
+    // }
     setVariantTitle(varTitle);
   }, [attribue, variants, language, lang]);
 
@@ -458,7 +460,8 @@ const useProductSubmit = (id) => {
 
   //for edit combination values
   const handleEditVariant = (variant) => {
-    setTapValue("Combine");
+    setTapValue("Arabic");
+    setTapValue("French");
   };
 
   //for remove combination values
@@ -513,14 +516,14 @@ const useProductSubmit = (id) => {
         // console.log(value);
         if (value) {
           setIsCombination(!isCombination);
-          setTapValue("Basic Info");
+          setTapValue("French");
           setVariants([]);
           setVariant([]);
         }
       });
     } else {
       setIsCombination(!isCombination);
-      setTapValue("Basic Info");
+      setTapValue("French");
     }
   };
 
@@ -544,19 +547,18 @@ const useProductSubmit = (id) => {
   };
 
   const handleProjectTap = (e, value, name) => {
-    // console.log(e);
 
-    if (value) {
-      if (!value)
-        return notifyError(
-          `${"Please save product before adding combinations!"}`
-        );
-    } else {
-      if (!isBasicComplete)
-        return notifyError(
-          `${"Please save product before adding combinations!"}`
-        );
-    }
+    // if (value) {
+    //   if (!value)
+    //     return notifyError(
+    //       `${"Please save product before adding combinations!"}`
+    //     );
+    // } else {
+    //   if (!isBasicComplete)
+    //     return notifyError(
+    //       `${"Please save product before adding combinations!"}`
+    //     );
+    // }
     setTapValue(e);
   };
 
@@ -589,7 +591,7 @@ const useProductSubmit = (id) => {
       (pre, acc) => pre + Number(acc.quantity),
       0
     );
-    setTotalStock(Number(totalStock));
+    // setTotalStock(Number(totalStock));
   };
 
   //for change language in product drawer
