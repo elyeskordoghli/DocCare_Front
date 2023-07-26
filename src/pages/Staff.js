@@ -45,7 +45,7 @@ const Staff = () => {
     dataTable,
     serviceData,
     handleSubmitUser,
-  } = useFilter(data);
+  } = useFilter(data?.data);
 
   const { t } = useTranslation();
 
@@ -72,7 +72,7 @@ const Staff = () => {
               />
               <button type="submit" className="absolute right-0 top-0 mt-5 mr-1"></button>
             </div>
-            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+            {/* <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select
                 onChange={(e) => setRole(e.target.value)}
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
@@ -84,7 +84,7 @@ const Staff = () => {
                 <option value="Cashier">{t("SelectCashiers")}</option>
                 <option value="Super Admin">{t("SelectSuperAdmin")}</option>
               </Select>
-            </div>
+            </div> */}
 
             <div className="w-full md:w-56 lg:w-56 xl:w-56">
               <Button onClick={toggleDrawer} className="w-full rounded-md h-12">
@@ -106,19 +106,24 @@ const Staff = () => {
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>{t("StaffNameTbl")}</TableCell>
-                <TableCell>{t("StaffEmailTbl")}</TableCell>
-                <TableCell>{t("StaffContactTbl")}</TableCell>
-                <TableCell>{t("StaffJoiningDateTbl")}</TableCell>
-                <TableCell>{t("StaffRoleTbl")}</TableCell>
-                <TableCell className="text-center">{t("OderStatusTbl")}</TableCell>
-                <TableCell className="text-center">{t("PublishedTbl")}</TableCell>
+                <TableCell>{t("Name")}</TableCell>
+                <TableCell>{t("Email")}</TableCell>
+                <TableCell>{t("Last login at")}</TableCell>
+                <TableCell>{t("Last login ip")}</TableCell>
+                <TableCell>{t("Status")}</TableCell>
+                {/* <TableCell className="text-center">{t("OderStatusTbl")}</TableCell>
+                <TableCell className="text-center">{t("PublishedTbl")}</TableCell>*/}
+                <TableCell>{t("Previleges")}</TableCell>
+                <TableCell>{t("Department")}</TableCell>
 
-                <TableCell className="text-right">{t("StaffActionsTbl")}</TableCell>
+                <TableCell className="text-right">{t("StaffActionsTbl")}</TableCell> 
               </tr>
             </TableHeader>
 
-            <StaffTable staffs={dataTable} lang={lang} />
+            <StaffTable
+             Staff={data?.Staff}
+            //  data={dataTable} 
+             lang={lang} />
           </Table>
           <TableFooter>
             <Pagination
