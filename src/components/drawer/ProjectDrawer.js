@@ -216,7 +216,7 @@ const ProductDrawer = ({ id }) => {
                       required: "SubTitle is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="SubTitle"
                     type="text"
                     placeholder={t("Project SubTitle (en)  ")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
@@ -237,6 +237,7 @@ const ProductDrawer = ({ id }) => {
                     placeholder={t("Project Short_Description (en) ")}
                     rows="4"
                     spellCheck="false"
+
                   />
                   <Error errorName={errors.Short_Description} />
                 </div>
