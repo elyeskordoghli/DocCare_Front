@@ -17,7 +17,7 @@ import "react-responsive-modal/styles.css";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
-import useProductSubmit from "hooks/useProductSubmit";
+import useServiceSubmit from "hooks/useServiceSubmit";
 import UploaderThree from "components/image-uploader/UploaderThree";
 import Title from "components/form/Title";
 import SwitchToggleForCombination from "components/form/SwitchToggleForCombination";
@@ -33,10 +33,9 @@ import AttributeOptionTwo from "components/attribute/AttributeOptionTwo";
 import DrawerButton from "components/form/DrawerButton";
 import AttributeListTable from "components/attribute/AttributeListTable";
 import { showingTranslateValue } from "utils/translate";
-
 //internal import
 
-const ProductDrawer = ({ id }) => {
+const ServiceDrawer = ({ id }) => {
   const { t } = useTranslation();
 
   const {
@@ -69,7 +68,7 @@ const ProductDrawer = ({ id }) => {
     setTapValue,
     resetRefTwo,
     handleSkuBarcode,
-    handleProjectTap,
+    handleServiceTap,
     selectedCategory,
     setSelectedCategory,
     setDefaultCategory,
@@ -84,7 +83,7 @@ const ProductDrawer = ({ id }) => {
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,
-  } = useProductSubmit(id);
+  } = useServiceSubmit(id);
 
   const currency = globalSetting?.default_currency || "$";
 
@@ -114,19 +113,18 @@ const ProductDrawer = ({ id }) => {
           <Title
             register={register}
             handleSelectLanguage={handleSelectLanguage}
-            title={t("UpdateProduct")}
-            description={t("UpdateProductDescription")}
+            title={t("Update Service")}
+            description={t("Update Servicet Description")}
           />
         ) : (
           <Title
             register={register}
             handleSelectLanguage={handleSelectLanguage}
-            title={t("DrawerAddProduct")}
-            description={t("AddProductDescription")}
+            title={t("Add Service")}
+            description={t("Add Service Description")}
           />
         )}
       </div>
-
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-700">
         <SwitchToggleForCombination
           product
@@ -138,8 +136,24 @@ const ProductDrawer = ({ id }) => {
           <li className="mr-2">
             <ActiveButton
               tapValue={tapValue}
-              activeValue="Basic Info"
-              handleProjectTap={handleProjectTap}
+              activeValue="Anglais"
+              handleTap={handleServiceTap}
+            />
+          </li>
+
+          <li className="mr-2">
+            <ActiveButton
+              tapValue={tapValue}
+              activeValue="French"
+              handleTap={handleServiceTap}
+            />
+          </li>
+
+          <li className="mr-2">
+            <ActiveButton
+              tapValue={tapValue}
+              activeValue="Arabic"
+              handleTap={handleServiceTap}
             />
           </li>
 
@@ -148,7 +162,7 @@ const ProductDrawer = ({ id }) => {
               <ActiveButton
                 tapValue={tapValue}
                 activeValue="Combination"
-                handleProjectTap={handleProjectTap}
+                handleTap={handleServiceTap}
               />
             </li>
           )}
@@ -157,45 +171,10 @@ const ProductDrawer = ({ id }) => {
 
       <Scrollbars className="track-horizontal thumb-horizontal w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
         <form onSubmit={handleSubmit(onSubmit)} className="block" id="block">
-          {tapValue === "Basic Info" && (
+          {tapValue === "Anglais" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductID")} />
-                <div className="col-span-8 sm:col-span-4">{productId}</div>
-              </div> */}
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductTitleName")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    {...register(`title`, {
-                      required: "TItle is required!",
-                    })}
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
-                    type="text"
-                    placeholder={t("ProductTitleName")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-                  />
-                  <Error errorName={errors.title} />
-                </div>
-              </div>
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductDescription")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Textarea
-                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("description", {
-                      required: false,
-                    })}
-                    name="description"
-                    placeholder={t("ProductDescription")}
-                    rows="4"
-                    spellCheck="false"
-                  />
-                  <Error errorName={errors.description} />
-                </div>
-              </div>
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+
+             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductImage")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Uploader
@@ -208,48 +187,155 @@ const ProductDrawer = ({ id }) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductSKU")} />
+                <LabelArea label={t("Service Title (en) ")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <InputArea
-                    register={register}
-                    required="false"
-                    label={t("ProductSKU")}
-                    name="sku"
+                  <Input
+                    {...register(`title`, {
+                      required: "Title is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="title"
                     type="text"
-                    placeholder={t("ProductSKU")}
+                    placeholder={t("Service Title (en) ")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.sku} />
+                  <Error errorName={errors.title} />
+                </div>
+              </div>
+
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service SubTitle (en)  ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`SubTitle`, {
+                      required: "SubTitle is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="SubTitle"
+                    type="text"
+                    placeholder={t("Service SubTitle (en)  ")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.SubTitle} />
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductBarcode")} />
+                <LabelArea label={t("Service Short_Description (en) ")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <InputArea
-                    register={register}
-                    required="false"
-                    label={t("ProductBarcode")}
-                    name="barcode"
-                    type="text"
-                    placeholder={t("ProductBarcode")}
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                    {...register("Short_Description", {
+                      required: "Short_Description is required!",
+                    })}
+                    name="Short_Description"
+                    placeholder={t("Service Short_Description (en) ")}
+                    rows="4"
+                    spellCheck="false"
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+
                   />
-                  <Error errorName={errors.barcode} />
+                  <Error errorName={errors.Short_Description} />
                 </div>
               </div>
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Description (en) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                    {...register("Description", {
+                      required: "Description is required!",
+                    })}
+                    name="Description"
+                    placeholder={t("Service Description (en) ")}
+                    rows="4"
+                    spellCheck="false"
+                  />
+                  <Error errorName={errors.Description} />
+                </div>
+              </div>
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Seo Keywords  ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <ReactTagInput
+                   {...register("Seo_Keywords", {
+                    required: "Seo Keywords is required!",
+                  })}
+                    name="Description"
+                    placeholder={t("Service Seo Keywords  ")}
+                    tags={tag}
+                    onChange={(newTags) => setTag(newTags)}
+                  />
+                  <Error errorName={errors.Seo_Keywords} />
+
+                </div>
+              </div>
+
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Seo Description (en) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <ReactTagInput
+                   {...register("Seo_Keywords", {
+                    required: "Seo Keywords is required!",
+                  })}
+                    placeholder={t("Service Seo Description (en) ")}
+                    tags={tag}
+                    onChange={(newTags) => setTag(newTags)}
+                  />
+                  <Error errorName={errors.Seo_Keywords} />
+
+                </div>
+              </div>
+
+
+
+
+
+
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Category")} />
                 <div className="col-span-8 sm:col-span-4">
                   <ParentCategory
+                  {...register("Category", {
+                    required: "Category is required!",
+                  })}
                     lang={language}
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
                     setDefaultCategory={setDefaultCategory}
                   />
+                  <Error errorName={errors.Category} />
+
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Reference")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <ParentCategory
+                   {...register("Category", {
+                    required: "Category is required!",
+                  })}
+                    lang={language}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                    setDefaultCategory={setDefaultCategory}
+                  />
+                  <Error errorName={errors.Category} />
+
+                </div>
+              </div>
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("DefaultCategory")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Multiselect
@@ -267,91 +353,278 @@ const ProductDrawer = ({ id }) => {
                     placeholder={"Default Category"}
                   ></Multiselect>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label="Product Price" />
-                <div className="col-span-8 sm:col-span-4">
-                  <InputValue
-                    register={register}
-                    maxValue={2000}
-                    minValue={1}
-                    label="Original Price"
-                    name="originalPrice"
-                    type="number"
-                    placeholder="OriginalPrice"
-                    defaultValue={0.0}
-                    required="false"
-                    product
-                    currency={currency}
-                  />
-                  <Error errorName={errors.originalPrice} />
-                </div>
-              </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("SalePrice")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <InputValue
-                    product
-                    register={register}
-                    minValue={0}
-                    defaultValue={0.0}
-                    required="false"
-                    label="Sale price"
-                    name="price"
-                    type="number"
-                    placeholder="Sale price"
-                    currency={currency}
-                  />
-                  <Error errorName={errors.price} />
-                </div>
-              </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6 relative">
-                <LabelArea label={t("ProductQuantity")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <InputValueFive
-                    register={register}
-                    minValue={0}
-                    defaultValue={0}
-                    label="Quantity"
-                    name="stock"
-                    type="number"
-                    placeholder={t("ProductQuantity")}
-                  />
-                  <Error errorName={errors.stock} />
-                </div>
-              </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductSlug")} />
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Slug")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`slug`, {
-                      required: "slug is required!",
+                    {...register(`Service Slug`, {
+                      required: "Service Slug is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="slug"
                     type="text"
                     defaultValue={slug}
-                    placeholder={t("ProductSlug")}
+                    placeholder={t("Service Slug")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.slug} />
+                  <Error errorName={errors.Service_Slug} />
+                </div>
+              </div> */}
+            </div>
+          )}
+
+          {tapValue === "French" && (
+            <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
+
+             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Title (fr) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`title`, {
+                      required: "Title is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="title"
+                    type="text"
+                    placeholder={t("Service Title (fr) ")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.title} />
+                </div>
+              </div>
+
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service SubTitle (fr)  ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`Title`, {
+                      required: "SubTitle is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="title"
+                    type="text"
+                    placeholder={t("Service SubTitle  (fr)  ")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.title} />
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductTag")} />
+                <LabelArea label={t("Service Short_Description (fr) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                    {...register("Short_Description", {
+                      required: "Short_Description is required!",
+                    })}
+                    name="description"
+                    placeholder={t("Service Short_Description (fr) ")}
+                    rows="4"
+                    spellCheck="false"
+                  />
+                  <Error errorName={errors.Short_Description} />
+                </div>
+              </div>
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Description (fr) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                    {...register("Description", {
+                      required: "Description is required!",
+                    })}
+                    name="description"
+                    placeholder={t("Service Description (fr) ")}
+                    rows="4"
+                    spellCheck="false"
+                  />
+                  <Error errorName={errors.Description} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Seo Keywords (fr)")} />
                 <div className="col-span-8 sm:col-span-4">
                   <ReactTagInput
-                    placeholder={t("ProductTagPlaseholder")}
+                    placeholder={t("Service Seo Keywords (fr)")}
                     tags={tag}
                     onChange={(newTags) => setTag(newTags)}
                   />
                 </div>
               </div>
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Seo Description (fr) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <ReactTagInput
+                   {...register("Seo_Keywords", {
+                    required: "Seo Keywords is required!",
+                  })}
+                    placeholder={t("Service Seo Description (fr) ")}
+                    tags={tag}
+                    onChange={(newTags) => setTag(newTags)}
+                  />
+                  <Error errorName={errors.Seo_Keywords} />
+
+                </div>
+              </div>
+
+
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Slug")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`Service Slug`, {
+                      required: "Service Slug is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="slug"
+                    type="text"
+                    defaultValue={slug}
+                    placeholder={t("Service Slug (fr)")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.Service_Slug} />
+                </div>
+              </div> */}
+            </div>
+          )}
+
+          {tapValue === "Arabic" && (
+            <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Title  ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`title`, {
+                      required: "Title is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="title"
+                    type="text"
+                    placeholder={t("Service Title (ar)")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.title} />
+                </div>
+              </div>
+
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service SubTitle (ar)  ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`Title`, {
+                      required: "SubTitle is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="title"
+                    type="text"
+                    placeholder={t("Service SubTitle (ar)  ")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.title} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Short_Description (fr) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                    {...register("Short_Description", {
+                      required: "Short_Description is required!",
+                    })}
+                    name="description"
+                    placeholder={t("Service Short_Description (fr) ")}
+                    rows="4"
+                    spellCheck="false"
+                  />
+                  <Error errorName={errors.Short_Description} />
+                </div>
+              </div>
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Description (fr) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                    {...register("Description", {
+                      required: "Description is required!",
+                    })}
+                    name="description"
+                    placeholder={t("Service Description (fr) ")}
+                    rows="4"
+                    spellCheck="false"
+                  />
+                  <Error errorName={errors.Description} />
+                </div>
+              </div>
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Seo Keywords (ar)")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <ReactTagInput
+                    placeholder={t("Service Seo Keywords (ar)")}
+                    tags={tag}
+                    onChange={(newTags) => setTag(newTags)}
+                  />
+                </div>
+              </div>
+
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Seo Description (ar) ")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <ReactTagInput
+                   {...register("Seo_Keywords", {
+                    required: "Seo Keywords is required!",
+                  })}
+                    placeholder={t("Service Seo Description (ar) ")}
+                    tags={tag}
+                    onChange={(newTags) => setTag(newTags)}
+                  />
+                  <Error errorName={errors.Seo_Keywords} />
+
+                </div>
+              </div>
+
+
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Slug")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`Service Slug`, {
+                      required: "Service Slug is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="slug"
+                    type="text"
+                    defaultValue={slug}
+                    placeholder={t("Service Slug (fr)")}
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.Service_Slug} />
+                </div>
+              </div> */}
             </div>
           )}
 
@@ -438,14 +711,20 @@ const ProductDrawer = ({ id }) => {
               save
               title="Product"
               isSubmitting={isSubmitting}
-              handleProjectTap={handleProjectTap}
+              handleServiceTap={handleServiceTap}
             />
           ) : (
             <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
           )}
 
-          {tapValue === "Combination" && (
-            <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
+          {tapValue === "Arabic" && (
+            <DrawerButton id={id} title="Submit" isSubmitting={isSubmitting} />
+          )}
+           {tapValue === "Anglais" && (
+            <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
+          )}
+           {tapValue === "French" && (
+            <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
           )}
         </form>
 
@@ -490,8 +769,12 @@ const ProductDrawer = ({ id }) => {
             </div>
           )}
       </Scrollbars>
+
+
+
+     
     </>
   );
 };
 
-export default React.memo(ProductDrawer);
+export default React.memo(ServiceDrawer);

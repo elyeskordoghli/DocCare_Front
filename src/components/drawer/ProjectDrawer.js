@@ -140,7 +140,7 @@ const ProductDrawer = ({ id }) => {
             <ActiveButton
               tapValue={tapValue}
               activeValue="Anglais"
-              handleProjectTap={handleProjectTap}
+              handleTap={handleProjectTap}
             />
           </li>
 
@@ -148,7 +148,7 @@ const ProductDrawer = ({ id }) => {
             <ActiveButton
               tapValue={tapValue}
               activeValue="French"
-              handleProjectTap={handleProjectTap}
+              handleTap={handleProjectTap}
             />
           </li>
 
@@ -156,7 +156,7 @@ const ProductDrawer = ({ id }) => {
             <ActiveButton
               tapValue={tapValue}
               activeValue="Arabic"
-              handleProjectTap={handleProjectTap}
+              handleTap={handleProjectTap}
             />
           </li>
 

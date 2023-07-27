@@ -8,7 +8,9 @@ const AdminServices = {
   loginAdmin: async (body) => {
     return requests.post(`/admin/admin/login`, body);
   },
-
+  logoutAdmin: async (body) => {
+    return requests.post(`/admin/admin/logout`, body);
+  },
   forgetPassword: async (body) => {
     return requests.put("/admin/forget-password", body);
   },
