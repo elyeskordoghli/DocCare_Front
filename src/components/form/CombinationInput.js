@@ -22,7 +22,7 @@ const CombinationInput = ({
           name={name}
           pattern="^[0-9]+$"
           placeholder={placeholder}
-          className={`bg-gray-50 mx-1 rounded-sm h-8 w-18 md:w-20 lg:w-20 text-sm border dark:text-gray-300 border-gray-200 focus:bg-white focus:outline-none p-2 focus:border-green-300`}
+          className={`bg-gray-50 mx-1 rounded-sm h-8 w-18 md:w-20 lg:w-20 text-sm border dark:text-gray-300 border-gray-200 focus:bg-white focus:outline-none p-2 focus:border-orange-300`}
         />
       )}
       {!isBulkUpdate && (
@@ -34,7 +34,7 @@ const CombinationInput = ({
           name={name}
           pattern="^[0-9]+$"
           placeholder={placeholder}
-          className={`bg-gray-50 mx-1 rounded-sm h-8 w-18 md:w-20 lg:w-20 text-sm border dark:text-gray-300 border-gray-200 focus:bg-white focus:outline-none p-2 focus:border-green-300`}
+          className={`bg-gray-50 mx-1 rounded-sm h-8 w-18 md:w-20 lg:w-20 text-sm border dark:text-gray-300 border-gray-200 focus:bg-white focus:outline-none p-2 focus:border-orange-300`}
         />
       )}
     </>

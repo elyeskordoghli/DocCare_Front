@@ -21,7 +21,7 @@ const Invoice = ({ data, currency }) => {
               {parseFloat(item.price).toFixed(2)}
             </TableCell>
 
-            <TableCell className="px-6 py-1 whitespace-nowrap text-right font-bold text-red-500 dark:text-green-500">
+            <TableCell className="px-6 py-1 whitespace-nowrap text-right font-bold text-red-500 dark:text-orange-500">
               {currency}
               {parseFloat(item.itemTotal).toFixed(2)}
             </TableCell>

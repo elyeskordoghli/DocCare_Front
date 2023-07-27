@@ -122,7 +122,7 @@ const ChildCategory = () => {
                 {" "}
                 <FiChevronRight />{" "}
               </li>
-              <li className="text-sm pl-1 transition duration-200 ease-in cursor-pointer text-blue-700 hover:text-green-500 font-semibold ">
+              <li className="text-sm pl-1 transition duration-200 ease-in cursor-pointer text-blue-700 hover:text-orange-500 font-semibold ">
                 <Link to={`/categories/${child._id}`}>
                   {showingTranslateValue(child?.name, lang)}
                 </Link>

@@ -9,7 +9,14 @@ body
   justify-items: center;
   margin: auto;
 }
+.bg-orange {
+  background-color: rgb(242, 129, 61);
+}
 
+/* CSS for the dark background */
+.bg-dark {
+  background-color: rgb(24, 23, 28);
+}
 .drawer {
   position: fixed;
   z-index: 9999;

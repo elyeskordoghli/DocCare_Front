@@ -34,7 +34,7 @@ const InputValue = ({
     <>
       <div className={`flex flex-row`}>
         {product && (
-          <span className="inline-flex items-center px-3 rounded rounded-r-none border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm focus:bg-white focus:border-green-300 dark:bg-gray-700 dark:text-gray-300 dark:border dark:border-gray-600">
+          <span className="inline-flex items-center px-3 rounded rounded-r-none border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm focus:bg-white focus:border-orange-300 dark:bg-gray-700 dark:text-gray-300 dark:border dark:border-gray-600">
             {currency}
           </span>
         )}

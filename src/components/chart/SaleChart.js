@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2';
 const SaleChart = ({ salesReport }) => {
   const [activeButton, setActiveButton] = useState({
     title: 'Sales',
-    color: 'green',
+    color: 'orange',
   });
 
   const handleClick = ({ title, color }) => {
@@ -48,11 +48,11 @@ const SaleChart = ({ salesReport }) => {
         <ul className="flex flex-wrap -mb-px">
           <li className="mr-2">
             <button
-              onClick={() => handleClick({ title: 'Sales', color: 'green' })}
+              onClick={() => handleClick({ title: 'Sales', color: 'orange' })}
               type="button"
               className={`inline-block p-2 rounded-t-lg border-b-2 border-transparent ${
                 activeButton.title === 'Sales'
-                  ? 'text-green-600 border-green-600 dark:text-green-500 dark:border-green-500'
+                  ? 'text-orange-600 border-orange-600 dark:text-orange-500 dark:border-orange-500'
                   : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
               }  focus:outline-none`}
             >

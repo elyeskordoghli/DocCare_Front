@@ -109,7 +109,7 @@ const SignUp = () => {
 
               <p className="mt-4">
                 <Link
-                  className="text-sm font-medium text-green-500 dark:text-green-400 hover:underline"
+                  className="text-sm font-medium text-orange-500 dark:text-orange-400 hover:underline"
                   to="/login"
                 >
                  {t("AlreadyAccount")}

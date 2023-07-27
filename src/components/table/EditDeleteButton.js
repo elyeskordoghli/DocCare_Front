@@ -25,7 +25,7 @@ const EditDeleteButton = ({
           <>
             <Link
               to={`/categories/${parent?._id}`}
-              className="p-2 cursor-pointer text-gray-400 hover:text-green-600 focus:outline-none"
+              className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
             >
               <Tooltip
                 id="view"
@@ -38,7 +38,7 @@ const EditDeleteButton = ({
             <button
               disabled={isCheck?.length > 0}
               onClick={() => handleUpdate(id)}
-              className="p-2 cursor-pointer text-gray-400 hover:text-green-600 focus:outline-none"
+              className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
             >
               <Tooltip
                 id="edit"
@@ -52,7 +52,7 @@ const EditDeleteButton = ({
           <button
             disabled={isCheck?.length > 0}
             onClick={() => handleUpdate(id)}
-            className="p-2 cursor-pointer text-gray-400 hover:text-green-600 focus:outline-none"
+            className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
           >
             <Tooltip
               id="edit"
