@@ -46,7 +46,7 @@ const CardItem = ({
                 <div className="grid grid-cols-2 gap-4 w-full mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
                   <div>
                     <span className="font-semibold">Today</span>{" "}
-                    <span className="text-green-600 text-sm font-semibold">
+                    <span className="text-orange-600 text-sm font-semibold">
                       ({parseFloat(todayPending || 0).toFixed(2)})
                     </span>
                   </div>

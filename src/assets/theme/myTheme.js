@@ -3,14 +3,14 @@ const myTheme = {
   alert: {
     base: 'p-4 pl-12 relative rounded-lg leading-5',
     withClose: 'pr-12',
-    success: 'bg-green-50 text-green-900 dark:bg-green-600 dark:text-white',
+    success: 'bg-orange-50 text-orange-900 dark:bg-orange-600 dark:text-white',
     danger: 'bg-red-50 text-red-900 dark:bg-red-600 dark:text-white',
     warning: 'bg-yellow-50 text-yellow-900 dark:bg-yellow-600 dark:text-white',
     neutral: 'bg-gray-50 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
     info: 'bg-blue-50 text-blue-900 dark:bg-blue-600 dark:text-white',
     icon: {
       base: 'h-5 w-5',
-      success: 'text-green-400 dark:text-green-300',
+      success: 'text-orange-400 dark:text-orange-300',
       danger: 'text-red-400 dark:text-red-300',
       warning: 'text-yellow-400 dark:text-yellow-100',
       neutral: 'text-gray-400 dark:text-gray-500',
@@ -88,7 +88,7 @@ const myTheme = {
   badge: {
     base: 'inline-flex px-2 text-xs font-medium leading-5 rounded-full',
     success:
-      'text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-100',
+      'text-orange-500 bg-orange-100 dark:bg-orange-800 dark:text-orange-100',
     danger: 'text-red-500 bg-red-100 dark:text-red-100 dark:bg-red-800',
     warning: 'text-yellow-500 bg-yellow-100 dark:text-white dark:bg-yellow-600',
     neutral: 'text-gray-500 bg-gray-100 dark:text-gray-100 dark:bg-gray-800',
@@ -105,7 +105,7 @@ const myTheme = {
       'focus:border-purple-400 border-gray-300 dark:border-gray-600 dark:focus:border-gray-600 dark:bg-gray-700 dark:focus:ring-gray-300 focus:ring focus:ring-purple-300',
     disabled: 'cursor-not-allowed opacity-50 bg-gray-300 dark:bg-gray-800',
     valid:
-      'border-green-600 dark:bg-gray-700 focus:border-green-400 dark:focus:border-green-400 focus:ring focus:ring-green-200 dark:focus:ring-green-200',
+      'border-orange-600 dark:bg-gray-700 focus:border-orange-400 dark:focus:border-orange-400 focus:ring focus:ring-orange-200 dark:focus:ring-orange-200',
     invalid:
       'border-red-600 dark:bg-gray-700 focus:border-red-400 dark:focus:border-red-400 focus:ring focus:ring-red-200 dark:focus:ring-red-200',
   },
@@ -113,11 +113,11 @@ const myTheme = {
   select: {
     base: 'block w-full px-2 py-1 text-sm dark:text-gray-300 focus:outline-none rounded-md form-select',
     active:
-      'focus:border-gray-200 border-gray-200 dark:border-gray-600 focus:shadow-none focus:ring focus:ring-green-300 dark:focus:border-gray-500 dark:focus:ring-gray-300 dark:bg-gray-700',
+      'focus:border-gray-200 border-gray-200 dark:border-gray-600 focus:shadow-none focus:ring focus:ring-orange-300 dark:focus:border-gray-500 dark:focus:ring-gray-300 dark:bg-gray-700',
     select: 'leading-5',
     disabled: 'cursor-not-allowed opacity-50 bg-gray-300 dark:bg-gray-800',
     valid:
-      'border-green-600 dark:bg-gray-700 focus:border-green-400 dark:focus:border-green-400 focus:ring focus:ring-green-200 dark:focus:ring-green-200',
+      'border-orange-600 dark:bg-gray-700 focus:border-orange-400 dark:focus:border-orange-400 focus:ring focus:ring-orange-200 dark:focus:ring-orange-200',
     invalid:
       'border-red-600 dark:bg-gray-700 focus:border-red-400 dark:focus:border-red-400 focus:ring focus:ring-red-200 dark:focus:ring-red-200',
   },
@@ -132,21 +132,21 @@ const myTheme = {
   input: {
     base: 'block w-full px-3 py-1 text-sm focus:outline-none dark:text-gray-300 leading-5 rounded-md',
     active:
-      'focus:border-gray-200 border-gray-200 dark:border-gray-600 focus:ring focus:ring-green-300 dark:focus:border-gray-500 dark:focus:ring-gray-300 dark:bg-gray-700',
+      'focus:border-gray-200 border-gray-200 dark:border-gray-600 focus:ring focus:ring-orange-300 dark:focus:border-gray-500 dark:focus:ring-gray-300 dark:bg-gray-700',
     disabled: 'cursor-not-allowed opacity-50 bg-gray-300 dark:bg-gray-800',
     valid:
-      'border-green-600 dark:bg-gray-700 focus:border-green-400 dark:focus:border-green-400 focus:ring focus:ring-green-200 dark:focus:ring-green-200',
+      'border-orange-600 dark:bg-gray-700 focus:border-orange-400 dark:focus:border-orange-400 focus:ring focus:ring-orange-200 dark:focus:ring-orange-200',
     invalid:
       'border-red-600 dark:bg-gray-700 focus:border-red-400 dark:focus:border-red-400 focus:ring focus:ring-red-200 dark:focus:ring-red-200',
     radio:
-      'text-green-500 form-radio focus:border-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-offset-0 dark:focus:ring-gray-300',
+      'text-orange-500 form-radio focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-300 focus:ring-offset-0 dark:focus:ring-gray-300',
     checkbox:
-      'text-green-500 form-checkbox focus:border-green-500 focus:outline-none focus:ring focus:ring-green-300 focus:ring-offset-0 rounded dark:focus:ring-gray-300',
+      'text-orange-500 form-checkbox focus:border-orange-500 focus:outline-none focus:ring focus:ring-orange-300 focus:ring-offset-0 rounded dark:focus:ring-gray-300',
   },
   // HelperText
   helperText: {
     base: 'text-xs',
-    valid: 'text-green-600 dark:text-green-400',
+    valid: 'text-orange-600 dark:text-orange-400',
     invalid: 'text-red-600 dark:text-red-400',
   },
   // Card
@@ -184,9 +184,9 @@ const myTheme = {
       right: 'ml-2 -mr-1',
     },
     primary: {
-      base: 'text-white bg-green-500 border border-transparent',
+      base: 'text-white bg-orange-500 border border-transparent',
       active:
-        'active:bg-green-600 hover:bg-green-600 focus:ring focus:ring-purple-300',
+        'active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300',
       disabled: 'opacity-50 cursor-not-allowed',
     },
     outline: {

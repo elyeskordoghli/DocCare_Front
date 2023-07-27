@@ -141,7 +141,7 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
             <TableCell>
               <Link
                 to={`/service/${data.id}`}
-                className="flex justify-center text-gray-400 hover:text-green-600"
+                className="flex justify-center text-gray-400 hover:text-orange-600"
               >
                 <Tooltip
                   id="view"

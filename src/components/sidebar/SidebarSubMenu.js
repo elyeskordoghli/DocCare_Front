@@ -17,7 +17,7 @@ const SidebarSubMenu = ({ route }) => {
     <>
       <li className="relative px-6 py-3" key={route.name}>
         <button
-          className="inline-flex items-center justify-between focus:outline-none w-full text-sm font-semibold transition-colors duration-150 hover:text-green-600 dark:hover:text-gray-200"
+          className="inline-flex items-center justify-between focus:outline-none w-full text-sm font-semibold transition-colors duration-150  dark:hover:text-gray-200"
           onClick={handleSubMenu}
           aria-haspopup="true"
         >
@@ -40,19 +40,19 @@ const SidebarSubMenu = ({ route }) => {
                 <NavLink
                   to={child.path}
                   // target={`${child.name === 'Sell' ? '_blank' : '_self'}`}
-                  className="flex items-center font-serif py-1 text-sm text-gray-600 hover:text-green-600 cursor-pointer"
-                  activeClassName="text-green-500 dark:text-gray-100"
+                  className="flex items-center font-serif py-1 text-sm text-gray-600 hover:text-orange-600 cursor-pointer"
+                  activeClassName="text-orange-500 dark:text-gray-100"
                 >
                   <Route path={child.path} exact={route.exact}>
                     <span
-                      className="absolute inset-y-0 left-0 w-1 bg-green-600 rounded-tr-lg rounded-br-lg"
+                      className="absolute inset-y-0 left-0 w-1 bg-orange-600 rounded-tr-lg rounded-br-lg"
                       aria-hidden="true"
                     ></span>
                   </Route>
                   <span className="text-xs text-gray-500 pr-1">
                     <IoRemoveSharp />
                   </span>
-                  <span className="text-gray-500 hover:text-green-600 dark:hover:text-gray-200">
+                  <span className="text-gray-500 dark:hover:text-gray-200">
                     {t(`${child.name}`)}
                   </span>
                 </NavLink>

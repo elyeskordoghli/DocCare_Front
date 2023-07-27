@@ -63,7 +63,7 @@ const OrderTable = ({ orders, currency, globalSetting }) => {
               <div className="flex justify-between items-center">
                 <PrintReceipt orderId={order._id} />
 
-                <span className="p-2 cursor-pointer text-gray-400 hover:text-green-600">
+                <span className="p-2 cursor-pointer text-gray-400 hover:text-orange-600">
                   <Link to={`/order/${order._id}`}>
                     <Tooltip
                       id="view"

@@ -182,11 +182,11 @@ const timeZone = [
     text: "(UTC-03:00) Cayenne, Fortaleza",
   },
   {
-    value: "Greenland Standard Time",
+    value: "orangeland Standard Time",
     abbr: "GDT",
     offset: -2,
     isdst: true,
-    text: "(UTC-03:00) Greenland",
+    text: "(UTC-03:00) orangeland",
   },
   {
     value: "Montevideo Standard Time",
@@ -252,7 +252,7 @@ const timeZone = [
     text: "(UTC) Dublin, Edinburgh, Lisbon, London",
   },
   {
-    value: "Greenwich Standard Time",
+    value: "orangewich Standard Time",
     abbr: "GST",
     offset: 0,
     isdst: false,

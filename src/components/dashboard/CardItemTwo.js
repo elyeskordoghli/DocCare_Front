@@ -1,11 +1,34 @@
 import { Card, CardBody } from '@windmill/react-ui';
 import Skeleton from 'react-loading-skeleton';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import {
+  FiLayout,
+  FiTruck,
+  FiBookOpen,
+  FiCheck,
+  FiRefreshCw,
+  FiAperture,
+  FiServer,
+  FiTrello,
+  FiGrid,
+} from 'react-icons/fi';
+
+const icons = {
+  'FiCheck': <FiCheck />,
+  'FiTruck': <FiTruck />,
+  'FiLayout': <FiLayout />,
+  'FiRefreshCw':<FiRefreshCw />,
+  'FiBookOpen':<FiBookOpen />, 
+  'FiAperture':<FiAperture />,
+  'FiTrello':<FiTrello />,
+  'FiServer':<FiServer />,
+  'FiGrid':<FiGrid />
+};
 
 const CardItemTwo = ({
   mode,
-  title,
-  Icon,
+  title2,
+  icon,
   className,
   price,
   currency,
@@ -13,83 +36,44 @@ const CardItemTwo = ({
   card,
   credit,
   loading,
-  title2
+  bgColor,
+  fontSize,
 }) => {
-  const {t}=useTranslation()
+  const { t } = useTranslation();
+
   return (
-    <>
-      {loading ? (
-        <Skeleton
-          count={4}
-          height={40}
-          className="dark:bg-gray-800 bg-gray-200"
-          baseColor={`${mode === 'dark' ? '#010101' : '#f9f9f9'}`}
-          highlightColor={`${mode === 'dark' ? '#1a1c23' : '#f8f8f8'} `}
-        />
-      ) : (
-        <>
-          {title === 'Today Order' || title === 'Yesterday Order' ? (
-            <Card className={`flex justify-center h-full`}>
-              <CardBody
-                className={`border border-gray-200 justify-between dark:border-gray-800 w-full p-6 rounded-lg ${className}`}
-              >
-                <div className="text-center xl:mb-0 mb-3">
-                  <div
-                    className={`text-center inline-block text-3xl ${className}`}
-                  >
-                    <Icon />
-                  </div>
-                  <div>
-                    <p className="mb-3 text-base font-medium text-gray-50 dark:text-gray-100">
-                      {title2 ? t(`${title2}`) : <Skeleton count={1} height={20} />}
-                    </p>
-                    <p className="text-2xl font-bold leading-none text-gray-50 dark:text-gray-50">
-                      {/* ${Math.round(price)} */}
-                      {price}
-                    </p>
-                  </div>
-                  <div className="flex text-center text-xs font-normal text-gray-50 dark:text-gray-100">
-                    <div className="px-1 mt-3">
-                      {t("Cash")} : {currency}
-                      {parseFloat(cash).toFixed(2)}
-                    </div>
-                    <div className="px-1 mt-3">
-                      {t("Card")} : {currency}
-                      {parseFloat(card).toFixed(2)}
-                    </div>
-                    <div className="px-1 mt-3">
-                    {t("Credit")} : {currency}
-                      {parseFloat(credit).toFixed(2)}
-                    </div>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          ) : (
-            <Card className="flex justify-center text-center h-full">
-              <CardBody
-                className={`border border-gray-200 dark:border-gray-800 w-full p-6 rounded-lg ${className}`}
-              >
-                <div
-                  className={`text-center inline-block text-3xl ${className}`}
-                >
-                  <Icon />
-                </div>
-                <div>
-                  <p className="mb-3 text-base font-medium text-gray-50 dark:text-gray-100">
-                    {t(`${title2}`)}
-                  </p>
-                  <p className="text-2xl font-bold leading-none text-gray-50 dark:text-gray-50">
-                    {/* ${Math.round(price)} */}
-                    {price}
-                  </p>
-                </div>
-              </CardBody>
-            </Card>
-          )}
-        </>
-      )}
-    </>
+    <Card className={`flex justify-center h-full`}>
+      <CardBody
+        className={`border border-gray-200 justify-between dark:border-gray-800 w-full p-6 rounded-lg ${className}`}
+        style={{ backgroundColor: bgColor }}
+      >
+        <div className={`text-center inline-block text-3xl ${className}`} style={{ fontSize }}>
+          {loading ? 
+            <Skeleton count={1} width={30} height={30} className="dark:bg-gray-800 bg-gray-200" />
+           : 
+              <div>
+                {icons[icon]} 
+              </div>
+          }
+        </div>
+        <div>
+          <p className="mb-3 text-base font-medium text-gray-50 dark:text-gray-100">
+            {loading ? (
+              <Skeleton count={1} height={20} className="dark:bg-gray-800 bg-gray-200" />
+            ) : (
+              t(`${title2}`)
+            )}
+          </p>
+          <p className="text-2xl font-bold leading-none text-gray-50 dark:text-gray-50" style={{ fontSize: '3rem' }}>
+            {loading ? (
+              <Skeleton count={1} width={100} height={30} className="dark:bg-gray-800 bg-gray-200" />
+            ) : (
+              <h2 style={{ fontSize: '2rem' }}>{price}</h2>
+            )}
+          </p>
+        </div>
+      </CardBody>
+    </Card>
   );
 };
 
