@@ -45,8 +45,7 @@ const CardItemTwo = ({
                     </p>
                     <p className="text-2xl font-bold leading-none text-gray-50 dark:text-gray-50">
                       {/* ${Math.round(price)} */}
-                      {currency}
-                      {Number(price)?.toFixed(2)}
+                      {price}
                     </p>
                   </div>
                   <div className="flex text-center text-xs font-normal text-gray-50 dark:text-gray-100">
@@ -82,9 +81,7 @@ const CardItemTwo = ({
                   </p>
                   <p className="text-2xl font-bold leading-none text-gray-50 dark:text-gray-50">
                     {/* ${Math.round(price)} */}
-                    {currency}
-                    {Number(price)?.toFixed(2)}
-                    
+                    {price}
                   </p>
                 </div>
               </CardBody>
