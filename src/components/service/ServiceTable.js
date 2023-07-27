@@ -50,7 +50,7 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
     };
 
     fetchServices(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, []); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+    }, []); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const handleClick = (e) => {
     const { id, checked } = e.target;

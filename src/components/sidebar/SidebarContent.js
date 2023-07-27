@@ -19,10 +19,32 @@ const SidebarContent = () => {
   const { dispatch } = useContext(AdminContext);
 
 
-  const handleLogOut = () => {
-    dispatch({ type: "USER_LOGOUT" });
-    Cookies.remove("adminInfo");
-  };
+  // const handleLogOut = () => {
+  //   dispatch({ type: "USER_LOGOUT" });
+  //   Cookies.remove("adminInfo");
+  // };
+
+    const handleLogOut = async () => {
+      try {
+        // Appelez l'API de logout ici
+        // Assurez-vous de remplacer 'URL_DE_LOGOUT' par l'URL réelle de votre API de logout
+        const response = await axios.post('/admin/admin/logout');
+        if (response.status === 200) {
+          // Si l'API de logout renvoie un statut 200, cela signifie que l'administrateur est déconnecté avec succès
+          // Effectuez les opérations supplémentaires ici si nécessaire, par exemple, vider le state global de l'administrateur, les cookies, etc.
+          dispatch({ type: 'USER_LOGOUT' });
+          Cookies.remove('adminInfo');
+          // Effectuez d'autres opérations nécessaires après la déconnexion
+        } else {
+          // Gérer les erreurs de l'API de logout, si nécessaire
+          console.log('Erreur lors de la déconnexion');
+        }
+      } catch (error) {
+        // Gérer les erreurs d'exception ici, par exemple, si l'API de logout n'est pas disponible ou s'il y a une erreur réseau
+        console.log('Erreur lors de la déconnexion', error);
+      }
+    };
+
 
   return (
     <div className="py-4  text-gray-500 dark:text-gray-400">

@@ -12,9 +12,8 @@ import ProductServices from "services/ProductServices";
 import { notifyError, notifySuccess } from "utils/toast";
 import SettingServices from "services/SettingServices";
 import { showingTranslateValue } from "utils/translate";
-import ProjectServices from "services/ProjectServices";
 
-const useProjectSubmit = (id) => {
+const useServiceSubmit = (id) => {
   const location = useLocation();
   const { isDrawerOpen, closeDrawer, setIsUpdate, lang } =
     useContext(SidebarContext);
@@ -29,16 +28,15 @@ const useProjectSubmit = (id) => {
   // react hook
   const [tag, setTag] = useState([]);
   const [values, setValues] = useState({});
-  let [variants, setVariants] = useState([]); 
+  let [variants, setVariants] = useState([]);
   const [variant, setVariant] = useState([]);
   // const [totalStock, setTotalStock] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  // const [quantity, setQuantity] = useState(0);
 
   const [originalPrice, setOriginalPrice] = useState(0);
   const [price, setPrice] = useState(0);
   const [sku, setSku] = useState("");
   const [barcode, setBarcode] = useState("");
-  const [handleTap,setHandleTap] =useState("handleProjectTap")
   const [isBasicComplete, setIsBasicComplete] = useState(false);
   const [tapValue, setTapValue] = useState("Anglais");
   const [isCombination, setIsCombination] = useState(false);
@@ -53,34 +51,18 @@ const useProjectSubmit = (id) => {
   const [resData, setResData] = useState({});
   const [language, setLanguage] = useState(lang);
   const [openModal, setOpenModal] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  //new
-  const [imageUrl, setImageUrl] = useState(data.image);
-const [seo_keywords, setSeo_keywords] = useState(data.Seo_Keywords);
-const [defaultReference, setDefaultReference] = useState(data.Reference);
-const [defaultCategory, setDefaultCategory] = useState(data.Category);
-const [title_en, setTitle_en] = useState(data.title_en);
-const [subtitle_en, setSubtitle_en] = useState(data.subtitle_en);
-const [short_description_en, setShort_description_en] = useState(data.short_description_en);
-const [description_en, setDescription_en] = useState(data.description_en);
-const [seo_description_en, setSeo_description_en] = useState(data.Seo_Description_en);
-const [slug_en, setSlug_en] = useState(data.slug_en);
-
-const [title_fr, setTitle_fr] = useState(data.title_fr);
-const [subtitle_fr, setSubtitle_fr] = useState(data.subtitle_fr);
-const [short_description_fr, setShort_description_fr] = useState(data.short_description_fr);
-const [description_fr, setDescription_fr] = useState(data.description_fr);
-const [seo_description_fr, setSeo_description_fr] = useState(data.Seo_Description_fr);
-const [slug_fr, setSlug_fr] = useState(data.slug_fr);
-
-const [title_ar, setTitle_ar] = useState(data.title_ar);
-const [subtitle_ar, setSubtitle_ar] = useState(data.SubTitle_ar);
-const [short_description_ar, setShort_description_ar] = useState(data.Short_Description_ar);
-const [description_ar, setDescription_ar] = useState(data.description_ar);
-const [seo_description_ar, setSeo_description_ar] = useState(data.seo_description_ar);
-const [slug_ar, setSlug_ar] = useState(data.slug_ar);
-
+  const [imageUrl, setImageUrl] = useState([]);
+  const [title,setTitle]=useState("");
+  const [subtitle,setSubtitle]=useState("");
+  const [short_description,setShort_description]=useState("");
+  const [description,setDescription]=useState("");
+  const [seo_keywords,setSeo_keywords]=useState("");
+  const [seo_description,setSeo_description]=useState("");
+  const [defaultCategory, setDefaultCategory] = useState([]);
+  const [defaultReference,setDefaultReference]=useState("");
+  const [slug,setSlug]=useState("");
 
 
 
@@ -106,110 +88,53 @@ const [slug_ar, setSlug_ar] = useState(data.slug_ar);
   const onSubmit = async (data) => {
     // console.log('data is data',data)
     try {
-      // Vérification des valeurs pour les attributs par défaut
-if (!data.category) {
-  setIsSubmitting(false);
-  return notifyError("Category is required!");
-}
+      setIsSubmitting(true);
+      if (!imageUrl) return notifyError("Image is required!");
 
-if (!data.reference) {
-  setIsSubmitting(false);
-  return notifyError("Reference is required!");
-}
+      if (!title) {
+        setIsSubmitting(false);
+        return notifyError("Project Title is required!");
+      }
 
-// Vérification des valeurs pour les champs en anglais
-if (!data.title_en) {
-  setIsSubmitting(false);
-  return notifyError("English Title is required!");
-}
+      if (!subtitle) {
+        setIsSubmitting(false);
+        return notifyError("Project subtitle is required!");
+      }
 
-if (!data.subtitle_en) {
-  setIsSubmitting(false);
-  return notifyError("English Subtitle is required!");
-}
+      if (!short_description) {
+        setIsSubmitting(false);
+        return notifyError("short description is required!");
+      }
 
-if (!data.short_description_en) {
-  setIsSubmitting(false);
-  return notifyError("English Short Description is required!");
-}
+      if (!description) {
+        setIsSubmitting(false);
+        return notifyError("description is required!");
+      }
 
-if (!data.description_en) {
-  setIsSubmitting(false);
-  return notifyError("English Description is required!");
-}
+      if (!seo_keywords) {
+        setIsSubmitting(false);
+        return notifyError("seo_keywords is required!");
+      }
 
-if (!data.seo_description_en) {
-  setIsSubmitting(false);
-  return notifyError("English SEO Description is required!");
-}
+      if (!seo_description) {
+        setIsSubmitting(false);
+        return notifyError("seo_description is required!");
+      }
 
-if (!data.slug_en) {
-  setIsSubmitting(false);
-  return notifyError("English Slug is required!");
-}
+      if (!defaultCategory[0]) {
+        setIsSubmitting(false);
+        return notifyError("Default Category is required!");
+      }
 
-// Vérification des valeurs pour les champs en français
-if (!data.title_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Title is required!");
-}
+      if (!defaultReference[0]) {
+        setIsSubmitting(false);
+        return notifyError("Default Reference is required!");
+      }
 
-if (!data.subtitle_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Subtitle is required!");
-}
-
-if (!data.short_description_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Short Description is required!");
-}
-
-if (!data.description_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Description is required!");
-}
-
-if (!data.seo_description_fr) {
-  setIsSubmitting(false);
-  return notifyError("French SEO Description is required!");
-}
-
-if (!data.slug_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Slug is required!");
-}
-
-// Vérification des valeurs pour les champs en arabe
-if (!data.title_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Title is required!");
-}
-
-if (!data.subtitle_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Subtitle is required!");
-}
-
-if (!data.short_description_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Short Description is required!");
-}
-
-if (!data.description_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Description is required!");
-}
-
-if (!data.seo_description_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic SEO Description is required!");
-}
-
-if (!data.slug_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Slug is required!");
-}
-
+      if (!slug) {
+        setIsSubmitting(false);
+        return notifyError("slug is required!");
+      }
 
 
       setTitle(data.title);
@@ -223,40 +148,17 @@ if (!data.slug_ar) {
       setSlug(data.slug);
       setIsBasicComplete(true);
 
-      const projectData = {
-        // ... Default ...
-        seo_keywords: data.Seo_Keywords,
-        reference: data.Reference,
-        category:data.Category,
-        image:data.image,
-        // ... English ...
-        title_en: data.title_en,
-        subtitle_en: data.subtitle_en,
-        short_description_en: data.short_description_en,
-        description_en: data.description_en,
-        seo_description_en: data.Seo_Description_en,
-        slug_en: data.slug_en,
-
-        // ... French ...
-        title_fr: data.title_fr,
-        subtitle_fr: data.subtitle_fr,
-        short_description_fr: data.short_description_fr,
-        description_fr: data.description_fr,
-        seo_description_fr: data.Seo_Description_fr,
-        slug_fr: data.slug_fr,
-
-        // ... English ...
-        title_ar: data.title_ar,
-        subtitle_ar: data.SubTitle_ar,
-        short_description_ar: data.Short_Description_ar,
-        description_ar: data.description_ar,
-        seo_description_ar: data.seo_description_ar,
-        slug_ar: data.slug_ar,
-      
-        
+      const serviceData = {
+        // ... autres champs déjà définis ...
+        title: data.title,
+        subtitle: data.subtitle,
+        short_description: data.short_description,
+        description: data.description,
+        seo_keywords: data.seo_keywords,
+        seo_description: data.seo_description,
+        defaultReference: data.defaultReference,
+        slug: data.slug,
       };
-
-      console.log(projectData);
 
       // console.log("productData ===========>", productData, "data", data);
       // return setIsSubmitting(false);
@@ -269,7 +171,7 @@ if (!data.slug_ar) {
             notifySuccess(res.message);
             setIsBasicComplete(true);
             setIsSubmitting(false);
-            handleProjectTap("Combination", true);
+            handleServiceTap("Combination", true);
           } else {
             setIsUpdate(true);
             notifySuccess(res.message);
@@ -284,7 +186,7 @@ if (!data.slug_ar) {
           closeDrawer();
         }
       } else {
-        const res = await ProjectServices.addProject(projectData);
+        const res = await ProductServices.addProduct(projectData);
         // console.log("res is ", res);
         if (isCombination) {
           setUpdatedId(res._id);
@@ -301,11 +203,11 @@ if (!data.slug_ar) {
           setIsUpdate(true);
           setIsBasicComplete(true);
           setIsSubmitting(false);
-          handleProjectTap("Combination", true);
-          notifySuccess("Project Added Successfully!");
+          handleServiceTap("Combination", true);
+          notifySuccess("Product Added Successfully!");
         } else {
           setIsUpdate(false);
-          notifySuccess("Failed to Add Project");
+          notifySuccess("Failed to Add Product");
         }
 
         if (
@@ -329,7 +231,7 @@ if (!data.slug_ar) {
       setSlug("");
       setLanguage(lang);
       setValue("language", language);
-      handleProjectTap("Anglais", true);
+      handleServiceTap("Anglais", true);
       setResData({});
       setValue("sku");
       setValue("title");
@@ -376,7 +278,7 @@ if (!data.slug_ar) {
       setUpdatedId();
       return;
     } else {
-      handleProjectTap("French", true);
+      handleServiceTap("French", true);
     }
 
     if (id) {
@@ -643,8 +545,8 @@ if (!data.slug_ar) {
   const handleSkuBarcode = (value, name, id) => {
     variants[id][name] = value;
   };
-
-  const handleProjectTap = (e, value, name) => {
+  
+  const handleServiceTap = (e, value, name) => {
 
     // if (value) {
     //   if (!value)
@@ -737,7 +639,7 @@ if (!data.slug_ar) {
     setTapValue,
     resetRefTwo,
     handleSkuBarcode,
-    handleProjectTap,
+    handleServiceTap,
     selectedCategory,
     setSelectedCategory,
     setDefaultCategory,
@@ -755,4 +657,4 @@ if (!data.slug_ar) {
   };
 };
 
-export default useProjectSubmit;
+export default useServiceSubmit;
