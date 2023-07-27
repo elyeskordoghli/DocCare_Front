@@ -1,5 +1,5 @@
 export const doughnutLegends = [
-  { title: 'Fresh Vegetable', color: 'bg-green-500' },
+  { title: 'Fresh Vegetable', color: 'bg-orange-500' },
   { title: 'Cooking Essentials', color: 'bg-blue-500' },
   { title: 'Drinks', color: 'bg-orange-500' },
   { title: 'Organic Food', color: 'bg-indigo-500' },
@@ -11,7 +11,7 @@ export const lineLegends = [
 ];
 
 export const barLegends = [
-  { title: 'Fresh Vegetable', color: 'bg-green-500' },
+  { title: 'Fresh Vegetable', color: 'bg-orange-500' },
   { title: 'Cooking Essentials', color: 'bg-blue-500' },
   { title: 'Drinks', color: 'bg-orange-500' },
   { title: 'Organic Food', color: 'bg-indigo-500' },

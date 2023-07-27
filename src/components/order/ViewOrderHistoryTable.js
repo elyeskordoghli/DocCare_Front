@@ -69,7 +69,7 @@ const ViewOrderHistoryTable = ({ order, currency, t, lang }) => {
               {parseFloat(item.price).toFixed(2)}{' '}
             </TableCell>
 
-            <TableCell className="px-6 py-1 whitespace-nowrap text-right font-bold text-gray-900 dark:text-green-500">
+            <TableCell className="px-6 py-1 whitespace-nowrap text-right font-bold text-gray-900 dark:text-orange-500">
               {currency ? currency : '$'}
               {(item.price * item.quantity).toFixed(2)}
             </TableCell>

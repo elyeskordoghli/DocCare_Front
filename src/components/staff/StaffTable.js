@@ -1,5 +1,5 @@
 import { Avatar, TableBody, TableCell, TableRow } from "@windmill/react-ui";
-import React from "react";
+import React ,{ useState,useEffect } from "react";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import StaffDrawer from "components/drawer/StaffDrawer";
 import DeleteModal from "components/modal/DeleteModal";
@@ -10,8 +10,9 @@ import MainDrawer from "components/drawer/MainDrawer";
 import { showingTranslateValue } from "utils/translate";
 import useFilter from "hooks/useFilter";
 import { showDateFormat } from "utils/dateFormate";
+import AdminServices from "services/AdminServices";
 
-const StaffTable = ({ staffs, lang }) => {
+const StaffTable = ({ lang }) => {
   const {
     title,
     serviceId,
@@ -20,9 +21,31 @@ const StaffTable = ({ staffs, lang }) => {
     isSubmitting,
     handleResetPassword,
   } = useToggleDrawer();
+  const [data, setData] = useState([]); 
+  // const { globalSetting } = useFilter();
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await AdminServices.getAllStaff({
+          name: null,
+          email: null,
+          last_login_at: null,
+          last_llogin_ip: null,
+          status:null,
+          previlege :null,
+          department : null,
+          // catalogue:null,
+        });
 
-  const { globalSetting } = useFilter();
+        // Mettez à jour la variable data avec les données récupérées
+        setData(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des services :", error);
+      }
+    };
 
+    fetchServices(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+    }, []);
   return (
     <>
       <DeleteModal id={serviceId} title={title} />
@@ -32,64 +55,88 @@ const StaffTable = ({ staffs, lang }) => {
       </MainDrawer>
 
       <TableBody>
-        {staffs?.map((staff) => (
-          <TableRow key={staff._id}>
+        {data?.map((data) => (
+          <TableRow key={data.id}>
             <TableCell>
               <div className="flex items-center">
-                <Avatar
-                  className="hidden mr-3 md:block bg-gray-50"
-                  src={staff.image}
-                  alt="staff"
-                />
+                
                 <div>
                   <h2 className="text-sm font-medium">
-                    {showingTranslateValue(staff?.name, lang)}
+                    {data.name}
                   </h2>
                 </div>
               </div>
             </TableCell>
 
             <TableCell>
-              <span className="text-sm">{staff.email}</span>{" "}
+              <span className="text-sm">{data.email}</span>{" "}
             </TableCell>
             <TableCell>
-              <span className="text-sm ">{staff.phone}</span>
+              <span className="text-sm ">{data.last_login_at}</span>
+            </TableCell>
+            <TableCell>
+              <span className="text-sm ">{data.last_login_ip}</span>
+            </TableCell>
+            <TableCell>
+              <span className="text-sm font-semibold">{data?.status}</span>
+            </TableCell>
+            <TableCell>
+              {data?.previleges ? (
+                <ul className="list-disc pl-6"> {/* Utilisez une liste à puces avec une marge à gauche de 6px */}
+                  {data.previleges.map((previlege, index) => (
+                    <li key={index} className="text-sm font-semibold">
+                      {previlege.name}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span className="text-sm font-semibold">Aucun privilège</span>
+              )}
             </TableCell>
 
-            <TableCell>
-              <span className="text-sm">
-                {/* {dayjs(staff.joiningData).format("DD/MM/YYYY")} */}
-                {showDateFormat(
-                  staff.joiningData,
-                  globalSetting.default_date_format
-                )}
-              </span>
-            </TableCell>
-            <TableCell>
-              <span className="text-sm font-semibold">{staff?.role}</span>
-            </TableCell>
-            <TableCell className="text-center text-xs">
-              <Status status={staff.status} />
-            </TableCell>
-
+          <TableCell>
+            {data?.departments ? (
+              data.departments.map((department, index) => (
+                <span key={index} className="text-sm font-semibold">
+                  {department.title}
+                  {index !== data.departments.length - 1 && ", "} {/* Ajoute une virgule entre chaque privilège, sauf pour le dernier */}
+                </span>
+              ))
+            ) : (
+              <span className="text-sm font-semibold">Aucun department</span>
+            )}
+          </TableCell>
+{/* 
             <TableCell className="text-center">
               <ActiveInActiveButton
-                id={staff?._id}
-                staff={staff}
-                option="staff"
-                status={staff.status}
+                id={data?.id}
+                data={data}
+                option="data"
+                // status={staff.status}
               />
-            </TableCell>
-
+            </TableCell> */}
+            {/* <TableCell>
+              <Link
+                to={`/staff/${data.id}`}
+                className="flex justify-center text-gray-400 hover:text-green-600"
+              >
+                <Tooltip
+                  id="view"
+                  Icon={FiZoomIn}
+                  title={t("DetailsTbl")}
+                  bgColor="#10B981"
+                />
+              </Link> 
+            </TableCell> */}
             <TableCell>
               <EditDeleteButton
-                id={staff._id}
-                staff={staff}
+                id={data.id}
+                data={data}
                 isSubmitting={isSubmitting}
                 handleUpdate={handleUpdate}
                 handleModalOpen={handleModalOpen}
                 handleResetPassword={handleResetPassword}
-                title={showingTranslateValue(staff?.name, lang)}
+                title={showingTranslateValue(data?.name, lang)}
               />
             </TableCell>
           </TableRow>

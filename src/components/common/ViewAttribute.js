@@ -30,7 +30,7 @@ const ViewAttribute = ({ attribute }) => {
           {attribute.variants.map((att, i) => (
             <ul key={att._id}>
               <li className="text-sm">
-                {i + 1}) <span className="ml-2 hover:text-green-500">{att.name}</span>
+                {i + 1}) <span className="ml-2 hover:text-orange-500">{att.name}</span>
               </li>
             </ul>
           ))}
@@ -39,7 +39,7 @@ const ViewAttribute = ({ attribute }) => {
         <div className="flex justify-end">
           <Link
             to={`/attributes/${attribute._id}`}
-            className="absolute bottom-0 right-0 focus:outline-none active:outline-none text-sm py-1 px-2 rounded-sm bg-green-500 text-gray-100 hover:bg-green-600"
+            className="absolute bottom-0 right-0 focus:outline-none active:outline-none text-sm py-1 px-2 rounded-sm bg-orange-500 text-gray-100 hover:bg-orange-600"
           >
             View
           </Link>
@@ -48,7 +48,7 @@ const ViewAttribute = ({ attribute }) => {
 
       <div
         onClick={() => setOpenModal(true)}
-        className="flex justify-center text-center cursor-pointer text-gray-400 hover:text-green-600"
+        className="flex justify-center text-center cursor-pointer text-gray-400 hover:text-orange-600"
       >
         {" "}
         <Tooltip id="view" Icon={FiZoomIn} title="View Attribute" bgColor="#34D399" />

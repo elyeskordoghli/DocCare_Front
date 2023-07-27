@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { lazy,Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,7 +20,9 @@ const App = () => {
       <ToastContainer />
       <Router>
         <AccessibleNavigationAnnouncer />
+        <Suspense fallback={<div>Loading...</div>}>
         <Switch>
+       
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
           <Route path="/forgot-password" component={ForgetPassword} />
@@ -32,6 +34,7 @@ const App = () => {
           {/* </PrivateRoute> */}
           <Redirect exact from="/" to="/login" />
         </Switch>
+        </Suspense>
       </Router>
     </>
   );

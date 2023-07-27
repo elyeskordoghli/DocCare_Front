@@ -168,7 +168,7 @@ const OrderInvoice = () => {
                 <span className="mb-1 font-bold font-serif text-sm uppercase text-gray-600 dark:text-gray-500 block">
                   {t("InvoiceTotalAmount")}
                 </span>
-                <span className="text-xl font-serif font-bold text-red-500 dark:text-green-500 block">
+                <span className="text-xl font-serif font-bold text-red-500 dark:text-orange-500 block">
                   {currency}
                   {parseFloat(data.total).toFixed(2)}
                 </span>
@@ -194,7 +194,7 @@ const OrderInvoice = () => {
               loading ? (
                 "Loading..."
               ) : (
-                <button className="flex items-center text-sm leading-5 transition-colors duration-150 font-medium focus:outline-none px-5 py-2 rounded-md text-white bg-green-500 border border-transparent active:bg-green-600 hover:bg-green-600 focus:ring focus:ring-purple-300 w-auto cursor-pointer">
+                <button className="flex items-center text-sm leading-5 transition-colors duration-150 font-medium focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300 w-auto cursor-pointer">
                   Download Invoice
                   <span className="ml-2 text-base">
                     <IoCloudDownloadOutline />
@@ -206,7 +206,7 @@ const OrderInvoice = () => {
 
           <ReactToPrint
             trigger={() => (
-              <button className="flex items-center text-sm leading-5 transition-colors duration-150 font-medium focus:outline-none px-5 py-2 rounded-md text-white bg-green-500 border border-transparent active:bg-green-600 hover:bg-green-600 focus:ring focus:ring-purple-300 w-auto">
+              <button className="flex items-center text-sm leading-5 transition-colors duration-150 font-medium focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300 w-auto">
                 {t("PrintInvoice")}
                 <span className="ml-2">
                   <FiPrinter />

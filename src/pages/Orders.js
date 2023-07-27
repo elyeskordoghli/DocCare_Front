@@ -201,7 +201,7 @@ const Orders = () => {
                     className={`${
                       (data?.orders?.length <= 0 || loadingExport) &&
                       "opacity-50 cursor-not-allowed bg-red-300"
-                    } flex items-center justify-center text-sm leading-5 h-12 w-full text-center transition-colors duration-150 font-medium focus:outline-none px-6 py-2 rounded-md text-white bg-green-500 border border-transparent active:bg-green-600 hover:bg-green-600 focus:ring focus:ring-purple-300`}
+                    } flex items-center justify-center text-sm leading-5 h-12 w-full text-center transition-colors duration-150 font-medium focus:outline-none px-6 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300`}
                   >
                     Download All Orders
                     <span className="ml-2 text-base">

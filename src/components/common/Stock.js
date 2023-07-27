@@ -12,8 +12,8 @@ const Stock = ({ stock, card, volume, totalVolume, unit }) => {
           <span
             className={`${
               card
-                ? 'bg-gray-100 dark:bg-gray-600 text-green-500 rounded-full text-xs px-2 py-0 font-medium'
-                : 'bg-green-100 dark:bg-gray-600 text-green-500 rounded-full inline-flex items-center justify-center px-2 py-0 text-xs font-semibold  font-serif'
+                ? 'bg-gray-100 dark:bg-gray-600 text-orange-500 rounded-full text-xs px-2 py-0 font-medium'
+                : 'bg-orange-100 dark:bg-gray-600 text-orange-500 rounded-full inline-flex items-center justify-center px-2 py-0 text-xs font-semibold  font-serif'
             }`}
           >
             Stock :

@@ -321,7 +321,7 @@ const InvoiceForDownload = ({ data, currency, globalSetting }) => {
                 <Text style={styles.info}>
                   <p className="font-semibold text-xs capitalize mt-2">
                     VAT Number :{" "}
-                    <span className="text-green-500">
+                    <span className="text-orange-500">
                       {globalSetting?.vat_number}
                     </span>
                   </p>

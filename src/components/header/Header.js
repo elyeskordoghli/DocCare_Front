@@ -2,6 +2,9 @@ import { Avatar, Badge, WindmillContext } from "@windmill/react-ui";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import AdminServices from "services/AdminServices";
+
+import { useHistory } from 'react-router-dom'
 import {
   IoClose,
   IoGridOutline,
@@ -38,12 +41,32 @@ const Header = () => {
   const currentLanguageCode = cookies.get("i18next") || "en";
   const { t } = useTranslation();
 
-  const handleLogOut = () => {
-    dispatch({ type: "USER_LOGOUT" });
-    Cookies.remove("adminInfo");
-    reduxDisPatch(emptySideBarMenu());
-    reduxDisPatch(emptySetting());
-    window.location.replace(`https://${process.env.REACT_APP_ADMIN_DOMAIN}/login`);
+  // const handleLogOut = () => {
+  //   dispatch({ type: "USER_LOGOUT" }); 
+  //   Cookies.remove("adminInfo");
+  //   reduxDisPatch(emptySideBarMenu());
+  //   reduxDisPatch(emptySetting());
+  //   window.location.replace(`https://${process.env.REACT_APP_API_BASE_URL}/login`);
+  // };
+  const handleLogOut = async () => {
+    try {
+      const response = await AdminServices.logoutAdmin(); 
+      console.log( response.status);
+
+      if (response.status === 200) {
+        dispatch({ type: "USER_LOGOUT" }); 
+        Cookies.remove("adminInfo");
+        reduxDisPatch(emptySideBarMenu());
+        reduxDisPatch(emptySetting());
+        window.location.replace(`/login`);
+      } else {
+        // Gérer les erreurs si nécessaire
+        console.log('Erreur lors de la déconnexion', response);
+      }
+    } catch (error) {
+      // Gérer les erreurs d'exception ici, par exemple, si l'API de logout n'est pas disponible ou s'il y a une erreur réseau
+      console.log('Erreur lors de la déconnexion', error);
+    }
   };
 
   useEffect(() => {
@@ -75,7 +98,7 @@ const Header = () => {
   return (
     <>
       <header className="z-30 py-4 bg-white shadow-sm dark:bg-gray-800">
-        <div className="container flex items-center justify-between h-full px-6 mx-auto text-green-500 dark:text-green-500">
+        <div className="container flex items-center justify-between h-full px-6 mx-auto text-orange-500 dark:text-orange-500">
           <button
             type="button"
             onClick={() => setNavBar(!navBar)}
@@ -334,19 +357,19 @@ const Header = () => {
             {/* <!-- Profile menu --> */}
             <li className="relative inline-block text-left" ref={pRef}>
               <button
-                className="rounded-full dark:bg-gray-500 bg-green-500 text-white h-8 w-8 font-medium mx-auto focus:outline-none"
+                className="rounded-full dark:bg-gray-500 bg-orange-500 text-white h-8 w-8 font-medium mx-auto focus:outline-none"
                 onClick={handleProfileOpen}
               >
-                {adminInfo.image ? (
-                  <Avatar className="align-middle" src={`${adminInfo.image}`} aria-hidden="true" />
+                {adminInfo?.image ? (
+                  <Avatar className="align-middle" src={`${adminInfo?.image}`} aria-hidden="true" />
                 ) : (
-                  <span>{adminInfo.email[0].toUpperCase()}</span>
+                  <span>{adminInfo?.email[0].toUpperCase()}</span>
                 )}
               </button>
 
               {profileOpen && (
                 <ul className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-green-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200">
+                  <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-orange-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200">
                     <Link to="/dashboard">
                       <span className="flex items-center text-sm">
                         <IoGridOutline className="w-4 h-4 mr-3" aria-hidden="true" />
@@ -355,7 +378,7 @@ const Header = () => {
                     </Link>
                   </li>
 
-                  <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-green-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200">
+                  <li className="justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-orange-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200">
                     <Link to="/edit-profile">
                       <span className="flex items-center text-sm">
                         <IoSettingsOutline className="w-4 h-4 mr-3" aria-hidden="true" />
@@ -366,7 +389,7 @@ const Header = () => {
 
                   <li
                     onClick={handleLogOut}
-                    className="cursor-pointer justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-green-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                    className="cursor-pointer justify-between font-serif font-medium py-2 pl-4 transition-colors duration-150 hover:bg-gray-100 text-gray-500 hover:text-orange-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                   >
                     <span className="flex items-center text-sm">
                       <IoLogOutOutline className="w-4 h-4 mr-3" aria-hidden="true" />
