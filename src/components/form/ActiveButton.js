@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ActiveButton = ({ tapValue, activeValue, handleProjectTap }) => {
+const ActiveButton = ({ tapValue, activeValue, handleTap }) => {
   return (
     <button
       className={`inline-block px-4 py-2 text-base ${
@@ -8,7 +8,7 @@ const ActiveButton = ({ tapValue, activeValue, handleProjectTap }) => {
         'text-green-600 border-green-600 dark:text-green-500 dark:border-green-500 rounded-t-lg border-b-2'
       } focus:outline-none`}
       aria-current="page"
-      onClick={() => handleProjectTap(activeValue, false, tapValue)}
+      onClick={() => handleTap(activeValue, false, tapValue)}
     >
       {activeValue}
     </button>

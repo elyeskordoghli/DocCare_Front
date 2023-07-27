@@ -37,7 +37,7 @@ import { showingTranslateValue } from "utils/translate";
 
 //internal import
 
-const ProductDrawer = ({ id }) => {
+const ProjectDrawer = ({ id }) => {
   const { t } = useTranslation();
 
   const {
@@ -140,7 +140,7 @@ const ProductDrawer = ({ id }) => {
             <ActiveButton
               tapValue={tapValue}
               activeValue="Anglais"
-              handleProjectTap={handleProjectTap}
+              handleTap={handleProjectTap}
             />
           </li>
 
@@ -148,7 +148,7 @@ const ProductDrawer = ({ id }) => {
             <ActiveButton
               tapValue={tapValue}
               activeValue="French"
-              handleProjectTap={handleProjectTap}
+              handleTap={handleProjectTap}
             />
           </li>
 
@@ -156,7 +156,7 @@ const ProductDrawer = ({ id }) => {
             <ActiveButton
               tapValue={tapValue}
               activeValue="Arabic"
-              handleProjectTap={handleProjectTap}
+              handleTap={handleProjectTap}
             />
           </li>
 
@@ -193,16 +193,16 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Project Title (en) ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title`, {
+                    {...register(`title_en`, {
                       required: "Title is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="title_en"
                     type="text"
                     placeholder={t("Project Title (en) ")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.title_en} />
                 </div>
               </div>
 
@@ -212,16 +212,16 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Project SubTitle (en)  ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`SubTitle`, {
+                    {...register(`SubTitle_en`, {
                       required: "SubTitle is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="SubTitle"
+                    name="SubTitle_en"
                     type="text"
                     placeholder={t("Project SubTitle (en)  ")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.SubTitle} />
+                  <Error errorName={errors.SubTitle_en} />
                 </div>
               </div>
 
@@ -230,16 +230,17 @@ const ProductDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description", {
+                    {...register("Short_Description_en", {
                       required: "Short_Description is required!",
                     })}
-                    name="description"
+                    name="Short_Description_en"
                     placeholder={t("Project Short_Description (en) ")}
                     rows="4"
                     spellCheck="false"
+                    onBlur={(e) => handleProductSlug(e.target.value)}
 
                   />
-                  <Error errorName={errors.Short_Description} />
+                  <Error errorName={errors.Short_Description_en} />
                 </div>
               </div>
 
@@ -249,15 +250,15 @@ const ProductDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Description", {
+                    {...register("description_en", {
                       required: "Description is required!",
                     })}
-                    name="description"
+                    name="description_en"
                     placeholder={t("Project Description (en) ")}
                     rows="4"
                     spellCheck="false"
                   />
-                  <Error errorName={errors.Description} />
+                  <Error errorName={errors.description_en} />
                 </div>
               </div>
 
@@ -269,6 +270,7 @@ const ProductDrawer = ({ id }) => {
                    {...register("Seo_Keywords", {
                     required: "Seo Keywords is required!",
                   })}
+                    name="Seo_Keywords"
                     placeholder={t("Project Seo Keywords  ")}
                     tags={tag}
                     onChange={(newTags) => setTag(newTags)}
@@ -284,14 +286,12 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Project Seo Description (en) ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <ReactTagInput
-                   {...register("Seo_Keywords", {
-                    required: "Seo Keywords is required!",
-                  })}
+                  
+                    name="Seo_Description_en"
                     placeholder={t("Project Seo Description (en) ")}
                     tags={tag}
                     onChange={(newTags) => setTag(newTags)}
                   />
-                  <Error errorName={errors.Seo_Keywords} />
 
                 </div>
               </div>
@@ -309,6 +309,7 @@ const ProductDrawer = ({ id }) => {
                   {...register("Category", {
                     required: "Category is required!",
                   })}
+                  name="Category"
                     lang={language}
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
@@ -323,15 +324,12 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Reference")} />
                 <div className="col-span-8 sm:col-span-4">
                   <ParentCategory
-                   {...register("Category", {
-                    required: "Category is required!",
-                  })}
+                    name="Reference"
                     lang={language}
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
                     setDefaultCategory={setDefaultCategory}
                   />
-                  <Error errorName={errors.Category} />
 
                 </div>
               </div>
@@ -359,23 +357,23 @@ const ProductDrawer = ({ id }) => {
 
 
 
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Project Slug")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Project Slug`, {
+                    {...register(`slug_en`, {
                       required: "Project Slug is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug"
+                    name="slug_en"
                     type="text"
                     defaultValue={slug}
                     placeholder={t("Project Slug")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.Project_Slug} />
+                  <Error errorName={errors.slug_en} />
                 </div>
-              </div> */}
+              </div>
             </div>
           )}
 
@@ -386,16 +384,16 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Project Title (fr) ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title`, {
+                    {...register(`title_fr`, {
                       required: "Title is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="title_fr"
                     type="text"
                     placeholder={t("Project Title (fr) ")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.title_fr} />
                 </div>
               </div>
 
@@ -405,16 +403,16 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Project SubTitle (fr)  ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Title`, {
+                    {...register(`subtitle_fr`, {
                       required: "SubTitle is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="subtitle_fr"
                     type="text"
                     placeholder={t("Project SubTitle  (fr)  ")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.subtitle_fr} />
                 </div>
               </div>
 
@@ -423,15 +421,15 @@ const ProductDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description", {
+                    {...register("Short_Description_fr", {
                       required: "Short_Description is required!",
                     })}
-                    name="description"
+                    name="Short_Description_fr"
                     placeholder={t("Project Short_Description (fr) ")}
                     rows="4"
                     spellCheck="false"
                   />
-                  <Error errorName={errors.Short_Description} />
+                  <Error errorName={errors.Short_Description_fr} />
                 </div>
               </div>
 
@@ -441,19 +439,19 @@ const ProductDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Description", {
+                    {...register("Description_fr", {
                       required: "Description is required!",
                     })}
-                    name="description"
+                    name="Description_fr"
                     placeholder={t("Project Description (fr) ")}
                     rows="4"
                     spellCheck="false"
                   />
-                  <Error errorName={errors.Description} />
+                  <Error errorName={errors.Description_fr} />
                 </div>
               </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Project Seo Keywords (fr)")} />
                 <div className="col-span-8 sm:col-span-4">
                   <ReactTagInput
@@ -462,44 +460,45 @@ const ProductDrawer = ({ id }) => {
                     onChange={(newTags) => setTag(newTags)}
                   />
                 </div>
-              </div>
+              </div> */}
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Project Seo Description (fr) ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <ReactTagInput
-                   {...register("Seo_Keywords", {
+                   {...register("Seo_Description_fr", {
                     required: "Seo Keywords is required!",
                   })}
+                    name="Seo_Description_fr"
                     placeholder={t("Project Seo Description (fr) ")}
                     tags={tag}
                     onChange={(newTags) => setTag(newTags)}
                   />
-                  <Error errorName={errors.Seo_Keywords} />
+                  <Error errorName={errors.Seo_Description_fr} />
 
                 </div>
               </div>
 
 
 
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Project Slug")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Project Slug`, {
+                    {...register(`slug_fr`, {
                       required: "Project Slug is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug"
+                    name="slug_fr"
                     type="text"
                     defaultValue={slug}
                     placeholder={t("Project Slug (fr)")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.Project_Slug} />
+                  <Error errorName={errors.slug_fr} />
                 </div>
-              </div> */}
+              </div>
             </div>
           )}
 
@@ -510,16 +509,16 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Project Title  ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title`, {
+                    {...register(`title_ar`, {
                       required: "Title is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="title_ar"
                     type="text"
                     placeholder={t("Project Title (ar)")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.title_ar} />
                 </div>
               </div>
 
@@ -529,16 +528,16 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Project SubTitle (ar)  ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Title`, {
+                    {...register(`SubTitle_ar`, {
                       required: "SubTitle is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="SubTitle_ar"
                     type="text"
                     placeholder={t("Project SubTitle (ar)  ")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.SubTitle_ar} />
                 </div>
               </div>
 
@@ -547,15 +546,15 @@ const ProductDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description", {
+                    {...register("Short_Description_ar", {
                       required: "Short_Description is required!",
                     })}
-                    name="description"
+                    name="Short_Description_ar"
                     placeholder={t("Project Short_Description (fr) ")}
                     rows="4"
                     spellCheck="false"
                   />
-                  <Error errorName={errors.Short_Description} />
+                  <Error errorName={errors.Short_Description_ar} />
                 </div>
               </div>
 
@@ -565,20 +564,20 @@ const ProductDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Description", {
+                    {...register("description_ar", {
                       required: "Description is required!",
                     })}
-                    name="description"
+                    name="description_ar"
                     placeholder={t("Project Description (fr) ")}
                     rows="4"
                     spellCheck="false"
                   />
-                  <Error errorName={errors.Description} />
+                  <Error errorName={errors.description_ar} />
                 </div>
               </div>
 
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Project Seo Keywords (ar)")} />
                 <div className="col-span-8 sm:col-span-4">
                   <ReactTagInput
@@ -587,7 +586,7 @@ const ProductDrawer = ({ id }) => {
                     onChange={(newTags) => setTag(newTags)}
                   />
                 </div>
-              </div>
+              </div> */}
 
 
 
@@ -595,37 +594,38 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("Project Seo Description (ar) ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <ReactTagInput
-                   {...register("Seo_Keywords", {
+                   {...register("seo_description_ar", {
                     required: "Seo Keywords is required!",
                   })}
+                    name="seo_description_ar"
                     placeholder={t("Project Seo Description (ar) ")}
                     tags={tag}
                     onChange={(newTags) => setTag(newTags)}
                   />
-                  <Error errorName={errors.Seo_Keywords} />
+                  <Error errorName={errors.seo_description_ar} />
 
                 </div>
               </div>
 
 
 
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Project Slug")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Project Slug`, {
+                    {...register(`slug_ar`, {
                       required: "Project Slug is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug"
+                    name="slug_ar"
                     type="text"
                     defaultValue={slug}
                     placeholder={t("Project Slug (fr)")}
                     onBlur={(e) => handleProductSlug(e.target.value)}
                   />
-                  <Error errorName={errors.Project_Slug} />
+                  <Error errorName={errors.slug_ar} />
                 </div>
-              </div> */}
+              </div>
             </div>
           )}
 
@@ -777,4 +777,4 @@ const ProductDrawer = ({ id }) => {
   );
 };
 
-export default React.memo(ProductDrawer);
+export default React.memo(ProjectDrawer);
