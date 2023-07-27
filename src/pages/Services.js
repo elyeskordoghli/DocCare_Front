@@ -233,9 +233,7 @@ const Services = () => {
                 <TableCell>{t("Short description")}</TableCell>
                 <TableCell>{t("Catalogue")}</TableCell>
                 <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
-                <TableCell className="text-center">
-                  {t("PublishedTbl")}
-                </TableCell>
+               
                 <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>

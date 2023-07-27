@@ -9,6 +9,9 @@ import Uploader from "components/image-uploader/Uploader";
 import InputArea from "components/form/InputArea";
 import Error from "components/form/Error";
 import SelectRole from "components/form/SelectRole";
+import SelectPrevilege from "components/form/SelectPrevilege";
+import SelectDepartment from "components/form/SelectDepartment";
+
 import DrawerButton from "components/form/DrawerButton";
 
 
@@ -50,17 +53,6 @@ const StaffDrawer = ({ id }) => {
           <CardBody>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="px-6 pt-8 flex-grow scrollbar-hide w-full max-h-full pb-40">
-                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Staff Image" />
-                  <div className="col-span-8 sm:col-span-4">
-                    <Uploader
-                      imageUrl={imageUrl}
-                      setImageUrl={setImageUrl}
-                      folder="admin"
-                    />
-                  </div>
-                </div>
-
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label="Name" />
                   <div className="col-span-8 sm:col-span-4">
@@ -121,43 +113,36 @@ const StaffDrawer = ({ id }) => {
                 </div>
 
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Contact Number" />
+                  <LabelArea label="Stauts" />
                   <div className="col-span-8 sm:col-span-4">
                     <InputArea
                       register={register}
-                      label="Contact Number"
-                      name="phone"
+                      label="Stauts"
+                      name="stauts"
                       pattern={/^[+]?\d*$/}
-                      minLength={6}
-                      maxLength={15}
+                      // minLength={6}
+                      // maxLength={15}
                       type="text"
-                      placeholder="Phone number"
+                      placeholder="Stauts"
                     />
-                    <Error errorName={errors.phone} />
+                    <Error errorName={errors.stauts} />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Joining Date" />
-                  <div className="col-span-8 sm:col-span-4">
-                    <Input
-                      onChange={(e) => setSelectedDate(e.target.value)}
-                      label="Joining Date"
-                      name="joiningDate"
-                      value={selectedDate}
-                      type="date"
-                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                      placeholder={t("StaffJoiningDate")}
-                    />
-                    <Error errorName={errors.joiningDate} />
-                  </div>
-                </div>
+              
 
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Staff Role" />
+                  <LabelArea label="Staff Previlege" />
                   <div className="col-span-8 sm:col-span-4">
-                    <SelectRole register={register} label="Role" name="role" />
-                    <Error errorName={errors.role} />
+                    <SelectPrevilege register={register} label="Previlege" name="previlege" />
+                    <Error errorName={errors.previlege} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                  <LabelArea label="Staff Department" />
+                  <div className="col-span-8 sm:col-span-4">
+                    <SelectDepartment register={register} label="Department" name="department" />
+                    <Error errorName={errors.department} />
                   </div>
                 </div>
               </div>

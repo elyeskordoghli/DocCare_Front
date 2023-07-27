@@ -31,7 +31,7 @@ const EditDeleteButton = ({
                 id="view"
                 Icon={FiZoomIn}
                 title={t("View")}
-                bgColor="#10B981"
+                bgColor="#ff5a1f"
               />
             </Link>
 
@@ -44,7 +44,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#10B981"
+                bgColor="#ff5a1f"
               />
             </button>
           </>
@@ -58,7 +58,7 @@ const EditDeleteButton = ({
               id="edit"
               Icon={FiEdit}
               title={t("Edit")}
-              bgColor="#10B981"
+              bgColor="#ff5a1f"
             />
           </button>
         )}
