@@ -113,9 +113,9 @@ const Staff = () => {
                 <TableCell>{t("Status")}</TableCell>
                 {/* <TableCell className="text-center">{t("OderStatusTbl")}</TableCell>
                 <TableCell className="text-center">{t("PublishedTbl")}</TableCell>*/}
+
                 <TableCell>{t("Previleges")}</TableCell>
                 <TableCell>{t("Department")}</TableCell>
-
                 <TableCell className="text-right">{t("StaffActionsTbl")}</TableCell> 
               </tr>
             </TableHeader>

@@ -81,11 +81,31 @@ const StaffTable = ({ lang }) => {
               <span className="text-sm font-semibold">{data?.status}</span>
             </TableCell>
             <TableCell>
-              <span className="text-sm font-semibold">{data?.previlege_id}</span>
+              {data?.previleges ? (
+                <ul className="list-disc pl-6"> {/* Utilisez une liste à puces avec une marge à gauche de 6px */}
+                  {data.previleges.map((previlege, index) => (
+                    <li key={index} className="text-sm font-semibold">
+                      {previlege.name}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span className="text-sm font-semibold">Aucun privilège</span>
+              )}
             </TableCell>
-            <TableCell>
-              <span className="text-sm font-semibold">{data?.department}</span>
-            </TableCell>
+
+          <TableCell>
+            {data?.departments ? (
+              data.departments.map((department, index) => (
+                <span key={index} className="text-sm font-semibold">
+                  {department.title}
+                  {index !== data.departments.length - 1 && ", "} {/* Ajoute une virgule entre chaque privilège, sauf pour le dernier */}
+                </span>
+              ))
+            ) : (
+              <span className="text-sm font-semibold">Aucun department</span>
+            )}
+          </TableCell>
 {/* 
             <TableCell className="text-center">
               <ActiveInActiveButton
@@ -95,7 +115,19 @@ const StaffTable = ({ lang }) => {
                 // status={staff.status}
               />
             </TableCell> */}
-
+            {/* <TableCell>
+              <Link
+                to={`/staff/${data.id}`}
+                className="flex justify-center text-gray-400 hover:text-green-600"
+              >
+                <Tooltip
+                  id="view"
+                  Icon={FiZoomIn}
+                  title={t("DetailsTbl")}
+                  bgColor="#10B981"
+                />
+              </Link> 
+            </TableCell> */}
             <TableCell>
               <EditDeleteButton
                 id={data.id}
