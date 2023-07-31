@@ -69,13 +69,13 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
 
   return (
     <>
-      {isCheck?.length < 1 && <DeleteModal id={data.id} title={data.title} />}
+      {/* {isCheck?.length < 1 && <DeleteModal id={data.id} title={data.title} />}
 
       {isCheck?.length < 2 && (
         <MainDrawer>
           <ProjectDrawer  id={data.id} />
         </MainDrawer>
-      )}
+      )} */}
 
       <TableBody>
         {data?.map((data, i) => (
