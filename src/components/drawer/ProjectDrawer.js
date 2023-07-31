@@ -37,7 +37,7 @@ import DrawerButton from "components/form/DrawerButton";
 import AttributeListTable from "components/attribute/AttributeListTable";
 import { showingTranslateValue } from "utils/translate";
 
-import axios from 'axios';
+import axios from "axios";
 
 //internal import
 
@@ -101,7 +101,7 @@ const ProjectDrawer = ({ id }) => {
   const [Seo_Description_en, setSeo_description_en] = useState("");
   const [slug_en, setSlug_en] = useState("");
 
-  const [title_fr, setTitle_fr] =useState("");
+  const [title_fr, setTitle_fr] = useState("");
   const [subtitle_fr, setSubtitle_fr] = useState("");
   const [Short_Description_fr, setShort_description_fr] = useState("");
   const [Description_fr, setDescription_fr] = useState("");
@@ -120,40 +120,37 @@ const ProjectDrawer = ({ id }) => {
 
     const data = {
       // ... Default ...
-      seo_keywords:Seo_Keywords,
-      reference:Reference,
-      category:Category,
-      image:imageUrl,
+      seo_keywords: Seo_Keywords,
+      reference: Reference,
+      category: Category,
+      image: imageUrl,
       // ... English ...
-      title_en:title_en,
-      subtitle_en:SubTitle_en,
-      short_description_en:Short_Description_en,
-      description_en:description_en,
-      seo_description_en:Seo_Description_en,
-      slug_en:slug_en,
+      title_en: title_en,
+      subtitle_en: SubTitle_en,
+      short_description_en: Short_Description_en,
+      description_en: description_en,
+      seo_description_en: Seo_Description_en,
+      slug_en: slug_en,
 
       // ... French ...
-      title_fr:title_fr,
-      subtitle_fr:subtitle_fr,
-      short_description_fr:Short_Description_fr,
-      description_fr:Description_fr,
-      seo_description_fr:Seo_Description_fr,
-      slug_fr:slug_fr,
+      title_fr: title_fr,
+      subtitle_fr: subtitle_fr,
+      short_description_fr: Short_Description_fr,
+      description_fr: Description_fr,
+      seo_description_fr: Seo_Description_fr,
+      slug_fr: slug_fr,
 
       // ... Arab ...
-      title_ar:title_ar,
-      subtitle_ar:SubTitle_ar,
-      short_description_ar:Short_Description_ar,
-      description_ar:description_ar,
-      seo_description_ar:seo_description_ar,
-      slug_ar:slug_ar,
+      title_ar: title_ar,
+      subtitle_ar: SubTitle_ar,
+      short_description_ar: Short_Description_ar,
+      description_ar: description_ar,
+      seo_description_ar: seo_description_ar,
+      slug_ar: slug_ar,
     };
 
     const res = await ProjectServices.addProject(data);
-
-
   };
-  
 
   return (
     <>
@@ -237,18 +234,13 @@ const ProjectDrawer = ({ id }) => {
           )}
         </ul>
       </div>
-            
-     
-
 
       <Scrollbars className="track-horizontal thumb-horizontal w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
         <form onSubmit={handleSubmit} className="block" id="block">
-        {/* <form onSubmit={handleSubmit(onSubmit)} className="block" id="block"> */}
+          {/* <form onSubmit={handleSubmit(onSubmit)} className="block" id="block"> */}
           {tapValue === "Anglais" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-
-
-        <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductImage")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Uploader
@@ -260,8 +252,7 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div>
 
-
-             {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"ProductImage"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Uploader
@@ -291,12 +282,10 @@ const ProjectDrawer = ({ id }) => {
                     onChange={(e) => setTitle_en(e.target.value)}
                     value={title_en}
                   />
-                  {title_en??''} TTEEST
+                  {title_en ?? ""} TTEEST
                   <Error errorName={errors.title_en} />
                 </div>
               </div>
-
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project SubTitle (en)  "} />
@@ -310,8 +299,8 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project SubTitle (en)  "}
                     onChange={(e) => setSubtitle_en(e.target.value)}
-                    value={SubTitle_en}                 
-                    />
+                    value={SubTitle_en}
+                  />
                   <Error errorName={errors.SubTitle_en} />
                 </div>
               </div>
@@ -329,14 +318,12 @@ const ProjectDrawer = ({ id }) => {
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setShort_description_en(e.target.value)}
-                    value={Short_Description_en}   
+                    value={Short_Description_en}
                   />
-                    {Short_Description_en??''} TTEEST
-
+                  {Short_Description_en ?? ""} TTEEST
                   <Error errorName={errors.Short_Description_en} />
                 </div>
               </div>
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Description (en) "} />
@@ -353,16 +340,13 @@ const ProjectDrawer = ({ id }) => {
                     onChange={(e) => setDescription_en(e.target.value)}
                     value={description_en}
                   />
-                                      {description_en??''} TTEEST
-
+                  {description_en ?? ""} TTEEST
                   <Error errorName={errors.description_en} />
                 </div>
               </div>
 
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-               <LabelArea label={"Project Seo Keywords  "} />
+                <LabelArea label={"Project Seo Keywords  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`Seo_Keywords`, {
@@ -373,12 +357,11 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project Seo Keywords  "}
                     onChange={(e) => setSeo_keywords(e.target.value)}
-                    value={Seo_Keywords}                 
-                    />
+                    value={Seo_Keywords}
+                  />
                   <Error errorName={errors.Seo_Keywords} />
                 </div>
               </div>
-
 
               {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Seo Keywords  "} />
@@ -398,8 +381,8 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-            <LabelArea label={"Project Seo Description (en)"} />
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Project Seo Description (en)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`Seo_Description_en`, {
@@ -410,13 +393,13 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project Seo description  "}
                     onChange={(e) => setSeo_description_en(e.target.value)}
-                    value={Seo_Description_en}                 
-                    />
+                    value={Seo_Description_en}
+                  />
                   <Error errorName={errors.Seo_Description_en} />
                 </div>
               </div>
 
-            {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                <LabelArea label={"Project Seo Description (en)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
@@ -449,26 +432,19 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
-
-
-
-
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Category"} />
                 <div className="col-span-8 sm:col-span-4">
                   <ParentCategory
-                  {...register("Category", {
-                    required: "Category is required!",
-                  })}
+                    {...register("Category", {
+                      required: "Category is required!",
+                    })}
                     name="Category"
                     lang={language}
                     value={Category}
                     disabled
                   />
                   <Error errorName={errors.Category} />
-
                 </div>
               </div>
 
@@ -481,7 +457,6 @@ const ProjectDrawer = ({ id }) => {
                     value={Reference}
                     disabled
                   />
-
                 </div>
               </div>
 
@@ -505,9 +480,6 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
-
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Slug"} />
                 <div className="col-span-8 sm:col-span-4">
@@ -521,8 +493,8 @@ const ProjectDrawer = ({ id }) => {
                     defaultValue={slug}
                     placeholder={"Project Slug"}
                     onChange={(e) => setSlug_en(e.target.value)}
-                    value={slug_en}                  
-                    />
+                    value={slug_en}
+                  />
                   <Error errorName={errors.slug_en} />
                 </div>
               </div>
@@ -531,8 +503,7 @@ const ProjectDrawer = ({ id }) => {
 
           {tapValue === "French" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-
-             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Title (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
@@ -544,13 +515,11 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project Title (fr) "}
                     onChange={(e) => setTitle_fr(e.target.value)}
-                    value={title_fr}   
-                   />
+                    value={title_fr}
+                  />
                   <Error errorName={errors.title_fr} />
                 </div>
               </div>
-
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project SubTitle (fr)  "} />
@@ -564,8 +533,8 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project SubTitle  (fr)  "}
                     onChange={(e) => setSubtitle_fr(e.target.value)}
-                    value={subtitle_fr}  
-                    />
+                    value={subtitle_fr}
+                  />
                   <Error errorName={errors.subtitle_fr} />
                 </div>
               </div>
@@ -583,12 +552,11 @@ const ProjectDrawer = ({ id }) => {
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setShort_description_fr(e.target.value)}
-                    value={Short_Description_fr}  
+                    value={Short_Description_fr}
                   />
                   <Error errorName={errors.Short_Description_fr} />
                 </div>
               </div>
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Description (fr) "} />
@@ -603,7 +571,7 @@ const ProjectDrawer = ({ id }) => {
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setDescription_fr(e.target.value)}
-                    value={Description_fr}  
+                    value={Description_fr}
                   />
                   <Error errorName={errors.Description_fr} />
                 </div>
@@ -620,9 +588,8 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
-
-          <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-            <LabelArea label={"Project Seo Description (fr)"} />
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Project Seo Description (fr)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`Seo_Description_fr`, {
@@ -633,13 +600,11 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project Seo description  "}
                     onChange={(e) => setSeo_description_fr(e.target.value)}
-                    value={Seo_Description_fr}                 
-                    />
+                    value={Seo_Description_fr}
+                  />
                   <Error errorName={errors.Seo_Description_fr} />
                 </div>
               </div>
-
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Slug"} />
@@ -654,8 +619,8 @@ const ProjectDrawer = ({ id }) => {
                     defaultValue={slug}
                     placeholder={"Project Slug (fr)"}
                     onChange={(e) => setSlug_fr(e.target.value)}
-                    value={slug_fr}  
-                 />
+                    value={slug_fr}
+                  />
                   <Error errorName={errors.slug_fr} />
                 </div>
               </div>
@@ -664,7 +629,6 @@ const ProjectDrawer = ({ id }) => {
 
           {tapValue === "Arabic" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Title  "} />
                 <div className="col-span-8 sm:col-span-4">
@@ -677,13 +641,11 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project Title (ar)"}
                     onChange={(e) => setTitle_ar(e.target.value)}
-                    value={title_ar}  
+                    value={title_ar}
                   />
                   <Error errorName={errors.title_ar} />
                 </div>
               </div>
-
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project SubTitle (ar)  "} />
@@ -697,8 +659,8 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project SubTitle (ar)  "}
                     onChange={(e) => setSubtitle_ar(e.target.value)}
-                    value={SubTitle_ar}  
-                    />
+                    value={SubTitle_ar}
+                  />
                   <Error errorName={errors.SubTitle_ar} />
                 </div>
               </div>
@@ -716,12 +678,11 @@ const ProjectDrawer = ({ id }) => {
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setShort_description_ar(e.target.value)}
-                    value={Short_Description_ar}  
+                    value={Short_Description_ar}
                   />
                   <Error errorName={errors.Short_Description_ar} />
                 </div>
               </div>
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Description (fr) "} />
@@ -736,12 +697,11 @@ const ProjectDrawer = ({ id }) => {
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setDescription_ar(e.target.value)}
-                    value={description_ar}  
+                    value={description_ar}
                   />
                   <Error errorName={errors.description_ar} />
                 </div>
               </div>
-
 
               {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Project Seo Keywords (ar)")} />
@@ -754,8 +714,8 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
-          <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-          <LabelArea label={"Project Seo Description (ar) "} />
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Project Seo Description (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`seo_description_ar`, {
@@ -766,16 +726,11 @@ const ProjectDrawer = ({ id }) => {
                     type="text"
                     placeholder={"Project Seo description  "}
                     onChange={(e) => setSeo_description_ar(e.target.value)}
-                    value={seo_description_ar}                 
-                    />
+                    value={seo_description_ar}
+                  />
                   <Error errorName={errors.seo_description_ar} />
                 </div>
               </div>
-
-
-            
-
-
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Slug"} />
@@ -790,16 +745,13 @@ const ProjectDrawer = ({ id }) => {
                     defaultValue={slug}
                     placeholder={"Project Slug (fr)"}
                     onChange={(e) => setSlug_ar(e.target.value)}
-                    value={slug_ar}                   
-                />
+                    value={slug_ar}
+                  />
                   <Error errorName={errors.slug_ar} />
                 </div>
               </div>
             </div>
           )}
-
-
-       
 
           {tapValue === "Combination" &&
             isCombination &&
@@ -893,15 +845,13 @@ const ProjectDrawer = ({ id }) => {
           {tapValue === "Arabic" && (
             <DrawerButton id={id} title="Submit" isSubmitting={isSubmitting} />
           )}
-           {tapValue === "Anglais" && (
+          {tapValue === "Anglais" && (
             <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
           )}
-           {tapValue === "French" && (
+          {tapValue === "French" && (
             <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
           )}
         </form>
-
-   
 
         {tapValue === "Combination" &&
           isCombination &&
@@ -944,13 +894,8 @@ const ProjectDrawer = ({ id }) => {
             </div>
           )}
       </Scrollbars>
-
-      
-
-
     </>
   );
-
 };
 
 export default React.memo(ProjectDrawer);
