@@ -11,11 +11,13 @@ import Error from "components/form/Error";
 import SelectRole from "components/form/SelectRole";
 import SelectPrevilege from "components/form/SelectPrevilege";
 import SelectDepartment from "components/form/SelectDepartment";
-
+import PrevilegeServices from "services/PrevilegeServices";
 import DrawerButton from "components/form/DrawerButton";
+import { useEffect, useState } from "react";
+import DepartmentServices from "services/DepartementServices";
 
 
-const StaffDrawer = ({ id }) => {
+const StaffDrawer = ({ id,data }) => {
   const {
     register,
     handleSubmit,
@@ -28,6 +30,37 @@ const StaffDrawer = ({ id }) => {
     handleSelectLanguage,
   } = useStaffSubmit(id);
   const { t } = useTranslation();
+
+  const [previleges, setPrevilege] = useState([]);
+  const [selecttedPrevilege, setSelecttedPrevilege] = useState(null);
+
+  const getPrevilegesData = async () => {
+    try {
+      const res = await PrevilegeServices.getAllPrevilege();
+      // Mettez à jour le state avec les départements récupérés depuis l'API
+      setPrevilege(res.data);
+    } catch (err) {
+     console.log(err ? err?.response?.data?.message : err?.message);
+
+    }
+  }
+  const [departments, setDepartment] = useState([]);
+
+  const getDepartementsData = async () => {
+    try {
+      const res = await DepartmentServices.getAllDepartment();
+      // Mettez à jour le state avec les départements récupérés depuis l'API
+      setDepartment(res.data);
+    } catch (err) {
+      console.log(err ? err?.response?.data?.message : err?.message);
+
+    }
+  }
+  useEffect(() => {
+    getPrevilegesData(),
+    getDepartementsData()
+
+  }, [])
 
   return (
     <>
@@ -53,6 +86,7 @@ const StaffDrawer = ({ id }) => {
           <CardBody>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="px-6 pt-8 flex-grow scrollbar-hide w-full max-h-full pb-40">
+
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label="Name" />
                   <div className="col-span-8 sm:col-span-4">
@@ -63,7 +97,7 @@ const StaffDrawer = ({ id }) => {
                       type="text"
                       placeholder="Staff name"
                     />
-                    <Error errorName={errors.name} />
+                    <Error errorName={errors?.name} />
                   </div>
                 </div>
 
@@ -133,20 +167,21 @@ const StaffDrawer = ({ id }) => {
 
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label="Staff Previlege" />
+                    {JSON.stringify(selecttedPrevilege )} 00
                   <div className="col-span-8 sm:col-span-4">
-                    <SelectPrevilege register={register} label="Previlege" name="previlege" />
+                    <SelectPrevilege setSelecttedPrevilege={setSelecttedPrevilege} register={register} label="Previlege"  previleges={previleges}  />
                     <Error errorName={errors.previlege} />
                   </div>
                 </div>
+
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label="Staff Department" />
                   <div className="col-span-8 sm:col-span-4">
-                    <SelectDepartment register={register} label="Department" name="department" />
+                    <SelectDepartment register={register} label="Department" name="department" departments={departments}  />
                     <Error errorName={errors.department} />
                   </div>
                 </div>
               </div>
-
               <DrawerButton id={id} title="Staff" />
             </form>
           </CardBody>
