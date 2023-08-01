@@ -1,11 +1,21 @@
 import React from 'react';
-import { Select } from '@windmill/react-ui';
-
-const SelectDepartment = ({ setDepartment, register, name, label }) => {
+// import { Select } from '@windmill/react-ui';
+import Select from 'react-select';
+const SelectDepartment = ({ setDepartment, register, name, label, departments }) => {
+  const options = departments?.map((department) => ({
+    value: department.id,
+    label: department.title,
+  }));
+  const handleChange = (selectedOption) => {
+    setDepartment(selectedOption.value);
+  };
   return (
     <>
       <Select
-        onChange={(e) => setDepartment(e.target.value)}
+        options={options} // Pass the options array to react-select
+        onChange={handleChange} 
+        isMulti
+        //onChange={(e) => setDepartment(e.target.value)}
         className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
         name={name}
         {...register(`${name}`, {
@@ -15,13 +25,11 @@ const SelectDepartment = ({ setDepartment, register, name, label }) => {
         <option value="" defaultValue hidden>
           Staff Department
         </option>
-        <option value="Admin">Admin</option>
-        <option value="CEO">CEO</option>
-        <option value="Manager">Manager</option>
-        <option value="Accountant">Accountant</option>
-        <option value="Driver"> Driver </option>
-        <option value="Security Guard">Security Guard</option>
-        <option value="Deliver Person">Delivery Person</option>
+        {departments?.map((department) => (
+          <option key={department.id} value={department.id}>
+            {department.title}
+          </option>
+        ))}
       </Select>
     </>
   );
