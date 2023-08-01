@@ -1,5 +1,5 @@
 import ReactTagInput from "@pathofdev/react-tag-input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -38,6 +38,10 @@ import AttributeListTable from "components/attribute/AttributeListTable";
 import { showingTranslateValue } from "utils/translate";
 
 import axios from "axios";
+import CategoryServices from "services/CategoryServices";
+import SelectCategory from "components/form/SelectCategory";
+import SelectReferences from "components/form/SelectReferences";
+import ReferencesServices from "services/ReferencesServices";
 
 //internal import
 
@@ -87,6 +91,8 @@ const ProjectDrawer = ({ id }) => {
     handleGenerateCombination,
   } = useProjectSubmit(id);
 
+  
+
   const currency = globalSetting?.default_currency || "$";
 
   const [imageUrl, setImageUrl] = useState("");
@@ -118,40 +124,72 @@ const ProjectDrawer = ({ id }) => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
 
-    const data = {
-      // ... Default ...
-      seo_keywords: Seo_Keywords,
-      reference: Reference,
-      category: Category,
-      image: imageUrl,
-      // ... English ...
-      title_en: title_en,
-      subtitle_en: SubTitle_en,
-      short_description_en: Short_Description_en,
-      description_en: description_en,
-      seo_description_en: Seo_Description_en,
-      slug_en: slug_en,
+  
 
-      // ... French ...
-      title_fr: title_fr,
-      subtitle_fr: subtitle_fr,
-      short_description_fr: Short_Description_fr,
-      description_fr: Description_fr,
-      seo_description_fr: Seo_Description_fr,
-      slug_fr: slug_fr,
+    const formData = new FormData();
+      formData.append('title_en', title_en);
+      formData.append('subtitle_en', SubTitle_en);
+      formData.append('short_description_en', Short_Description_en);
+      formData.append('description_en', description_en);
+      formData.append('seo_description_en', Seo_Description_en);
+      formData.append('slug_en', slug_en);
 
-      // ... Arab ...
-      title_ar: title_ar,
-      subtitle_ar: SubTitle_ar,
-      short_description_ar: Short_Description_ar,
-      description_ar: description_ar,
-      seo_description_ar: seo_description_ar,
-      slug_ar: slug_ar,
-    };
+      formData.append('title_fr', title_fr);
+      formData.append('subtitle_fr', subtitle_fr);
+      formData.append('short_description_fr', Short_Description_fr);
+      formData.append('description_fr', Description_fr);
+      formData.append('seo_description_fr', Seo_Description_fr);
+      formData.append('slug_fr', slug_fr);
 
-    const res = await ProjectServices.addProject(data);
+      formData.append('title_ar', title_ar);
+      formData.append('subtitle_ar', SubTitle_ar);
+      formData.append('short_description_ar', Short_Description_ar);
+      formData.append('description_ar', description_ar);
+      formData.append('seo_description_ar', seo_description_ar);
+      formData.append('slug_ar', slug_ar);
+
+      formData.append('seo_keywords', Seo_Keywords);
+      formData.append('reference', Reference);
+      formData.append('category', Category);
+      formData.append('image', imageUrl);
+
+
+      console.log(formData);
+
+        const res = await ProjectServices.addProject(formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      
+     
   };
+  const handleFileChange = (e) => {
+   
 
+  };
+  const [categories, setCategory] = useState([]);
+
+  const getCategoriesData = async () => {
+    try {
+      const res = await CategoryServices.getAllCategories();
+      // Mettez à jour le state avec les départements récupérés depuis l'API
+      setCategory(res.data);
+    } catch (err) {
+     console.log(err ? err?.response?.data?.message : err?.message);
+
+    }
+  }
+
+  useEffect(() =>{
+    getCategoriesData();
+  })
+
+
+  
+  
+  
+  
   return (
     <>
       <Modal
@@ -240,16 +278,23 @@ const ProjectDrawer = ({ id }) => {
           {/* <form onSubmit={handleSubmit(onSubmit)} className="block" id="block"> */}
           {tapValue === "Anglais" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
+
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductImage")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Uploader
-                    product
-                    folder="product"
-                    imageUrl={imageUrl}
-                    setImageUrl={setImageUrl}
-                  />
-                </div>
+                    <Input
+                      {...register(`imageUrl`, {
+                        required: "Image is required!",
+                      })}
+                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                      name="imageUrl"
+                      type="file"
+                      placeholder={"Image "}
+                      onChange={(e)=>{setImageUrl(e.target.files[0])}}
+                    />
+                    <Error errorName={errors.imageUrl} />
+                  </div>
               </div>
 
               {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -432,7 +477,18 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
+
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                  <LabelArea label="Category" />
+                  <div className="col-span-8 sm:col-span-4">
+                    <SelectCategory  label="Category" name="category"  categories={categories}  />
+                    <Error errorName={errors.categories} />
+                  </div>
+                </div>
+
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Category"} />
                 <div className="col-span-8 sm:col-span-4">
                   <ParentCategory
@@ -446,8 +502,16 @@ const ProjectDrawer = ({ id }) => {
                   />
                   <Error errorName={errors.Category} />
                 </div>
-              </div>
+              </div> */}
 
+                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                  <LabelArea label="references" />
+                  <div className="col-span-8 sm:col-span-4">
+                    <SelectReferences  label="References" name="references"  References={references}  />
+                    <Error errorName={errors.references} />
+                  </div> 
+                </div>
+{/* 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Reference"} />
                 <div className="col-span-8 sm:col-span-4">
@@ -458,7 +522,7 @@ const ProjectDrawer = ({ id }) => {
                     disabled
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("DefaultCategory")} />
