@@ -15,7 +15,7 @@ const SidebarSubMenu = ({ route }) => {
 
   return (
     <>
-      <li className="relative px-6 py-3" key={route.name}>
+      <li className="relative px-6 py-3  hover:text-orange-500" key={route.name}>
         <button
           className="inline-flex items-center justify-between focus:outline-none w-full text-sm font-semibold transition-colors duration-150  dark:hover:text-gray-200"
           onClick={handleSubMenu}
@@ -23,7 +23,7 @@ const SidebarSubMenu = ({ route }) => {
         >
           <span className="inline-flex items-center">
             <route.icon className="w-5 h-5" aria-hidden="true" />
-            <span className="ml-4 mt-1">{t(`${route.name}`)}</span>
+            <span className="ml-4 mt-1 ">{t(`${route.name}`)}</span>
             <span className="pl-4 mt-1">
               {open ? <IoChevronDownOutline /> : <IoChevronForwardOutline />}
             </span>
@@ -52,7 +52,7 @@ const SidebarSubMenu = ({ route }) => {
                   <span className="text-xs text-gray-500 pr-1">
                     <IoRemoveSharp />
                   </span>
-                  <span className="text-gray-500 dark:hover:text-gray-200">
+                  <span className="text-gray-500 dark:hover:text-gray-200  hover:text-orange-500">
                     {t(`${child.name}`)}
                   </span>
                 </NavLink>

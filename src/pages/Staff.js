@@ -28,6 +28,7 @@ import PageTitle from "components/Typography/PageTitle";
 import { AdminContext } from "context/AdminContext";
 import { SidebarContext } from "context/SidebarContext";
 import AdminServices from "services/AdminServices";
+import PrevilegeServices from "services/PrevilegeServices";
 
 const Staff = () => {
   const { state } = useContext(AdminContext);
@@ -36,9 +37,11 @@ const Staff = () => {
 
   const { data, loading } = useAsync(() => AdminServices.getAllStaff({ email: adminInfo.email }));
 
+
   const {
     userRef,
     setRole,
+    setPrevilege,
     handleChangePage,
     totalResults,
     resultsPerPage,
@@ -113,9 +116,9 @@ const Staff = () => {
                 <TableCell>{t("Status")}</TableCell>
                 {/* <TableCell className="text-center">{t("OderStatusTbl")}</TableCell>
                 <TableCell className="text-center">{t("PublishedTbl")}</TableCell>*/}
+
                 <TableCell>{t("Previleges")}</TableCell>
                 <TableCell>{t("Department")}</TableCell>
-
                 <TableCell className="text-right">{t("StaffActionsTbl")}</TableCell> 
               </tr>
             </TableHeader>

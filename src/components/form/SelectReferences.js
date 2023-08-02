@@ -7,18 +7,18 @@ import { useForm } from 'react-hook-form';
 //internal import
 
 import useAsync from "hooks/useAsync";
-import CategoryServices from "services/CategoryServices";
+import ReferencesServices from "services/ReferencesServices";
 import { showingTranslateValue } from "utils/translate";
 
-const SelectCategory = ({ setCategory, lang , name, label, categories}) => {
-  const response = useAsync(CategoryServices.getAllCategories);
+const SelectReferences = ({ setReferences, lang , name, label, References}) => {
+  const response = useAsync(ReferencesServices.getAllReferences);
   const { data } = response.data;
   
   const { t } = useTranslation();
   return (
     <>
       <Select
-        onChange={(e) => setCategory(e.target.value)}
+        onChange={(e) => setReferences(e.target.value)}
        
         className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
         // name={name}
@@ -28,11 +28,11 @@ const SelectCategory = ({ setCategory, lang , name, label, categories}) => {
       >
 
         <option value="All" defaultValue hidden>
-          {t("Category")}
+          {t("References")}
         </option>
-        {categories?.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.name}
+        {References?.map((reference) => (
+          <option key={reference.id} value={reference.id}>
+            {reference.name}
           </option>
         ))}
       </Select>
@@ -40,4 +40,4 @@ const SelectCategory = ({ setCategory, lang , name, label, categories}) => {
   );
 };
 
-export default SelectCategory;
+export default SelectReferences;

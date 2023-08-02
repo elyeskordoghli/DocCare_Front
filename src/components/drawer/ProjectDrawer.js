@@ -1,4 +1,5 @@
 import ReactTagInput from "@pathofdev/react-tag-input";
+import { useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -19,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
 import useProductSubmit from "hooks/useProductSubmit";
 import useProjectSubmit from "hooks/useProjectSubmit";
+import ProjectServices from "services/ProjectServices";
 import UploaderThree from "components/image-uploader/UploaderThree";
 import Title from "components/form/Title";
 import SwitchToggleForCombination from "components/form/SwitchToggleForCombination";
@@ -34,6 +36,12 @@ import AttributeOptionTwo from "components/attribute/AttributeOptionTwo";
 import DrawerButton from "components/form/DrawerButton";
 import AttributeListTable from "components/attribute/AttributeListTable";
 import { showingTranslateValue } from "utils/translate";
+
+import axios from "axios";
+import CategoryServices from "services/CategoryServices";
+import SelectCategory from "components/form/SelectCategory";
+import SelectReferences from "components/form/SelectReferences";
+import ReferencesServices from "services/ReferencesServices";
 
 //internal import
 
@@ -53,9 +61,7 @@ const ProjectDrawer = ({ id }) => {
     attribue,
     setValues,
     variants,
-    imageUrl,
-    setImageUrl,
-    handleSubmit,
+    // handleSubmit,
     isCombination,
     variantTitle,
     attributes,
@@ -73,8 +79,6 @@ const ProjectDrawer = ({ id }) => {
     handleProjectTap,
     selectedCategory,
     setSelectedCategory,
-    setDefaultCategory,
-    defaultCategory,
     handleProductSlug,
     handleSelectLanguage,
     handleIsCombination,
@@ -87,8 +91,105 @@ const ProjectDrawer = ({ id }) => {
     handleGenerateCombination,
   } = useProjectSubmit(id);
 
+  
+
   const currency = globalSetting?.default_currency || "$";
 
+  const [imageUrl, setImageUrl] = useState("");
+  const [Seo_Keywords, setSeo_keywords] = useState("");
+  const [Reference, setDefaultReference] = useState("1");
+  const [Category, setDefaultCategory] = useState("1");
+
+  const [title_en, setTitle_en] = useState("");
+  const [SubTitle_en, setSubtitle_en] = useState("");
+  const [Short_Description_en, setShort_description_en] = useState("");
+  const [description_en, setDescription_en] = useState("");
+  const [Seo_Description_en, setSeo_description_en] = useState("");
+  const [slug_en, setSlug_en] = useState("");
+
+  const [title_fr, setTitle_fr] = useState("");
+  const [subtitle_fr, setSubtitle_fr] = useState("");
+  const [Short_Description_fr, setShort_description_fr] = useState("");
+  const [Description_fr, setDescription_fr] = useState("");
+  const [Seo_Description_fr, setSeo_description_fr] = useState("");
+  const [slug_fr, setSlug_fr] = useState("");
+
+  const [title_ar, setTitle_ar] = useState("");
+  const [SubTitle_ar, setSubtitle_ar] = useState("");
+  const [Short_Description_ar, setShort_description_ar] = useState("");
+  const [description_ar, setDescription_ar] = useState("");
+  const [seo_description_ar, setSeo_description_ar] = useState("");
+  const [slug_ar, setSlug_ar] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
+
+  
+
+    const formData = new FormData();
+      formData.append('title_en', title_en);
+      formData.append('subtitle_en', SubTitle_en);
+      formData.append('short_description_en', Short_Description_en);
+      formData.append('description_en', description_en);
+      formData.append('seo_description_en', Seo_Description_en);
+      formData.append('slug_en', slug_en);
+
+      formData.append('title_fr', title_fr);
+      formData.append('subtitle_fr', subtitle_fr);
+      formData.append('short_description_fr', Short_Description_fr);
+      formData.append('description_fr', Description_fr);
+      formData.append('seo_description_fr', Seo_Description_fr);
+      formData.append('slug_fr', slug_fr);
+
+      formData.append('title_ar', title_ar);
+      formData.append('subtitle_ar', SubTitle_ar);
+      formData.append('short_description_ar', Short_Description_ar);
+      formData.append('description_ar', description_ar);
+      formData.append('seo_description_ar', seo_description_ar);
+      formData.append('slug_ar', slug_ar);
+
+      formData.append('seo_keywords', Seo_Keywords);
+      formData.append('reference', Reference);
+      formData.append('category', Category);
+      formData.append('image', imageUrl);
+
+
+      console.log(formData);
+
+        const res = await ProjectServices.addProject(formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      
+     
+  };
+  const handleFileChange = (e) => {
+   
+
+  };
+  const [categories, setCategory] = useState([]);
+
+  const getCategoriesData = async () => {
+    try {
+      const res = await CategoryServices.getAllCategories();
+      // Mettez à jour le state avec les départements récupérés depuis l'API
+      setCategory(res.data);
+    } catch (err) {
+     console.log(err ? err?.response?.data?.message : err?.message);
+
+    }
+  }
+
+  useEffect(() =>{
+    getCategoriesData();
+  })
+
+// const [references , setReference]
+  
+  
+  
+  
   return (
     <>
       <Modal
@@ -173,24 +274,46 @@ const ProjectDrawer = ({ id }) => {
       </div>
 
       <Scrollbars className="track-horizontal thumb-horizontal w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
-        <form onSubmit={handleSubmit(onSubmit)} className="block" id="block">
+        <form onSubmit={handleSubmit} className="block" id="block">
+          {/* <form onSubmit={handleSubmit(onSubmit)} className="block" id="block"> */}
           {tapValue === "Anglais" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
-             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductImage")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Uploader
-                    product
-                    folder="product"
-                    imageUrl={imageUrl}
-                    setImageUrl={setImageUrl}
-                  />
-                </div>
-              </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Title (en) ")} />
+                <LabelArea label={t("ProductImage")} />
+                <div className="col-span-8 sm:col-span-4">
+                    <Input
+                      {...register(`imageUrl`, {
+                        required: "Image is required!",
+                      })}
+                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                      name="imageUrl"
+                      type="file"
+                      placeholder={"Image "}
+                      onChange={(e)=>{setImageUrl(e.target.files[0])}}
+                    />
+                    <Error errorName={errors.imageUrl} />
+                  </div>
+              </div>
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"ProductImage"} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Uploader
+                    // name="imageUrl"
+                    // product
+                    folder="project"
+                    imageUrl={imageUrl}
+                    setImageUrl={setImageUrl}
+                    // onChange={(e) => setImageUrl(e.target.files[0])}
+
+                  />
+                </div>
+              </div> */}
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Project Title (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`title_en`, {
@@ -199,17 +322,18 @@ const ProjectDrawer = ({ id }) => {
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title_en"
                     type="text"
-                    placeholder={t("Project Title (en) ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project Title (en) "}
+                    // onBlur={(e) => handleProductSlug(e.target.value)}
+                    onChange={(e) => setTitle_en(e.target.value)}
+                    value={title_en}
                   />
+                  {title_en ?? ""} TTEEST
                   <Error errorName={errors.title_en} />
                 </div>
               </div>
 
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project SubTitle (en)  ")} />
+                <LabelArea label={"Project SubTitle (en)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`SubTitle_en`, {
@@ -218,15 +342,16 @@ const ProjectDrawer = ({ id }) => {
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="SubTitle_en"
                     type="text"
-                    placeholder={t("Project SubTitle (en)  ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project SubTitle (en)  "}
+                    onChange={(e) => setSubtitle_en(e.target.value)}
+                    value={SubTitle_en}
                   />
                   <Error errorName={errors.SubTitle_en} />
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Short_Description (en) ")} />
+                <LabelArea label={"Project Short_Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
@@ -234,19 +359,19 @@ const ProjectDrawer = ({ id }) => {
                       required: "Short_Description is required!",
                     })}
                     name="Short_Description_en"
-                    placeholder={t("Project Short_Description (en) ")}
+                    placeholder={"Project Short_Description (en) "}
                     rows="4"
                     spellCheck="false"
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-
+                    onChange={(e) => setShort_description_en(e.target.value)}
+                    value={Short_Description_en}
                   />
+                  {Short_Description_en ?? ""} TTEEST
                   <Error errorName={errors.Short_Description_en} />
                 </div>
               </div>
 
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Description (en) ")} />
+                <LabelArea label={"Project Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
@@ -254,85 +379,150 @@ const ProjectDrawer = ({ id }) => {
                       required: "Description is required!",
                     })}
                     name="description_en"
-                    placeholder={t("Project Description (en) ")}
+                    placeholder={"Project Description (en) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setDescription_en(e.target.value)}
+                    value={description_en}
                   />
+                  {description_en ?? ""} TTEEST
                   <Error errorName={errors.description_en} />
                 </div>
               </div>
 
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Seo Keywords  ")} />
+                <LabelArea label={"Project Seo Keywords  "} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`Seo_Keywords`, {
+                      required: "Seo Keywords is required!",
+                    })}
+                    name="Seo_Keywords"
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Project Seo Keywords  "}
+                    onChange={(e) => setSeo_keywords(e.target.value)}
+                    value={Seo_Keywords}
+                  />
+                  <Error errorName={errors.Seo_Keywords} />
+                </div>
+              </div>
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Project Seo Keywords  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <ReactTagInput
                    {...register("Seo_Keywords", {
                     required: "Seo Keywords is required!",
                   })}
                     name="Seo_Keywords"
-                    placeholder={t("Project Seo Keywords  ")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
+                    placeholder={"Project Seo Keywords  "}
+                    // tags={tag}
+                    onChange={(e) => setSeo_keywords(e.target.value)}
+                    value={Seo_Keywords}
                   />
                   <Error errorName={errors.Seo_Keywords} />
 
                 </div>
-              </div>
-
-
+              </div> */}
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Seo Description (en) ")} />
+                <LabelArea label={"Project Seo Description (en)"} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`Seo_Description_en`, {
+                      required: "Seo Keywords is required!",
+                    })}
+                    name="Seo_Description_en"
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Project Seo description  "}
+                    onChange={(e) => setSeo_description_en(e.target.value)}
+                    value={Seo_Description_en}
+                  />
+                  <Error errorName={errors.Seo_Description_en} />
+                </div>
+              </div>
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+               <LabelArea label={"Project Seo Description (en)"} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    {...register(`Seo_Description_en`, {
+                      required: "Seo Description is required!",
+                    })}
+                    name="Seo_Description_en"
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Project Seo Keywords  "}
+                    onChange={(e) => setSeo_description_en(e.target.value)}
+                    value={Seo_Description_en}                 
+                    />
+                  <Error errorName={errors.Seo_Description_en} />
+                </div>
+              </div> */}
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Project Seo Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <ReactTagInput
                   
                     name="Seo_Description_en"
-                    placeholder={t("Project Seo Description (en) ")}
+                    placeholder={"Project Seo Description (en) "}
                     tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
-                  />
+                    onChange={(e) => setSeo_description_en(e.target.value)}
+                    value={Seo_Description_en}
+                    />
 
                 </div>
-              </div>
-
-
-
-
+              </div> */}
 
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Category")} />
+                  <LabelArea label="Category" />
+                  <div className="col-span-8 sm:col-span-4">
+                    <SelectCategory  label="Category" name="category"  categories={categories}  />
+                    <Error errorName={errors.categories} />
+                  </div>
+                </div>
+
+
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Category"} />
                 <div className="col-span-8 sm:col-span-4">
                   <ParentCategory
-                  {...register("Category", {
-                    required: "Category is required!",
-                  })}
-                  name="Category"
+                    {...register("Category", {
+                      required: "Category is required!",
+                    })}
+                    name="Category"
                     lang={language}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                    setDefaultCategory={setDefaultCategory}
+                    value={Category}
+                    disabled
                   />
                   <Error errorName={errors.Category} />
-
                 </div>
-              </div>
+              </div> */}
 
+                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                  <LabelArea label="references" />
+                  <div className="col-span-8 sm:col-span-4">
+                    <SelectReferences  label="References" name="references"  References={references}  />
+                    <Error errorName={errors.references} />
+                  </div> 
+                </div>
+{/* 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Reference")} />
+                <LabelArea label={"Reference"} />
                 <div className="col-span-8 sm:col-span-4">
                   <ParentCategory
                     name="Reference"
                     lang={language}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                    setDefaultCategory={setDefaultCategory}
+                    value={Reference}
+                    disabled
                   />
-
                 </div>
-              </div>
+              </div> */}
 
               {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("DefaultCategory")} />
@@ -354,11 +544,8 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
-
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Slug")} />
+                <LabelArea label={"Project Slug"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`slug_en`, {
@@ -368,8 +555,9 @@ const ProjectDrawer = ({ id }) => {
                     name="slug_en"
                     type="text"
                     defaultValue={slug}
-                    placeholder={t("Project Slug")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project Slug"}
+                    onChange={(e) => setSlug_en(e.target.value)}
+                    value={slug_en}
                   />
                   <Error errorName={errors.slug_en} />
                 </div>
@@ -379,9 +567,8 @@ const ProjectDrawer = ({ id }) => {
 
           {tapValue === "French" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-
-             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Title (fr) ")} />
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Project Title (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`title_fr`, {
@@ -390,17 +577,16 @@ const ProjectDrawer = ({ id }) => {
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title_fr"
                     type="text"
-                    placeholder={t("Project Title (fr) ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project Title (fr) "}
+                    onChange={(e) => setTitle_fr(e.target.value)}
+                    value={title_fr}
                   />
                   <Error errorName={errors.title_fr} />
                 </div>
               </div>
 
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project SubTitle (fr)  ")} />
+                <LabelArea label={"Project SubTitle (fr)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`subtitle_fr`, {
@@ -409,15 +595,16 @@ const ProjectDrawer = ({ id }) => {
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="subtitle_fr"
                     type="text"
-                    placeholder={t("Project SubTitle  (fr)  ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project SubTitle  (fr)  "}
+                    onChange={(e) => setSubtitle_fr(e.target.value)}
+                    value={subtitle_fr}
                   />
                   <Error errorName={errors.subtitle_fr} />
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Short_Description (fr) ")} />
+                <LabelArea label={"Project Short_Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
@@ -425,17 +612,18 @@ const ProjectDrawer = ({ id }) => {
                       required: "Short_Description is required!",
                     })}
                     name="Short_Description_fr"
-                    placeholder={t("Project Short_Description (fr) ")}
+                    placeholder={"Project Short_Description (fr) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setShort_description_fr(e.target.value)}
+                    value={Short_Description_fr}
                   />
                   <Error errorName={errors.Short_Description_fr} />
                 </div>
               </div>
 
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Description (fr) ")} />
+                <LabelArea label={"Project Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
@@ -443,9 +631,11 @@ const ProjectDrawer = ({ id }) => {
                       required: "Description is required!",
                     })}
                     name="Description_fr"
-                    placeholder={t("Project Description (fr) ")}
+                    placeholder={"Project Description (fr) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setDescription_fr(e.target.value)}
+                    value={Description_fr}
                   />
                   <Error errorName={errors.Description_fr} />
                 </div>
@@ -462,28 +652,26 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Seo Description (fr) ")} />
+                <LabelArea label={"Project Seo Description (fr)"} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInput
-                   {...register("Seo_Description_fr", {
-                    required: "Seo Keywords is required!",
-                  })}
+                  <Input
+                    {...register(`Seo_Description_fr`, {
+                      required: "Seo Description is required!",
+                    })}
                     name="Seo_Description_fr"
-                    placeholder={t("Project Seo Description (fr) ")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Project Seo description  "}
+                    onChange={(e) => setSeo_description_fr(e.target.value)}
+                    value={Seo_Description_fr}
                   />
                   <Error errorName={errors.Seo_Description_fr} />
-
                 </div>
               </div>
 
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Slug")} />
+                <LabelArea label={"Project Slug"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`slug_fr`, {
@@ -493,8 +681,9 @@ const ProjectDrawer = ({ id }) => {
                     name="slug_fr"
                     type="text"
                     defaultValue={slug}
-                    placeholder={t("Project Slug (fr)")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project Slug (fr)"}
+                    onChange={(e) => setSlug_fr(e.target.value)}
+                    value={slug_fr}
                   />
                   <Error errorName={errors.slug_fr} />
                 </div>
@@ -504,9 +693,8 @@ const ProjectDrawer = ({ id }) => {
 
           {tapValue === "Arabic" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Title  ")} />
+                <LabelArea label={"Project Title  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`title_ar`, {
@@ -515,17 +703,16 @@ const ProjectDrawer = ({ id }) => {
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title_ar"
                     type="text"
-                    placeholder={t("Project Title (ar)")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project Title (ar)"}
+                    onChange={(e) => setTitle_ar(e.target.value)}
+                    value={title_ar}
                   />
                   <Error errorName={errors.title_ar} />
                 </div>
               </div>
 
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project SubTitle (ar)  ")} />
+                <LabelArea label={"Project SubTitle (ar)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`SubTitle_ar`, {
@@ -534,15 +721,16 @@ const ProjectDrawer = ({ id }) => {
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="SubTitle_ar"
                     type="text"
-                    placeholder={t("Project SubTitle (ar)  ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project SubTitle (ar)  "}
+                    onChange={(e) => setSubtitle_ar(e.target.value)}
+                    value={SubTitle_ar}
                   />
                   <Error errorName={errors.SubTitle_ar} />
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Short_Description (fr) ")} />
+                <LabelArea label={"Project Short_Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
@@ -550,17 +738,18 @@ const ProjectDrawer = ({ id }) => {
                       required: "Short_Description is required!",
                     })}
                     name="Short_Description_ar"
-                    placeholder={t("Project Short_Description (fr) ")}
+                    placeholder={"Project Short_Description (fr) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setShort_description_ar(e.target.value)}
+                    value={Short_Description_ar}
                   />
                   <Error errorName={errors.Short_Description_ar} />
                 </div>
               </div>
 
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Description (fr) ")} />
+                <LabelArea label={"Project Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
@@ -568,14 +757,15 @@ const ProjectDrawer = ({ id }) => {
                       required: "Description is required!",
                     })}
                     name="description_ar"
-                    placeholder={t("Project Description (fr) ")}
+                    placeholder={"Project Description (fr) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setDescription_ar(e.target.value)}
+                    value={description_ar}
                   />
                   <Error errorName={errors.description_ar} />
                 </div>
               </div>
-
 
               {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Project Seo Keywords (ar)")} />
@@ -588,29 +778,26 @@ const ProjectDrawer = ({ id }) => {
                 </div>
               </div> */}
 
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Seo Description (ar) ")} />
+                <LabelArea label={"Project Seo Description (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInput
-                   {...register("seo_description_ar", {
-                    required: "Seo Keywords is required!",
-                  })}
+                  <Input
+                    {...register(`seo_description_ar`, {
+                      required: "Seo Description is required!",
+                    })}
                     name="seo_description_ar"
-                    placeholder={t("Project Seo Description (ar) ")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Project Seo description  "}
+                    onChange={(e) => setSeo_description_ar(e.target.value)}
+                    value={seo_description_ar}
                   />
                   <Error errorName={errors.seo_description_ar} />
-
                 </div>
               </div>
 
-
-
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Slug")} />
+                <LabelArea label={"Project Slug"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     {...register(`slug_ar`, {
@@ -620,8 +807,9 @@ const ProjectDrawer = ({ id }) => {
                     name="slug_ar"
                     type="text"
                     defaultValue={slug}
-                    placeholder={t("Project Slug (fr)")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Project Slug (fr)"}
+                    onChange={(e) => setSlug_ar(e.target.value)}
+                    value={slug_ar}
                   />
                   <Error errorName={errors.slug_ar} />
                 </div>
@@ -721,10 +909,10 @@ const ProjectDrawer = ({ id }) => {
           {tapValue === "Arabic" && (
             <DrawerButton id={id} title="Submit" isSubmitting={isSubmitting} />
           )}
-           {tapValue === "Anglais" && (
+          {tapValue === "Anglais" && (
             <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
           )}
-           {tapValue === "French" && (
+          {tapValue === "French" && (
             <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
           )}
         </form>
@@ -770,9 +958,6 @@ const ProjectDrawer = ({ id }) => {
             </div>
           )}
       </Scrollbars>
-
-
-
     </>
   );
 };

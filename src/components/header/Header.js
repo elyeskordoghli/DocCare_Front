@@ -2,6 +2,9 @@ import { Avatar, Badge, WindmillContext } from "@windmill/react-ui";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import AdminServices from "services/AdminServices";
+
+import { useHistory } from 'react-router-dom'
 import {
   IoClose,
   IoGridOutline,
@@ -38,12 +41,32 @@ const Header = () => {
   const currentLanguageCode = cookies.get("i18next") || "en";
   const { t } = useTranslation();
 
-  const handleLogOut = () => {
-    dispatch({ type: "USER_LOGOUT" });
-    Cookies.remove("adminInfo");
-    reduxDisPatch(emptySideBarMenu());
-    reduxDisPatch(emptySetting());
-    window.location.replace(`https://${process.env.REACT_APP_ADMIN_DOMAIN}/login`);
+  // const handleLogOut = () => {
+  //   dispatch({ type: "USER_LOGOUT" }); 
+  //   Cookies.remove("adminInfo");
+  //   reduxDisPatch(emptySideBarMenu());
+  //   reduxDisPatch(emptySetting());
+  //   window.location.replace(`https://${process.env.REACT_APP_API_BASE_URL}/login`);
+  // };
+  const handleLogOut = async () => {
+    try {
+      const response = await AdminServices.logoutAdmin(); 
+      console.log( response.status);
+
+      if (response.status === 200) {
+        dispatch({ type: "USER_LOGOUT" }); 
+        Cookies.remove("adminInfo");
+        reduxDisPatch(emptySideBarMenu());
+        reduxDisPatch(emptySetting());
+        window.location.replace(`/login`);
+      } else {
+        // Gérer les erreurs si nécessaire
+        console.log('Erreur lors de la déconnexion', response);
+      }
+    } catch (error) {
+      // Gérer les erreurs d'exception ici, par exemple, si l'API de logout n'est pas disponible ou s'il y a une erreur réseau
+      console.log('Erreur lors de la déconnexion', error);
+    }
   };
 
   useEffect(() => {
@@ -337,10 +360,10 @@ const Header = () => {
                 className="rounded-full dark:bg-gray-500 bg-orange-500 text-white h-8 w-8 font-medium mx-auto focus:outline-none"
                 onClick={handleProfileOpen}
               >
-                {adminInfo.image ? (
-                  <Avatar className="align-middle" src={`${adminInfo.image}`} aria-hidden="true" />
+                {adminInfo?.image ? (
+                  <Avatar className="align-middle" src={`${adminInfo?.image}`} aria-hidden="true" />
                 ) : (
-                  <span>{adminInfo.email[0].toUpperCase()}</span>
+                  <span>{adminInfo?.email[0].toUpperCase()}</span>
                 )}
               </button>
 

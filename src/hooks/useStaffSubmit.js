@@ -7,9 +7,10 @@ import { useLocation } from "react-router";
 import { AdminContext } from "context/AdminContext";
 import { SidebarContext } from "context/SidebarContext";
 import AdminServices from "services/AdminServices";
+
 import { notifyError, notifySuccess } from "utils/toast";
 
-const useStaffSubmit = (id) => {
+const useStaffSubmit = (id, data) => {
   const { state } = useContext(AdminContext);
   const { adminInfo } = state;
   const { isDrawerOpen, closeDrawer, setIsUpdate, lang } =
@@ -21,9 +22,8 @@ const useStaffSubmit = (id) => {
   const [language, setLanguage] = useState(lang);
   const [resData, setResData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const location = useLocation();
-
+  
   const {
     register,
     handleSubmit,
@@ -37,18 +37,13 @@ const useStaffSubmit = (id) => {
       setIsSubmitting(true);
 
       const staffData = {
-        name: {
-          [language]: data.name,
-        },
+        name: data.name,
         email: data.email,
         password: data.password,
-        phone: data.phone,
-        role: data.role,
-        joiningDate: selectedDate
-          ? selectedDate
-          : dayjs(new Date()).format("YYYY-MM-DD"),
-        image: imageUrl,
-        lang: language,
+        status : data.status,
+        previlege : data.previlege,
+        department : data.department,
+        // lang: language,
       };
 
       if (id) {
@@ -60,10 +55,12 @@ const useStaffSubmit = (id) => {
         closeDrawer();
       } else {
         const res = await AdminServices.addStaff({ staffData });
+        console.log(res);
         setIsUpdate(true);
         setIsSubmitting(false);
         notifySuccess(res.message);
         closeDrawer();
+
       }
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);
@@ -79,13 +76,11 @@ const useStaffSubmit = (id) => {
       });
       if (res) {
         setResData(res);
-        setValue("name", res.name[language ? language : "en"]);
+        setValue("name", res.name);
         setValue("email", res.email);
         setValue("password");
-        setValue("phone", res.phone);
-        setValue("role", res.role);
-        setSelectedDate(dayjs(res.joiningData).format("YYYY-MM-DD"));
-        setImageUrl(res.image);
+        setValue("previlege", res.previlege);
+        setValue("department", res.department);
       }
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);
@@ -106,19 +101,19 @@ const useStaffSubmit = (id) => {
       setValue("name");
       setValue("email");
       setValue("password");
-      setValue("phone");
-      setValue("role");
-      setValue("joiningDate");
-      setImageUrl("");
+      setValue("status");
+      setValue("previlege");
+      setValue("department");
       clearErrors("name");
       clearErrors("email");
       clearErrors("password");
-      clearErrors("phone");
-      clearErrors("role");
+
+      clearErrors("previlege");
+      clearErrors("department");
       clearErrors("joiningDate");
-      setImageUrl("");
-      setLanguage(lang);
-      setValue("language", language);
+      // setImageUrl("");
+      // setLanguage(lang);
+      // setValue("language", language);
       return;
     }
     if (id) {
@@ -146,6 +141,7 @@ const useStaffSubmit = (id) => {
     setSelectedDate,
     isSubmitting,
     handleSelectLanguage,
+    data,
   };
 };
 

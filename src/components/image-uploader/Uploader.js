@@ -6,6 +6,7 @@ import cloudinary from "cloudinary/lib/cloudinary";
 import { FiUploadCloud, FiXCircle } from "react-icons/fi";
 
 //internal import
+
 import useAsync from "hooks/useAsync";
 import SettingServices from "services/SettingServices";
 import { notifyError, notifySuccess } from "../../utils/toast";
@@ -23,6 +24,7 @@ const Uploader = ({ setImageUrl, imageUrl, product, folder }) => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setError] = useState("");
+
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
 
@@ -80,9 +82,18 @@ const Uploader = ({ setImageUrl, imageUrl, product, folder }) => {
         setError("Uploading....");
 
         if (product) {
-          const result = imageUrl?.find(
-            (img) => img === `${process.env.REACT_APP_CLOUDINARY_URL}`
-          );
+          // Vérifier si imageUrl est un tableau
+          if (Array.isArray(imageUrl)) {
+            const result = imageUrl.find(
+              (img) => img === `${process.env.REACT_APP_CLOUDINARY_URL}`
+            );
+            // Faire quelque chose avec le résultat trouvé
+          } else {
+            // Traiter le cas où imageUrl n'est pas un tableau (par exemple, une chaîne de caractères, un objet ou une valeur nulle)
+            // Faire une action alternative ou traiter l'erreur selon vos besoins
+          }
+        
+        
 
           if (result) return setLoading(false);
         }

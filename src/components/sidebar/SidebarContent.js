@@ -6,6 +6,10 @@ import { IoLogOutOutline } from "react-icons/io5";
 import logoDark from "assets/img/logo/sim_new.svg";
 import logoLight from "assets/img/logo/sim_new_white.svg";
 // import logoDark from "assets/img/logo/logo-dark.svg";
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import AdminServices from "services/AdminServices";
 
 
 import sidebar from "routes/sidebar";
@@ -14,6 +18,8 @@ import SidebarSubMenu from "./SidebarSubMenu";
 // import SidebarSubMenu from "SidebarSubMenu";
 import { useTranslation } from "react-i18next";
 const SidebarContent = () => {
+  const reduxDisPatch = useDispatch();
+
   const { t } = useTranslation();
   const { mode } = useContext(WindmillContext);
   const { dispatch } = useContext(AdminContext);
@@ -24,26 +30,23 @@ const SidebarContent = () => {
   //   Cookies.remove("adminInfo");
   // };
 
-    const handleLogOut = async () => {
-      try {
-        // Appelez l'API de logout ici
-        // Assurez-vous de remplacer 'URL_DE_LOGOUT' par l'URL réelle de votre API de logout
-        const response = await axios.post('/admin/admin/logout');
-        if (response.status === 200) {
-          // Si l'API de logout renvoie un statut 200, cela signifie que l'administrateur est déconnecté avec succès
-          // Effectuez les opérations supplémentaires ici si nécessaire, par exemple, vider le state global de l'administrateur, les cookies, etc.
-          dispatch({ type: 'USER_LOGOUT' });
-          Cookies.remove('adminInfo');
-          // Effectuez d'autres opérations nécessaires après la déconnexion
-        } else {
-          // Gérer les erreurs de l'API de logout, si nécessaire
-          console.log('Erreur lors de la déconnexion');
-        }
-      } catch (error) {
-        // Gérer les erreurs d'exception ici, par exemple, si l'API de logout n'est pas disponible ou s'il y a une erreur réseau
-        console.log('Erreur lors de la déconnexion', error);
+  const handleLogOut = async () => {
+    try {
+      const response = await AdminServices.logoutAdmin(); 
+      console.log( response.status);
+      if (response.status === 200) {
+        dispatch({ type: "USER_LOGOUT" }); 
+        Cookies.remove("adminInfo");
+        window.location.replace(`/login`);
+      } else {
+        // Gérer les erreurs si nécessaire
+        console.log('Erreur lors de la déconnexion', response);
       }
-    };
+    } catch (error) {
+      // Gérer les erreurs d'exception ici, par exemple, si l'API de logout n'est pas disponible ou s'il y a une erreur réseau
+      console.log('Erreur lors de la déconnexion', error);
+    }
+  };
 
 
   return (
@@ -55,12 +58,12 @@ const SidebarContent = () => {
           <img src={logoDark} alt="dashtar" width="130"  className="pl-6 " />
         )}
       </a>
-      <ul className="mt-8">
+      <ul className="mt-8 ">
         {sidebar.map((route) =>
           route.routes ? (
             <SidebarSubMenu route={route} key={route.name} />
           ) : (
-            <li className="relative" key={route.name}>
+            <li className="relative  hover:text-orange-500" key={route.name}>
               {route?.outside ? (
                 <a
                   href={process.env.REACT_APP_STORE_DOMAIN}
@@ -70,12 +73,12 @@ const SidebarContent = () => {
                 >
                   <Route path={route.path} exact={route.exact}>
                     <span
-                      className="absolute inset-y-0 left-0 w-1 bg-orange-500 rounded-tr-lg rounded-br-lg"
+                      className="absolute inset-y-0 left-0 w-1  hover:text-orange-500 bg-orange-500 rounded-tr-lg rounded-br-lg"
                       aria-hidden="true"
                     ></span>
                   </Route>
-                  <route.icon className="w-5 h-5" aria-hidden="true" />
-                  <span className="ml-4">{t(`${route.name}`)}</span>
+                  <route.icon className="w-5 h-5  hover:text-orange-500" aria-hidden="true" />
+                  <span className="ml-4  hover:text-orange-500" >{t(`${route.name}`)}</span>
                   {/* <span className="ml-4">{route.name}</span> */}
 
                 </a>
@@ -89,20 +92,24 @@ const SidebarContent = () => {
                 >
                   <Route path={route.path} exact={route.exact}>
                     <span
-                      className="absolute inset-y-0 left-0 w-1 bg-orange-500 rounded-tr-lg rounded-br-lg"
+                      className="absolute inset-y-0 left-0 w-1  hover:text-orange-500 bg-orange-500 rounded-tr-lg rounded-br-lg"
                       aria-hidden="true"
                     ></span>
                   </Route>
-                  <route.icon className="w-5 h-5" aria-hidden="true" />
-                  <span className="ml-4">{t(`${route.name}`)}</span>
+                  <route.icon className="w-5 h-5  hover:text-orange-500" aria-hidden="true" />
+                  <span className="ml-4  hover:text-orange-500">{t(`${route.name}`)}</span>
                 </NavLink>
               )}
             </li>
           )
         )}
       </ul>
-      <span className="lg:fixed bottom-0 px-6 py-6 w-64 mx-auto relative mt-3 block">
-        <Button onClick={handleLogOut} size="large" className="w-full">
+      <span className="lg:fixed bottom-0 px-6 py-6 w-64 mx-auto  relative mt-3 block">
+        <Button 
+        onClick={handleLogOut} 
+        size="large" 
+        className="w-full"
+        >
           <span className="flex items-center">
             <IoLogOutOutline className="mr-3 text-lg" />
             <span className="text-sm">{t("LogOut")}</span>

@@ -12,7 +12,6 @@ import ProductServices from "services/ProductServices";
 import { notifyError, notifySuccess } from "utils/toast";
 import SettingServices from "services/SettingServices";
 import { showingTranslateValue } from "utils/translate";
-import ProjectServices from "services/ProjectServices";
 
 const useProjectSubmit = (id) => {
   const location = useLocation();
@@ -21,7 +20,6 @@ const useProjectSubmit = (id) => {
 
   const { data: attribue } = useAsync(AttributeServices.getShowingAttributes);
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-
   // react ref
   const resetRef = useRef([]);
   const resetRefTwo = useRef("");
@@ -32,7 +30,7 @@ const useProjectSubmit = (id) => {
   let [variants, setVariants] = useState([]); 
   const [variant, setVariant] = useState([]);
   // const [totalStock, setTotalStock] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  // const [quantity, setQuantity] = useState(0);
 
   const [originalPrice, setOriginalPrice] = useState(0);
   const [price, setPrice] = useState(0);
@@ -53,33 +51,33 @@ const useProjectSubmit = (id) => {
   const [resData, setResData] = useState({});
   const [language, setLanguage] = useState(lang);
   const [openModal, setOpenModal] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  //new
-  const [imageUrl, setImageUrl] = useState(data.image);
-const [seo_keywords, setSeo_keywords] = useState(data.Seo_Keywords);
-const [defaultReference, setDefaultReference] = useState(data.Reference);
-const [defaultCategory, setDefaultCategory] = useState(data.Category);
-const [title_en, setTitle_en] = useState(data.title_en);
-const [subtitle_en, setSubtitle_en] = useState(data.subtitle_en);
-const [short_description_en, setShort_description_en] = useState(data.short_description_en);
-const [description_en, setDescription_en] = useState(data.description_en);
-const [seo_description_en, setSeo_description_en] = useState(data.Seo_Description_en);
-const [slug_en, setSlug_en] = useState(data.slug_en);
+  //states
+const [imageUrl, setImageUrl] = useState("");
+const [seo_keywords, setSeo_keywords] = useState("");
+const [defaultReference, setDefaultReference] = useState("");
+const [defaultCategory, setDefaultCategory] = useState("");
+const [title_en, setTitle_en] = useState("");
+const [subtitle_en, setSubtitle_en] = useState("");
+const [short_description_en, setShort_description_en] = useState("");
+const [description_en, setDescription_en] = useState("");
+const [seo_description_en, setSeo_description_en] = useState("");
+const [slug_en, setSlug_en] = useState("");
 
-const [title_fr, setTitle_fr] = useState(data.title_fr);
-const [subtitle_fr, setSubtitle_fr] = useState(data.subtitle_fr);
-const [short_description_fr, setShort_description_fr] = useState(data.short_description_fr);
-const [description_fr, setDescription_fr] = useState(data.description_fr);
-const [seo_description_fr, setSeo_description_fr] = useState(data.Seo_Description_fr);
-const [slug_fr, setSlug_fr] = useState(data.slug_fr);
+const [title_fr, setTitle_fr] =useState("");
+const [subtitle_fr, setSubtitle_fr] = useState("");
+const [short_description_fr, setShort_description_fr] = useState("");
+const [description_fr, setDescription_fr] = useState("");
+const [seo_description_fr, setSeo_description_fr] = useState("");
+const [slug_fr, setSlug_fr] = useState("");
 
-const [title_ar, setTitle_ar] = useState(data.title_ar);
-const [subtitle_ar, setSubtitle_ar] = useState(data.SubTitle_ar);
-const [short_description_ar, setShort_description_ar] = useState(data.Short_Description_ar);
-const [description_ar, setDescription_ar] = useState(data.description_ar);
-const [seo_description_ar, setSeo_description_ar] = useState(data.seo_description_ar);
-const [slug_ar, setSlug_ar] = useState(data.slug_ar);
+const [title_ar, setTitle_ar] = useState("");
+const [subtitle_ar, setSubtitle_ar] = useState("");
+const [short_description_ar, setShort_description_ar] = useState("");
+const [description_ar, setDescription_ar] = useState("");
+const [seo_description_ar, setSeo_description_ar] = useState("");
+const [slug_ar, setSlug_ar] = useState("");
 
 
 
@@ -104,123 +102,43 @@ const [slug_ar, setSlug_ar] = useState(data.slug_ar);
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log(data??'_____');
+
     // console.log('data is data',data)
     try {
-      // Vérification des valeurs pour les attributs par défaut
-if (!data.category) {
-  setIsSubmitting(false);
-  return notifyError("Category is required!");
-}
-
-if (!data.reference) {
-  setIsSubmitting(false);
-  return notifyError("Reference is required!");
-}
-
-// Vérification des valeurs pour les champs en anglais
-if (!data.title_en) {
-  setIsSubmitting(false);
-  return notifyError("English Title is required!");
-}
-
-if (!data.subtitle_en) {
-  setIsSubmitting(false);
-  return notifyError("English Subtitle is required!");
-}
-
-if (!data.short_description_en) {
-  setIsSubmitting(false);
-  return notifyError("English Short Description is required!");
-}
-
-if (!data.description_en) {
-  setIsSubmitting(false);
-  return notifyError("English Description is required!");
-}
-
-if (!data.seo_description_en) {
-  setIsSubmitting(false);
-  return notifyError("English SEO Description is required!");
-}
-
-if (!data.slug_en) {
-  setIsSubmitting(false);
-  return notifyError("English Slug is required!");
-}
-
-// Vérification des valeurs pour les champs en français
-if (!data.title_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Title is required!");
-}
-
-if (!data.subtitle_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Subtitle is required!");
-}
-
-if (!data.short_description_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Short Description is required!");
-}
-
-if (!data.description_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Description is required!");
-}
-
-if (!data.seo_description_fr) {
-  setIsSubmitting(false);
-  return notifyError("French SEO Description is required!");
-}
-
-if (!data.slug_fr) {
-  setIsSubmitting(false);
-  return notifyError("French Slug is required!");
-}
-
-// Vérification des valeurs pour les champs en arabe
-if (!data.title_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Title is required!");
-}
-
-if (!data.subtitle_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Subtitle is required!");
-}
-
-if (!data.short_description_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Short Description is required!");
-}
-
-if (!data.description_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Description is required!");
-}
-
-if (!data.seo_description_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic SEO Description is required!");
-}
-
-if (!data.slug_ar) {
-  setIsSubmitting(false);
-  return notifyError("Arabic Slug is required!");
-}
+     
 
 
+            // ... Default ...
+            setSeo_keywords(data.Seo_Keywords);
+            setReference(data.Reference);
+            setCategory(data.Category);
+            setImage(data.image);
 
-      setTitle(data.title);
-      setSubtitle(data.subtitle);
-      setShort_description(data.short_description);
-      setDescription(data.description);
-      setSeo_keywords(data.seo_keywords);
-      setSeo_description(data.seo_description);
-      setDefaultCategory(data.defaultCategory);
-      setDefaultReference(data.defaultReference);
-      setSlug(data.slug);
+            // ... English ...
+            setTitle_en(data.title_en);
+            setSubtitle_en(data.subtitle_en);
+            setShort_description_en(data.short_description_en);
+            setDescription_en(data.description_en);
+            setSeo_description_en(data.Seo_Description_en);
+            setSlug_en(data.slug_en);
+
+            // ... French ...
+            setTitle_fr(data.title_fr);
+            setSubtitle_fr(data.subtitle_fr);
+            setShort_description_fr(data.short_description_fr);
+            setDescription_fr(data.description_fr);
+            setSeo_description_fr(data.Seo_Description_fr);
+            setSlug_fr(data.slug_fr);
+
+            // ... Arabic ...
+            setTitle_ar(data.title_ar);
+            setSubtitle_ar(data.SubTitle_ar);
+            setShort_description_ar(data.Short_Description_ar);
+            setDescription_ar(data.description_ar);
+            setSeo_description_ar(data.seo_description_ar);
+            setSlug_ar(data.slug_ar);
+
       setIsBasicComplete(true);
 
       const projectData = {
@@ -263,6 +181,7 @@ if (!data.slug_ar) {
 
       if (updatedId) {
         const res = await ProjectServices.updateProject(updatedId, projectData);
+        console.log(res);
         if (res) {
           if (isCombination) {
             setIsUpdate(true);
@@ -296,7 +215,7 @@ if (!data.slug_ar) {
           setSeo_description(data.seo_description);
           setDefaultCategory(data.defaultCategory);
           setDefaultReference(data.defaultReference);
-          setSlug(data.slug);
+          // setSlug(data.slug);
           
           setIsUpdate(true);
           setIsBasicComplete(true);
@@ -326,7 +245,7 @@ if (!data.slug_ar) {
 
   useEffect(() => {
     if (!isDrawerOpen) {
-      setSlug("");
+      // setSlug("");
       setLanguage(lang);
       setValue("language", language);
       handleProjectTap("Anglais", true);
@@ -389,7 +308,7 @@ if (!data.slug_ar) {
 
           if (res) {
             setResData(res);
-            setSlug(res.slug);
+            // setSlug(res.slug);
             setUpdatedId(res._id);
             setValue("title", res.title[language ? language : "en"]);
             setValue(
@@ -704,7 +623,7 @@ if (!data.slug_ar) {
   //for handle product slug
   const handleProductSlug = (value) => {
     setValue("slug", value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
-    setSlug(value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
+    // setSlug(value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
   };
 
   return {
@@ -715,7 +634,7 @@ if (!data.slug_ar) {
     register,
     onSubmit,
     errors,
-    slug,
+    // slug,
     openModal,
     attribue,
     setValues,

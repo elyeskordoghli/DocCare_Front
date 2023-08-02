@@ -64,9 +64,9 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
 
   return (
     <>
-      {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}
+    {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}
 
-      {isCheck?.length < 2 && (
+      {/* {isCheck?.length < 2 && (
         <MainDrawer>
           <ServiceDrawer currency={currency} id={serviceId} />
         </MainDrawer>
@@ -147,14 +147,11 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
                   id="view"
                   Icon={FiZoomIn}
                   title={t("DetailsTbl")}
-                  bgColor="#10B981"
+                  bgColor="#ff5a1f"
                 />
               </Link> 
             </TableCell>
-            <TableCell className="text-center">
-              {/* <ShowHideButton id={data._id} status={data.status} />
-              // {Service.status}  */}
-            </TableCell>
+         
             <TableCell>
               <EditDeleteButton
                 id={data.id}

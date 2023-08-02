@@ -68,7 +68,7 @@ console.log('departmentCounts',departmentCounts)
     <>
       <PageTitle>{t("DashboardOverview")}</PageTitle>
       <div className="grid gap-4 mb-8 md:grid-cols-4 xl:grid-cols-4">
-        {departmentCounts.map((department, index) => (
+        {departmentCounts?.map((department, index) => (
           <CardItemTwo
             key={index}
             mode={mode}
@@ -90,7 +90,7 @@ console.log('departmentCounts',departmentCounts)
         )}
       </div>
       <div className="grid gap-4 mb-8 md:grid-cols-4 xl:grid-cols-4">
-      {categories.map((category, index) => (
+      {categories?.map((category, index) => (
           <CardItemTwo
             key={index}
             mode={mode}

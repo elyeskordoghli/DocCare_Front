@@ -1139,9 +1139,7 @@ body
   }
 }
 
-input[type="file"] {
-  display: none;
-}
+
 
 .btn-red {
   background-color: red !important;
