@@ -29,7 +29,6 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
   const {
     handleModalOpen,
     handleUpdate,
-    // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
 
   

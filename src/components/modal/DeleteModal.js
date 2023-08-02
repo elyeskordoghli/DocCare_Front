@@ -199,6 +199,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
           setIsSubmitting(false);
         } else {
           const res = await LanguageServices.deleteLanguage(id);
+
           setIsUpdate(true);
           notifySuccess(res.message);
           setServiceId();
@@ -226,6 +227,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
           setIsSubmitting(false);
         }
       }
+      
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);
       setServiceId();
