@@ -11,7 +11,7 @@ import CategoryServices from "services/CategoryServices";
 import CouponServices from "services/CouponServices";
 import CustomerServices from "services/CustomerServices";
 import LanguageServices from "services/LanguageServices";
-import ProductServices from "services/ProductServices";
+import ProjectServices from "services/ProjectServices";
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,37 +20,34 @@ import AttributeServices from "services/AttributeServices";
 import CurrencyServices from "services/CurrencyServices";
 import { notifyError, notifySuccess } from "utils/toast";
 
-const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
+const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId,isLoading, setIsLoading  }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const { setServiceId } = useToggleDrawer();
   const location = useLocation();
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+
+
+
+
   const handleDelete = async () => {
+    console.log(id);
     // return notifyError("CRUD operation is disabled for this option!");
     try {
       setIsSubmitting(true);
-      if (location.pathname === "/products") {
-        if (ids) {
-          const res = await ProductServices.deleteManyProducts({
-            ids: ids,
-          });
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          setIsCheck([]);
-          setServiceId();
-          closeModal();
-          setIsSubmitting(false);
-        } else {
-          const res = await ProductServices.deleteProduct(id);
+      
+      if (location.pathname === "/projects") {
+        setIsLoading(true);
+        const res = await ProjectServices.deleteProject(id);
+        setIsLoading(false);
+
           setIsUpdate(true);
           notifySuccess(res.message);
           setServiceId();
           closeModal();
           setIsSubmitting(false);
-        }
       }
+      
 
       if (location.pathname === "/coupons") {
         if (ids) {
@@ -226,6 +223,8 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
           setIsSubmitting(false);
         }
       }
+
+      
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);
       setServiceId();

@@ -516,7 +516,7 @@ const useServiceSubmit = (id) => {
         // console.log(value);
         if (value) {
           setIsCombination(!isCombination);
-          setTapValue("French");
+          setTapValue("Anglais");
           setVariants([]);
           setVariant([]);
         }

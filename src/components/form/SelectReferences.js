@@ -10,7 +10,7 @@ import useAsync from "hooks/useAsync";
 import ReferencesServices from "services/ReferencesServices";
 import { showingTranslateValue } from "utils/translate";
 
-const SelectReferences = ({ setReferences, lang , name, label, References}) => {
+const SelectReferences = ({ setSelectedReferences,selectedReference, lang , name, label, References}) => {
   const response = useAsync(ReferencesServices.getAllReferences);
   const { data } = response.data;
   
@@ -18,13 +18,15 @@ const SelectReferences = ({ setReferences, lang , name, label, References}) => {
   return (
     <>
       <Select
-        onChange={(e) => setReferences(e.target.value)}
+        onChange={(e) => setSelectedReferences(e.target.value)}
        
         className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
         // name={name}
         // {...register(`${name}`, {
         //   required: `${label} is required!`,
         // })}
+        value={selectedReference}
+
       >
 
         <option value="All" defaultValue hidden>

@@ -1,20 +1,20 @@
 import requests from "./httpService";
     const ProjectServices = {
-      getAllProjects: async ({id, category_id, title, subtitle, short_description, description,image}) => {
-        const searchCategory = category_id !== null ? category_id : "";
-        const searchTitle = title !== null ? title : "";
-        const searchSubTitle = subtitle !== null ? subtitle : "";
-        const searchShortDescription = short_description !== null ? short_description : "";
-        const searchDescription = description !== null ? description : "";
+      getAllProjects: async ({body}) => {
+        // const searchCategory = category_id !== null ? category_id : "";
+        // const searchTitle = title !== null ? title : "";
+        // const searchSubTitle = subtitle !== null ? subtitle : "";
+        // const searchShortDescription = short_description !== null ? short_description : "";
+        // const searchDescription = description !== null ? description : "";
         return requests.get(
-          `/admin/projects`
+          `/admin/projects`,body
         );
       },
 
       
   
-  getProjectByCategoryId: async(id) =>{
-    return requests.get('user/projects/projects_by_category');
+  getProjectByCategoryId: async (id) =>{
+    return requests.get(`user/projects/projects_by_category`);
   },
   
   getProjectById: async (id) => {
@@ -27,7 +27,7 @@ import requests from "./httpService";
   //   return requests.get("admin/projects", body);
   // },
   updateProject: async (id, body) => {
-    return requests.put(`/admin/projects/update/${id}`, body);
+    return requests.post(`/admin/projects/update/${id}`, body);
   },
   // updateManyProjects: async (body) => {
   //   return requests.patch("Projects/update/many", body);

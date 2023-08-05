@@ -57,7 +57,7 @@ const StaffDrawer = ({ id,data }) => {
     }
   }
   useEffect(() => {
-    getPrevilegesData(),
+    getPrevilegesData()
     getDepartementsData()
 
   }, [])

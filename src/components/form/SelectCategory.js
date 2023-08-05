@@ -10,21 +10,19 @@ import useAsync from "hooks/useAsync";
 import CategoryServices from "services/CategoryServices";
 import { showingTranslateValue } from "utils/translate";
 
-const SelectCategory = ({ setCategory, lang , name, label, categories}) => {
+const SelectCategory = ({ setSelectedCategory,selectedCategory, lang , name, label, categories}) => {
   const response = useAsync(CategoryServices.getAllCategories);
   const { data } = response.data;
   
+  console.log("categories selectonné",selectedCategory)
   const { t } = useTranslation();
   return (
     <>
       <Select
-        onChange={(e) => setCategory(e.target.value)}
-       
+        onChange={(e) => setSelectedCategory(e.target.value)}
         className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-        // name={name}
-        // {...register(`${name}`, {
-        //   required: `${label} is required!`,
-        // })}
+        
+        value={selectedCategory}
       >
 
         <option value="All" defaultValue hidden>

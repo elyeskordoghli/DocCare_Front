@@ -12,11 +12,13 @@ const EditDeleteButton = ({
   handleUpdate,
   handleModalOpen,
   isCheck,
-  product,
+  project,
   parent,
   children,
 }) => {
   const { t } = useTranslation();
+
+
   // console.log('edite delet button')
   return (
     <>
@@ -65,7 +67,8 @@ const EditDeleteButton = ({
 
         <button
           disabled={isCheck?.length > 0}
-          onClick={() => handleModalOpen(id, title, product)}
+          
+          onClick={() => handleModalOpen(id, title, project)}
           className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
         >
           <Tooltip

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -49,7 +49,6 @@ const Projects = () => {
     handleChangePage,
     searchText,
     category,
-    setCategory,
     searchRef,
     handleSubmitForAll,
     sortedField,
@@ -61,17 +60,36 @@ const Projects = () => {
     ProjectServices.getAllProjects({
       // page: currentPage,
       // limit: limitData,
-      category_id: category,
-      title: searchText,
-      subtitle: subtitle,
-      short_description: short_description,
-      description : description,
+      // category_id: category,
+      // title: searchText,
+      // subtitle: subtitle,
+      // short_description: short_description,
+      // description : description,
     //  price: sortedField,
     })
   );
 
 
 
+  const [categories, setCategory] = useState();
+
+
+  const getCategoriesData = async () => {
+    try {
+      const res = await CategoryServices.getAllCategories();
+      // Mettez à jour le state avec les départements récupérés depuis l'API
+      setCategory(res.data);
+    } catch (err) {
+     console.log(err ? err?.response?.data?.message : err?.message);
+
+    }
+  }
+
+  useEffect(() => {
+    getCategoriesData();    
+  }, []);
+
+  console.log("categories project",categories)
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
@@ -81,6 +99,8 @@ const Projects = () => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
+  const [selectedCategory, setSelectedCategory] = useState([]);
+
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
     setIsCheck(data?.projects.map((li) => li._id));
@@ -88,6 +108,35 @@ const Projects = () => {
       setIsCheck([]);
     }
   };
+
+  //---------------------------------------------------------
+  const [isLoading, setIsLoading]=useState();
+
+  const introjects = async (selectedCategory) =>{
+    try {
+      const response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+      
+      // Vérifier si response.data est un tableau avant d'utiliser .map()
+      setData(response.data);
+      console.log('projectcat',response.data)
+
+    } catch (error) {
+      console.error("Erreur lors de la récupération des projets :", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  console.log('selected categoriiiiiiiii',selectedCategory)
+
+
+  useEffect(() =>{
+    introjects(selectedCategory);
+  },[selectedCategory,isLoading])
+  
+  //---------------------------------------------------------
+
+
 
   // console.log('productss',products)
   const {
@@ -102,10 +151,10 @@ const Projects = () => {
   return (
     <>
       <PageTitle>{t("ProjectsPage")}</PageTitle>
-      <DeleteModal ids={allId} setIsCheck={setIsCheck} title={title} />
+      <DeleteModal id={isCheck} ids={allId} setIsCheck={setIsCheck} title={data.title} />
       <BulkActionDrawer ids={allId} title="Projects" />
       <MainDrawer>
-        <ProjectDrawer id={serviceId} />
+        <ProjectDrawer id={serviceId}  />
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -159,7 +208,7 @@ const Projects = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {t("AddProduct")}
+                  {t("Add Project")}
                 </Button>
               </div>
             </div>
@@ -188,7 +237,14 @@ const Projects = () => {
             </div>
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <SelectCategory setCategory={setCategory} lang={lang} />
+              <SelectCategory 
+              setCategory={setCategory} 
+              categories={categories} setSelectedCategory={setSelectedCategory} 
+              selectedCategory={selectedCategory}
+              lang={lang} 
+              isLoading={isLoading} // Passer la variable isLoading
+              setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
+              />
             </div>
             
 
@@ -253,6 +309,7 @@ const Projects = () => {
               projects={data?.projects}
               setIsCheck={setIsCheck}
               currency={currency}
+              cat_id={selectedCategory}
             />
           </Table>
           <TableFooter>
