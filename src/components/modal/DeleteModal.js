@@ -2,6 +2,7 @@ import { Button, Modal, ModalBody, ModalFooter } from "@windmill/react-ui";
 import React, { useContext } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 //internal import
 import spinnerLoadingImage from "assets/img/spinner.gif";
@@ -11,7 +12,7 @@ import CategoryServices from "services/CategoryServices";
 import CouponServices from "services/CouponServices";
 import CustomerServices from "services/CustomerServices";
 import LanguageServices from "services/LanguageServices";
-import ProductServices from "services/ProductServices";
+import ProjectServices from "services/ProjectServices";
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,23 +20,37 @@ import useToggleDrawer from "hooks/useToggleDrawer";
 import AttributeServices from "services/AttributeServices";
 import CurrencyServices from "services/CurrencyServices";
 import { notifyError, notifySuccess } from "utils/toast";
+import ServiceServices from "services/ServiceServices";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { To } from "react-flags-select";
 
-const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
+const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoading, setIsLoading}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const { setServiceId } = useToggleDrawer();
   const location = useLocation();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleDelete = async () => {
     // return notifyError("CRUD operation is disabled for this option!");
     try {
       setIsSubmitting(true);
-      if (location.pathname === "/products") {
-        if (ids) {
-          const res = await ProductServices.deleteManyProducts({
-            ids: ids,
-          });
+      
+      if (location.pathname === "/projects") {
+        setIsLoading(true);
+        const res = await ProjectServices.deleteProject(id);
+        setIsLoading(false);
+
+          setIsUpdate(true);
+          notifySuccess(res.message);
+          setServiceId();
+          closeModal();
+          setIsSubmitting(false);
+      }
+      if (location.pathname === "/services") {
+        if (id) {
+          const res = await ServiceServices.deleteService(id);
+          console.log('dddddddddddd',id);
+          history.push("/services");
           setIsUpdate(true);
           notifySuccess(res.message);
           setIsCheck([]);
@@ -43,7 +58,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
           closeModal();
           setIsSubmitting(false);
         } else {
-          const res = await ProductServices.deleteProduct(id);
+          const res = await ServiceServices.deleteService(id);
           setIsUpdate(true);
           notifySuccess(res.message);
           setServiceId();
@@ -51,7 +66,6 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
           setIsSubmitting(false);
         }
       }
-
       if (location.pathname === "/coupons") {
         if (ids) {
           const res = await CouponServices.deleteManyCoupons({
@@ -74,42 +88,42 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
       }
 
       if (location.pathname === "/categories" || category) {
-        if (ids) {
-          //  console.log('delete modal categorices',ids)
-          const res = await CategoryServices.deleteManyCategory({
-            ids: ids,
-          });
-          //  console.log('delete many category res',res)
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          setIsCheck([]);
-          setServiceId();
-          closeModal();
-          setIsSubmitting(false);
-        } else {
-          if (id === undefined || !id) {
-            notifyError("Please select a category first!");
-            setIsSubmitting(false);
-            return closeModal();
-          }
+        // if (ids) {
+        //   //  console.log('delete modal categorices',ids)
+        //   const res = await CategoryServices.deleteManyCategory({
+        //     ids: ids,
+        //   });
+        //   //  console.log('delete many category res',res)
+        //   setIsUpdate(true);
+        //   notifySuccess(res.message);
+        //   setIsCheck([]);
+        //   setServiceId();
+        //   closeModal();
+        //   setIsSubmitting(false);
+        // } else {
+        //   if (id === undefined || !id) {
+        //     notifyError("Please select a category first!");
+        //     setIsSubmitting(false);
+        //     return closeModal();
+        //   }
           // console.log('delete modal open',id)
-          const res = await CategoryServices.deleteCategory(id);
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          closeModal();
-          setServiceId();
-          setIsSubmitting(false);
-        }
-      } else if (
-        location.pathname === `/categories/${useParamId}` ||
-        category
-      ) {
-        // console.log('delete modal ')
-        if (id === undefined || !id) {
-          notifyError("Please select a category first!");
-          setIsSubmitting(false);
-          return closeModal();
-        }
+      //     const res = await CategoryServices.deleteCategory(id);
+      //     setIsUpdate(true);
+      //     notifySuccess(res.message);
+      //     closeModal();
+      //     setServiceId();
+      //     setIsSubmitting(false);
+      //   }
+      // } else if (
+      //   location.pathname === `/categories/${useParamId}` ||
+      //   category
+      // ) {
+      //   // console.log('delete modal ')
+      //   if (id === undefined || !id) {
+      //     notifyError("Please select a category first!");
+      //     setIsSubmitting(false);
+      //     return closeModal();
+      //   }
 
         const res = await CategoryServices.deleteCategory(id);
         setIsUpdate(true);
@@ -288,6 +302,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
               // </button>
             )}
           </div>
+          
         </ModalFooter>
       </Modal>
     </>

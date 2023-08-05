@@ -7,7 +7,7 @@ import {
 } from "@windmill/react-ui";
 import MainDrawer from "components/drawer/MainDrawer";
 import ServiceServices from "services/ServiceServices";
-// import ServiceDrawer from "components/drawer/ServiceDrawer";
+import ServiceDrawer from "components/drawer/ServiceDrawer";
 import CheckBox from "components/form/CheckBox";
 import DeleteModal from "components/modal/DeleteModal";
 import EditDeleteButton from "components/table/EditDeleteButton";
@@ -21,10 +21,11 @@ import { showingTranslateValue } from "utils/translate";
 import React, { useState,useEffect } from 'react'
 //internal import 
 
-const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
+const ServiceTable = ({ setId , isCheck, setIsCheck, currency, lang }) => {
   const [data, setData] = useState([]); 
   const { 
-    handleModalOpen, 
+    handleModalOpen,
+    serviceId, 
     handleUpdate, 
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
@@ -61,28 +62,32 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
       setIsCheck(isCheck.filter((item) => item !== id));
     }
   };
-
+  const beforeHandleModalOpen = (id, title, service) => {
+    console.log(id)
+    handleModalOpen(id, title, service); 
+    setIsCheck([id]); 
+  }
   return (
     <>
     {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}
 
-      {/* {isCheck?.length < 2 && (
+      {isCheck?.length < 2 && (
         <MainDrawer>
           <ServiceDrawer currency={currency} id={serviceId} />
         </MainDrawer>
-      )} */}
+      )}
 
       <TableBody>
-        {data?.map((data, i) => (
+        {data?.map((item, i) => (
           <TableRow key={i + 1}>
                
             <TableCell>
               <CheckBox
                 type="checkbox"
-                name={data?.title}
-                id={data.id}
+                name={item?.title}
+                id={item.id}
                 handleClick={handleClick}
-                isChecked={isCheck?.includes(data.id)}
+                isChecked={isCheck?.includes(item.id)}
               />
             </TableCell>
 
@@ -93,7 +98,7 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
                 {/* {data?.image ? ( */}
                   <Avatar
                     className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
-                    src={data?.image}
+                    src={item?.image}
                     alt="Service"
                   />
                 {/* ) : ( */}
@@ -105,7 +110,7 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
                {/* } */}
                 <div>
                   <h2 className="text-sm font-medium">
-                    {data.title}
+                    {item.title}
                   </h2>
                 </div>
               </div>
@@ -114,7 +119,7 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
 
             <TableCell>
               <span className="text-sm">
-              {data.subtitle}
+              {item.subtitle}
               </span>
              
             </TableCell>
@@ -124,9 +129,9 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
             <TableCell>
              
               <span className="text-sm "> 
-                {data.short_description.length > 30 
-                  ? data.short_description.substring(0, 30) + "..." 
-                  : data.short_description} 
+                {item.short_description.length > 30 
+                  ? item.short_description.substring(0, 30) + "..." 
+                  : item.short_description} 
               </span>
                 
              
@@ -135,12 +140,12 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
        
             <TableCell>
             <span className="text-sm">   
-             <a href={data.catalogue}>{data.title} Catalogue</a> 
+             <a href={item.catalogue}>{item.title} Catalogue</a> 
               </span>
             </TableCell>
             <TableCell>
               <Link
-                to={`/service/${data.id}`}
+                to={`/service/${item.id}`}
                 className="flex justify-center text-gray-400 hover:text-orange-600"
               >
                 <Tooltip
@@ -154,12 +159,12 @@ const ServiceTable = ({ isCheck, setIsCheck, currency, lang }) => {
          
             <TableCell>
               <EditDeleteButton
-                id={data.id}
-                data={data}
+                id={item.id}
+                service={item}
                 isCheck={isCheck}
                 handleUpdate={handleUpdate}
-                handleModalOpen={handleModalOpen}
-                title={showingTranslateValue(data?.title, lang)}
+                handleModalOpen={beforeHandleModalOpen}
+                title={showingTranslateValue(item?.title, lang)}
               />
             </TableCell>
           </TableRow>

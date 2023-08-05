@@ -34,9 +34,10 @@ import BulkActionDrawer from "components/drawer/BulkActionDrawer";
 import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
 import ServiceServices from "services/ServiceServices";
+import MainModal from "components/modal/MainModal";
 
 const Services = () => {
-  const { title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
 
   const { t } = useTranslation();
@@ -67,7 +68,6 @@ const Services = () => {
     //  price: sortedField,
     })
   );
-
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
   // console.log("product page", data);
@@ -97,8 +97,10 @@ const Services = () => {
   return (
     <>
       <PageTitle>{t("ServicesPage")}</PageTitle>
-      <DeleteModal ids={allId} setIsCheck={setIsCheck} title={title} />
-      <BulkActionDrawer ids={allId} title="Services" />
+      <DeleteModal id={isCheck} ids={allId} setIsCheck={setIsCheck} title={data.title} />
+      <MainModal id={isCheck} title={data.title} />
+
+      <BulkActionDrawer ids={allId} data={data} title="Services" />
       <MainDrawer>
         <ServiceDrawer id={serviceId} />
       </MainDrawer>

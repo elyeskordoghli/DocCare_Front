@@ -1,13 +1,14 @@
 import requests from "./httpService";
     const ProjectServices = {
-      getAllProjects: async ({id, category_id, title, subtitle, short_description, description,image}) => {
-        const searchCategory = category_id !== null ? category_id : "";
-        const searchTitle = title !== null ? title : "";
-        const searchSubTitle = subtitle !== null ? subtitle : "";
-        const searchShortDescription = short_description !== null ? short_description : "";
-        const searchDescription = description !== null ? description : "";
+      getAllProjects: async (body) => {
+        // const searchId = id !== null ? id : "";
+        // const searchCategory = category_id !== null ? category_id : "";
+        // const searchTitle = title !== null ? title : "";
+        // const searchSubTitle = subtitle !== null ? subtitle : "";
+        // const searchShortDescription = short_description !== null ? short_description : "";
+        // const searchDescription = description !== null ? description : "";
         return requests.get(
-          `/admin/projects`
+          `/admin/projects`,body
         );
       },
 

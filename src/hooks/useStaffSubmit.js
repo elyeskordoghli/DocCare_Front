@@ -23,7 +23,11 @@ const useStaffSubmit = (id, data) => {
   const [resData, setResData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const location = useLocation();
-  
+  const [selecttedPrevilege, setSelecttedPrevilege] = useState(null);
+  const [selecttedDepartment, setSelecttedDepartment] = useState(null);
+
+
+
   const {
     register,
     handleSubmit,
@@ -41,11 +45,11 @@ const useStaffSubmit = (id, data) => {
         email: data.email,
         password: data.password,
         status : data.status,
-        previlege : data.previlege,
-        department : data.department,
+        previleges : data.previleges,
+        departments : data.departments,
         // lang: language,
       };
-
+      console.log('staffData',staffData)
       if (id) {
         // console.log('id is ',id)
         const res = await AdminServices.updateStaff(id, staffData);
@@ -79,8 +83,9 @@ const useStaffSubmit = (id, data) => {
         setValue("name", res.name);
         setValue("email", res.email);
         setValue("password");
-        setValue("previlege", res.previlege);
-        setValue("department", res.department);
+        setValue("statuts", res.status);
+        setValue("previleges", res.previleges);
+        setValue("departments", res.departments);
       }
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);
@@ -102,15 +107,15 @@ const useStaffSubmit = (id, data) => {
       setValue("email");
       setValue("password");
       setValue("status");
-      setValue("previlege");
-      setValue("department");
+      setValue("previleges");
+      setValue("departments");
       clearErrors("name");
       clearErrors("email");
       clearErrors("password");
-
-      clearErrors("previlege");
-      clearErrors("department");
-      clearErrors("joiningDate");
+      clearErrors("status");
+      clearErrors("previleges");
+      clearErrors("departments");
+      // clearErrors("joiningDate");
       // setImageUrl("");
       // setLanguage(lang);
       // setValue("language", language);
@@ -142,6 +147,8 @@ const useStaffSubmit = (id, data) => {
     isSubmitting,
     handleSelectLanguage,
     data,
+    setSelecttedPrevilege,
+    setSelecttedDepartment,
   };
 };
 

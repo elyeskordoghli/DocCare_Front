@@ -6,20 +6,35 @@ import { FiTrash2 } from "react-icons/fi";
 import CustomerServices from "services/CustomerServices";
 import AdminServices from "services/AdminServices";
 import CouponServices from "services/CouponServices";
-import ProductServices from "services/ProductServices";
+import ProjectServices from "services/ProjectServices";
 import CategoryServices from "services/CategoryServices";
 import { SidebarContext } from "context/SidebarContext";
 import { notifySuccess, notifyError } from "utils/toast";
 import useToggleDrawer from "hooks/useToggleDrawer";
+import ServiceServices from "services/ServiceServices";
 
-const MainModal = ({ id, title }) => {
+const MainModal = ({ id, title,isLoading, setIsLoading}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const { setServiceId } = useToggleDrawer();
   const location = useLocation();
 
   const handleDelete = () => {
-    if (location.pathname === "/products") {
-      ProductServices.deleteProduct(id)
+    alert(location.pathname)
+    setIsLoading(true);
+    if (location.pathname === "/projects") {
+      ProjectServices.deleteProject(id)
+        .then((res) => {
+          setIsLoading(false);
+          setIsUpdate(true);
+          notifySuccess(res.message);
+        })
+        
+        .catch((err) => notifyError(err.message));
+      closeModal();
+      setServiceId();
+    }
+    if (location.pathname === "/services") {
+     ServiceServices.deleteService(id)
         .then((res) => {
           setIsUpdate(true);
           notifySuccess(res.message);
@@ -28,7 +43,6 @@ const MainModal = ({ id, title }) => {
       closeModal();
       setServiceId();
     }
-
     if (location.pathname === "/category") {
       CategoryServices.deleteCategory(id)
         .then((res) => {

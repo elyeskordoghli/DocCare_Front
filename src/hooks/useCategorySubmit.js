@@ -15,6 +15,9 @@ const useCategorySubmit = (id, data) => {
   const [published, setPublished] = useState(true);
   const [selectCategoryName, setSelectCategoryName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [name_en, setName_en] = useState("");
+  const [name_fr, setName_fr] = useState("");
+  const [name_ar, setName_ar] = useState("");
 
   const {
     register,
@@ -26,25 +29,17 @@ const useCategorySubmit = (id, data) => {
   } = useForm();
 
   // console.log("lang", lang, language);
-
-  const onSubmit = async ({ name, description }) => {
+console.log('id',id);
+  const onSubmit = async (data) => {
     try {
       setIsSubmitting(true);
       const categoryData = {
-        name: {
-          [language]: name,
-        },
-        description: { [language]: description ? description : "" },
-        parentId: checked ? checked : undefined,
-        parentName: selectCategoryName ? selectCategoryName : "Home",
-        // parentName: selectCategoryName ? selectCategoryName : 'Home',
-
-        icon: imageUrl,
-        status: published ? "show" : "hide",
-        lang: language,
+        name_en: data.name_en,
+        name_fr: data.name_fr,
+        name_ar: data.name_ar,
       };
 
-      // console.log('category submit', categoryData);
+     console.log('category submit', categoryData);
 
       if (id) {
         const res = await CategoryServices.updateCategory(id, categoryData);
@@ -78,17 +73,15 @@ const useCategorySubmit = (id, data) => {
   useEffect(() => {
     if (!isDrawerOpen) {
       setResData({});
-      setValue("name");
-      setValue("parentId");
-      setValue("parentName");
-      setValue("description");
-      setValue("icon");
-      setImageUrl("");
-      setPublished(true);
-      clearErrors("name");
-      clearErrors("parentId");
-      clearErrors("parentName");
-      clearErrors("description");
+      setValue("name_en");
+      setValue("name_fr");
+      setValue("name_ar");
+      clearErrors("name_en");
+      clearErrors("name_fr");
+      clearErrors("name_ar");
+   
+      // clearErrors("parentName");
+      // clearErrors("description");
       setSelectCategoryName("Home");
       setLanguage(lang);
       setValue("language", language);
@@ -106,18 +99,9 @@ const useCategorySubmit = (id, data) => {
 
           if (res) {
             setResData(res);
-            setValue("name", res.name[language ? language : "en"]);
-            setValue(
-              "description",
-              res.description[language ? language : "en"]
-            );
-            setValue("language", language);
-            setValue("parentId", res.parentId);
-            setValue("parentName", res.parentName);
-            setSelectCategoryName(res.parentName);
-            setChecked(res.parentId);
-            setImageUrl(res.icon);
-            setPublished(res.status === "show" ? true : false);
+            setValue("name_en", res.name_en);
+            setValue("name_fr", res.name_fr);
+            setValue("name_ar", res.name_ar);
           }
         } catch (err) {
           notifyError(err ? err.response.data.message : err.message);

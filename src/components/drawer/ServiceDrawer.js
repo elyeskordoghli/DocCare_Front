@@ -10,6 +10,9 @@ import {
 } from "@windmill/react-ui";
 import Multiselect from "multiselect-react-dropdown";
 import React from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { MultiSelect } from "react-multi-select-component";
 import { Modal } from "react-responsive-modal";
@@ -33,9 +36,10 @@ import AttributeOptionTwo from "components/attribute/AttributeOptionTwo";
 import DrawerButton from "components/form/DrawerButton";
 import AttributeListTable from "components/attribute/AttributeListTable";
 import { showingTranslateValue } from "utils/translate";
+import ServiceServices from "services/ServiceServices";
 //internal import
 
-const ServiceDrawer = ({ id }) => {
+const ServiceDrawer = ({ id,data }) => {
   const { t } = useTranslation();
 
   const {
@@ -51,9 +55,6 @@ const ServiceDrawer = ({ id }) => {
     attribue,
     setValues,
     variants,
-    imageUrl,
-    setImageUrl,
-    handleSubmit,
     isCombination,
     variantTitle,
     attributes,
@@ -83,10 +84,139 @@ const ServiceDrawer = ({ id }) => {
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,
-  } = useServiceSubmit(id);
+  } = useServiceSubmit(id,data);
 
   const currency = globalSetting?.default_currency || "$";
+  
+  const [imageUrl, setImageUrl] = useState("");
+  const [seo_keywords, setSeo_keywords] = useState("");
+  const [title_en, setTitle_en] = useState("");
+  const [SubTitle_en, setSubtitle_en] = useState("");
+  const [Short_Description_en, setShort_description_en] = useState("");
+  const [description_en, setDescription_en] = useState("");
+  const [Seo_Description_en, setSeo_description_en] = useState("");
 
+  const [title_fr, setTitle_fr] = useState("");
+  const [subtitle_fr, setSubtitle_fr] = useState("");
+  const [Short_Description_fr, setShort_description_fr] = useState("");
+  const [Description_fr, setDescription_fr] = useState("");
+  const [Seo_Description_fr, setSeo_description_fr] = useState("");
+
+  const [title_ar, setTitle_ar] = useState("");
+  const [SubTitle_ar, setSubtitle_ar] = useState("");
+  const [Short_Description_ar, setShort_description_ar] = useState("");
+  const [description_ar, setDescription_ar] = useState("");
+  const [seo_description_ar, setSeo_description_ar] = useState("");
+  const [catalogueUrl, setCatalogueUrl] = useState("");
+  const [iconUrl, setIconUrl] = useState("");
+const {
+  setValue,
+
+}= useForm();
+console.log("service drawer_id",id);
+const [retsData, setRestData] = useState({});
+
+
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+
+    const formData = new FormData();
+      formData.append('title_en', title_en);
+      formData.append('subtitle_en', SubTitle_en);
+      formData.append('short_description_en', Short_Description_en);
+      formData.append('description_en', description_en);
+      formData.append('seo_description_en', Seo_Description_en);
+    
+      formData.append('title_fr', title_fr);
+      formData.append('subtitle_fr', subtitle_fr);
+      formData.append('short_description_fr', Short_Description_fr);
+      formData.append('description_fr', Description_fr);
+      formData.append('seo_description_fr', Seo_Description_fr);
+    
+
+      formData.append('title_ar', title_ar);
+      formData.append('subtitle_ar', SubTitle_ar);
+      formData.append('short_description_ar', Short_Description_ar);
+      formData.append('description_ar', description_ar);
+      formData.append('seo_description_ar', seo_description_ar);
+     
+      formData.append('seo_keywords', seo_keywords);
+      formData.append('image', imageUrl);
+      formData.append('icon', iconUrl);
+      formData.append('catalogue', catalogueUrl);
+      console.log(formData);
+      // const res = await CategoryServices.getCategoryById(id);
+      // console.log("res category", res);
+
+    
+      if (id) {
+        const rest = await ServiceServices.getServiceById(id);
+                console.log("rest service", rest);
+      
+                if (rest) {
+                  setRestData(rest);
+                  setValue("title_en", rest.title_en);
+                  setValue("title_fr", rest.title_fr);
+                  setValue("title_ar", rest.title_ar);
+                }
+        const res = await ServiceServices.updateService(id, formData);
+        // setIsUpdate(true);
+        // setIsSubmitting(false);
+        notifySuccess(res.message);
+        closeDrawer();
+        // reset();
+      } else {
+        const res = await ServiceServices.addService(formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        // setIsUpdate(true);
+        // setIsSubmitting(false);
+        notifySuccess(res.message);
+        closeDrawer();
+      }
+      };
+      // useEffect(() => {
+      //   if (!isDrawerOpen) {
+      //     setResData({});
+      //     setValue("name_en");
+      //     setValue("name_fr");
+      //     setValue("name_ar");
+      //     clearErrors("name_en");
+      //     clearErrors("name_fr");
+      //     clearErrors("name_ar");
+       
+      //     // clearErrors("parentName");
+      //     // clearErrors("description");
+      //     setSelectCategoryName("Home");
+      //     setLanguage(lang);
+      //     setValue("language", language);
+    
+      //     if (data !== undefined && data[0]?._id !== undefined) {
+      //       setChecked(data[0]._id);
+      //     }
+      //     return;
+      //   }
+      //   if (id) {
+      //     (async () => {
+      //       try {
+      //         const res = await CategoryServices.getCategoryById(id);
+      //         console.log("res category", res);
+    
+      //         if (res) {
+      //           setResData(res);
+      //           setValue("name_en", res.name_en);
+      //           setValue("name_fr", res.name_fr);
+      //           setValue("name_ar", res.name_ar);
+      //         }
+      //       } catch (err) {
+      //         notifyError(err ? err.response.data.message : err.message);
+      //       }
+      //     })();
+      //   }
+      // }, [id, setValue, isDrawerOpen, language, clearErrors, data, lang]);
   return (
     <>
       <Modal
@@ -114,7 +244,7 @@ const ServiceDrawer = ({ id }) => {
             register={register}
             handleSelectLanguage={handleSelectLanguage}
             title={t("Update Service")}
-            description={t("Update Servicet Description")}
+            description={t("Update Service Description")}
           />
         ) : (
           <Title
@@ -126,11 +256,11 @@ const ServiceDrawer = ({ id }) => {
         )}
       </div>
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-700">
-        <SwitchToggleForCombination
+        {/* <SwitchToggleForCombination
           product
           handleProcess={handleIsCombination}
           processOption={isCombination}
-        />
+        /> */}
 
         <ul className="flex flex-wrap -mb-px">
           <li className="mr-2">
@@ -170,36 +300,62 @@ const ServiceDrawer = ({ id }) => {
       </div>
 
       <Scrollbars className="track-horizontal thumb-horizontal w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
-        <form onSubmit={handleSubmit(onSubmit)} className="block" id="block">
+        <form onSubmit={handleSubmit} className="block" id="block">
           {tapValue === "Anglais" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
-             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductImage")} />
+                  
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Image")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Uploader
-                    product
-                    folder="product"
-                    imageUrl={imageUrl}
-                    setImageUrl={setImageUrl}
-                  />
-                </div>
+                    <Input
+                      {...register(`imageUrl`, {
+                        required: "Image is required!",
+                      })}
+                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                      name="imageUrl"
+                      type="file"
+                      placeholder={"Image "}
+                      onChange={(e)=>{setImageUrl(e.target.files[0])}}
+                    />
+                    <Error errorName={errors.imageUrl} />
+                  </div>
+              </div>
+            
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("Service Icon")} />
+                <div className="col-span-8 sm:col-span-4">
+                    <Input
+                      {...register(`IconUrl`, {
+                        required: "Icon is required!",
+                      })}
+                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                      name="IconeUrl"
+                      type="file"
+                      placeholder={"Icon "}
+                      onChange={(e)=>{setIconUrl(e.target.files[0])}}
+                    />
+                    <Error errorName={errors.iconUrl} />
+                  </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Service Title (en) ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title`, {
+                    {...register(`title_en`, {
                       required: "Title is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="title_en"
                     type="text"
-                    placeholder={t("Service Title (en) ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Service Title (en) "}
+                    // onBlur={(e) => handleProductSlug(e.target.value)}
+                    onChange={(e) => setTitle_en(e.target.value)}
+                    value={title_en}
                   />
-                  <Error errorName={errors.title} />
+                  {/* {title_en ?? ""} TTEEST */}
+                  <Error errorName={errors.title_en} />
                 </div>
               </div>
 
@@ -209,16 +365,17 @@ const ServiceDrawer = ({ id }) => {
                 <LabelArea label={t("Service SubTitle (en)  ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`SubTitle`, {
+                    {...register(`SubTitle_en`, {
                       required: "SubTitle is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="SubTitle"
+                    name="SubTitle_en"
                     type="text"
-                    placeholder={t("Service SubTitle (en)  ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Service SubTitle (en)  "}
+                    onChange={(e) => setSubtitle_en(e.target.value)}
+                    value={SubTitle_en}
                   />
-                  <Error errorName={errors.SubTitle} />
+                  <Error errorName={errors.SubTitle_en} />
                 </div>
               </div>
 
@@ -227,17 +384,18 @@ const ServiceDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description", {
+                    {...register("Short_Description_en", {
                       required: "Short_Description is required!",
                     })}
-                    name="Short_Description"
-                    placeholder={t("Service Short_Description (en) ")}
+                    name="Short_Description_en"
+                    placeholder={"Service Short_Description (en) "}
                     rows="4"
                     spellCheck="false"
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-
+                    onChange={(e) => setShort_description_en(e.target.value)}
+                    value={Short_Description_en}
                   />
-                  <Error errorName={errors.Short_Description} />
+                  {/* {Short_Description_en ?? ""} TTEEST */}
+                  <Error errorName={errors.Short_Description_en} />
                 </div>
               </div>
 
@@ -247,15 +405,18 @@ const ServiceDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Description", {
+                    {...register("description_en", {
                       required: "Description is required!",
                     })}
-                    name="Description"
-                    placeholder={t("Service Description (en) ")}
+                    name="description_en"
+                    placeholder={"Service Description (en) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setDescription_en(e.target.value)}
+                    value={description_en}
                   />
-                  <Error errorName={errors.Description} />
+                  {/* {description_en ?? ""} TTEEST */}
+                  <Error errorName={errors.description_en} />
                 </div>
               </div>
 
@@ -263,17 +424,18 @@ const ServiceDrawer = ({ id }) => {
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Service Seo Keywords  ")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInput
-                   {...register("Seo_Keywords", {
-                    required: "Seo Keywords is required!",
-                  })}
-                    name="Description"
-                    placeholder={t("Service Seo Keywords  ")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
+                  <Input
+                    {...register(`Seo_Keywords`, {
+                      required: "Seo Keywords is required!",
+                    })}
+                    name="Seo_Keywords"
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Service Seo Keywords  "}
+                    onChange={(e) => setSeo_keywords(e.target.value)}
+                    value={seo_keywords}
                   />
-                  <Error errorName={errors.Seo_Keywords} />
-
+                  <Error errorName={errors.seo_keywords} />
                 </div>
               </div>
 
@@ -282,16 +444,18 @@ const ServiceDrawer = ({ id }) => {
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Service Seo Description (en) ")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInput
-                   {...register("Seo_Keywords", {
-                    required: "Seo Keywords is required!",
-                  })}
-                    placeholder={t("Service Seo Description (en) ")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
+                  <Input
+                    {...register(`Seo_Description_en`, {
+                      required: "Seo Keywords is required!",
+                    })}
+                    name="Seo_Description_en"
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Service Seo description  "}
+                    onChange={(e) => setSeo_description_en(e.target.value)}
+                    value={Seo_Description_en}
                   />
-                  <Error errorName={errors.Seo_Keywords} />
-
+                  <Error errorName={errors.Seo_Description_en} />
                 </div>
               </div>
 
@@ -300,7 +464,7 @@ const ServiceDrawer = ({ id }) => {
 
 
 
-
+{/* 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Category")} />
                 <div className="col-span-8 sm:col-span-4">
@@ -316,65 +480,8 @@ const ServiceDrawer = ({ id }) => {
                   <Error errorName={errors.Category} />
 
                 </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Reference")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <ParentCategory
-                   {...register("Category", {
-                    required: "Category is required!",
-                  })}
-                    lang={language}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                    setDefaultCategory={setDefaultCategory}
-                  />
-                  <Error errorName={errors.Category} />
-
-                </div>
-              </div>
-
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("DefaultCategory")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Multiselect
-                    displayValue="name"
-                    isObject={true}
-                    singleSelect={true}
-                    ref={resetRefTwo}
-                    hidePlaceholder={true}
-                    onKeyPressFn={function noRefCheck() {}}
-                    onRemove={function noRefCheck() {}}
-                    onSearch={function noRefCheck() {}}
-                    onSelect={(v) => setDefaultCategory(v)}
-                    selectedValues={defaultCategory}
-                    options={selectedCategory}
-                    placeholder={"Default Category"}
-                  ></Multiselect>
-                </div>
               </div> */}
 
-
-
-
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Slug")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    {...register(`Service Slug`, {
-                      required: "Service Slug is required!",
-                    })}
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug"
-                    type="text"
-                    defaultValue={slug}
-                    placeholder={t("Service Slug")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-                  />
-                  <Error errorName={errors.Service_Slug} />
-                </div>
-              </div> */}
             </div>
           )}
 
@@ -385,16 +492,17 @@ const ServiceDrawer = ({ id }) => {
                 <LabelArea label={t("Service Title (fr) ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title`, {
+                    {...register(`title_fr`, {
                       required: "Title is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="title_fr"
                     type="text"
-                    placeholder={t("Service Title (fr) ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Service Title (fr) "}
+                    onChange={(e) => setTitle_fr(e.target.value)}
+                    value={title_fr}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.title_fr} />
                 </div>
               </div>
 
@@ -404,16 +512,17 @@ const ServiceDrawer = ({ id }) => {
                 <LabelArea label={t("Service SubTitle (fr)  ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Title`, {
+                    {...register(`subtitle_fr`, {
                       required: "SubTitle is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="subtitle_fr"
                     type="text"
-                    placeholder={t("Service SubTitle  (fr)  ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Service SubTitle  (fr)  "}
+                    onChange={(e) => setSubtitle_fr(e.target.value)}
+                    value={subtitle_fr}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.subtitle_fr} />
                 </div>
               </div>
 
@@ -422,15 +531,17 @@ const ServiceDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description", {
+                    {...register("Short_Description_fr", {
                       required: "Short_Description is required!",
                     })}
-                    name="description"
-                    placeholder={t("Service Short_Description (fr) ")}
+                    name="Short_Description_fr"
+                    placeholder={"Service Short_Description (fr) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setShort_description_fr(e.target.value)}
+                    value={Short_Description_fr}
                   />
-                  <Error errorName={errors.Short_Description} />
+                  <Error errorName={errors.Short_Description_fr} />
                 </div>
               </div>
 
@@ -440,30 +551,39 @@ const ServiceDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Description", {
+                    {...register("Description_fr", {
                       required: "Description is required!",
                     })}
-                    name="description"
-                    placeholder={t("Service Description (fr) ")}
+                    name="Description_fr"
+                    placeholder={"Service Description (fr) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setDescription_fr(e.target.value)}
+                    value={Description_fr}
                   />
-                  <Error errorName={errors.Description} />
+                  <Error errorName={errors.Description_fr} />
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Service Seo Keywords (fr)")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInput
-                    placeholder={t("Service Seo Keywords (fr)")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
+                  <Input
+                    {...register(`Seo_Description_fr`, {
+                      required: "Seo Description is required!",
+                    })}
+                    name="Seo_Description_fr"
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Service Seo description  "}
+                    onChange={(e) => setSeo_description_fr(e.target.value)}
+                    value={Seo_Description_fr}
                   />
+                  <Error errorName={errors.Seo_Description_fr} />
                 </div>
               </div>
 
-
+{/* 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Service Seo Description (fr) ")} />
                 <div className="col-span-8 sm:col-span-4">
@@ -478,7 +598,7 @@ const ServiceDrawer = ({ id }) => {
                   <Error errorName={errors.Seo_Keywords} />
 
                 </div>
-              </div>
+              </div> */}
 
 
 
@@ -509,16 +629,17 @@ const ServiceDrawer = ({ id }) => {
                 <LabelArea label={t("Service Title  ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title`, {
+                    {...register(`title_ar`, {
                       required: "Title is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="title_ar"
                     type="text"
-                    placeholder={t("Service Title (ar)")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Service Title (ar)"}
+                    onChange={(e) => setTitle_ar(e.target.value)}
+                    value={title_ar}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.title_ar} />
                 </div>
               </div>
 
@@ -528,16 +649,17 @@ const ServiceDrawer = ({ id }) => {
                 <LabelArea label={t("Service SubTitle (ar)  ")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Title`, {
+                    {...register(`SubTitle_ar`, {
                       required: "SubTitle is required!",
                     })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title"
+                    name="SubTitle_ar"
                     type="text"
-                    placeholder={t("Service SubTitle (ar)  ")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
+                    placeholder={"Service SubTitle (ar)  "}
+                    onChange={(e) => setSubtitle_ar(e.target.value)}
+                    value={SubTitle_ar}
                   />
-                  <Error errorName={errors.title} />
+                  <Error errorName={errors.SubTitle_ar} />
                 </div>
               </div>
 
@@ -546,15 +668,17 @@ const ServiceDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description", {
+                    {...register("Short_Description_ar", {
                       required: "Short_Description is required!",
                     })}
-                    name="description"
-                    placeholder={t("Service Short_Description (fr) ")}
+                    name="Short_Description_ar"
+                    placeholder={"Service Short_Description (fr) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setShort_description_ar(e.target.value)}
+                    value={Short_Description_ar}
                   />
-                  <Error errorName={errors.Short_Description} />
+                  <Error errorName={errors.Short_Description_ar} />
                 </div>
               </div>
 
@@ -564,46 +688,56 @@ const ServiceDrawer = ({ id }) => {
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Description", {
+                    {...register("description_ar", {
                       required: "Description is required!",
                     })}
-                    name="description"
-                    placeholder={t("Service Description (fr) ")}
+                    name="description_ar"
+                    placeholder={"Service Description (fr) "}
                     rows="4"
                     spellCheck="false"
+                    onChange={(e) => setDescription_ar(e.target.value)}
+                    value={description_ar}
                   />
-                  <Error errorName={errors.Description} />
+                  <Error errorName={errors.description_ar} />
                 </div>
               </div>
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Seo Keywords (ar)")} />
+                <LabelArea label={t("Service Seo Description (ar)")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInput
-                    placeholder={t("Service Seo Keywords (ar)")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
+                  <Input
+                    {...register(`seo_description_ar`, {
+                      required: "Seo Description is required!",
+                    })}
+                    name="seo_description_ar"
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    type="text"
+                    placeholder={"Service Seo description  "}
+                    onChange={(e) => setSeo_description_ar(e.target.value)}
+                    value={seo_description_ar}
                   />
+                  <Error errorName={errors.seo_description_ar} />
                 </div>
               </div>
 
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Seo Description (ar) ")} />
+                <LabelArea label={t("Service Cotalogue")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInput
-                   {...register("Seo_Keywords", {
-                    required: "Seo Keywords is required!",
-                  })}
-                    placeholder={t("Service Seo Description (ar) ")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
-                  />
-                  <Error errorName={errors.Seo_Keywords} />
-
-                </div>
+                    <Input
+                      {...register(`CatalogueUrl`, {
+                        required: "catalogue is required!",
+                      })}
+                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                      name="CatalogueUrl"
+                      type="file"
+                      placeholder={"Catalogue "}
+                      onChange={(e)=>{setCatalogueUrl(e.target.files[0])}}
+                    />
+                    <Error errorName={errors.catalogueUrl} />
+                  </div>
               </div>
 
 
@@ -714,7 +848,7 @@ const ServiceDrawer = ({ id }) => {
               handleServiceTap={handleServiceTap}
             />
           ) : (
-            <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
+            <DrawerButton id={id} title="Service" isSubmitting={isSubmitting} />
           )}
 
           {tapValue === "Arabic" && (

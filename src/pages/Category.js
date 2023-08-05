@@ -157,16 +157,16 @@ const Category = () => {
           </form>
         </CardBody>
       </Card>
-
+{/* 
       <SwitchToggleChildCat
         title=" "
         handleProcess={setShowChild}
         processOption={showChild}
         name={showChild}
-      />
-      {loading ? (
-        <TableLoading row={12} col={6} width={190} height={20} />
-      ) : serviceData?.length !== 0 ? (
+      /> */}
+      {/* {loading ? ( */}
+        {/* <TableLoading row={12} col={6} width={190} height={20} /> */}
+       {/* {data?.length !== 0 ? ( */}
         <TableContainer className="mb-8">
           <Table>
             <TableHeader>
@@ -182,10 +182,10 @@ const Category = () => {
                 </TableCell>
 
                 <TableCell>{t("catIdTbl")}</TableCell>
-                <TableCell>{t("catIconTbl")}</TableCell>
+                {/* <TableCell>{t("catIconTbl")}</TableCell> */}
                 <TableCell>{t("CatTbName")}</TableCell>
-                <TableCell>{t("CatTbDescription")}</TableCell>
-                <TableCell className="text-center">{t("catPublishedTbl")}</TableCell>
+                <TableCell>{t("Slug")}</TableCell>
+                {/* <TableCell>{t("Projects")}</TableCell> */}
                 <TableCell className="text-right">{t("catActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
@@ -209,9 +209,9 @@ const Category = () => {
             />
           </TableFooter>
         </TableContainer>
-      ) : (
+      {/* ) : (
         <NotFound title="Sorry, There are no categories right now." />
-      )}
+      )} */}
     </>
   );
 };

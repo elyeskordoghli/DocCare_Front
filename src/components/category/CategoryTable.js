@@ -11,9 +11,10 @@ import CheckBox from "components/form/CheckBox";
 import ShowHideButton from "components/table/ShowHideButton";
 import EditDeleteButton from "components/table/EditDeleteButton";
 import { showingTranslateValue } from "utils/translate";
+import CategoryServices from "services/CategoryServices";
+import React, { useState,useEffect } from 'react'
 
 const CategoryTable = ({
-  data,
   lang,
   isCheck,
   categories,
@@ -30,7 +31,28 @@ const CategoryTable = ({
       setIsCheck(isCheck.filter((item) => item !== id));
     }
   };
+  const [data, setData] = useState([]); 
+  useEffect(() => {
+    // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
+    const fetchCategories = async () => {
+      try {
+        const response = await CategoryServices.getAllCategories({
+          name: null,
+          slug: null,
+          short_description: null,
+          projects: null,
+        });
 
+        // Mettez à jour la variable data avec les données récupérées
+        setData(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des categories :", error);
+      }
+    };
+
+    fetchCategories(); // Appelez la fonction fetchCategories pour récupérer les projets au chargement du composant
+    }, []);
+console.log("name",data);
   return (
     <>
       {isCheck?.length < 1 && (
@@ -42,96 +64,52 @@ const CategoryTable = ({
       </MainDrawer>
 
       <TableBody>
-        {categories?.map((category) => (
-          <TableRow key={category._id}>
+        {data?.map((category) => (
+          <TableRow key={category.id}>
             <TableCell>
               <CheckBox
                 type="checkbox"
                 name="category"
-                id={category._id}
+                id={category.id}
                 handleClick={handleClick}
-                isChecked={isCheck?.includes(category._id)}
+                isChecked={isCheck?.includes(category.id)}
               />
             </TableCell>
 
             <TableCell className="font-semibold uppercase text-xs">
-              {category?._id?.substring(20, 24)}
-            </TableCell>
-            <TableCell>
-              {category?.icon ? (
-                <Avatar
-                  className="hidden mr-3 md:block bg-gray-50 p-1"
-                  src={category?.icon}
-                  alt={category?.parent}
-                />
-              ) : (
-                <Avatar
-                  src="https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"
-                  alt="product"
-                  className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
-                />
-              )}
+              {category?.id}
             </TableCell>
 
             <TableCell className="font-medium text-sm ">
-              {category?.children.length > 0 ? (
-                <Link
-                  to={`/categories/${category?._id}`}
-                  className="text-blue-700"
-                >
-                  {showingTranslateValue(category?.name, lang)}
-
-                  <>
-                    {showChild && (
-                      <>
-                        {" "}
-                        <div className="pl-2 ">
-                          {category?.children?.map((child) => (
-                            <div key={child._id}>
-                              <Link
-                                to={`/categories/${child?._id}`}
-                                className="text-blue-700"
-                              >
-                                <div className="flex text-xs items-center  text-blue-800">
-                                  <span className=" text-xs text-gray-500 pr-1">
-                                    <IoRemoveSharp />
-                                  </span>
-                                  <span className="text-gray-500">
-                                    {showingTranslateValue(child.name, lang)}
-                                  </span>
-                                </div>
-                              </Link>
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </>
-                </Link>
-              ) : (
-                <span>{showingTranslateValue(category?.name, lang)}</span>
-              )}
+                <span>{category?.name}</span>
             </TableCell>
             <TableCell className="text-sm">
-              {showingTranslateValue(category?.description, lang)}
+              {category?.slug}
             </TableCell>
 
-            <TableCell className="text-center">
-              <ShowHideButton
-                id={category._id}
-                category
-                status={category.status}
-              />
-            </TableCell>
+            {/* <TableCell>
+              {category?.projects ? (
+                <ul className="list-disc pl-6"> 
+                  {category.projects.map((project, index) => (
+                    <li key={index} className="text-sm ">
+                      {project.title}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span className="text-sm font-semibold">Aucun privilège</span>
+              )}
+            </TableCell> */}
             <TableCell>
               <EditDeleteButton
-                id={category?._id}
+                id={category?.id}
                 parent={category}
+                category={category}
                 isCheck={isCheck}
                 children={category?.children}
                 handleUpdate={handleUpdate}
                 handleModalOpen={handleModalOpen}
-                title={showingTranslateValue(category?.name, lang)}
+                title={category?.name}
               />
             </TableCell>
           </TableRow>

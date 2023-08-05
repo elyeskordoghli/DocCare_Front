@@ -12,8 +12,9 @@ import ProductServices from "services/ProductServices";
 import { notifyError, notifySuccess } from "utils/toast";
 import SettingServices from "services/SettingServices";
 import { showingTranslateValue } from "utils/translate";
+import ServiceServices from "services/ServiceServices";
 
-const useServiceSubmit = (id) => {
+const useServiceSubmit = (id,data) => {
   const location = useLocation();
   const { isDrawerOpen, closeDrawer, setIsUpdate, lang } =
     useContext(SidebarContext);
@@ -53,18 +54,40 @@ const useServiceSubmit = (id) => {
   const [openModal, setOpenModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [imageUrl, setImageUrl] = useState([]);
-  const [title,setTitle]=useState("");
-  const [subtitle,setSubtitle]=useState("");
-  const [short_description,setShort_description]=useState("");
-  const [description,setDescription]=useState("");
-  const [seo_keywords,setSeo_keywords]=useState("");
-  const [seo_description,setSeo_description]=useState("");
+  // const [imageUrl, setImageUrl] = useState([]);
+  // const [title,setTitle]=useState("");
+  // const [subtitle,setSubtitle]=useState("");
+  // const [short_description,setShort_description]=useState("");
+  // const [description,setDescription]=useState("");
+  // const [seo_keywords,setSeo_keywords]=useState("");
+  // const [seo_description,setSeo_description]=useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [seo_keywords, setSeo_keywords] = useState("");
+  const [title_en, setTitle_en] = useState("");
+  const [SubTitle_en, setSubtitle_en] = useState("");
+  const [Short_Description_en, setShort_description_en] = useState("");
+  const [description_en, setDescription_en] = useState("");
+  const [Seo_Description_en, setSeo_description_en] = useState("");
+
+  const [title_fr, setTitle_fr] = useState("");
+  const [subtitle_fr, setSubtitle_fr] = useState("");
+  const [Short_Description_fr, setShort_description_fr] = useState("");
+  const [Description_fr, setDescription_fr] = useState("");
+  const [Seo_Description_fr, setSeo_description_fr] = useState("");
+
+  const [title_ar, setTitle_ar] = useState("");
+  const [SubTitle_ar, setSubtitle_ar] = useState("");
+  const [Short_Description_ar, setShort_description_ar] = useState("");
+  const [description_ar, setDescription_ar] = useState("");
+  const [seo_description_ar, setSeo_description_ar] = useState("");
+  const [catalogueUrl, setCatalogueUrl] = useState("");
+  const [iconUrl, setIconUrl] = useState("");
+
   const [defaultCategory, setDefaultCategory] = useState([]);
   const [defaultReference,setDefaultReference]=useState("");
   const [slug,setSlug]=useState("");
 
-
+console.log('id',id)
 
   // console.log("lang", lang);
 
@@ -137,34 +160,83 @@ const useServiceSubmit = (id) => {
       }
 
 
-      setTitle(data.title);
-      setSubtitle(data.subtitle);
-      setShort_description(data.short_description);
-      setDescription(data.description);
-      setSeo_keywords(data.seo_keywords);
-      setSeo_description(data.seo_description);
-      setDefaultCategory(data.defaultCategory);
-      setDefaultReference(data.defaultReference);
-      setSlug(data.slug);
-      setIsBasicComplete(true);
+      // setTitle(data.title);
+      // setSubtitle(data.subtitle);
+      // setShort_description(data.short_description);
+      // setDescription(data.description);
+      // setSeo_keywords(data.seo_keywords);
+      // setSeo_description(data.seo_description);
+      // setDefaultCategory(data.defaultCategory);
+      // setDefaultReference(data.defaultReference);
+      // setSlug(data.slug);
+      // setIsBasicComplete(true);
 
-      const serviceData = {
-        // ... autres champs déjà définis ...
-        title: data.title,
-        subtitle: data.subtitle,
-        short_description: data.short_description,
-        description: data.description,
-        seo_keywords: data.seo_keywords,
-        seo_description: data.seo_description,
-        defaultReference: data.defaultReference,
-        slug: data.slug,
-      };
+      // const serviceData = {
+      //   // ... autres champs déjà définis ...
+      //   image: data.image,
+      //   icon: data.icon,
+      //   title_fr: data.title_fr,
+      //   title_r: data.title_ar,
+      //   subtitle_en: data.subtitle_en,
+      //   subtitle_fr: data.subtitle_fr,
+      //   subtitle_ar: data.subtitle_ar,
+      //   description_en: data.description_en,
+      //   description_fr: data.description_fr,
+      //   description_ar: data.description_ar,
+      //   short_description_en: data.short_description_en,
+      //   short_description_fr: data.short_description_fr,
+      //   short_description_ar: data.short_description_ar,
+      //   seo_description_en: data.seo_description_en,
+      //   seo_description_fr: data.seo_description_fr,
+      //   seo_description_ar: data.seo_description_ar,
+      //   seo_keywords: data.seo_keywords,
+      //   catalogue : data.catalogue
+  
+      
+      // };
+      const formData = new FormData();
+      formData.append('title_en', title_en);
+      formData.append('subtitle_en', SubTitle_en);
+      formData.append('short_description_en', Short_Description_en);
+      formData.append('description_en', description_en);
+      formData.append('seo_description_en', Seo_Description_en);
+    
+      formData.append('title_fr', title_fr);
+      formData.append('subtitle_fr', subtitle_fr);
+      formData.append('short_description_fr', Short_Description_fr);
+      formData.append('description_fr', Description_fr);
+      formData.append('seo_description_fr', Seo_Description_fr);
+    
 
+      formData.append('title_ar', title_ar);
+      formData.append('subtitle_ar', SubTitle_ar);
+      formData.append('short_description_ar', Short_Description_ar);
+      formData.append('description_ar', description_ar);
+      formData.append('seo_description_ar', seo_description_ar);
+     
+      formData.append('seo_keywords', seo_keywords);
+      formData.append('image', imageUrl);
+      formData.append('icon', iconUrl);
+      formData.append('catalogue', catalogueUrl);
+
+
+
+
+      // console.log(formData);
+
+        // const res = await ServiceServices.addService(formData, {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data',
+        //   },
+        // });
+      
       // console.log("productData ===========>", productData, "data", data);
       // return setIsSubmitting(false);
+console.log('serviecData',formData);
+      if (id) {
+        const res = await ServiceServices.updateService(id, serviceData);
+       console.log("res is ", res);
 
-      if (updatedId) {
-        const res = await ProjectServices.updateProject(updatedId, projectData);
         if (res) {
           if (isCombination) {
             setIsUpdate(true);
@@ -186,10 +258,10 @@ const useServiceSubmit = (id) => {
           closeDrawer();
         }
       } else {
-        const res = await ProductServices.addProduct(projectData);
+        const res = await ServiceServices.addService(serviceData);
         // console.log("res is ", res);
         if (isCombination) {
-          setUpdatedId(res._id);
+          setUpdatedId(res.id);
           setTitle(data.title);
           setSubtitle(data.subtitle);
           setShort_description(data.short_description);
@@ -233,16 +305,34 @@ const useServiceSubmit = (id) => {
       setValue("language", language);
       handleServiceTap("Anglais", true);
       setResData({});
-      setValue("sku");
-      setValue("title");
-      setValue("slug");
-      setValue("description");
-      setValue("quantity");
-      setValue("stock");
-      setValue("originalPrice");
-      setValue("price");
-      setValue("barcode");
-      setValue("productId");
+      setValue("image");
+      setValue("icon");
+      setValue("title_en");
+      setValue("title_fr");
+      setValue("title_ar");
+      setValue("subtitle_en");
+      setValue("subtitle_fr");
+      setValue("subtitle_ar");
+      setValue("short_description_en");
+      setValue("short_description_fr");
+      setValue("short_description_ar");
+      setValue("description_en");
+      setValue("description_fr");
+      setValue("description_ar");
+      setValue("seo_keywords");
+      setValue("seo_description_en");
+      setValue("seo_description_fr");
+      setValue("seo_description_ar");
+      setValue("catalogue");
+
+      
+
+      // setValue("quantity");
+      // setValue("stock");
+      // setValue("originalPrice");
+      // setValue("price");
+      // setValue("barcode");
+      // setValue("productId");
 
       setProductId("");
       // setValue('show');
@@ -285,19 +375,15 @@ const useServiceSubmit = (id) => {
       setIsBasicComplete(true);
       (async () => {
         try {
-          const res = await ProductServices.getProductById(id);
+          const res = await ServiceServices.getServiceById(id);
 
-          // console.log("res", res);
+          console.log("res", res);
 
           if (res) {
             setResData(res);
-            setSlug(res.slug);
-            setUpdatedId(res._id);
-            setValue("title", res.title[language ? language : "en"]);
-            setValue(
-              "description",
-              res.description[language ? language : "en"]
-            );
+            setValue("title_en", res.title_en);
+            setValue("title_fr", res.title_fr);
+            setValue("title_ar", res.title_ar);
             setValue("slug", res.slug);
             setValue("show", res.show);
             setValue("sku", res.sku);
@@ -347,6 +433,7 @@ const useServiceSubmit = (id) => {
     clearErrors,
     language,
     lang,
+    data
   ]);
 
   //for filter related attribute and extras for every product which need to update
@@ -516,7 +603,7 @@ const useServiceSubmit = (id) => {
         // console.log(value);
         if (value) {
           setIsCombination(!isCombination);
-          setTapValue("French");
+          setTapValue("Anglais");
           setVariants([]);
           setVariant([]);
         }
