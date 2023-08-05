@@ -109,7 +109,7 @@ export const translationEn = {
     "Apply changes to the selected products from the list.",
   UpdateProductDescription: "Update products info, combinations and extras.",
   DrawerAddProduct: "Add Product",
-  AddProductDescription: "Add your product and necessary information from here",
+  AddProductDescription: "Add your project and necessary information from here",
   ProductImage: "Product Images",
   DragYourImage: "Drag your images here",
   imageFormat: "(Only *.jpeg, *.webp and *.png images will be accepted)",

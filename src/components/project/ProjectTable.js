@@ -24,37 +24,77 @@ import CategoryServices from "services/CategoryServices";
 
 //internal import 
 
-const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
+const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,isLoading, setIsLoading}) => {
+
+
+ 
+
   const [data, setData] = useState([]); 
   const {
     handleModalOpen,
     handleUpdate,
+    serviceId,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
 
-  
+  console.log('serviceId',serviceId);
+
+  //----------------------------------------------------------------
+
+
+  // Utilisez la fonction getAllProjects pour récupérer les données des projets depuis l'API
+  const fetchProjects = async () => {
+    try {
+      const response = await ProjectServices.getAllProjects({
+      });
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des projets :", error);
+    }  finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+
   useEffect(() => {
-    // Utilisez la fonction getAllProjects pour récupérer les données des projets depuis l'API
-    const fetchProjects = async () => {
-      try {
-        const response = await ProjectServices.getAllProjects({
-          category_id: null,
-          title: null,
-          subtitle: null,
-          short_description: null,
-          description: null,
-          image:null,
-        });
-
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des projets :", error);
-      }
-    };
-
     fetchProjects(); // Appelez la fonction fetchProjects pour récupérer les projets au chargement du composant
-  }, []); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+  }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+
+
+
+//----------------------------------------------------------------
+
+  const getProject = async() =>{
+    try{
+      const pr = await ProjectServices.getProjectById(isCheck)
+      setIsCheck([...isCheck, pr.id]);
+      console.log('Projet selectionnée : ',pr.id);
+
+    }catch(error){
+      console.error("Erreur lors de la récupération de projet :", error);
+
+    }
+  }
+
+
+  useEffect(() =>{
+    getProject();
+  },[])
+
+//----------------------------------------------------------------
+
+
+  
+
+//----------------------------------------------------------------
+
+
+
+
+  const beforeHandleModalOpen = (id, title, project) => {
+    console.log(id)
+    handleModalOpen(id, title, project); 
+    setIsCheck([id]); 
+  }
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -66,43 +106,53 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
     }
   };
 
-
   return (
     <>
-      {/* {isCheck?.length < 1 && <DeleteModal id={data.id} title={data.title} />}
+      {isCheck?.length < 2 && <DeleteModal 
+      id={serviceId} 
+      title={data.title} 
+      isLoading={isLoading} // Passer la variable isLoading
+      setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
+       />}
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ProjectDrawer  id={data.id} />
+          <ProjectDrawer  id={serviceId}  />
         </MainDrawer>
-      )} */}
+      )}
+
 
       <TableBody>
-        {data?.map((data, i) => (
+         {/* Afficher le loader si la table est en cours de chargement */}
+    {/* {isLoading && <div>Chargement en cours...</div>} */}
+    
+        {data?.map((item, i) => (
           <TableRow key={i + 1}>
                
             <TableCell>
               <CheckBox
                 type="checkbox"
-                name={data?.title}
-                id={data.id}
+                name={item.title}
+                id={item.id}
+                isCheck={isCheck}
                 handleClick={handleClick}
-                isChecked={isCheck?.includes(data.id)}
+                isChecked={isCheck?.includes(item.id)}
+
               />
             </TableCell>
 
-         
+          
 
             <TableCell>
               <div className="flex items-center">
                   <Avatar
                     className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
-                    src={data?.image}
+                    src={item?.image}
                     alt="project"
                   />
                 <div>
                   <h2 className="text-sm font-medium">
-                    {data.title}
+                    {item.title}
                   </h2>
                 </div>
               </div>
@@ -111,13 +161,13 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
 
             <TableCell>
             <span className="text-sm font-semibold">
-              {data.subtitle}
+              {item.subtitle}
               </span> 
             </TableCell>
 
             <TableCell>
                <span className="text-sm font-semibold">
-                    {data.category_id}
+                    {item.category_id}
               </span>
          
             </TableCell>
@@ -125,9 +175,9 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
 
             <TableCell className="truncate max-w-xs">
               <span className="text-sm font-semibold">
-                {data.short_description.length > 30
-                  ? data.short_description.substring(0, 30) + "..."
-                  : data.short_description}
+                {item.short_description.length > 30
+                  ? item.short_description.substring(0, 30) + "..."
+                  : item.short_description}
               </span>
             </TableCell>
 
@@ -143,7 +193,7 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
             
             <TableCell>
               <Link
-                to={`/project/${data.id}`}
+                to={`/project/${item.id}`}
                 className="flex justify-center text-gray-400 hover:text-orange-600"
               >
                 <Tooltip
@@ -157,13 +207,18 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang }) => {
            
             <TableCell>
               <EditDeleteButton
-                id={data.id}
-                data={data}
+                id={item.id}
+                // cercleprogress
+                isLoading={isLoading} // Passer la variable isLoading
+                setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
+                data={item}
                 isCheck={isCheck}
+                handleClick={handleClick}
                 handleUpdate={handleUpdate}
-                handleModalOpen={handleModalOpen}
-                title={showingTranslateValue(data?.title, lang)}
+                handleModalOpen={beforeHandleModalOpen }
+                title={showingTranslateValue(item?.title, lang)}
               />
+        
             </TableCell>
           </TableRow>
         ))}

@@ -179,6 +179,7 @@ const ProductDrawer = ({ id }) => {
                   <Error errorName={errors.title} />
                 </div>
               </div>
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductDescription")} />
                 <div className="col-span-8 sm:col-span-4">
@@ -195,6 +196,7 @@ const ProductDrawer = ({ id }) => {
                   <Error errorName={errors.description} />
                 </div>
               </div>
+              
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductImage")} />
                 <div className="col-span-8 sm:col-span-4">

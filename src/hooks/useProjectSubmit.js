@@ -295,7 +295,7 @@ const [slug_ar, setSlug_ar] = useState("");
       setUpdatedId();
       return;
     } else {
-      handleProjectTap("French", true);
+      handleProjectTap("Anglais", true);
     }
 
     if (id) {
@@ -533,14 +533,14 @@ const [slug_ar, setSlug_ar] = useState("");
         // console.log(value);
         if (value) {
           setIsCombination(!isCombination);
-          setTapValue("French");
+          setTapValue("Anglais");
           setVariants([]);
           setVariant([]);
         }
       });
     } else {
       setIsCombination(!isCombination);
-      setTapValue("French");
+      setTapValue("Anglais");
     }
   };
 

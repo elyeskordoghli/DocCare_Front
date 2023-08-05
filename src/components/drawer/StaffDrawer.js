@@ -132,7 +132,7 @@ const [selecttedDepartment, setSelecttedDepartment] = useState([]);
     }
   }
   useEffect(() => {
-    getPrevilegesData(),
+    getPrevilegesData()
     getDepartementsData()
 
   }, [])
