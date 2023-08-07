@@ -2,37 +2,35 @@ import React from 'react';
 // import { Select } from '@windmill/react-ui';
 import Select from 'react-select';
 
-const SelectPrevilege = ({ setSelecttedPrevilege, register, label ,data, previleges,selecttedPrevilege }) => {
-  const options = previleges?.map((previlege) => ({
-    value: previlege.id,
-    label: previlege?.name,
+const SelectProject = ({ setSelecttedProject, register, label ,data, projects }) => {
+  const options = projects?.map((project) => ({
+    value: project.id,
+    label: project?.title,
   }));
- 
+
   const handleChange = (selectedOption) => {
     console.log(selectedOption, '__')
-    setSelecttedPrevilege(selectedOption?.map(obj => {return obj.value}));
+    setSelecttedProject(selectedOption.value);
   };
-  console.log('statepp',selecttedPrevilege)
-
   return (
     <>
       <Select
        options={options} // Pass the options array to react-select
         onChange={handleChange} 
         isMulti
-        // onChange={(e) => setSelecttedPrevilege(e.target.value)}
+        // onChange={(e) => setSelecttedProject(e.target.value)}
         className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-        name={'previlege'}
+        name={'projects'}
         // {...register(`${name}`, {
         //   required: `${label} is required!`,
         // })}
       >
         <option value="" defaultValue hidden>
-          Staff Previlege
+         Category Project
         </option>
-        {previleges?.map((previlege) => (
-          <option key={previlege.id} value={previlege.id}>
-            {previlege?.name}
+        {projects?.map((project) => (
+          <option key={project.id} value={project.id}>
+            {project?.title}
           </option>
         ))}
       </Select>
@@ -40,4 +38,4 @@ const SelectPrevilege = ({ setSelecttedPrevilege, register, label ,data, previle
   );
 };
 
-export default SelectPrevilege;
+export default SelectProject;

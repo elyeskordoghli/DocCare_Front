@@ -6,6 +6,10 @@ const useToggleDrawer = () => {
   const [serviceId, setServiceId] = useState("");
   const [allId, setAllId] = useState([]);
   const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
+
+  const [id, setId] = useState("");
+
   const { toggleDrawer, isDrawerOpen, toggleModal, toggleBulkDrawer } =
     useContext(SidebarContext);
 
@@ -24,7 +28,11 @@ const useToggleDrawer = () => {
     toggleModal();
     setTitle(title);
   };
-
+  // const handleModalOpen = (id, name) => {
+  //   setServiceId(id);
+  //   toggleModal();
+  //   setName(name);
+  // };
   useEffect(() => {
     if (!isDrawerOpen) {
       setServiceId();
@@ -40,7 +48,9 @@ const useToggleDrawer = () => {
   return {
     title,
     allId,
+    id,
     serviceId,
+    name,
     handleUpdate,
     setServiceId,
     handleModalOpen,

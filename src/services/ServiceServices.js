@@ -1,27 +1,25 @@
 import requests from "./httpService";
     const ServiceServices = {
-      getAllServices: async ({id, title, subtitle, short_description, description,image,catalogue}) => {
-      //  const searchCategory = category_id !== null ? category_id : "";
-        const searchTitle = title !== null ? title : "";
-        const searchSubTitle = subtitle !== null ? subtitle : "";
-        const searchShortDescription = short_description !== null ? short_description : "";
-        const searchDescription = description !== null ? description : "";
-        return requests.get(
-          `/admin/services`
-        );
-      },
-  
+      // getAllServices: async () => {
+    
+      //   return requests.get(
+      //     `/admin/services`
+      //   );
+      // },
+      // getAllStaff: async (body) => {
+      //   return requests.get("/admin/admin_user/", body);
+      // },
   getServiceById: async (id) => {
     return requests.get(`admin/services/service/${id}`);
   },
   addService: async (body) => {
     return requests.post("admin/services/store", body);
   },
-  // getAllServices: async (body) => {
-  //   return requests.get("admin/Services", body);
-  // },
+  getAllServices: async (body) => {
+    return requests.get("admin/services", body);
+  },
   updateService: async (id, body) => {
-    return requests.put(`/admin/services/update/${id}`, body);
+    return requests.post(`/admin/services/update/${id}`, body);
   },
   // updateManyServices: async (body) => {
   //   return requests.patch("Services/update/many", body);

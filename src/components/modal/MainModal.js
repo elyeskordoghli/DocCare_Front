@@ -11,8 +11,9 @@ import CategoryServices from "services/CategoryServices";
 import { SidebarContext } from "context/SidebarContext";
 import { notifySuccess, notifyError } from "utils/toast";
 import useToggleDrawer from "hooks/useToggleDrawer";
+import ServiceServices from "services/ServiceServices";
 
-const MainModal = ({ id, title,isLoading, setIsLoading }) => {
+const MainModal = ({ id, title,isLoading, setIsLoading}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const { setServiceId } = useToggleDrawer();
   const location = useLocation();
@@ -32,7 +33,16 @@ const MainModal = ({ id, title,isLoading, setIsLoading }) => {
       closeModal();
       setServiceId();
     }
-
+    if (location.pathname === "/services") {
+     ServiceServices.deleteService(id)
+        .then((res) => {
+          setIsUpdate(true);
+          notifySuccess(res.message);
+        })
+        .catch((err) => notifyError(err.message));
+      closeModal();
+      setServiceId();
+    }
     if (location.pathname === "/category") {
       CategoryServices.deleteCategory(id)
         .then((res) => {

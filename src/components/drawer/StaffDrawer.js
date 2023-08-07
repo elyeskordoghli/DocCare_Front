@@ -15,12 +15,12 @@ import PrevilegeServices from "services/PrevilegeServices";
 import DrawerButton from "components/form/DrawerButton";
 import { useEffect, useState } from "react";
 import DepartmentServices from "services/DepartementServices";
+import AdminServices from "services/AdminServices";
 
 
 const StaffDrawer = ({ id,data }) => {
   const {
     register,
-    handleSubmit,
     onSubmit,
     errors,
     imageUrl,
@@ -31,8 +31,84 @@ const StaffDrawer = ({ id,data }) => {
   } = useStaffSubmit(id);
   const { t } = useTranslation();
 
-  const [previleges, setPrevilege] = useState([]);
-  const [selecttedPrevilege, setSelecttedPrevilege] = useState(null);
+console.log('idddd',id);
+
+  //----------begin states----------------
+
+const [name,setName] = useState("");
+const [email,setEmail] = useState("");
+const [password,setPassword] = useState("");
+const [status,setStatus] = useState("1");
+
+const [previleges, setPrevilege] = useState([]);
+const [selecttedPrevilege, setSelecttedPrevilege] = useState([]);
+
+const [departments, setDepartment] = useState([]);
+const [selecttedDepartment, setSelecttedDepartment] = useState([]);
+
+
+  //----------end states--------------
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
+
+    const Error = ({ errorName }) => {
+      return (
+        <div className="text-red-500 text-sm mt-1">{errorName && errorName.message}</div>
+      );
+    };
+
+      const formData = new FormData();
+      
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('status', status);
+      formData.append('previleges', JSON.stringify(selecttedPrevilege));
+      formData.append('departments', JSON.stringify(selecttedDepartment));
+
+
+      try {
+        if (id == null) {
+
+          const res = await AdminServices.addStaff(formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+        }else{
+
+          const response = await AdminServices.updateStaff(id,formData, {
+            headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+
+        });
+      }
+      } catch (error) {
+        console.error("Erreur lors de l'ajout de l\'admin :", error);
+      }
+  };
+
+
+  const initFormForUpdate = async (id) => {
+        
+          const res = await AdminServices.getStaffById(id);
+          console.log('admin',res.data)
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setPassword(res.data.password);
+          setPrevilege(res.data.previleges);
+          setDepartment(res.data.departments);
+
+  };
+
+  useEffect(()=>{
+    initFormForUpdate(id);
+  },[id]);
 
   const getPrevilegesData = async () => {
     try {
@@ -44,7 +120,6 @@ const StaffDrawer = ({ id,data }) => {
 
     }
   }
-  const [departments, setDepartment] = useState([]);
 
   const getDepartementsData = async () => {
     try {
@@ -61,6 +136,8 @@ const StaffDrawer = ({ id,data }) => {
     getDepartementsData()
 
   }, [])
+
+
 
   return (
     <>
@@ -84,100 +161,77 @@ const StaffDrawer = ({ id,data }) => {
       <Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
         <Card className="overflow-y-scroll flex-grow scrollbar-hide w-full max-h-full">
           <CardBody>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit}>
               <div className="px-6 pt-8 flex-grow scrollbar-hide w-full max-h-full pb-40">
 
-                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Name" />
-                  <div className="col-span-8 sm:col-span-4">
-                    <InputArea
-                      register={register}
-                      label="Name"
-                      name="name"
-                      type="text"
-                      placeholder="Staff name"
-                    />
-                    <Error errorName={errors?.name} />
-                  </div>
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                  <LabelArea label={"name "} />
+                    <div className="col-span-8 sm:col-span-4">
+                      <Input
+                        className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                        name="name"
+                        type="text"
+                        placeholder={"name"}
+                        // onBlur={(e) => handleProductSlug(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                      />
+                      <Error errorName={errors.name} />
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Email" />
-                  <div className="col-span-8 sm:col-span-4">
-                    <InputArea
-                      register={register}
-                      label="Email"
-                      name="email"
-                      type="text"
-                      pattern={
-                        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-                      }
-                      placeholder="Email"
-                    />
-                    <Error errorName={errors.email} />
-                  </div>
+                  <LabelArea label={"Email "} />
+                    <div className="col-span-8 sm:col-span-4">
+                      <Input
+                        className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                        name="email"
+                        type="text"
+                        placeholder={"Email"}
+                        // onBlur={(e) => handleProductSlug(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                      />
+                      <Error errorName={errors.email} />
+                    </div>
                 </div>
 
+                
+
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Password" />
-                  <div className="col-span-8 sm:col-span-4">
-                    {id ? (
-                      <InputArea
-                        required
-                        register={register}
-                        label="Password"
+                  <LabelArea label={"password "} />
+                    <div className="col-span-8 sm:col-span-4">
+                      <Input
+                        className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                         name="password"
                         type="password"
-                        autocomplete="new-password"
-                        placeholder="Password"
+                        placeholder={"password"}
+                        // onBlur={(e) => handleProductSlug(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
                       />
-                    ) : (
-                      <InputArea
-                        register={register}
-                        label="Password"
-                        name="password"
-                        type="password"
-                        autocomplete="new-password"
-                        placeholder="Password"
-                      />
-                    )}
-
-                    <Error errorName={errors.password} />
-                  </div>
+                      <Error errorName={errors.password} />
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Stauts" />
-                  <div className="col-span-8 sm:col-span-4">
-                    <InputArea
-                      register={register}
-                      label="Stauts"
-                      name="stauts"
-                      pattern={/^[+]?\d*$/}
-                      // minLength={6}
-                      // maxLength={15}
-                      type="text"
-                      placeholder="Stauts"
-                    />
-                    <Error errorName={errors.stauts} />
-                  </div>
-                </div>
 
-              
+                            
 
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label="Staff Previlege" />
-                    {JSON.stringify(selecttedPrevilege )} 00
+                    {/* {JSON.stringify(selecttedPrevilege )} 00 */}
                   <div className="col-span-8 sm:col-span-4">
-                    <SelectPrevilege setSelecttedPrevilege={setSelecttedPrevilege} register={register} label="Previlege"  previleges={previleges}  />
+                    <SelectPrevilege setSelecttedPrevilege={setSelecttedPrevilege} register={register} label="Previlege"  previleges={previleges} selecttedPrevilege={selecttedPrevilege} />
                     <Error errorName={errors.previlege} />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label="Staff Department" />
+                    {/* {JSON.stringify(selecttedDepartment )} 00 */}
+
                   <div className="col-span-8 sm:col-span-4">
-                    <SelectDepartment register={register} label="Department" name="department" departments={departments}  />
+                    <SelectDepartment setSelecttedDepartment={setSelecttedDepartment} selecttedDepartment={selecttedDepartment} register={register} label="Department" name="department"  departments={departments}  />
                     <Error errorName={errors.department} />
                   </div>
                 </div>

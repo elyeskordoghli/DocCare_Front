@@ -29,8 +29,8 @@ const AdminServices = {
   getAllStaff: async (body) => {
     return requests.get("/admin/admin_user/", body);
   },
-  getStaffById: async (id, body) => {
-    return requests.post(`/admin/${id}`, body);
+  getStaffById: async (id) => {
+    return requests.get(`/admin/admin_user/admins/${id}`);
   },
 
   updateStaff: async (id, body) => {
@@ -42,7 +42,7 @@ const AdminServices = {
   },
 
   deleteStaff: async (id) => {
-    return requests.delete(`/admin/${id}`);
+    return requests.delete(`/admin/admin_user/delete/${id}`);
   },
 };
 

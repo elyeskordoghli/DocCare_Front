@@ -55,35 +55,35 @@ const StaffTable = ({ lang }) => {
       </MainDrawer>
 
       <TableBody>
-        {data?.map((data) => (
-          <TableRow key={data.id}>
+        {data?.map((item) => (
+          <TableRow key={item.id}>
             <TableCell>
               <div className="flex items-center">
                 
                 <div>
                   <h2 className="text-sm font-medium">
-                    {data.name}
+                    {item.name}
                   </h2>
                 </div>
               </div>
             </TableCell>
 
             <TableCell>
-              <span className="text-sm">{data.email}</span>{" "}
+              <span className="text-sm">{item.email}</span>{" "}
             </TableCell>
             <TableCell>
-              <span className="text-sm ">{data.last_login_at}</span>
+              <span className="text-sm ">{item.last_login_at}</span>
             </TableCell>
             <TableCell>
-              <span className="text-sm ">{data.last_login_ip}</span>
+              <span className="text-sm ">{item.last_login_ip}</span>
             </TableCell>
             <TableCell>
-              <span className="text-sm font-semibold">{data?.status}</span>
+              <span className="text-sm font-semibold">{item?.status}</span>
             </TableCell>
             <TableCell>
-              {data?.previleges ? (
+              {item?.previleges ? (
                 <ul className="list-disc pl-6"> {/* Utilisez une liste à puces avec une marge à gauche de 6px */}
-                  {data.previleges.map((previlege, index) => (
+                  {item.previleges.map((previlege, index) => (
                     <li key={index} className="text-sm font-semibold">
                       {previlege.name}
                     </li>
@@ -95,11 +95,11 @@ const StaffTable = ({ lang }) => {
             </TableCell>
 
           <TableCell>
-            {data?.departments ? (
-              data.departments.map((department, index) => (
+            {item?.departments ? (
+              item.departments.map((department, index) => (
                 <span key={index} className="text-sm font-semibold">
                   {department.title}
-                  {index !== data.departments.length - 1 && ", "} {/* Ajoute une virgule entre chaque privilège, sauf pour le dernier */}
+                  {index !== item.departments.length - 1 && ", "} {/* Ajoute une virgule entre chaque privilège, sauf pour le dernier */}
                 </span>
               ))
             ) : (
@@ -109,15 +109,15 @@ const StaffTable = ({ lang }) => {
 {/* 
             <TableCell className="text-center">
               <ActiveInActiveButton
-                id={data?.id}
-                data={data}
-                option="data"
+                id={item?.id}
+                item={item}
+                option="item"
                 // status={staff.status}
               />
             </TableCell> */}
             {/* <TableCell>
               <Link
-                to={`/staff/${data.id}`}
+                to={`/staff/${item.id}`}
                 className="flex justify-center text-gray-400 hover:text-green-600"
               >
                 <Tooltip
@@ -130,13 +130,13 @@ const StaffTable = ({ lang }) => {
             </TableCell> */}
             <TableCell>
               <EditDeleteButton
-                id={data.id}
-                data={data}
+                id={item.id}
+                staff={item}
                 isSubmitting={isSubmitting}
                 handleUpdate={handleUpdate}
                 handleModalOpen={handleModalOpen}
                 handleResetPassword={handleResetPassword}
-                title={showingTranslateValue(data?.name, lang)}
+                name={item?.name}
               />
             </TableCell>
           </TableRow>
