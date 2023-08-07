@@ -106,6 +106,10 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
     }
   };
 
+
+
+
+
   return (
     <>
       {isCheck?.length < 2 && <DeleteModal 
@@ -166,9 +170,9 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
             </TableCell>
 
             <TableCell>
-               <span className="text-sm font-semibold">
-                    {item.category_id}
-              </span>
+            <span className="text-sm font-semibold">
+              {item.category.name_en}
+              </span> 
          
             </TableCell>
 

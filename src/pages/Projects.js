@@ -56,18 +56,19 @@ const Projects = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(() =>
-    ProjectServices.getAllProjects({
-      // page: currentPage,
-      // limit: limitData,
-      // category_id: category,
-      // title: searchText,
-      // subtitle: subtitle,
-      // short_description: short_description,
-      // description : description,
-    //  price: sortedField,
-    })
-  );
+  const [data,setData]=useEffect();
+
+  const getAllProjects = async () => {
+    try {
+      const res = await ProjectServices.getAllProjects();
+      // Mettez à jour le state avec les départements récupérés depuis l'API
+      setData(res.data);
+    } catch (err) {
+     console.log(err ? err?.response?.data?.message : err?.message);
+
+    }
+  }
+
 
 
 
@@ -114,17 +115,17 @@ const Projects = () => {
 
   const introjects = async (selectedCategory) =>{
     try {
+      setIsLoading(true);
       const response = await ProjectServices.getProjectByCategoryId(selectedCategory);
-      
+      data=response.data;
+      console.log('projectcat',data)
+      setIsLoading(false);
       // Vérifier si response.data est un tableau avant d'utiliser .map()
-      setData(response.data);
-      console.log('projectcat',response.data)
+      
 
     } catch (error) {
       console.error("Erreur lors de la récupération des projets :", error);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   }
 
   console.log('selected categoriiiiiiiii',selectedCategory)
@@ -132,7 +133,7 @@ const Projects = () => {
 
   useEffect(() =>{
     introjects(selectedCategory);
-  },[selectedCategory,isLoading])
+  },[selectedCategory])
   
   //---------------------------------------------------------
 
@@ -236,7 +237,8 @@ const Projects = () => {
               ></button>
             </div>
 
-            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+{/* categorie */}
+<div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <SelectCategory 
               setCategory={setCategory} 
               categories={categories} setSelectedCategory={setSelectedCategory} 
@@ -246,7 +248,8 @@ const Projects = () => {
               setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
               />
             </div>
-            
+{/*end categorie */}
+ 
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select
