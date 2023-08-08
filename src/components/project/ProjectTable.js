@@ -24,10 +24,21 @@ import CategoryServices from "services/CategoryServices";
 
 //internal import 
 
-const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,isLoading, setIsLoading}) => {
+const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLoading, setIsLoading,projects}) => {
 
+  const handleClick = (e) => {
+    const { id, checked } = e.target;
+    console.log("id hatha", id, checked);
+  
+    if (checked) {
+      setIsCheck([...isCheck, id]);
+    } else {
+      setIsCheck(isCheck.filter((item) => item !== id));
+      console.log("id tna7a", id, checked);
+    }
+  };
 
- 
+ console.log('projecttttttts',projects)
 
   const [data, setData] = useState([]); 
   const {
@@ -37,29 +48,61 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
 
+
+
   console.log('serviceId',serviceId);
 
   //----------------------------------------------------------------
 
 
   // Utilisez la fonction getAllProjects pour récupérer les données des projets depuis l'API
-  const fetchProjects = async () => {
-    try {
-      const response = await ProjectServices.getAllProjects({
-      });
-      setData(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des projets :", error);
-    }  finally {
-      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-    }
-  };
+  // const fetchProjects = async () => {
+  //   try {
+  //     const response = await ProjectServices.getAllProjects({
+  //     });
+  //     setData(response.data);
+  //   } catch (error) {
+  //     console.error("Erreur lors de la récupération des projets :", error);
+  //   }  finally {
+  //     setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchProjects(); // Appelez la fonction fetchProjects pour récupérer les projets au chargement du composant
-  }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+  // useEffect(() => {
+  //   fetchProjects(); // Appelez la fonction fetchProjects pour récupérer les projets au chargement du composant
+  // }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+  
+  console.log('categorie hathy : ',selectedCategory);
+    const fetchProjects = async (selectedCategory,isLoading,search) => {
+      try {
+        let response;
+        console.log('search value',search);
+        if (selectedCategory === "All" && !search) {
+        // Si la catégorie sélectionnée est "All", récupérer tous les projets
+          response = await ProjectServices.getAllProjects();
+        }
+          else if (search) {
+            response = await ProjectServices.search(search,selectedCategory);
+          
 
+        }else if (selectedCategory !== "All"  ) {
+          response = await ProjectServices.getProjectByCategoryId(selectedCategory);
 
+        }
+       
+       
+        setData(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des projets :", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    useEffect(() => {
+    fetchProjects(selectedCategory,isLoading,search);
+  }, [selectedCategory,isLoading,search]);
+  
+ 
 
 //----------------------------------------------------------------
 
@@ -83,6 +126,27 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
 //----------------------------------------------------------------
 
 
+// const introjects = async (selectedCategory) =>{
+//   try {
+//     // setIsLoading(true);
+//     const response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+//     setData(response.data);
+//     console.log('projectcat',data)
+//     // setIsLoading(false);
+//     // Vérifier si response.data est un tableau avant d'utiliser .map()
+    
+
+//   } catch (error) {
+//     console.error("Erreur lors de la récupération des projets :", error);
+//   } 
+// }
+
+// console.log('selected categoriiiiiiiii',selectedCategory)
+
+
+// useEffect(() =>{
+//   introjects(selectedCategory);
+// },[selectedCategory,isLoading])
   
 
 //----------------------------------------------------------------
@@ -91,20 +155,22 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
 
 
   const beforeHandleModalOpen = (id, title, project) => {
-    console.log(id)
-    handleModalOpen(id, title, project); 
-    setIsCheck([id]); 
-  }
-
-  const handleClick = (e) => {
-    const { id, checked } = e.target;
-    console.log("id", id, checked);
-
-    setIsCheck([...isCheck, id]);
-    if (!checked) {
-      setIsCheck(isCheck.filter((item) => item !== id));
+    try{
+      console.log(id)
+      handleModalOpen(id, title, project); 
+      // setIsCheck([id]);
+    }catch(error)
+    {
+      alert(`Une erreur est survenue ${error}`);
     }
-  };
+    
+
+  }
+console.log('ischeckkkkkkkkkk',isCheck)
+
+
+
+
 
 
 
@@ -112,7 +178,7 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
 
   return (
     <>
-      {isCheck?.length < 2 && <DeleteModal 
+      {isCheck?.length < 1 && <DeleteModal 
       id={serviceId} 
       title={data.title} 
       isLoading={isLoading} // Passer la variable isLoading
@@ -121,7 +187,9 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ProjectDrawer  id={serviceId}  />
+          <ProjectDrawer  id={serviceId} 
+             isLoading={isLoading} // Passer la variable isLoading
+             setIsLoading={setIsLoading} />
         </MainDrawer>
       )}
 
@@ -133,17 +201,26 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
         {data?.map((item, i) => (
           <TableRow key={i + 1}>
                
-            <TableCell>
+            {/* <TableCell>
               <CheckBox
                 type="checkbox"
-                name={item.title}
+                name={item.title_en}
                 id={item.id}
-                isCheck={isCheck}
-                handleClick={handleClick}
                 isChecked={isCheck?.includes(item.id)}
-
+                handleClick={handleClick}
+              />
+            </TableCell> */}
+              <TableCell>
+              <CheckBox
+                id={item.id}
+                name={item.title_en}
+                type="checkbox"
+                isChecked={isCheck?.includes(item.id)}
+                handleClick={() => handleClick(item.id)}
+                setIsCheck={setIsCheck} // Passer la fonction setIsCheck en tant que prop
               />
             </TableCell>
+
 
           
 
@@ -177,13 +254,13 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
             </TableCell>
 
 
-            <TableCell className="truncate max-w-xs">
+            {/* <TableCell className="truncate max-w-xs">
               <span className="text-sm font-semibold">
                 {item.short_description.length > 30
                   ? item.short_description.substring(0, 30) + "..."
                   : item.short_description}
               </span>
-            </TableCell>
+            </TableCell> */}
 
             
 
@@ -199,6 +276,8 @@ const ProjectTable = ({ isCheck, setIsCheck, currency, lang ,selectedCategory,is
               <Link
                 to={`/project/${item.id}`}
                 className="flex justify-center text-gray-400 hover:text-orange-600"
+                handleUpdate={handleUpdate}
+
               >
                 <Tooltip
                   id="view"

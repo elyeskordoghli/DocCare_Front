@@ -39,9 +39,11 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
         setIsLoading(true);
         const res = await ProjectServices.deleteProject(id);
         setIsLoading(false);
+        // setIsCheck([]);
 
           setIsUpdate(true);
           notifySuccess(res.message);
+          
           setServiceId();
           closeModal();
           setIsSubmitting(false);
@@ -50,10 +52,8 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
         if (id) {
           const res = await ServiceServices.deleteService(id);
           console.log('dddddddddddd',id);
-          history.push("/services");
           setIsUpdate(true);
           notifySuccess(res.message);
-          setIsCheck([]);
           setServiceId();
           closeModal();
           setIsSubmitting(false);
@@ -243,7 +243,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);
       setServiceId();
-      setIsCheck([]);
+      // setIsCheck([]);
       closeModal();
       setIsSubmitting(false);
     }

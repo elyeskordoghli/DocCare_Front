@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { SidebarContext } from "context/SidebarContext";
 import spinnerLoadingImage from "assets/img/spinner.gif";
 
-const DrawerButton = ({ id, title, isSubmitting }) => {
+const DrawerButton = ({ id, title, value ,onClick}) => {
   const { t } = useTranslation();
   const { toggleDrawer, isDrawerOpen } = useContext(SidebarContext);
   return (
@@ -26,11 +26,13 @@ const DrawerButton = ({ id, title, isSubmitting }) => {
         </div>
 
         <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-          {isSubmitting ? (
-            <Button disabled={true} type="button" className="w-full h-12">
-              <img src={spinnerLoadingImage} alt="Loading" width={20} height={10} />{" "}
-              <span className="font-serif ml-2 font-light">Processing</span>
-            </Button>
+          {}
+          {value==="next" ? (
+            <Button
+            type="button" // Utilisez le type "button" pour éviter une soumission accidentelle
+            onClick={onClick} // Utilisez la prop onClick pour gérer le clic
+            className="w-full h-12"
+          >Next</Button>
           ) : (
             <Button type="submit" className="w-full h-12">
               {id ? (

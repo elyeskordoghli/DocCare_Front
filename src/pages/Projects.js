@@ -14,7 +14,7 @@ import {
 } from "@windmill/react-ui";
 import { useTranslation } from "react-i18next";
 import { FiPlus } from "react-icons/fi";
-
+import MainModal from "components/modal/MainModal";
 import useAsync from "hooks/useAsync";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import UploadManyTwo from "components/common/UploadManyTwo";
@@ -56,21 +56,25 @@ const Projects = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  const [data,setData]=useEffect();
+  const { data, loading } = useAsync(() =>
+    ProjectServices.getAllProjects({
+      // page: currentPage,
+      // limit: limitData,
+      // category_id: category,
+      title: searchText,
+      // subtitle: subtitle,
+      // short_description: short_description,
+      // description : description,
+    //  price: sortedField,
+    })
+  );
 
-  const getAllProjects = async () => {
-    try {
-      const res = await ProjectServices.getAllProjects();
-      // Mettez à jour le state avec les départements récupérés depuis l'API
-      setData(res.data);
-    } catch (err) {
-     console.log(err ? err?.response?.data?.message : err?.message);
-
-    }
-  }
+//---------------------------------------------------------
+const [isLoading, setIsLoading]=useState();
+const [selectedCategory, setSelectedCategory] = useState('All');
 
 
-
+//---------------------------------------------------------
 
   const [categories, setCategory] = useState();
 
@@ -100,42 +104,23 @@ const Projects = () => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
-  const [selectedCategory, setSelectedCategory] = useState([]);
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
-    setIsCheck(data?.projects.map((li) => li._id));
+    setIsCheck(data?.map((li) => li.id));
+    console.log('ischecktw', isCheck);
     if (isCheckAll) {
       setIsCheck([]);
+
     }
   };
 
-  //---------------------------------------------------------
-  const [isLoading, setIsLoading]=useState();
+  const [search, setSearchValue] = useState("");
 
-  const introjects = async (selectedCategory) =>{
-    try {
-      setIsLoading(true);
-      const response = await ProjectServices.getProjectByCategoryId(selectedCategory);
-      data=response.data;
-      console.log('projectcat',data)
-      setIsLoading(false);
-      // Vérifier si response.data est un tableau avant d'utiliser .map()
-      
-
-    } catch (error) {
-      console.error("Erreur lors de la récupération des projets :", error);
-    } 
-  }
-
-  console.log('selected categoriiiiiiiii',selectedCategory)
-
-
-  useEffect(() =>{
-    introjects(selectedCategory);
-  },[selectedCategory])
-  
-  //---------------------------------------------------------
+  const handleSearchInputChange = (e) => {
+    const newSearchValue = e.target.value;
+    setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
+  };
 
 
 
@@ -147,15 +132,20 @@ const Projects = () => {
     handleSelectFile,
     handleUploadMultiple,
     handleRemoveSelectFile,
-  } = useProductFilter(data?.projects);
+  } = useProductFilter(data);
 
   return (
     <>
       <PageTitle>{t("ProjectsPage")}</PageTitle>
-      <DeleteModal id={isCheck} ids={allId} setIsCheck={setIsCheck} title={data.title} />
+      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} />
+      <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
       <BulkActionDrawer ids={allId} title="Projects" />
       <MainDrawer>
-        <ProjectDrawer id={serviceId}  />
+        <ProjectDrawer id={serviceId}  
+              isLoading={isLoading} // Passer la variable isLoading
+              setIsLoading={setIsLoading} 
+                isCheck ={isCheck}
+                setIsCheck={setIsCheck}/>
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -163,9 +153,10 @@ const Projects = () => {
             onSubmit={handleSubmitForAll}
             className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6  xl:flex"
           >
+
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
-                title="Products"
+                title="Projects"
                 filename={filename}
                 isDisabled={isDisabled}
                 totalDoc={data?.totalDoc}
@@ -174,8 +165,9 @@ const Projects = () => {
                 handleRemoveSelectFile={handleRemoveSelectFile}
               />
             </div>
+            
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-              <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
+              {/* <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
                 <Button
                   disabled={isCheck.length < 1}
                   onClick={() => handleUpdateMany(isCheck)}
@@ -186,7 +178,9 @@ const Projects = () => {
                   </span>
                   {t("BulkAction")}
                 </Button>
-              </div>
+              </div> */}
+
+
 
               <div className="w-full md:w-32 lg:w-32 xl:w-32 mr-3 mb-3 lg:mb-0">
                 <Button
@@ -201,6 +195,8 @@ const Projects = () => {
                   {t("Delete")}
                 </Button>
               </div>
+
+
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
                 <Button
                   onClick={toggleDrawer}
@@ -229,19 +225,22 @@ const Projects = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Product"
+                placeholder="Search Project"
+                onChange={handleSearchInputChange} // Ajoutez cet attribut onChange
+
               />
               <button
                 type="submit"
                 className="absolute right-0 top-0 mt-5 mr-1"
-              ></button>
+              >aaaa</button>
             </div>
 
 {/* categorie */}
-<div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <SelectCategory 
               setCategory={setCategory} 
-              categories={categories} setSelectedCategory={setSelectedCategory} 
+              categories={categories} 
+              setSelectedCategory={setSelectedCategory} 
               selectedCategory={selectedCategory}
               lang={lang} 
               isLoading={isLoading} // Passer la variable isLoading
@@ -250,7 +249,7 @@ const Projects = () => {
             </div>
 {/*end categorie */}
  
-
+{/* 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select
                 onChange={(e) => setSortedField(e.target.value)}
@@ -272,7 +271,7 @@ const Projects = () => {
                   {t("DateUpdatedDesc")}
                 </option>
               </Select>
-            </div>
+            </div> */}
           </form>
         </CardBody>
       </Card>
@@ -292,11 +291,15 @@ const Projects = () => {
                     isChecked={isCheckAll}
                     handleClick={handleSelectAll}
                   />
+
+                
+
+
                 </TableCell>
                 <TableCell>{t("Project Title")}</TableCell>
                 <TableCell>{t("Project SubTitle")}</TableCell>
                 <TableCell>{t("CategoryTbl")}</TableCell>
-                <TableCell>{t("short description")}</TableCell>
+                {/* <TableCell>{t("short description")}</TableCell> */}
                 {/* <TableCell>{t("description")}</TableCell> */}
                 {/* <TableCell>{t("StatusTbl")}</TableCell> */}
                 <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
@@ -309,10 +312,13 @@ const Projects = () => {
             <ProjectTable
               lang={lang}
               isCheck={isCheck}
-              projects={data?.projects}
+              projects={data}
               setIsCheck={setIsCheck}
               currency={currency}
-              cat_id={selectedCategory}
+              selectedCategory={selectedCategory}
+              setIsLoading={setIsLoading}
+              isLoading={isLoading} 
+              search={search}
             />
           </Table>
           <TableFooter>
