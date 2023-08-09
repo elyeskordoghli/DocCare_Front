@@ -13,6 +13,7 @@ import { notifyError, notifySuccess } from "utils/toast";
 import SettingServices from "services/SettingServices";
 import { showingTranslateValue } from "utils/translate";
 import ServiceServices from "services/ServiceServices";
+import BlogServices from "services/BlogServices";
 
 const useBlogSubmit = (id,data) => {
   const location = useLocation();
@@ -64,29 +65,26 @@ const useBlogSubmit = (id,data) => {
   // const [seo_description,setSeo_description]=useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [seo_keywords, setSeo_keywords] = useState("");
-  const [title_en, setTitle_en] = useState("");
-  const [SubTitle_en, setSubtitle_en] = useState("");
+  const [name_en, setName_en] = useState("");
   const [Short_Description_en, setShort_description_en] = useState("");
   const [description_en, setDescription_en] = useState("");
   const [Seo_Description_en, setSeo_description_en] = useState("");
 
-  const [title_fr, setTitle_fr] = useState("");
-  const [subtitle_fr, setSubtitle_fr] = useState("");
+  const [name_fr, setName_fr] = useState("");
   const [Short_Description_fr, setShort_description_fr] = useState("");
   const [Description_fr, setDescription_fr] = useState("");
   const [Seo_Description_fr, setSeo_description_fr] = useState("");
 
-  const [title_ar, setTitle_ar] = useState("");
-  const [SubTitle_ar, setSubtitle_ar] = useState("");
+  const [name_ar, setName_ar] = useState("");
   const [Short_Description_ar, setShort_description_ar] = useState("");
   const [description_ar, setDescription_ar] = useState("");
   const [seo_description_ar, setSeo_description_ar] = useState("");
-  const [catalogueUrl, setCatalogueUrl] = useState("");
-  const [iconUrl, setIconUrl] = useState("");
 
-  const [defaultCategory, setDefaultCategory] = useState([]);
-  const [defaultReference,setDefaultReference]=useState("");
-  const [slug,setSlug]=useState("");
+ 
+  const [owner,setOwner]=useState("");
+  const [views,setViews]=useState("");
+
+  
 
 console.log('id',id)
 
@@ -109,211 +107,202 @@ console.log('id',id)
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    // console.log('data is data',data)
-    try {
-      setIsSubmitting(true);
-      if (!imageUrl) return notifyError("Image is required!");
+//   const onSubmit = async (data) => {
+//     // console.log('data is data',data)
+//     try {
+//       setIsSubmitting(true);
+//       if (!imageUrl) return notifyError("Image is required!");
 
-      if (!title) {
-        setIsSubmitting(false);
-        return notifyError("Project Title is required!");
-      }
-
-      if (!subtitle) {
-        setIsSubmitting(false);
-        return notifyError("Project subtitle is required!");
-      }
-
-      if (!short_description) {
-        setIsSubmitting(false);
-        return notifyError("short description is required!");
-      }
-
-      if (!description) {
-        setIsSubmitting(false);
-        return notifyError("description is required!");
-      }
-
-      if (!seo_keywords) {
-        setIsSubmitting(false);
-        return notifyError("seo_keywords is required!");
-      }
-
-      if (!seo_description) {
-        setIsSubmitting(false);
-        return notifyError("seo_description is required!");
-      }
-
-      if (!defaultCategory[0]) {
-        setIsSubmitting(false);
-        return notifyError("Default Category is required!");
-      }
-
-      if (!defaultReference[0]) {
-        setIsSubmitting(false);
-        return notifyError("Default Reference is required!");
-      }
-
-      if (!slug) {
-        setIsSubmitting(false);
-        return notifyError("slug is required!");
-      }
+//       if (!name) {
+//         setIsSubmitting(false);
+//         return notifyError("Blog Name is required!");
+//       }
 
 
-      // setTitle(data.title);
-      // setSubtitle(data.subtitle);
-      // setShort_description(data.short_description);
-      // setDescription(data.description);
-      // setSeo_keywords(data.seo_keywords);
-      // setSeo_description(data.seo_description);
-      // setDefaultCategory(data.defaultCategory);
-      // setDefaultReference(data.defaultReference);
-      // setSlug(data.slug);
-      // setIsBasicComplete(true);
+//       if (!short_description) {
+//         setIsSubmitting(false);
+//         return notifyError("short description is required!");
+//       }
 
-      // const serviceData = {
-      //   // ... autres champs déjà définis ...
-      //   image: data.image,
-      //   icon: data.icon,
-      //   title_fr: data.title_fr,
-      //   title_r: data.title_ar,
-      //   subtitle_en: data.subtitle_en,
-      //   subtitle_fr: data.subtitle_fr,
-      //   subtitle_ar: data.subtitle_ar,
-      //   description_en: data.description_en,
-      //   description_fr: data.description_fr,
-      //   description_ar: data.description_ar,
-      //   short_description_en: data.short_description_en,
-      //   short_description_fr: data.short_description_fr,
-      //   short_description_ar: data.short_description_ar,
-      //   seo_description_en: data.seo_description_en,
-      //   seo_description_fr: data.seo_description_fr,
-      //   seo_description_ar: data.seo_description_ar,
-      //   seo_keywords: data.seo_keywords,
-      //   catalogue : data.catalogue
+//       if (!description) {
+//         setIsSubmitting(false);
+//         return notifyError("description is required!");
+//       }
+
+//       if (!seo_keywords) {
+//         setIsSubmitting(false);
+//         return notifyError("seo_keywords is required!");
+//       }
+
+//       if (!seo_description) {
+//         setIsSubmitting(false);
+//         return notifyError("seo_description is required!");
+//       }
+
+//       if (!defaultCategory[0]) {
+//         setIsSubmitting(false);
+//         return notifyError("Default Category is required!");
+//       }
+
+//       if (!defaultReference[0]) {
+//         setIsSubmitting(false);
+//         return notifyError("Default Reference is required!");
+//       }
+
+//       if (!slug) {
+//         setIsSubmitting(false);
+//         return notifyError("slug is required!");
+//       }
+
+
+//       // setTitle(data.title);
+//       // setSubtitle(data.subtitle);
+//       // setShort_description(data.short_description);
+//       // setDescription(data.description);
+//       // setSeo_keywords(data.seo_keywords);
+//       // setSeo_description(data.seo_description);
+//       // setDefaultCategory(data.defaultCategory);
+//       // setDefaultReference(data.defaultReference);
+//       // setSlug(data.slug);
+//       // setIsBasicComplete(true);
+
+//       // const serviceData = {
+//       //   // ... autres champs déjà définis ...
+//       //   image: data.image,
+//       //   icon: data.icon,
+//       //   name_fr: data.name_fr,
+//       //   name_r: data.name_ar,
+//       //   subname_en: data.subname_en,
+//       //   subname_fr: data.subname_fr,
+//       //   subname_ar: data.subname_ar,
+//       //   description_en: data.description_en,
+//       //   description_fr: data.description_fr,
+//       //   description_ar: data.description_ar,
+//       //   short_description_en: data.short_description_en,
+//       //   short_description_fr: data.short_description_fr,
+//       //   short_description_ar: data.short_description_ar,
+//       //   seo_description_en: data.seo_description_en,
+//       //   seo_description_fr: data.seo_description_fr,
+//       //   seo_description_ar: data.seo_description_ar,
+//       //   seo_keywords: data.seo_keywords,
+//       //   catalogue : data.catalogue
   
       
-      // };
-      const formData = new FormData();
-      formData.append('title_en', title_en);
-      formData.append('subtitle_en', SubTitle_en);
-      formData.append('short_description_en', Short_Description_en);
-      formData.append('description_en', description_en);
-      formData.append('seo_description_en', Seo_Description_en);
+//       // };
+//       const formData = new FormData();
+//       formData.append('name_en', name_en);
+//       formData.append('short_description_en', Short_Description_en);
+//       formData.append('description_en', description_en);
+//       formData.append('seo_description_en', Seo_Description_en);
     
-      formData.append('title_fr', title_fr);
-      formData.append('subtitle_fr', subtitle_fr);
-      formData.append('short_description_fr', Short_Description_fr);
-      formData.append('description_fr', Description_fr);
-      formData.append('seo_description_fr', Seo_Description_fr);
+//       formData.append('name_fr', name_fr);
+//       formData.append('short_description_fr', Short_Description_fr);
+//       formData.append('description_fr', Description_fr);
+//       formData.append('seo_description_fr', Seo_Description_fr);
     
 
-      formData.append('title_ar', title_ar);
-      formData.append('subtitle_ar', SubTitle_ar);
-      formData.append('short_description_ar', Short_Description_ar);
-      formData.append('description_ar', description_ar);
-      formData.append('seo_description_ar', seo_description_ar);
+//       formData.append('name_ar', name_ar);
+//       formData.append('short_description_ar', Short_Description_ar);
+//       formData.append('description_ar', description_ar);
+//       formData.append('seo_description_ar', seo_description_ar);
      
-      formData.append('seo_keywords', seo_keywords);
-      formData.append('image', imageUrl);
-      formData.append('icon', iconUrl);
-      formData.append('catalogue', catalogueUrl);
+//       formData.append('seo_keywords', seo_keywords);
+//       formData.append('image', imageUrl);
+//       formData.append('owner', owner);
+//       formData.append('views', views);
 
 
 
 
-      // console.log(formData);
+//       // console.log(formData);
 
-        // const res = await ServiceServices.addService(formData, {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data',
-        //   },
-        // });
+//         // const res = await ServiceServices.addService(formData, {
+//         //   headers: {
+//         //     'Content-Type': 'multipart/form-data',
+//         //   },
+//         // });
       
-      // console.log("productData ===========>", productData, "data", data);
-      // return setIsSubmitting(false);
-console.log('serviecData',formData);
-      if (id) {
-        const res = await ServiceServices.updateService(id, serviceData);
-       console.log("res is ", res);
+//       // console.log("productData ===========>", productData, "data", data);
+//       // return setIsSubmitting(false);
+// console.log('serviecData',formData);
+//       if (id) {
+//         const res = await BlogServices.updateBlog(id, serviceData);
+//        console.log("res is ", res);
 
-        if (res) {
-          if (isCombination) {
-            setIsUpdate(true);
-            notifySuccess(res.message);
-            setIsBasicComplete(true);
-            setIsSubmitting(false);
-            handleBlogTap("Combination", true);
-          } else {
-            setIsUpdate(true);
-            notifySuccess(res.message);
-            setIsSubmitting(false);
-          }
-        }
+//         if (res) {
+//           if (isCombination) {
+//             setIsUpdate(true);
+//             notifySuccess(res.message);
+//             setIsBasicComplete(true);
+//             setIsSubmitting(false);
+//             handleBlogTap("Combination", true);
+//           } else {
+//             setIsUpdate(true);
+//             notifySuccess(res.message);
+//             setIsSubmitting(false);
+//           }
+//         }
 
-        if (
-          tapValue === "Combination" ||
-          (tapValue !== "Combination" && !isCombination)
-        ) {
-          closeDrawer();
-        }
-      } else {
-        const res = await ServiceServices.addService(serviceData);
-        // console.log("res is ", res);
-        if (isCombination) {
-          setUpdatedId(res.id);
-          setTitle(data.title);
-          setSubtitle(data.subtitle);
-          setShort_description(data.short_description);
-          setDescription(data.description);
-          setSeo_keywords(data.seo_keywords);
-          setSeo_description(data.seo_description);
-          setDefaultCategory(data.defaultCategory);
-          setDefaultReference(data.defaultReference);
-          setSlug(data.slug);
+//         if (
+//           tapValue === "Combination" ||
+//           (tapValue !== "Combination" && !isCombination)
+//         ) {
+//           closeDrawer();
+//         }
+//       } else {
+//         const res = await BlogServices.addBlog(serviceData);
+//         // console.log("res is ", res);
+//         if (isCombination) {
+//           setUpdatedId(res.id);
+//           setName(data.name);
+//           setShort_description(data.short_description);
+//           setDescription(data.description);
+//           setSeo_keywords(data.seo_keywords);
+//           setSeo_description(data.seo_description);
+//           setDefaultCategory(data.defaultCategory);
+//           setDefaultReference(data.defaultReference);
+//           setSlug(data.slug);
           
-          setIsUpdate(true);
-          setIsBasicComplete(true);
-          setIsSubmitting(false);
-          handleBlogTap("Combination", true);
-          notifySuccess("Product Added Successfully!");
-        } else {
-          setIsUpdate(false);
-          notifySuccess("Failed to Add Product");
-        }
+//           setIsUpdate(true);
+//           setIsBasicComplete(true);
+//           setIsSubmitting(false);
+//           handleBlogTap("Combination", true);
+//           notifySuccess("Product Added Successfully!");
+//         } else {
+//           setIsUpdate(false);
+//           notifySuccess("Failed to Add Product");
+//         }
 
-        if (
-          tapValue === "Combination" ||
-          (tapValue !== "Combination" && !isCombination)
-        ) {
-          setIsSubmitting(false);
-          closeDrawer();
-        }
-      }
-    } catch (err) {
-      console.log("err", err);
-      setIsSubmitting(false);
-      notifyError(err ? err?.response?.data?.message : err.message);
-      closeDrawer();
-    }
-  };
+//         if (
+//           tapValue === "Combination" ||
+//           (tapValue !== "Combination" && !isCombination)
+//         ) {
+//           setIsSubmitting(false);
+//           closeDrawer();
+//         }
+//       }
+//     } catch (err) {
+//       console.log("err", err);
+//       setIsSubmitting(false);
+//       notifyError(err ? err?.response?.data?.message : err.message);
+//       closeDrawer();
+//     }
+//   };
 
   useEffect(() => {
     if (!isDrawerOpen) {
-      setSlug("");
+      // setSlug("");
       setLanguage(lang);
       setValue("language", language);
       handleBlogTap("Anglais", true);
       setResData({});
       setValue("image");
-      setValue("icon");
-      setValue("title_en");
-      setValue("title_fr");
-      setValue("title_ar");
-      setValue("subtitle_en");
-      setValue("subtitle_fr");
-      setValue("subtitle_ar");
+      setValue("name_en");
+      setValue("name_fr");
+      setValue("name_ar");
+      setValue("subname_en");
+      setValue("subname_fr");
+      setValue("subname_ar");
       setValue("short_description_en");
       setValue("short_description_fr");
       setValue("short_description_ar");
@@ -324,7 +313,9 @@ console.log('serviecData',formData);
       setValue("seo_description_en");
       setValue("seo_description_fr");
       setValue("seo_description_ar");
-      setValue("catalogue");
+      setValue("owner");
+      setValue("views");
+
 
       
 
@@ -335,16 +326,16 @@ console.log('serviecData',formData);
       // setValue("barcode");
       // setValue("productId");
 
-      setProductId("");
-      // setValue('show');
+      // setProductId("");
+      // // setValue('show');
       setImageUrl([]);
-      setTag([]);
-      setVariants([]);
-      setVariant([]);
-      setValues({});
-      // setTotalStock(0);
-      setSelectedCategory([]);
-      setDefaultCategory([]);
+      // setTag([]);
+      // setVariants([]);
+      // setVariant([]);
+      // setValues({});
+      // // setTotalStock(0);
+      // setSelectedCategory([]);
+      // setDefaultCategory([]);
       if (location.pathname === "/products") {
         resetRefTwo?.current?.resetSelectedValues();
       }
@@ -354,7 +345,7 @@ console.log('serviecData',formData);
       clearErrors("slug");
       clearErrors("description");
       clearErrors("stock");
-      clearErrors("quantity");
+      // clearErrors("quantity");
       setValue("stock", 0);
       setValue("costPrice", 0);
       setValue("price", 0);
@@ -382,9 +373,9 @@ console.log('serviecData',formData);
 
           if (res) {
             setResData(res);
-            setValue("title_en", res.title_en);
-            setValue("title_fr", res.title_fr);
-            setValue("title_ar", res.title_ar);
+            setValue("name_en", res.name_en);
+            setValue("name_fr", res.name_fr);
+            setValue("name_ar", res.name_ar);
             setValue("slug", res.slug);
             setValue("show", res.show);
             setValue("sku", res.sku);
@@ -410,12 +401,12 @@ console.log('serviecData',formData);
             );
 
             setSelectedCategory(res.categories);
-            setDefaultCategory([res?.category]);
+            // setDefaultCategory([res?.category]);
             setTag(JSON.parse(res.tag));
             setImageUrl(res.image);
             setVariants(res.variants);
             setIsCombination(res.isCombination);
-            setQuantity(res?.stock);
+            // setQuantity(res?.stock);
             // setTotalStock(res.stock);
             setOriginalPrice(res?.prices?.originalPrice);
             setPrice(res?.prices?.price);
@@ -490,7 +481,7 @@ console.log('serviecData',formData);
         originalPrice,
         discount,
         price,
-        quantity,
+        // quantity,
         barcode,
         sku,
         productId,
@@ -514,7 +505,7 @@ console.log('serviecData',formData);
 
           originalPrice: originalPrice || 0,
           price: price || 0,
-          quantity: Number(quantity),
+          // quantity: Number(quantity),
           discount: Number(originalPrice - price),
           productId: productId && productId + "-" + (variants.length + i),
           barcode: barcode,
@@ -572,7 +563,7 @@ console.log('serviecData',formData);
           originalPrice,
           price,
           discount,
-          quantity,
+          // quantity,
           barcode,
           sku,
           productId,
@@ -651,36 +642,36 @@ console.log('serviecData',formData);
   };
 
   //this one for combination list
-  const handleQuantityPrice = (value, name, id, variant) => {
-    // console.log("handleQuantityPrice", name, "value", value);
-    if (name === "price" && Number(variant.originalPrice) < Number(value)) {
-      // variants[id][name] = Number(variant.originalPrice);
-      notifyError("SalePrice must be less then or equal of product price!");
-      setValue("price", variant.originalPrice);
-      setIsBulkUpdate(true);
-      const timeOutId = setTimeout(() => setIsBulkUpdate(false), 100);
-      return () => clearTimeout(timeOutId);
-    }
-    setVariants((pre) =>
-      pre.map((com, i) => {
-        if (i === id) {
-          const updatedCom = {
-            ...com,
-            [name]: Math.round(value),
-          };
+  // const handleQuantityPrice = (value, name, id, variant) => {
+  //   // console.log("handleQuantityPrice", name, "value", value);
+  //   if (name === "price" && Number(variant.originalPrice) < Number(value)) {
+  //     // variants[id][name] = Number(variant.originalPrice);
+  //     notifyError("SalePrice must be less then or equal of product price!");
+  //     setValue("price", variant.originalPrice);
+  //     setIsBulkUpdate(true);
+  //     const timeOutId = setTimeout(() => setIsBulkUpdate(false), 100);
+  //     return () => clearTimeout(timeOutId);
+  //   }
+  //   setVariants((pre) =>
+  //     pre.map((com, i) => {
+  //       if (i === id) {
+  //         const updatedCom = {
+  //           ...com,
+  //           [name]: Math.round(value),
+  //         };
 
-          return updatedCom;
-        }
-        return com;
-      })
-    );
+  //         return updatedCom;
+  //       }
+  //       return com;
+  //     })
+  //   );
 
-    const totalStock = variants.reduce(
-      (pre, acc) => pre + Number(acc.quantity),
-      0
-    );
-    // setTotalStock(Number(totalStock));
-  };
+  //   const totalStock = variants.reduce(
+  //     (pre, acc) => pre + Number(acc.quantity),
+  //     0
+  //   );
+  //   // setTotalStock(Number(totalStock));
+  // };
 
   //for change language in product drawer
   const handleSelectLanguage = (lang) => {
@@ -692,10 +683,10 @@ console.log('serviecData',formData);
   };
 
   //for handle product slug
-  const handleProductSlug = (value) => {
-    setValue("slug", value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
-    setSlug(value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
-  };
+  // const handleProductSlug = (value) => {
+  //   setValue("slug", value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
+  //   setSlug(value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
+  // };
 
   return {
     tag,
@@ -703,9 +694,8 @@ console.log('serviecData',formData);
     values,
     language,
     register,
-    onSubmit,
+    // onSubmit,
     errors,
-    slug,
     openModal,
     attribue,
     setValues,
@@ -730,15 +720,14 @@ console.log('serviecData',formData);
     handleBlogTap,
     selectedCategory,
     setSelectedCategory,
-    setDefaultCategory,
-    defaultCategory,
-    handleProductSlug,
+    // defaultCategory,
+    // handleProductSlug,
     handleSelectLanguage,
     handleIsCombination,
     handleEditVariant,
     handleRemoveVariant,
     handleClearVariant,
-    handleQuantityPrice,
+    // handleQuantityPrice,
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,

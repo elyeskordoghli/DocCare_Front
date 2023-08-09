@@ -42,14 +42,7 @@ const BlogTable = ({ setId,searchBlog, isCheck, setIsCheck, currency, lang, isLo
 
       }
       else{
-        response = await BlogServices.getAllBlogs({
-          title: null,
-          subtitle: null,
-          short_description: null,
-          description: null,
-          image: null,
-          catalogue: null,
-        });
+        response = await BlogServices.getAllBlogs();
       }
         // Mettez à jour la variable data avec les données récupérées
         setData(response.data);
