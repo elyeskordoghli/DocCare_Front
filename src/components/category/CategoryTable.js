@@ -37,15 +37,15 @@ const CategoryTable = ({
   const [data, setData] = useState([]); 
  
 
-  const fetchProjects = async (selectedCategory,isLoading,search) => {
+  const fetchProjects = async (search) => {
     try {
       let response;
-      if (selectedCategory === "All" && !search) {
+      if (!search) {
       // Si la catégorie sélectionnée est "All", récupérer tous les projets
         response = await CategoryServices.getAllCategories();
       }
         else if (search) {
-          response = await CategoryServices.search(search,selectedCategory);
+          response = await CategoryServices.search(search);
       }
       setData(response.data);
     } catch (error) {
@@ -55,32 +55,10 @@ const CategoryTable = ({
     }
   };
   useEffect(() => {
-  fetchProjects(selectedCategory,isLoading,search);
-}, [selectedCategory,isLoading,search])
+  fetchProjects(isLoading,search);
+}, [isLoading,search])
 
 
-    // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchCategories = async (search) => {
-      try {
-        const response = await CategoryServices.getAllCategories({
-          name: null,
-          slug: null,
-          short_description: null,
-          projects: null,
-        });
-
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des categories :", error);
-      }
-      finally {
-        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-      }
-    };
-    useEffect(() => {
-    fetchCategories(); // Appelez la fonction fetchCategories pour récupérer les projets au chargement du composant
-    }, [isLoading]);
 // console.log("name",data);
     const getCategory = async () => {
       try {

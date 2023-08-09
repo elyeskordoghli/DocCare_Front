@@ -16,12 +16,14 @@ import Scrollbars from "react-custom-scrollbars-2";
 import { useTranslation } from "react-i18next";
 //internal import
 import CategoryServices from "services/CategoryServices";
-import { notifyError,notifySuccess } from "utils/toast";
+import { notifyError, notifySuccess } from "utils/toast";
 import { showingTranslateValue } from "utils/translate";
 import ProjectServices from "services/ProjectServices";
 
 const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , setIsCheck }) => {
   const { t } = useTranslation();
+  const { closeDrawer } = useContext(SidebarContext)
+ 
 
   const {
     checked,
@@ -38,7 +40,6 @@ const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , se
     handleSelectLanguage,
     isSubmitting,
   } = useCategorySubmit(id, data);
-  const { closeDrawer } = useContext(SidebarContext);
 
   // console.log("image=======>", imageUrl);
 
@@ -51,9 +52,9 @@ const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , se
     overflow-y: hidden;
   }
 `;
-const [name_en, setName_en] = useState("");
-const [name_fr, setName_fr] = useState("");
-const [name_ar, setName_ar] = useState("");
+  const [name_en, setName_en] = useState("");
+  const [name_fr, setName_fr] = useState("");
+  const [name_ar, setName_ar] = useState("");
 
 
   const motion = {
@@ -85,9 +86,9 @@ const [name_ar, setName_ar] = useState("");
     return obj.id === target
       ? obj
       : obj?.children?.reduce(
-          (acc, obj) => acc ?? findObject(obj, target),
-          undefined
-        );
+        (acc, obj) => acc ?? findObject(obj, target),
+        undefined
+      );
   };
 
   const handleSelect = async (key) => {
@@ -140,23 +141,24 @@ const [name_ar, setName_ar] = useState("");
       <div className="text-red-500 text-sm mt-1">{errorName && errorName.message}</div>
     );
   };
-  const handleSubmit = async (e,data) => {
-    e.preventDefault(); 
-    
-
+  const handleSubmit = async (e, data) => {
+    e.preventDefault();
     const categoryData = {
       name_en: name_en,
       name_fr: name_fr,
       name_ar: name_ar,
     };
+
     if (id) {
       try {
+
         setIsLoading(true);
         const res = await CategoryServices.updateCategory(id, categoryData);
         notifySuccess(res.message);
         closeDrawer();
+
         setIsCheck([])
-        notifySuccess(response.message);
+        notifySuccess(res.message);
         setIsLoading(false);
         console.log("Réponse de mise à jour de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
@@ -167,23 +169,27 @@ const [name_ar, setName_ar] = useState("");
       try {
         setIsLoading(true);
         const res = await CategoryServices.addCategory(categoryData);
+        setIsLoading(false);
+        setIsCheck([]);
+
         notifySuccess(res.message);
+        
        closeDrawer();
        setIsCheck([])
-       notifySuccess(response.message);
+       notifySuccess(res.message);
         setIsLoading(false);
+
         console.log("Réponse d'ajout de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après l'ajout
-      } catch (error) {
+      }
+      catch (error) {
         console.error("Erreur lors de l'ajout de la catégorie :", error);
       }
-    }
-    
-      };
+  }};
   const initFormForUpdate = async (id) => {
-        
+
     const res = await CategoryServices.getCategoryById(id)
-    console.log('categoryInputForm',res.data)
+    console.log('categoryInputForm', res.data)
     setName_en(res.data.name_en);
     setName_fr(res.data.name_fr);
     setName_ar(res.data.name_ar);
@@ -191,12 +197,12 @@ const [name_ar, setName_ar] = useState("");
 
   };
   useEffect(() => {
-    if(id){
+    if (id) {
       initFormForUpdate(id);
     }
-  },[id]);
+  }, [id]);
 
-  
+
   return (
     <>
       <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
@@ -218,65 +224,65 @@ const [name_ar, setName_ar] = useState("");
       </div>
 
       <Scrollbars className="w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
-      <form onSubmit={handleSubmit} className="block" id="block">
+        <form onSubmit={handleSubmit} className="block" id="block">
           <div className="p-6 flex-grow scrollbar-hide w-full max-h-full pb-40">
 
 
-          <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label={t("Name (en)")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                   
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-               
-                    label="Category Name (en) "
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+
+                  label="Category Name (en) "
                   name="name_en"
                   type="text"
                   placeholder="Category Name (en) "
-                    // onBlur={(e) => handleProductSlug(e.target.value)}
-                    onChange={(e) => setName_en(e.target.value)}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
+                  onChange={(e) => setName_en(e.target.value)}
                   value={name_en}
-                  />
+                />
                 <Error errorName={errors.name_en} />
-                </div>
               </div>
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+            </div>
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label={t("Name (fr)")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                   
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-               
-                    label="Category Name (fr) "
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+
+                  label="Category Name (fr) "
                   name="name_fr"
                   type="text"
                   placeholder="Category Name (fr) "
-                    // onBlur={(e) => handleProductSlug(e.target.value)}
-                    onChange={(e) => setName_fr(e.target.value)}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
+                  onChange={(e) => setName_fr(e.target.value)}
                   value={name_fr}
-                  />
+                />
                 <Error errorName={errors.name_fr} />
-                </div>
-              </div>   
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              </div>
+            </div>
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label={t("Name (ar)")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                   
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-               
-                    label="Category Name (ar) "
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+
+                  label="Category Name (ar) "
                   name="name_ar"
                   type="text"
                   placeholder="Category Name (ar) "
-                    // onBlur={(e) => handleProductSlug(e.target.value)}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
                   onChange={(e) => setName_ar(e.target.value)}
                   value={name_ar}
-                  />
+                />
                 <Error errorName={errors.name_ar} />
-                </div>
               </div>
-        
+            </div>
+
           </div>
 
           <DrawerButton id={id} title="Category" isSubmitting={isSubmitting} />

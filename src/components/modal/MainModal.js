@@ -13,7 +13,7 @@ import { notifySuccess, notifyError } from "utils/toast";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import ServiceServices from "services/ServiceServices";
 
-const MainModal = ({ id, title,isLoading, setIsLoading}) => {
+const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const { setServiceId } = useToggleDrawer();
   const location = useLocation();
