@@ -101,147 +101,147 @@ const [slug_ar, setSlug_ar] = useState("");
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    console.log(data??'_____');
+  // const onSubmit = async (data) => {
+  //   console.log(data??'_____');
 
-    // console.log('data is data',data)
-    try {
+  //   // console.log('data is data',data)
+  //   try {
      
 
 
-            // ... Default ...
-            setSeo_keywords(data.Seo_Keywords);
-            setReference(data.Reference);
-            setCategory(data.Category);
-            setImage(data.image);
+  //           // ... Default ...
+  //           setSeo_keywords(data.Seo_Keywords);
+  //           setReference(data.Reference);
+  //           setCategory(data.Category);
+  //           setImage(data.image);
 
-            // ... English ...
-            setTitle_en(data.title_en);
-            setSubtitle_en(data.subtitle_en);
-            setShort_description_en(data.short_description_en);
-            setDescription_en(data.description_en);
-            setSeo_description_en(data.Seo_Description_en);
-            setSlug_en(data.slug_en);
+  //           // ... English ...
+  //           setTitle_en(data.title_en);
+  //           setSubtitle_en(data.subtitle_en);
+  //           setShort_description_en(data.short_description_en);
+  //           setDescription_en(data.description_en);
+  //           setSeo_description_en(data.Seo_Description_en);
+  //           setSlug_en(data.slug_en);
 
-            // ... French ...
-            setTitle_fr(data.title_fr);
-            setSubtitle_fr(data.subtitle_fr);
-            setShort_description_fr(data.short_description_fr);
-            setDescription_fr(data.description_fr);
-            setSeo_description_fr(data.Seo_Description_fr);
-            setSlug_fr(data.slug_fr);
+  //           // ... French ...
+  //           setTitle_fr(data.title_fr);
+  //           setSubtitle_fr(data.subtitle_fr);
+  //           setShort_description_fr(data.short_description_fr);
+  //           setDescription_fr(data.description_fr);
+  //           setSeo_description_fr(data.Seo_Description_fr);
+  //           setSlug_fr(data.slug_fr);
 
-            // ... Arabic ...
-            setTitle_ar(data.title_ar);
-            setSubtitle_ar(data.SubTitle_ar);
-            setShort_description_ar(data.Short_Description_ar);
-            setDescription_ar(data.description_ar);
-            setSeo_description_ar(data.seo_description_ar);
-            setSlug_ar(data.slug_ar);
+  //           // ... Arabic ...
+  //           setTitle_ar(data.title_ar);
+  //           setSubtitle_ar(data.SubTitle_ar);
+  //           setShort_description_ar(data.Short_Description_ar);
+  //           setDescription_ar(data.description_ar);
+  //           setSeo_description_ar(data.seo_description_ar);
+  //           setSlug_ar(data.slug_ar);
 
-      setIsBasicComplete(true);
+  //     setIsBasicComplete(true);
 
-      const projectData = {
-        // ... Default ...
-        seo_keywords: data.Seo_Keywords,
-        reference: data.Reference,
-        category:data.Category,
-        image:data.image,
-        // ... English ...
-        title_en: data.title_en,
-        subtitle_en: data.subtitle_en,
-        short_description_en: data.short_description_en,
-        description_en: data.description_en,
-        seo_description_en: data.Seo_Description_en,
-        slug_en: data.slug_en,
+  //     const projectData = {
+  //       // ... Default ...
+  //       seo_keywords: data.Seo_Keywords,
+  //       reference: data.Reference,
+  //       category:data.Category,
+  //       image:data.image,
+  //       // ... English ...
+  //       title_en: data.title_en,
+  //       subtitle_en: data.subtitle_en,
+  //       short_description_en: data.short_description_en,
+  //       description_en: data.description_en,
+  //       seo_description_en: data.Seo_Description_en,
+  //       slug_en: data.slug_en,
 
-        // ... French ...
-        title_fr: data.title_fr,
-        subtitle_fr: data.subtitle_fr,
-        short_description_fr: data.short_description_fr,
-        description_fr: data.description_fr,
-        seo_description_fr: data.Seo_Description_fr,
-        slug_fr: data.slug_fr,
+  //       // ... French ...
+  //       title_fr: data.title_fr,
+  //       subtitle_fr: data.subtitle_fr,
+  //       short_description_fr: data.short_description_fr,
+  //       description_fr: data.description_fr,
+  //       seo_description_fr: data.Seo_Description_fr,
+  //       slug_fr: data.slug_fr,
 
-        // ... English ...
-        title_ar: data.title_ar,
-        subtitle_ar: data.SubTitle_ar,
-        short_description_ar: data.Short_Description_ar,
-        description_ar: data.description_ar,
-        seo_description_ar: data.seo_description_ar,
-        slug_ar: data.slug_ar,
+  //       // ... English ...
+  //       title_ar: data.title_ar,
+  //       subtitle_ar: data.SubTitle_ar,
+  //       short_description_ar: data.Short_Description_ar,
+  //       description_ar: data.description_ar,
+  //       seo_description_ar: data.seo_description_ar,
+  //       slug_ar: data.slug_ar,
       
         
-      };
+  //     };
 
-      console.log(projectData);
+  //     console.log(projectData);
 
-      // console.log("productData ===========>", productData, "data", data);
-      // return setIsSubmitting(false);
+  //     // console.log("productData ===========>", productData, "data", data);
+  //     // return setIsSubmitting(false);
 
-      if (updatedId) {
-        const res = await ProjectServices.updateProject(updatedId, projectData);
-        console.log(res);
-        if (res) {
-          if (isCombination) {
-            setIsUpdate(true);
-            notifySuccess(res.message);
-            setIsBasicComplete(true);
-            setIsSubmitting(false);
-            handleProjectTap("Combination", true);
-          } else {
-            setIsUpdate(true);
-            notifySuccess(res.message);
-            setIsSubmitting(false);
-          }
-        }
+  //     if (updatedId) {
+  //       const res = await ProjectServices.updateProject(updatedId, projectData);
+  //       console.log(res);
+  //       if (res) {
+  //         if (isCombination) {
+  //           setIsUpdate(true);
+  //           notifySuccess(res.message);
+  //           setIsBasicComplete(true);
+  //           setIsSubmitting(false);
+  //           handleProjectTap("Combination", true);
+  //         } else {
+  //           setIsUpdate(true);
+  //           notifySuccess(res.message);
+  //           setIsSubmitting(false);
+  //         }
+  //       }
 
-        if (
-          tapValue === "Combination" ||
-          (tapValue !== "Combination" && !isCombination)
-        ) {
-          closeDrawer();
-        }
-      } else {
-        const res = await ProjectServices.addProject(projectData);
-        // console.log("res is ", res);
-        if (isCombination) {
-          setUpdatedId(res._id);
-          setTitle(data.title);
-          setSubtitle(data.subtitle);
-          setShort_description(data.short_description);
-          setDescription(data.description);
-          setSeo_keywords(data.seo_keywords);
-          setSeo_description(data.seo_description);
-          setDefaultCategory(data.defaultCategory);
-          setDefaultReference(data.defaultReference);
-          // setSlug(data.slug);
+  //       if (
+  //         tapValue === "Combination" ||
+  //         (tapValue !== "Combination" && !isCombination)
+  //       ) {
+  //         closeDrawer();
+  //       }
+  //     } else {
+  //       const res = await ProjectServices.addProject(projectData);
+  //       // console.log("res is ", res);
+  //       if (isCombination) {
+  //         setUpdatedId(res._id);
+  //         setTitle(data.title);
+  //         setSubtitle(data.subtitle);
+  //         setShort_description(data.short_description);
+  //         setDescription(data.description);
+  //         setSeo_keywords(data.seo_keywords);
+  //         setSeo_description(data.seo_description);
+  //         setDefaultCategory(data.defaultCategory);
+  //         setDefaultReference(data.defaultReference);
+  //         // setSlug(data.slug);
           
-          setIsUpdate(true);
-          setIsBasicComplete(true);
-          setIsSubmitting(false);
-          handleProjectTap("Combination", true);
-          notifySuccess("Project Added Successfully!");
-        } else {
-          setIsUpdate(false);
-          notifySuccess("Failed to Add Project");
-        }
+  //         setIsUpdate(true);
+  //         setIsBasicComplete(true);
+  //         setIsSubmitting(false);
+  //         handleProjectTap("Combination", true);
+  //         notifySuccess("Project Added Successfully!");
+  //       } else {
+  //         setIsUpdate(false);
+  //         notifySuccess("Failed to Add Project");
+  //       }
 
-        if (
-          tapValue === "Combination" ||
-          (tapValue !== "Combination" && !isCombination)
-        ) {
-          setIsSubmitting(false);
-          closeDrawer();
-        }
-      }
-    } catch (err) {
-      console.log("err", err);
-      setIsSubmitting(false);
-      notifyError(err ? err?.response?.data?.message : err.message);
-      closeDrawer();
-    }
-  };
+  //       if (
+  //         tapValue === "Combination" ||
+  //         (tapValue !== "Combination" && !isCombination)
+  //       ) {
+  //         setIsSubmitting(false);
+  //         closeDrawer();
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log("err", err);
+  //     setIsSubmitting(false);
+  //     notifyError(err ? err?.response?.data?.message : err.message);
+  //     closeDrawer();
+  //   }
+  // };
 
   useEffect(() => {
     if (!isDrawerOpen) {
@@ -345,7 +345,7 @@ const [slug_ar, setSlug_ar] = useState("");
             setImageUrl(res.image);
             setVariants(res.variants);
             setIsCombination(res.isCombination);
-            setQuantity(res?.stock);
+            // setQuantity(res?.stock);
             // setTotalStock(res.stock);
             setOriginalPrice(res?.prices?.originalPrice);
             setPrice(res?.prices?.price);
@@ -419,7 +419,7 @@ const [slug_ar, setSlug_ar] = useState("");
         originalPrice,
         discount,
         price,
-        quantity,
+        // quantity,
         barcode,
         sku,
         productId,
@@ -443,7 +443,7 @@ const [slug_ar, setSlug_ar] = useState("");
 
           originalPrice: originalPrice || 0,
           price: price || 0,
-          quantity: Number(quantity),
+          // quantity: Number(quantity),
           discount: Number(originalPrice - price),
           productId: productId && productId + "-" + (variants.length + i),
           barcode: barcode,
@@ -501,7 +501,7 @@ const [slug_ar, setSlug_ar] = useState("");
           originalPrice,
           price,
           discount,
-          quantity,
+          // quantity,
           barcode,
           sku,
           productId,
@@ -580,36 +580,36 @@ const [slug_ar, setSlug_ar] = useState("");
   };
 
   //this one for combination list
-  const handleQuantityPrice = (value, name, id, variant) => {
-    // console.log("handleQuantityPrice", name, "value", value);
-    if (name === "price" && Number(variant.originalPrice) < Number(value)) {
-      // variants[id][name] = Number(variant.originalPrice);
-      notifyError("SalePrice must be less then or equal of product price!");
-      setValue("price", variant.originalPrice);
-      setIsBulkUpdate(true);
-      const timeOutId = setTimeout(() => setIsBulkUpdate(false), 100);
-      return () => clearTimeout(timeOutId);
-    }
-    setVariants((pre) =>
-      pre.map((com, i) => {
-        if (i === id) {
-          const updatedCom = {
-            ...com,
-            [name]: Math.round(value),
-          };
+  // const handleQuantityPrice = (value, name, id, variant) => {
+  //   // console.log("handleQuantityPrice", name, "value", value);
+  //   if (name === "price" && Number(variant.originalPrice) < Number(value)) {
+  //     // variants[id][name] = Number(variant.originalPrice);
+  //     notifyError("SalePrice must be less then or equal of product price!");
+  //     setValue("price", variant.originalPrice);
+  //     setIsBulkUpdate(true);
+  //     const timeOutId = setTimeout(() => setIsBulkUpdate(false), 100);
+  //     return () => clearTimeout(timeOutId);
+  //   }
+  //   setVariants((pre) =>
+  //     pre.map((com, i) => {
+  //       if (i === id) {
+  //         const updatedCom = {
+  //           ...com,
+  //           [name]: Math.round(value),
+  //         };
 
-          return updatedCom;
-        }
-        return com;
-      })
-    );
+  //         return updatedCom;
+  //       }
+  //       return com;
+  //     })
+  //   );
 
-    const totalStock = variants.reduce(
-      (pre, acc) => pre + Number(acc.quantity),
-      0
-    );
-    // setTotalStock(Number(totalStock));
-  };
+  //   const totalStock = variants.reduce(
+  //     (pre, acc) => pre + Number(acc.quantity),
+  //     0
+  //   );
+  //   // setTotalStock(Number(totalStock));
+  // };
 
   //for change language in product drawer
   const handleSelectLanguage = (lang) => {
@@ -632,7 +632,7 @@ const [slug_ar, setSlug_ar] = useState("");
     values,
     language,
     register,
-    onSubmit,
+    // onSubmit,
     errors,
     // slug,
     openModal,
@@ -667,7 +667,7 @@ const [slug_ar, setSlug_ar] = useState("");
     handleEditVariant,
     handleRemoveVariant,
     handleClearVariant,
-    handleQuantityPrice,
+    // handleQuantityPrice,
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,

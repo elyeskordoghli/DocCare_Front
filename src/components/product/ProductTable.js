@@ -106,9 +106,9 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang }) => {
             </TableCell>
             <TableCell>
               {product.stock > 0 ? (
-                <Badge type="success">{t("Selling")}</Badge>
+                <Badge type="success">{"Selling"}</Badge>
               ) : (
-                <Badge type="danger">{t("SoldOut")}</Badge>
+                <Badge type="danger">{"SoldOut"}</Badge>
               )}
             </TableCell>
             <TableCell>
@@ -119,7 +119,7 @@ const ProductTable = ({ products, isCheck, setIsCheck, currency, lang }) => {
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("DetailsTbl")}
+                  title={"DetailsTbl"}
                   bgColor="#10B981"
                 />
               </Link>

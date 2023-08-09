@@ -111,7 +111,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("View")}
+                  title={"View"}
                   bgColor="#ff5a1f"
                 />
               </Link>
@@ -124,7 +124,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="edit"
                   Icon={FiEdit}
-                  title={t("Edit")}
+                  title={"Edit"}
                   bgColor="#ff5a1f"
                 />
               </button>
@@ -138,7 +138,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="edit"
                 Icon={FiEdit}
-                title={t("Edit")}
+                title={"Edit"}
                 bgColor="#ff5a1f"
               />
             </button>
@@ -152,7 +152,7 @@ const EditDeleteButton = ({
             <Tooltip
               id="delete"
               Icon={FiTrash2}
-              title={t("Delete")}
+              title={"Delete"}
               bgColor="#EF4444"
             />
           </button>
@@ -176,7 +176,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("View")}
+                  title={"View"}
                   bgColor="#ff5a1f"
                 />
               </Link>
@@ -189,7 +189,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="edit"
                   Icon={FiEdit}
-                  title={t("Edit")}
+                  title={"Edit"}
                   bgColor="#ff5a1f"
                 />
               </button>
@@ -203,7 +203,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="edit"
                 Icon={FiEdit}
-                title={t("Edit")}
+                title={"Edit"}
                 bgColor="#ff5a1f"
               />
             </button>
@@ -217,7 +217,7 @@ const EditDeleteButton = ({
             <Tooltip
               id="delete"
               Icon={FiTrash2}
-              title={t("Delete")}
+              title={"Delete"}
               bgColor="#EF4444"
             />
           </button>
@@ -241,7 +241,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="view"
                 Icon={FiZoomIn}
-                title={t("View")}
+                title={"View"}
                 bgColor="#ff5a1f"
               />
             </Link>
@@ -254,7 +254,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="edit"
                 Icon={FiEdit}
-                title={t("Edit")}
+                title={"Edit"}
                 bgColor="#ff5a1f"
               />
             </button>
@@ -268,7 +268,7 @@ const EditDeleteButton = ({
             <Tooltip
               id="edit"
               Icon={FiEdit}
-              title={t("Edit")}
+              title={"Edit"}
               bgColor="#ff5a1f"
             />
           </button>
@@ -282,7 +282,7 @@ const EditDeleteButton = ({
           <Tooltip
             id="delete"
             Icon={FiTrash2}
-            title={t("Delete")}
+            title={"Delete"}
             bgColor="#EF4444"
           />
         </button>
@@ -305,7 +305,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("View")}
+                  title={"View"}
                   bgColor="#ff5a1f"
                 />
               </Link>
@@ -318,7 +318,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="edit"
                   Icon={FiEdit}
-                  title={t("Edit")}
+                  title={"Edit"}
                   bgColor="#ff5a1f"
                 />
               </button>
@@ -332,24 +332,26 @@ const EditDeleteButton = ({
               <Tooltip
                 id="edit"
                 Icon={FiEdit}
-                title={t("Edit")}
+                title={"Edit"}
                 bgColor="#ff5a1f"
               />
             </button>
           )}
   
           <button
-          // disabled={isCheck?.length > 0}
-          onClick={() => handleModalOpen(id, title, service)}
-          className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
-        >
-          <Tooltip
-            id="delete"
-            Icon={FiTrash2}
-            title={t("Delete")}
-            bgColor="#EF4444"
-          />
-        </button>
+
+            // disabled={isCheck?.length > 0}
+            onClick={() => handleModalOpen(id, title, service)}
+            className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
+          >
+            <Tooltip
+              id="delete"
+              Icon={FiTrash2}
+              title={"Delete"}
+              bgColor="#EF4444"
+            />
+          </button>
+
         </div>
       </>
     );

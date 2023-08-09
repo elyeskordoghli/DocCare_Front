@@ -157,6 +157,7 @@ const CategoryDrawer = ({ id, data, lang }) => {
         closeDrawer();
         setIsLoading(false);
         setIsCheck([]);
+
         console.log("Réponse de mise à jour de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
       } 

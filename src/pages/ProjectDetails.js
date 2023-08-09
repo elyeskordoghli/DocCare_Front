@@ -11,6 +11,8 @@ import React, { useContext, useEffect, useState } from "react";
 //   import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 //internal import
+
+import Tooltip from "components/tooltip/Tooltip";
 import ProjectServices from "services/ProjectServices";
 import AttributeList from "components/attribute/AttributeList";
 import MainDrawer from "components/drawer/MainDrawer";
@@ -25,6 +27,7 @@ import useToggleDrawer from "hooks/useToggleDrawer";
 import ProductServices from "services/ProductServices";
 import { showingTranslateValue } from "utils/translate";
 import SettingServices from "services/SettingServices";
+import ProjectDrawer from "components/drawer/ProjectDrawer";
 
 const ProjectDetails = () => {
   //pour recuperer les parametre
@@ -38,6 +41,9 @@ const ProjectDetails = () => {
   const response = useAsync(() => ProjectServices.getProjectById(id));
   const { loading } = response;
   const { data } = response.data;
+
+  const [isCheck, setIsCheck] = useState([]);
+  const [isLoading, setIsLoading]=useState();
 
   // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
 
@@ -65,8 +71,10 @@ const ProjectDetails = () => {
   return (
     <>
       <MainDrawer product>
-        <ProductDrawer id={id} />
-      </MainDrawer>
+      <ProjectDrawer  id={id} 
+             isLoading={isLoading} // Passer la variable isLoading
+             setIsLoading={setIsLoading} />  
+        </MainDrawer>
 
       <PageTitle>{"ProjectDetails"}</PageTitle>
       {loading ? (

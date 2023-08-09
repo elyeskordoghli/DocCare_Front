@@ -136,7 +136,7 @@ const [selectedCategory, setSelectedCategory] = useState('All');
 
   return (
     <>
-      <PageTitle>{t("ProjectsPage")}</PageTitle>
+      <PageTitle>{"ProjectsPage"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
       <BulkActionDrawer ids={allId} title="Projects" />
@@ -192,7 +192,7 @@ const [selectedCategory, setSelectedCategory] = useState('All');
                     <FiTrash2 />
                   </span>
 
-                  {t("Delete")}
+                  {"Delete"}
                 </Button>
               </div>
 
@@ -205,7 +205,7 @@ const [selectedCategory, setSelectedCategory] = useState('All');
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {t("Add Project")}
+                  {"Add Project"}
                 </Button>
               </div>
             </div>
@@ -296,17 +296,17 @@ const [selectedCategory, setSelectedCategory] = useState('All');
 
 
                 </TableCell>
-                <TableCell>{t("Project Title")}</TableCell>
-                <TableCell>{t("Project SubTitle")}</TableCell>
-                <TableCell>{t("CategoryTbl")}</TableCell>
+                <TableCell>{"Project Title"}</TableCell>
+                <TableCell>{"Project SubTitle"}</TableCell>
+                <TableCell>{"Category"}</TableCell>
                 {/* <TableCell>{t("short description")}</TableCell> */}
                 {/* <TableCell>{t("description")}</TableCell> */}
                 {/* <TableCell>{t("StatusTbl")}</TableCell> */}
-                <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
+                <TableCell className="text-center">{"Details"}</TableCell>
                 {/* <TableCell className="text-center">
                   {t("PublishedTbl")}
                 </TableCell> */}
-                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
+                <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
             <ProjectTable
