@@ -13,6 +13,7 @@ import {
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
+import MainModal from "components/modal/MainModal";
 
 //internal import
 
@@ -22,7 +23,6 @@ import CategoryServices from "services/CategoryServices";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import useFilter from "hooks/useFilter";
 import DeleteModal from "components/modal/DeleteModal";
-import BulkActionDrawer from "components/drawer/BulkActionDrawer";
 import PageTitle from "components/Typography/PageTitle";
 import MainDrawer from "components/drawer/MainDrawer";
 import CategoryDrawer from "components/drawer/CategoryDrawer";
@@ -62,7 +62,7 @@ const Category = () => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
   const [showChild, setShowChild] = useState(false);
-  const [isLoading, setIsLoading]=useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
@@ -77,11 +77,11 @@ const Category = () => {
      <PageTitle>{t("Category")}</PageTitle>
      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       {/* <DeleteModal ids={allId} setIsCheck={setIsCheck} /> */}
- 
-      <BulkActionDrawer ids={allId} title="Categories" lang={lang} data={data} isCheck={isCheck} />
+      <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
+
 
       <MainDrawer>
-        <CategoryDrawer id={serviceId} data={data} lang={lang} />
+        <CategoryDrawer id={serviceId} data={data} lang={lang}  setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
       </MainDrawer>
 
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
@@ -102,19 +102,6 @@ const Category = () => {
             </div>
 
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-              <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
-                <Button
-                  disabled={isCheck.length < 1}
-                  onClick={() => handleUpdateMany(isCheck)}
-                  className="w-full rounded-md h-12 text-gray-600 btn-gray"
-                >
-                  <span className="mr-2">
-                    <FiEdit />
-                  </span>
-
-                  {t("BulkAction")}
-                </Button>
-              </div>
               <div className="w-full md:w-32 lg:w-32 xl:w-32  mr-3 mb-3 lg:mb-0">
                 <Button
                   disabled={isCheck.length < 1}

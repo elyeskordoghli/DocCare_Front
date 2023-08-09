@@ -22,10 +22,10 @@ import NotFound from "components/table/NotFound";
 // import ProductServices from "services/ProductServices";
 import PageTitle from "components/Typography/PageTitle";
 import { SidebarContext } from "context/SidebarContext";
-import ServiceTable from "components/service/ServiceTable";
+import BlogTable from "components/blog/BlogTable";
 import SelectCategory from "components/form/SelectCategory";
 import MainDrawer from "components/drawer/MainDrawer";
-import ServiceDrawer from "components/drawer/ServiceDrawer";
+import BlogDrawer from "components/drawer/BlogDrawer";
 import CheckBox from "components/form/CheckBox";
 import useProductFilter from "hooks/useProductFilter";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
@@ -33,10 +33,10 @@ import DeleteModal from "components/modal/DeleteModal";
 import BulkActionDrawer from "components/drawer/BulkActionDrawer";
 import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
-import ServiceServices from "services/ServiceServices";
+import BlogServices from "services/BlogServices";
 import MainModal from "components/modal/MainModal";
 
-const Services = () => {
+const Blogs = () => {
   const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
@@ -56,7 +56,7 @@ const Services = () => {
   } = useContext(SidebarContext);
 
   const { data, loading } = useAsync(() =>
-    ServiceServices.getAllServices({
+    BlogServices.getAllBlogs({
       // page: currentPage,
       // limit: limitData,
       // category_id: category,
@@ -68,7 +68,7 @@ const Services = () => {
     })
   );
   
-  const [searchService, setSearchValue] = useState("");
+  const [searchBlog, setSearchValue] = useState("");
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -104,13 +104,13 @@ const Services = () => {
 
   return (
     <>
-      <PageTitle>{"Services Page"}</PageTitle>
+      <PageTitle>{"Blogs Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
-        <ServiceDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
+        <BlogDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -120,7 +120,7 @@ const Services = () => {
           > 
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
-                title="Services"
+                title="Blogs"
                 filename={filename}
                 isDisabled={isDisabled}
                 totalDoc={data?.totalDoc}
@@ -164,7 +164,7 @@ const Services = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Service"}
+                  {"Add Blog"}
                 </Button>
               </div>
             </div>
@@ -184,7 +184,7 @@ const Services = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Service"
+                placeholder="Search Blog"
                 onChange={handleSearchInputChange} 
               />
               <button
@@ -212,23 +212,23 @@ const Services = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Service Title"}</TableCell>
-                <TableCell>{"Service SubTitle"}</TableCell>
-                <TableCell>{"Catalogue"}</TableCell>
-                <TableCell className="text-center">{"DetailsTbl"}</TableCell>
-               
-                <TableCell className="text-right">{"ActionsTbl"}</TableCell>
+                <TableCell>{"Blog Name"}</TableCell>
+                
+                <TableCell>{"Blog owner"}</TableCell>
+                <TableCell>{"Blog views"}</TableCell>
+                <TableCell className="text-center">{"Details"}</TableCell>
+                <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
-            <ServiceTable
+            <BlogTable
               setIsLoading={setIsLoading}
               isLoading={isLoading}
               lang={lang}
               isCheck={isCheck}
-              Services={data?.Services}
+              Blogs={data?.Blogs}
               setIsCheck={setIsCheck}
               currency={currency}
-              searchService={searchService}
+              searchBlog={searchBlog}
             /> 
           </Table>
           <TableFooter>
@@ -247,4 +247,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default Blogs;
