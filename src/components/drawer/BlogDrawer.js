@@ -10,7 +10,7 @@ import {
 } from "@windmill/react-ui";
 import Multiselect from "multiselect-react-dropdown";
 import React from "react";
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { SidebarContext } from "context/SidebarContext";
 
 import { useForm } from "react-hook-form";
@@ -23,6 +23,8 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
 import useServiceSubmit from "hooks/useServiceSubmit";
+import useBlogSubmit from "hooks/useBlogSubmit";
+
 import UploaderThree from "components/image-uploader/UploaderThree";
 import Title from "components/form/Title";
 import SwitchToggleForCombination from "components/form/SwitchToggleForCombination";
@@ -43,7 +45,7 @@ import SidebarContent from "components/sidebar/SidebarContent";
 import BlogServices from "services/BlogServices";
 //internal import
 
-const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  }) => {
+const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
 
 
@@ -75,6 +77,7 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
     resetRefTwo,
     handleSkuBarcode,
     handleServiceTap,
+    handleBlogTap,
     selectedCategory,
     setSelectedCategory,
     setDefaultCategory,
@@ -89,10 +92,10 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,
-  } = useServiceSubmit(id, data);
+  } = useBlogSubmit(id, data);
 
   const currency = globalSetting?.default_currency || "$";
- const {closeDrawer} = useContext(SidebarContext)
+  const { closeDrawer } = useContext(SidebarContext)
 
   const [imageUrl, setImageUrl] = useState("");
   const [oldImageUrl, setOldImageUrl] = useState("");
@@ -195,24 +198,21 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
   };
   const initFormForUpdate = async (id) => {
 
-    const res = await ServiceServices.getServiceById(id);
-    console.log('serviceInputForm', res.data)
+    const res = await BlogServices.getBlogById(id);
+    console.log('blogInputForm', res.data)
 
-    setName_en(res.data.title_en);
-    setSubtitle_en(res.data.subtitle_en);
+    setName_en(res.data.name_en);
     setShort_description_en(res.data.short_description_en);
     setDescription_en(res.data.description_en);
     setSeo_description_en(res.data.seo_description_en);
 
-    setName_fr(res.data.title_fr);
-    setSubtitle_fr(res.data.subtitle_fr);
+    setName_fr(res.data.name_fr);
     setShort_description_fr(res.data.short_description_fr);
     setDescription_fr(res.data.description_fr);
     setSeo_description_fr(res.data.seo_description_fr);
 
 
-    setName_ar(res.data.title_ar);
-    setSubtitle_ar(res.data.subtitle_ar);
+    setName_ar(res.data.name_ar);
     setShort_description_ar(res.data.short_description_ar);
     setDescription_ar(res.data.description_ar);
     setSeo_description_ar(res.data.seo_description_ar);
@@ -223,55 +223,41 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
     setImageBinary(res.data.image);
     setOldImageUrl(res.data.image);
 
-    setIconUrl(res.data.icon);
-    setIconBinary(res.data.icon);
-    setOldIconUrl(res.data.icon);
-
-    setCatalogueUrl(res.data.catalogue);
-    setCatalogueBinary(res.data.catalogue);
-    setOldCatalogueUrl(res.data.catalogue);
-
+    setOwner(res.data.owner);
+    setViews(res.data.views);
     // setPrevilege(res.data.previleges);
     // setDepartment(res.data.departments);
     console.log('hahahahahah', oldImageUrl);
   };
 
- 
+
   useEffect(() => {
-    if (id && id !== undefined ){
+    if (id && id !== undefined) {
       initFormForUpdate(id);
-    }else{
+    } else {
       setName_en("");
-      setSubtitle_en("");
       setShort_description_en("");
       setDescription_en("");
       setSeo_description_en("");
-    
+
       setName_fr("");
-      setSubtitle_fr("");
       setShort_description_fr("");
       setDescription_fr("");
       setSeo_description_fr("");
-     
+
       setName_ar("");
-      setSubtitle_ar("");
       setShort_description_ar("");
       setDescription_ar("");
       setSeo_description_ar("");
-     
+
       setSeo_keywords("");
-      setImageUrl("");         
-      setImageBinary("");  
-      setOldImageUrl("")  
+      setImageUrl("");
+      setImageBinary("");
+      setOldImageUrl("")
 
-    setIconUrl("");
-    setIconBinary("");
-    setOldIconUrl("");
-
-    setCatalogueUrl("");
-    setCatalogueBinary("");
-    setOldCatalogueUrl("");
-    setIsCheck([]);
+      setOwner("");
+      setViews("");
+      setIsCheck([]);
 
     }
   }, [id]);
@@ -279,7 +265,7 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
     // Place your submission logic here
   };
 
-  
+
   const handleNextClick = () => {
     if (tapValue === 'Anglais') {
       setTapValue('French');
@@ -303,34 +289,6 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
     fetchImageBinary();
   }, [imageUrl]);
-  const [iconBinary, setIconBinary] = useState(null);
-  useEffect(() => {
-    async function fetchIconBinary() {
-      try {
-        const response = await fetch(iconUrl);
-        const blob = await response.blob();
-        setIconBinary(blob);
-      } catch (error) {
-        console.error('Error fetching icon binary:', error);
-      }
-    }
-
-    fetchIconBinary();
-  }, [iconUrl]);
-  const [catalogueBinary, setCatalogueBinary] = useState(null);
-  useEffect(() => {
-    async function fetchCatalogueBinary() {
-      try {
-        const response = await fetch(catalogueUrl);
-        const blob = await response.blob();
-        setCatalogueBinary(blob);
-      } catch (error) {
-        console.error('Error fetching catalogue binary:', error);
-      }
-    }
-
-    fetchCatalogueBinary();
-  }, [catalogueUrl]);
   return (
     <>
       <Modal
@@ -357,15 +315,15 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={"Update Service"}
-            description={"Update Service Description"}
+            title={"Update Blog"}
+            description={"Update Blog Description"}
           />
         ) : (
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={"Add Service"}
-            description={"Add Service Description"}
+            title={"Add Blog"}
+            description={"Add Blog Description"}
           />
         )}
       </div>
@@ -381,7 +339,7 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
             <ActiveButton
               tapValue={tapValue}
               activeValue="Anglais"
-              handleTap={handleServiceTap}
+              handleTap={handleBlogTap}
             />
           </li>
 
@@ -389,7 +347,7 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
             <ActiveButton
               tapValue={tapValue}
               activeValue="French"
-              handleTap={handleServiceTap}
+              handleTap={handleBlogTap}
             />
           </li>
 
@@ -397,7 +355,7 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
             <ActiveButton
               tapValue={tapValue}
               activeValue="Arabic"
-              handleTap={handleServiceTap}
+              handleTap={handleBlogTap}
             />
           </li>
 
@@ -406,7 +364,7 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
               <ActiveButton
                 tapValue={tapValue}
                 activeValue="Combination"
-                handleTap={handleServiceTap}
+                handleTap={handleBlogTap}
               />
             </li>
           )}
@@ -420,7 +378,7 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Image"} />
+                <LabelArea label={"Blog Image"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
 
@@ -444,71 +402,35 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Icon"} />
+                <LabelArea label={"Blog Name (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
 
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="IconeUrl"
-                    type="file"
-                    placeholder={"Icon "}
-                    onChange={(e) => { setIconUrl(e.target.files[0]) }}
-                  />
-                  <Error errorName={errors.iconUrl} />
-                  {iconUrl && (
-                    <img
-                      src={oldIconUrl} // Utiliser l'URL existante pour afficher l'image
-                      alt="Old Icon"
-                      style={{ maxWidth: '100px', marginTop: '10px' }}
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Title (en) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title_en"
+                    name="name_en"
                     type="text"
-                    placeholder={"Service Title (en) "}
+                    placeholder={"Blog Name (en) "}
                     // onBlur={(e) => handleProductSlug(e.target.value)}
                     onChange={(e) => setName_en(e.target.value)}
-                    value={title_en}
+                    value={name_en}
                   />
                   {/* {title_en ?? ""} TTEEST */}
-                  <Error errorName={errors.title_en} />
+                  <Error errorName={errors.name_en} />
                 </div>
               </div>
 
 
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service SubTitle (en)  "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="SubTitle_en"
-                    type="text"
-                    placeholder={"Service SubTitle (en)  "}
-                    onChange={(e) => setSubtitle_en(e.target.value)}
-                    value={SubTitle_en}
-                  />
-                  <Error errorName={errors.SubTitle_en} />
-                </div>
-              </div>
+        
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Short_Description (en) "} />
+                <LabelArea label={"Blog Short_Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
 
                     name="Short_Description_en"
-                    placeholder={"Service Short_Description (en) "}
+                    placeholder={"Blog Short_Description (en) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setShort_description_en(e.target.value)}
@@ -521,13 +443,13 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Description (en) "} />
+                <LabelArea label={"Blog Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
 
                     name="description_en"
-                    placeholder={"Service Description (en) "}
+                    placeholder={"Blog Description (en) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setDescription_en(e.target.value)}
@@ -540,14 +462,14 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Seo Keywords  "} />
+                <LabelArea label={"Blog Seo Keywords  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
 
                     name="Seo_Keywords"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
-                    placeholder={"Service Seo Keywords  "}
+                    placeholder={"Blog Seo Keywords  "}
                     onChange={(e) => setSeo_keywords(e.target.value)}
                     value={seo_keywords}
                   />
@@ -558,12 +480,12 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Seo Description (en) "} />
+                <LabelArea label={"Blog Seo Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
-                <Textarea
+                  <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="Seo_Description_en"
-                    placeholder={"Service Seo description  "}
+                    placeholder={"Blog Seo description  "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setSeo_description_en(e.target.value)}
@@ -579,45 +501,32 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Title (fr) "} />
+                <LabelArea label={"Blog Name (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
 
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title_fr"
+                    name="name_fr"
                     type="text"
-                    placeholder={"Service Title (fr) "}
+                    placeholder={"Blog Name (fr) "}
                     onChange={(e) => setName_fr(e.target.value)}
-                    value={title_fr}
+                    value={name_fr}
                   />
-                  <Error errorName={errors.title_fr} />
+                  <Error errorName={errors.name_fr} />
                 </div>
               </div>
 
 
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service SubTitle (fr)  "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="subtitle_fr"
-                    type="text"
-                    placeholder={"Service SubTitle  (fr)  "}
-                    onChange={(e) => setSubtitle_fr(e.target.value)}
-                    value={subtitle_fr}
-                  />
-                  <Error errorName={errors.subtitle_fr} />
-                </div>
-              </div>
+         
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Short_Description (fr) "} />
+                <LabelArea label={"Blog Short_Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="Short_Description_fr"
-                    placeholder={"Service Short_Description (fr) "}
+                    placeholder={"Blog Short_Description (fr) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setShort_description_fr(e.target.value)}
@@ -629,12 +538,12 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Description (fr) "} />
+                <LabelArea label={"Blog Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="Description_fr"
-                    placeholder={"Service Description (fr) "}
+                    placeholder={"Blog Description (fr) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setDescription_fr(e.target.value)}
@@ -645,14 +554,14 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Seo description (fr)"} />
+                <LabelArea label={"Blog Seo description (fr)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     name="Seo_Description_fr"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     rows="4"
                     spellCheck="false"
-                    placeholder={"Service Seo description  "}
+                    placeholder={"Blog Seo description  "}
                     onChange={(e) => setSeo_description_fr(e.target.value)}
                     value={Seo_Description_fr}
                   />
@@ -666,42 +575,29 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Title  "} />
+                <LabelArea label={"Blog Name (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title_ar"
+                    name="name_ar"
                     type="text"
-                    placeholder={"Service Title (ar)"}
+                    placeholder={"Blog Name (ar)"}
                     onChange={(e) => setName_ar(e.target.value)}
-                    value={title_ar}
+                    value={name_ar}
                   />
-                  <Error errorName={errors.title_ar} />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service SubTitle (ar)  "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="SubTitle_ar"
-                    type="text"
-                    placeholder={"Service SubTitle (ar)  "}
-                    onChange={(e) => setSubtitle_ar(e.target.value)}
-                    value={SubTitle_ar}
-                  />
-                  <Error errorName={errors.SubTitle_ar} />
+                  <Error errorName={errors.name_ar} />
                 </div>
               </div>
 
+         
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Short_Description (fr) "} />
+                <LabelArea label={"Blog Short_Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="Short_Description_ar"
-                    placeholder={"Service Short_Description (fr) "}
+                    placeholder={"Blog Short_Description (fr) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setShort_description_ar(e.target.value)}
@@ -713,12 +609,12 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Description (fr) "} />
+                <LabelArea label={"Blog Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="description_ar"
-                    placeholder={"Service Description (fr) "}
+                    placeholder={"Blog Description (fr) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setDescription_ar(e.target.value)}
@@ -730,12 +626,12 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Seo Description (ar)"} />
+                <LabelArea label={"Blog Seo Description (ar)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="seo_description_ar"
-                    placeholder={"Service Seo description  "}
+                    placeholder={"Blog Seo description  "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setSeo_description_ar(e.target.value)}
@@ -748,35 +644,33 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Cotalogue"} />
+                <LabelArea label={"Blog Owner  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="CatalogueUrl"
-                    type="file"
-                    placeholder={"Catalogue "}
-                    onChange={(e) => { setCatalogueUrl(e.target.files[0]) }}
+                    name="Owner"
+                    type="text"
+                    placeholder={"Blog Owner  "}
+                    onChange={(e) => setOwner(e.target.value)}
+                    value={owner}
                   />
-                  <Error errorName={errors.catalogueUrl} />
+                  <Error errorName={errors.Owner} />
+                </div>
+              </div>     
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Blog Views  "} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="views"
+                    type="text"
+                    placeholder={"Blog Views "}
+                    onChange={(e) => setViews(e.target.value)}
+                    value={views}
+                  />
+                  <Error errorName={errors.views} />
                 </div>
               </div>
-
-
-
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Slug")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug"
-                    type="text"
-                    defaultValue={slug}
-                    placeholder={t("Service Slug (fr)")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-                  />
-                  <Error errorName={errors.Service_Slug} />
-                </div>
-              </div> */}
             </div>
           )}
 
@@ -863,39 +757,39 @@ const BlogDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  })
               save
               title="Product"
               isSubmitting={isSubmitting}
-              handleServiceTap={handleServiceTap}
+              handleBlogTap={handleBlogTap}
             />
           ) : (
             <DrawerButton id={id} title="Service" isSubmitting={isSubmitting} />
           )}
 
           {
-  id ? (
-    <>
-      {tapValue === "Anglais" && (
-        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
-      )}
-      {tapValue === "French" && (
-        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
-      )}
-      {tapValue === "Arabic" && (
-        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
-      )}
-    </>
-  ) : (
-    <>
-      {tapValue === "Anglais" && (
-        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
-      )}
-      {tapValue === "French" && (
-        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
-      )}
-      {tapValue === "Arabic" && (
-        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
-      )}
-    </>
-  )
-}
+            id ? (
+              <>
+                {tapValue === "Anglais" && (
+                  <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+                )}
+                {tapValue === "French" && (
+                  <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+                )}
+                {tapValue === "Arabic" && (
+                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+                )}
+              </>
+            ) : (
+              <>
+                {tapValue === "Anglais" && (
+                  <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+                )}
+                {tapValue === "French" && (
+                  <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+                )}
+                {tapValue === "Arabic" && (
+                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+                )}
+              </>
+            )
+          }
         </form>
 
         {tapValue === "Combination" &&

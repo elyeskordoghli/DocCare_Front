@@ -23,6 +23,7 @@ import { notifyError, notifySuccess } from "utils/toast";
 import ServiceServices from "services/ServiceServices";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { To } from "react-flags-select";
+import BlogServices from "services/BlogServices";
 
 const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoading, setIsLoading}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -61,6 +62,19 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           setIsSubmitting(false);
       
       }
+      if (location.pathname === "/blogs") {
+     
+        setIsLoading(true);
+        const res = await BlogServices.deleteBlog(id);
+        setIsLoading(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+       // setIsCheck([]);
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
+    
+    }
       if (location.pathname === "/coupons") {
         if (ids) {
           const res = await CouponServices.deleteManyCoupons({
