@@ -1,5 +1,7 @@
 import { Button, Input } from "@windmill/react-ui";
 import exportFromJSON from "export-from-json";
+import ProjectServices from "services/ProjectServices";
+
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BsFileEarmarkCode, BsFileEarmarkMedical } from "react-icons/bs";
@@ -38,28 +40,23 @@ const UploadManyTwo = ({
   // console.log(exportData);
 
   const handleExportCSV = () => {
-    if (location.pathname === "/products") {
+    if (location.pathname === "/projects") {
       setLoadingExport({ name: "csv", status: true });
-      ProductServices.getAllProducts({
-        page: 1,
-        limit: totalDoc,
-        category: null,
-        title: null,
-        price: 0,
-      })
+      ProjectServices.getAllProjects({})
         .then((res) => {
           setDropDown(false);
-          setLoadingExport({ name: "", status: false });
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
           exportFromJSON({
-            data: res.products,
-            fileName: "products",
+            data: res.data,
+            fileName: "projects",
             exportType: exportFromJSON.types.csv,
           });
         })
         .catch((err) => {
-          setLoadingExport({ name: "", status: false });
+          setLoadingExport({ name: "csv", status: true });
           setDropDown(false);
-          // console.log(err);
+          console.log(err);
         });
     }
     if (location.pathname === "/categories") {
@@ -94,23 +91,19 @@ const UploadManyTwo = ({
   };
 
   const handleExportJSON = () => {
-    if (location.pathname === "/products") {
+    if (location.pathname === "/projects") {
       setLoadingExport({ name: "json", status: true });
-      ProductServices.getAllProducts({
-        page: 1,
-        limit: totalDoc,
-        category: null,
-        title: null,
-        price: 0,
-      })
+      ProjectServices.getAllProjects({})
         .then((res) => {
           setDropDown(false);
           setLoadingExport({ name: "json", status: true });
+          console.log("Data to be exported:", res.data);
           exportFromJSON({
-            data: res.products,
-            fileName: "products",
+            data: res.data,
+            fileName: "projects",
             exportType: exportFromJSON.types.json,
           });
+
         })
         .catch((err) => {
           setDropDown(false);
@@ -118,6 +111,8 @@ const UploadManyTwo = ({
           console.log(err);
         });
     }
+    
+
     if (location.pathname === "/categories") {
       exportFromJSON({
         data: exportData,
@@ -169,7 +164,7 @@ const UploadManyTwo = ({
     <div className=" lg:flex md:flex flex-grow-0">
       <div className="flex">
         <div ref={dRef} className="lg:flex-1 md:flex-1 mr-3 sm:flex-none">
-          {(title === "Products" ||
+          {(title === "Projects" ||
             title === "Attribute" ||
             title === "Extra" ||
             title === "Coupon" ||
@@ -236,7 +231,7 @@ const UploadManyTwo = ({
             </ul>
           )}
         </div>
-
+{/* 
         <div className="lg:flex-1 md:flex-1 mr-3  sm:flex-none">
           <button
             onClick={handleClick}
@@ -245,10 +240,10 @@ const UploadManyTwo = ({
             <FiDownload className="mr-2" />
             <span className="text-xs">Import</span>
           </button>
-        </div>
+        </div> */}
       </div>
 
-      {isImportBoxShown && (
+      {/* {isImportBoxShown && (
         <>
           <div className="w-full my-2 lg:my-0 md:my-0 flex">
             <div className="h-10 border border-dashed border-orange-500 rounded-md">
@@ -304,7 +299,7 @@ const UploadManyTwo = ({
             </div>
           </div>
         </>
-      )}
+      )} */}
     </div>
   );
 };
