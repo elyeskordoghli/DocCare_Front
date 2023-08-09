@@ -42,6 +42,7 @@ import ServiceServices from "services/ServiceServices";
 
 const ServiceDrawer = ({ id, data }) => {
   const { t } = useTranslation();
+  const { closeDrawer } = useContext(SidebarContext);
 
   const {
     tag,

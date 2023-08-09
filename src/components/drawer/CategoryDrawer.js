@@ -151,7 +151,7 @@ const [name_ar, setName_ar] = useState("");
       try {
         const res = await CategoryServices.updateCategory(id, categoryData);
         notifySuccess(res.message);
-        closeDrawer();
+        // closeDrawer();
         console.log("Réponse de mise à jour de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
       } catch (error) {

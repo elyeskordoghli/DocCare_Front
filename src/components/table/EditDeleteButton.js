@@ -45,7 +45,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("View")}
+                  title={"View"}
                   bgColor="#ff5a1f"
                 />
               </Link>
@@ -58,7 +58,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="edit"
                   Icon={FiEdit}
-                  title={t("Edit")}
+                  title={"Edit"}
                   bgColor="#ff5a1f"
                 />
               </button>
@@ -72,7 +72,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="edit"
                 Icon={FiEdit}
-                title={t("Edit")}
+                title={"Edit"}
                 bgColor="#ff5a1f"
               />
             </button>
@@ -86,7 +86,7 @@ const EditDeleteButton = ({
             <Tooltip
               id="delete"
               Icon={FiTrash2}
-              title={t("Delete")}
+              title={"Delete"}
               bgColor="#EF4444"
             />
           </button>
@@ -110,7 +110,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("View")}
+                  title={"View"}
                   bgColor="#ff5a1f"
                 />
               </Link>
@@ -123,7 +123,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="edit"
                   Icon={FiEdit}
-                  title={t("Edit")}
+                  title={"Edit"}
                   bgColor="#ff5a1f"
                 />
               </button>
@@ -137,7 +137,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="edit"
                 Icon={FiEdit}
-                title={t("Edit")}
+                title={"Edit"}
                 bgColor="#ff5a1f"
               />
             </button>
@@ -151,7 +151,7 @@ const EditDeleteButton = ({
             <Tooltip
               id="delete"
               Icon={FiTrash2}
-              title={t("Delete")}
+              title={"Delete"}
               bgColor="#EF4444"
             />
           </button>
@@ -175,7 +175,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="view"
                 Icon={FiZoomIn}
-                title={t("View")}
+                title={"View"}
                 bgColor="#ff5a1f"
               />
             </Link>
@@ -188,7 +188,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="edit"
                 Icon={FiEdit}
-                title={t("Edit")}
+                title={"Edit"}
                 bgColor="#ff5a1f"
               />
             </button>
@@ -202,7 +202,7 @@ const EditDeleteButton = ({
             <Tooltip
               id="edit"
               Icon={FiEdit}
-              title={t("Edit")}
+              title={"Edit"}
               bgColor="#ff5a1f"
             />
           </button>
@@ -216,7 +216,7 @@ const EditDeleteButton = ({
           <Tooltip
             id="delete"
             Icon={FiTrash2}
-            title={t("Delete")}
+            title={"Delete"}
             bgColor="#EF4444"
           />
         </button>
@@ -239,7 +239,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("View")}
+                  title={"View"}
                   bgColor="#ff5a1f"
                 />
               </Link>
@@ -252,7 +252,7 @@ const EditDeleteButton = ({
                 <Tooltip
                   id="edit"
                   Icon={FiEdit}
-                  title={t("Edit")}
+                  title={"Edit"}
                   bgColor="#ff5a1f"
                 />
               </button>
@@ -266,7 +266,7 @@ const EditDeleteButton = ({
               <Tooltip
                 id="edit"
                 Icon={FiEdit}
-                title={t("Edit")}
+                title={"Edit"}
                 bgColor="#ff5a1f"
               />
             </button>
@@ -280,7 +280,7 @@ const EditDeleteButton = ({
             <Tooltip
               id="delete"
               Icon={FiTrash2}
-              title={t("Delete")}
+              title={"Delete"}
               bgColor="#EF4444"
             />
           </button>

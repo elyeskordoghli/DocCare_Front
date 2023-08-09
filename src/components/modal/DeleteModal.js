@@ -223,9 +223,9 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           </span>
           {/* <h2 className="text-xl font-medium mb-1">{t('DeleteModalH2')}</h2> */}
           <h2 className="text-xl font-medium mb-2">
-            {t("DeleteModalH2")} <span className="text-red-500">{title}</span>?
+            {"DeleteModalH2"} <span className="text-red-500">{title}</span>?
           </h2>
-          <p>{t("DeleteModalPtag")}</p>
+          <p>{"DeleteModalPtag"}</p>
         </ModalBody>
 
         <ModalFooter className="justify-center">

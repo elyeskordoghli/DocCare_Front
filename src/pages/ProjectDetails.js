@@ -38,7 +38,7 @@ const ProjectDetails = () => {
   const response = useAsync(() => ProjectServices.getProjectById(id));
   const { loading } = response;
   const { data } = response.data;
-
+console.log(data.id);
   // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
 
   // const currency = globalSetting?.default_currency || "$";

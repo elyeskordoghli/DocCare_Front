@@ -282,7 +282,7 @@ console.log('ischeckkkkkkkkkk',isCheck)
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("DetailsTbl")}
+                  title={"DetailsTbl"}
                   bgColor="#10B981"
                 />
               </Link> 

@@ -97,7 +97,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
 
 
   const currency = globalSetting?.default_currency || "$";
-  
+
   const [imageUrl, setImageUrl] = useState("");
   const [oldImageUrl, setOldImageUrl] = useState("");
   const [Seo_Keywords, setSeo_keywords] = useState("");
@@ -197,7 +197,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
         });
         
         closeDrawer();
-        setIsUpdate(true);
+        // setIsUpdate(true);
         notifySuccess(res.message);
         setIsLoading(false);
         setIsCheck([])
@@ -367,15 +367,15 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={t("UpdateProject")}
-            description={t("UpdateProjectDescription")}
+            title={"UpdateProject"}
+            description={"pdateProjectDescription"}
           />
         ) : (
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={t("DrawerAddProject")}
-            description={t("AddProjectDescription")}
+            title={"DrawerAddProject"}
+            description={"AddProjectDescription"}
           />
         )}
       </div>
@@ -432,7 +432,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Project Image")} />
+                <LabelArea label={"Project Image"} />
                 <div className="col-span-8 sm:col-span-4">
                     <Input
                       {...register(`imageUrl`, {
@@ -856,11 +856,11 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
                   </div>
                   <div>
                     <p className="text-sm">
-                      {t("AddCombinationsDiscription")}{" "}
+                      {"AddCombinationsDiscription"}{" "}
                       <Link to="/attributes" className="font-bold">
-                        {t("AttributesFeatures")}
+                        {"AttributesFeatures"}
                       </Link>
-                      {t("AddCombinationsDiscriptionTwo")}
+                      {"AddCombinationsDiscriptionTwo"}
                     </p>
                   </div>
                 </div>
@@ -901,7 +901,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
                       type="button"
                       className="mx-2"
                     >
-                      <span className="text-xs">{t("GenerateVariants")}</span>
+                      <span className="text-xs">{"GenerateVariants"}</span>
                     </Button>
                   )}
 
