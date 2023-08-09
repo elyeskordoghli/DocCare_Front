@@ -59,14 +59,22 @@ const Services = () => {
     ServiceServices.getAllServices({
       // page: currentPage,
       // limit: limitData,
-      category_id: category,
+      // category_id: category,
       title: searchText,
-      subtitle: subtitle,
-      short_description: short_description,
-      description : description,
+      // subtitle: subtitle,
+      // short_description: short_description,
+      // description : description,
     //  price: sortedField,
     })
   );
+  
+  const [searchService, setSearchValue] = useState("");
+
+  const handleSearchInputChange = (e) => {
+    const newSearchValue = e.target.value;
+    setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
+  };
+
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
   // console.log("product page", data);
@@ -100,9 +108,9 @@ const Services = () => {
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
-      <BulkActionDrawer ids={allId} data={data} title="Services" />
+      {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
-        <ServiceDrawer id={serviceId} />
+        <ServiceDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -112,7 +120,7 @@ const Services = () => {
           >
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
-                title="Products"
+                title="Services"
                 filename={filename}
                 isDisabled={isDisabled}
                 totalDoc={data?.totalDoc}
@@ -122,7 +130,7 @@ const Services = () => {
               />
             </div>
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-              <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
+              {/* <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
                 <Button
                   disabled={isCheck.length < 1}
                   onClick={() => handleUpdateMany(isCheck)}
@@ -133,7 +141,7 @@ const Services = () => {
                   </span>
                   {"BulkAction"}
                 </Button>
-              </div>
+              </div> */}
 
               <div className="w-full md:w-32 lg:w-32 xl:w-32 mr-3 mb-3 lg:mb-0">
                 <Button
@@ -177,6 +185,7 @@ const Services = () => {
                 type="search"
                 name="search"
                 placeholder="Search Service"
+                onChange={handleSearchInputChange} 
               />
               <button
                 type="submit"
@@ -205,7 +214,6 @@ const Services = () => {
                 </TableCell>
                 <TableCell>{"Service Title"}</TableCell>
                 <TableCell>{"Service SubTitle"}</TableCell>
-                <TableCell>{"Short description"}</TableCell>
                 <TableCell>{"Catalogue"}</TableCell>
                 <TableCell className="text-center">{"DetailsTbl"}</TableCell>
                
@@ -220,6 +228,7 @@ const Services = () => {
               Services={data?.Services}
               setIsCheck={setIsCheck}
               currency={currency}
+              searchService={searchService}
             /> 
           </Table>
           <TableFooter>

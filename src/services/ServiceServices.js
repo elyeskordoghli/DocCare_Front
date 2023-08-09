@@ -34,6 +34,9 @@ import requests from "./httpService";
   // deleteManyServices: async (body) => {
   //   return requests.patch("/Services/delete/many", body);
   // },
+  searchService: async (query) => {
+    return requests.get(`/admin/services/search_service?q=${query}`);
+  },
 };
 
 export default ServiceServices;

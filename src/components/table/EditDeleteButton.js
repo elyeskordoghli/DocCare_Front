@@ -273,6 +273,7 @@ const EditDeleteButton = ({
           )}
   
           <button
+
             // disabled={isCheck?.length > 0}
             onClick={() => handleModalOpen(id, title, service)}
             className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
@@ -284,6 +285,7 @@ const EditDeleteButton = ({
               bgColor="#EF4444"
             />
           </button>
+
         </div>
       </>
     );

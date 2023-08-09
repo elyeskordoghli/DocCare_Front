@@ -17,7 +17,7 @@ import { useLocation } from "react-router-dom";
 import spinnerLoadingImage from "../../assets/img/spinner.gif";
 import { SidebarContext } from "../../context/SidebarContext";
 import ProductServices from "../../services/ProductServices";
-
+import ServiceServices from "services/ServiceServices";
 const UploadManyTwo = ({
   title,
   totalDoc,
@@ -50,6 +50,25 @@ const UploadManyTwo = ({
           exportFromJSON({
             data: res.data,
             fileName: "projects",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
+    }
+    if (location.pathname === "/services") {
+      setLoadingExport({ name: "csv", status: true });
+      ServiceServices.getAllServices({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "services",
             exportType: exportFromJSON.types.csv,
           });
         })
@@ -111,7 +130,26 @@ const UploadManyTwo = ({
           console.log(err);
         });
     }
-    
+    if (location.pathname === "/services") {
+      setLoadingExport({ name: "json", status: true });
+      ServiceServices.getAllServices({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "services",
+            exportType: exportFromJSON.types.json,
+          });
+
+        })
+        .catch((err) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log(err);
+        });
+    }
 
     if (location.pathname === "/categories") {
       exportFromJSON({
@@ -165,22 +203,23 @@ const UploadManyTwo = ({
       <div className="flex">
         <div ref={dRef} className="lg:flex-1 md:flex-1 mr-3 sm:flex-none">
           {(title === "Projects" ||
+            title === "Services" ||
             title === "Attribute" ||
             title === "Extra" ||
             title === "Coupon" ||
             title === "Customers" ||
             title === "Categories") && (
-            <button
-              onClick={() => {
-                setDropDown(!dropDown);
-              }}
-              className="border flex justify-center items-center border-gray-300 hover:border-orange-400 hover:text-orange-400  dark:text-gray-300 cursor-pointer h-10 w-20 rounded-md focus:outline-none"
-            >
-              {/* <BsPlus className="text-4xl" /> */}
-              <FiUpload className="mr-2" />
-              <span className="text-xs">{t("Export")}</span>
-            </button>
-          )}
+              <button
+                onClick={() => {
+                  setDropDown(!dropDown);
+                }}
+                className="border flex justify-center items-center border-gray-300 hover:border-orange-400 hover:text-orange-400  dark:text-gray-300 cursor-pointer h-10 w-20 rounded-md focus:outline-none"
+              >
+                {/* <BsPlus className="text-4xl" /> */}
+                <FiUpload className="mr-2" />
+                <span className="text-xs">{t("Export")}</span>
+              </button>
+            )}
           {dropDown && (
             <ul
               className="origin-top-left absolute  w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
@@ -231,7 +270,7 @@ const UploadManyTwo = ({
             </ul>
           )}
         </div>
-{/* 
+        {/* 
         <div className="lg:flex-1 md:flex-1 mr-3  sm:flex-none">
           <button
             onClick={handleClick}
