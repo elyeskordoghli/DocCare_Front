@@ -298,15 +298,15 @@ const [selectedCategory, setSelectedCategory] = useState('All');
                 </TableCell>
                 <TableCell>{"Project Title"}</TableCell>
                 <TableCell>{"Project SubTitle"}</TableCell>
-                <TableCell>{"CategoryTbl"}</TableCell>
+                <TableCell>{"Category"}</TableCell>
                 {/* <TableCell>{t("short description")}</TableCell> */}
                 {/* <TableCell>{t("description")}</TableCell> */}
                 {/* <TableCell>{t("StatusTbl")}</TableCell> */}
-                <TableCell className="text-center">{"DetailsTbl"}</TableCell>
+                <TableCell className="text-center">{"Details"}</TableCell>
                 {/* <TableCell className="text-center">
                   {t("PublishedTbl")}
                 </TableCell> */}
-                <TableCell className="text-right">{"ActionsTbl"}</TableCell>
+                <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
             <ProjectTable

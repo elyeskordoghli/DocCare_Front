@@ -38,7 +38,8 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
     }
   };
 
- console.log('projecttttttts',projects)
+  
+
 
   const [data, setData] = useState([]); 
   const {
@@ -48,9 +49,10 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
 
+  console.log('isCheck : ',isCheck)
+  console.log('serviceId : ',serviceId);
+  console.log('selectedCategory: ',selectedCategory);
 
-
-  console.log('serviceId',serviceId);
 
   //----------------------------------------------------------------
 
@@ -72,11 +74,9 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
   //   fetchProjects(); // Appelez la fonction fetchProjects pour récupérer les projets au chargement du composant
   // }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
   
-  console.log('categorie hathy : ',selectedCategory);
     const fetchProjects = async (selectedCategory,isLoading,search) => {
       try {
         let response;
-        console.log('search value',search);
         if (selectedCategory === "All" && !search) {
         // Si la catégorie sélectionnée est "All", récupérer tous les projets
           response = await ProjectServices.getAllProjects();
@@ -108,7 +108,7 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
 
   const getProject = async() =>{
     try{
-      const pr = await ProjectServices.getProjectById(isCheck)
+      const pr = await ProjectServices.getProjectById(serviceId)
       setIsCheck([...isCheck, pr.id]);
       console.log('Projet selectionnée : ',pr.id);
 
@@ -156,9 +156,10 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
 
   const beforeHandleModalOpen = (id, title, project) => {
     try{
-      console.log(id)
+      console.log('idddddddd',id)
       handleModalOpen(id, title, project); 
-      // setIsCheck([id]);
+      setIsCheck([]);
+      
     }catch(error)
     {
       alert(`Une erreur est survenue ${error}`);
@@ -166,7 +167,6 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
     
 
   }
-console.log('ischeckkkkkkkkkk',isCheck)
 
 
 
@@ -294,7 +294,7 @@ console.log('ischeckkkkkkkkkk',isCheck)
                 isLoading={isLoading} // Passer la variable isLoading
                 setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
                 data={item}
-                isCheck={isCheck}
+                isCheck={serviceId}
                 handleClick={handleClick}
                 handleUpdate={handleUpdate}
                 handleModalOpen={beforeHandleModalOpen }

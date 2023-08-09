@@ -82,9 +82,11 @@ const Uploader = ({ setImageUrl, imageUrl, product, folder }) => {
         setError("Uploading....");
 
         if (product) {
+          let result = null; // Déclarez la variable result à l'extérieur du bloc if
+        
           // Vérifier si imageUrl est un tableau
           if (Array.isArray(imageUrl)) {
-            const result = imageUrl.find(
+            result = imageUrl.find(
               (img) => img === `${process.env.REACT_APP_CLOUDINARY_URL}`
             );
             // Faire quelque chose avec le résultat trouvé
@@ -93,10 +95,9 @@ const Uploader = ({ setImageUrl, imageUrl, product, folder }) => {
             // Faire une action alternative ou traiter l'erreur selon vos besoins
           }
         
-        
-
           if (result) return setLoading(false);
         }
+        
 
         const name = file.name.replaceAll(/\s/g, "");
         const public_id = name?.substring(0, name.lastIndexOf("."));

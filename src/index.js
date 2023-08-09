@@ -15,7 +15,6 @@ import ThemeSuspense from "./components/theme/ThemeSuspense";
 import { Provider } from "react-redux";
 import store from "./redux/Store";
 import "./i18n";
-import './index.css';
 // import * as serviceWorker from './serviceWorker';
 
 // if (process.env.NODE_ENV !== "production") {

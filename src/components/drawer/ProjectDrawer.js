@@ -198,7 +198,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
         
         closeDrawer();
         // setIsUpdate(true);
-        notifySuccess(res.message);
+        notifySuccess(response.message);
         setIsLoading(false);
         setIsCheck([])
 

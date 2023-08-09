@@ -44,7 +44,6 @@ import SidebarContent from "components/sidebar/SidebarContent";
 
 const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  }) => {
   const { t } = useTranslation();
-  const { closeDrawer } = useContext(SidebarContext);
 
 
   const {

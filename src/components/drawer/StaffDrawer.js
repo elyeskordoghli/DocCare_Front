@@ -78,7 +78,7 @@ const [selecttedDepartment, setSelecttedDepartment] = useState([]);
           try {
             const res = await AdminServices.updateStaff(id, adminData);
             notifySuccess(res.message);
-            closeDrawer();
+            // closeDrawer();
             console.log("Réponse de mise à jour de admin :", res);
             // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
           } catch (error) {
@@ -88,7 +88,7 @@ const [selecttedDepartment, setSelecttedDepartment] = useState([]);
           try {
             const res = await AdminServices.addStaff(adminData);
             notifySuccess(res.message);
-           // closeDrawer();
+          //  closeDrawer();
             console.log("Réponse d'ajout de admin :", res);
             // Traitez la réponse ou faites d'autres actions nécessaires après l'ajout
           } catch (error) {

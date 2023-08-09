@@ -109,195 +109,195 @@ console.log('id',id)
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    // console.log('data is data',data)
-    try {
-      setIsSubmitting(true);
-      if (!imageUrl) return notifyError("Image is required!");
+//   const onSubmit = async (data) => {
+//     // console.log('data is data',data)
+//     try {
+//       setIsSubmitting(true);
+//       if (!imageUrl) return notifyError("Image is required!");
 
-      if (!title) {
-        setIsSubmitting(false);
-        return notifyError("Project Title is required!");
-      }
+//       if (!title) {
+//         setIsSubmitting(false);
+//         return notifyError("Project Title is required!");
+//       }
 
-      if (!subtitle) {
-        setIsSubmitting(false);
-        return notifyError("Project subtitle is required!");
-      }
+//       if (!subtitle) {
+//         setIsSubmitting(false);
+//         return notifyError("Project subtitle is required!");
+//       }
 
-      if (!short_description) {
-        setIsSubmitting(false);
-        return notifyError("short description is required!");
-      }
+//       if (!short_description) {
+//         setIsSubmitting(false);
+//         return notifyError("short description is required!");
+//       }
 
-      if (!description) {
-        setIsSubmitting(false);
-        return notifyError("description is required!");
-      }
+//       if (!description) {
+//         setIsSubmitting(false);
+//         return notifyError("description is required!");
+//       }
 
-      if (!seo_keywords) {
-        setIsSubmitting(false);
-        return notifyError("seo_keywords is required!");
-      }
+//       if (!seo_keywords) {
+//         setIsSubmitting(false);
+//         return notifyError("seo_keywords is required!");
+//       }
 
-      if (!seo_description) {
-        setIsSubmitting(false);
-        return notifyError("seo_description is required!");
-      }
+//       if (!seo_description) {
+//         setIsSubmitting(false);
+//         return notifyError("seo_description is required!");
+//       }
 
-      if (!defaultCategory[0]) {
-        setIsSubmitting(false);
-        return notifyError("Default Category is required!");
-      }
+//       if (!defaultCategory[0]) {
+//         setIsSubmitting(false);
+//         return notifyError("Default Category is required!");
+//       }
 
-      if (!defaultReference[0]) {
-        setIsSubmitting(false);
-        return notifyError("Default Reference is required!");
-      }
+//       if (!defaultReference[0]) {
+//         setIsSubmitting(false);
+//         return notifyError("Default Reference is required!");
+//       }
 
-      if (!slug) {
-        setIsSubmitting(false);
-        return notifyError("slug is required!");
-      }
+//       if (!slug) {
+//         setIsSubmitting(false);
+//         return notifyError("slug is required!");
+//       }
 
 
-      // setTitle(data.title);
-      // setSubtitle(data.subtitle);
-      // setShort_description(data.short_description);
-      // setDescription(data.description);
-      // setSeo_keywords(data.seo_keywords);
-      // setSeo_description(data.seo_description);
-      // setDefaultCategory(data.defaultCategory);
-      // setDefaultReference(data.defaultReference);
-      // setSlug(data.slug);
-      // setIsBasicComplete(true);
+//       // setTitle(data.title);
+//       // setSubtitle(data.subtitle);
+//       // setShort_description(data.short_description);
+//       // setDescription(data.description);
+//       // setSeo_keywords(data.seo_keywords);
+//       // setSeo_description(data.seo_description);
+//       // setDefaultCategory(data.defaultCategory);
+//       // setDefaultReference(data.defaultReference);
+//       // setSlug(data.slug);
+//       // setIsBasicComplete(true);
 
-      // const serviceData = {
-      //   // ... autres champs déjà définis ...
-      //   image: data.image,
-      //   icon: data.icon,
-      //   title_fr: data.title_fr,
-      //   title_r: data.title_ar,
-      //   subtitle_en: data.subtitle_en,
-      //   subtitle_fr: data.subtitle_fr,
-      //   subtitle_ar: data.subtitle_ar,
-      //   description_en: data.description_en,
-      //   description_fr: data.description_fr,
-      //   description_ar: data.description_ar,
-      //   short_description_en: data.short_description_en,
-      //   short_description_fr: data.short_description_fr,
-      //   short_description_ar: data.short_description_ar,
-      //   seo_description_en: data.seo_description_en,
-      //   seo_description_fr: data.seo_description_fr,
-      //   seo_description_ar: data.seo_description_ar,
-      //   seo_keywords: data.seo_keywords,
-      //   catalogue : data.catalogue
+//       // const serviceData = {
+//       //   // ... autres champs déjà définis ...
+//       //   image: data.image,
+//       //   icon: data.icon,
+//       //   title_fr: data.title_fr,
+//       //   title_r: data.title_ar,
+//       //   subtitle_en: data.subtitle_en,
+//       //   subtitle_fr: data.subtitle_fr,
+//       //   subtitle_ar: data.subtitle_ar,
+//       //   description_en: data.description_en,
+//       //   description_fr: data.description_fr,
+//       //   description_ar: data.description_ar,
+//       //   short_description_en: data.short_description_en,
+//       //   short_description_fr: data.short_description_fr,
+//       //   short_description_ar: data.short_description_ar,
+//       //   seo_description_en: data.seo_description_en,
+//       //   seo_description_fr: data.seo_description_fr,
+//       //   seo_description_ar: data.seo_description_ar,
+//       //   seo_keywords: data.seo_keywords,
+//       //   catalogue : data.catalogue
   
       
-      // };
-      const formData = new FormData();
-      formData.append('title_en', title_en);
-      formData.append('subtitle_en', SubTitle_en);
-      formData.append('short_description_en', Short_Description_en);
-      formData.append('description_en', description_en);
-      formData.append('seo_description_en', Seo_Description_en);
+//       // };
+//       const formData = new FormData();
+//       formData.append('title_en', title_en);
+//       formData.append('subtitle_en', SubTitle_en);
+//       formData.append('short_description_en', Short_Description_en);
+//       formData.append('description_en', description_en);
+//       formData.append('seo_description_en', Seo_Description_en);
     
-      formData.append('title_fr', title_fr);
-      formData.append('subtitle_fr', subtitle_fr);
-      formData.append('short_description_fr', Short_Description_fr);
-      formData.append('description_fr', Description_fr);
-      formData.append('seo_description_fr', Seo_Description_fr);
+//       formData.append('title_fr', title_fr);
+//       formData.append('subtitle_fr', subtitle_fr);
+//       formData.append('short_description_fr', Short_Description_fr);
+//       formData.append('description_fr', Description_fr);
+//       formData.append('seo_description_fr', Seo_Description_fr);
     
 
-      formData.append('title_ar', title_ar);
-      formData.append('subtitle_ar', SubTitle_ar);
-      formData.append('short_description_ar', Short_Description_ar);
-      formData.append('description_ar', description_ar);
-      formData.append('seo_description_ar', seo_description_ar);
+//       formData.append('title_ar', title_ar);
+//       formData.append('subtitle_ar', SubTitle_ar);
+//       formData.append('short_description_ar', Short_Description_ar);
+//       formData.append('description_ar', description_ar);
+//       formData.append('seo_description_ar', seo_description_ar);
      
-      formData.append('seo_keywords', seo_keywords);
-      formData.append('image', imageUrl);
-      formData.append('icon', iconUrl);
-      formData.append('catalogue', catalogueUrl);
+//       formData.append('seo_keywords', seo_keywords);
+//       formData.append('image', imageUrl);
+//       formData.append('icon', iconUrl);
+//       formData.append('catalogue', catalogueUrl);
 
 
 
 
-      // console.log(formData);
+//       // console.log(formData);
 
-        // const res = await ServiceServices.addService(formData, {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data',
-        //   },
-        // });
+//         // const res = await ServiceServices.addService(formData, {
+//         //   headers: {
+//         //     'Content-Type': 'multipart/form-data',
+//         //   },
+//         // });
       
-      // console.log("productData ===========>", productData, "data", data);
-      // return setIsSubmitting(false);
-console.log('serviecData',formData);
-      if (id) {
-        const res = await ServiceServices.updateService(id, serviceData);
-       console.log("res is ", res);
+//       // console.log("productData ===========>", productData, "data", data);
+//       // return setIsSubmitting(false);
+// console.log('serviecData',formData);
+//       if (id) {
+//         const res = await ServiceServices.updateService(id, serviceData);
+//        console.log("res is ", res);
 
-        if (res) {
-          if (isCombination) {
-            setIsUpdate(true);
-            notifySuccess(res.message);
-            setIsBasicComplete(true);
-            setIsSubmitting(false);
-            handleServiceTap("Combination", true);
-          } else {
-            setIsUpdate(true);
-            notifySuccess(res.message);
-            setIsSubmitting(false);
-          }
-        }
+//         if (res) {
+//           if (isCombination) {
+//             setIsUpdate(true);
+//             notifySuccess(res.message);
+//             setIsBasicComplete(true);
+//             setIsSubmitting(false);
+//             handleServiceTap("Combination", true);
+//           } else {
+//             setIsUpdate(true);
+//             notifySuccess(res.message);
+//             setIsSubmitting(false);
+//           }
+//         }
 
-        if (
-          tapValue === "Combination" ||
-          (tapValue !== "Combination" && !isCombination)
-        ) {
-          closeDrawer();
-        }
-      } else {
-        const res = await ServiceServices.addService(serviceData);
-        // console.log("res is ", res);
-        if (isCombination) {
-          setUpdatedId(res.id);
-          setTitle(data.title);
-          setSubtitle(data.subtitle);
-          setShort_description(data.short_description);
-          setDescription(data.description);
-          setSeo_keywords(data.seo_keywords);
-          setSeo_description(data.seo_description);
-          setDefaultCategory(data.defaultCategory);
-          setDefaultReference(data.defaultReference);
-          setSlug(data.slug);
+//         if (
+//           tapValue === "Combination" ||
+//           (tapValue !== "Combination" && !isCombination)
+//         ) {
+//           closeDrawer();
+//         }
+//       } else {
+//         const res = await ServiceServices.addService(serviceData);
+//         // console.log("res is ", res);
+//         if (isCombination) {
+//           setUpdatedId(res.id);
+//           setTitle(data.title);
+//           setSubtitle(data.subtitle);
+//           setShort_description(data.short_description);
+//           setDescription(data.description);
+//           setSeo_keywords(data.seo_keywords);
+//           setSeo_description(data.seo_description);
+//           setDefaultCategory(data.defaultCategory);
+//           setDefaultReference(data.defaultReference);
+//           setSlug(data.slug);
           
-          setIsUpdate(true);
-          setIsBasicComplete(true);
-          setIsSubmitting(false);
-          handleServiceTap("Combination", true);
-          notifySuccess("Product Added Successfully!");
-        } else {
-          setIsUpdate(false);
-          notifySuccess("Failed to Add Product");
-        }
+//           setIsUpdate(true);
+//           setIsBasicComplete(true);
+//           setIsSubmitting(false);
+//           handleServiceTap("Combination", true);
+//           notifySuccess("Product Added Successfully!");
+//         } else {
+//           setIsUpdate(false);
+//           notifySuccess("Failed to Add Product");
+//         }
 
-        if (
-          tapValue === "Combination" ||
-          (tapValue !== "Combination" && !isCombination)
-        ) {
-          setIsSubmitting(false);
-          closeDrawer();
-        }
-      }
-    } catch (err) {
-      console.log("err", err);
-      setIsSubmitting(false);
-      notifyError(err ? err?.response?.data?.message : err.message);
-      closeDrawer();
-    }
-  };
+//         if (
+//           tapValue === "Combination" ||
+//           (tapValue !== "Combination" && !isCombination)
+//         ) {
+//           setIsSubmitting(false);
+//           closeDrawer();
+//         }
+//       }
+//     } catch (err) {
+//       console.log("err", err);
+//       setIsSubmitting(false);
+//       notifyError(err ? err?.response?.data?.message : err.message);
+//       closeDrawer();
+//     }
+//   };
 
   useEffect(() => {
     if (!isDrawerOpen) {
@@ -415,7 +415,7 @@ console.log('serviecData',formData);
             setImageUrl(res.image);
             setVariants(res.variants);
             setIsCombination(res.isCombination);
-            setQuantity(res?.stock);
+            // setQuantity(res?.stock);
             // setTotalStock(res.stock);
             setOriginalPrice(res?.prices?.originalPrice);
             setPrice(res?.prices?.price);
@@ -490,7 +490,7 @@ console.log('serviecData',formData);
         originalPrice,
         discount,
         price,
-        quantity,
+        // quantity,
         barcode,
         sku,
         productId,
@@ -514,7 +514,7 @@ console.log('serviecData',formData);
 
           originalPrice: originalPrice || 0,
           price: price || 0,
-          quantity: Number(quantity),
+          // quantity: Number(quantity),
           discount: Number(originalPrice - price),
           productId: productId && productId + "-" + (variants.length + i),
           barcode: barcode,
@@ -572,7 +572,7 @@ console.log('serviecData',formData);
           originalPrice,
           price,
           discount,
-          quantity,
+          // quantity,
           barcode,
           sku,
           productId,
@@ -651,36 +651,36 @@ console.log('serviecData',formData);
   };
 
   //this one for combination list
-  const handleQuantityPrice = (value, name, id, variant) => {
-    // console.log("handleQuantityPrice", name, "value", value);
-    if (name === "price" && Number(variant.originalPrice) < Number(value)) {
-      // variants[id][name] = Number(variant.originalPrice);
-      notifyError("SalePrice must be less then or equal of product price!");
-      setValue("price", variant.originalPrice);
-      setIsBulkUpdate(true);
-      const timeOutId = setTimeout(() => setIsBulkUpdate(false), 100);
-      return () => clearTimeout(timeOutId);
-    }
-    setVariants((pre) =>
-      pre.map((com, i) => {
-        if (i === id) {
-          const updatedCom = {
-            ...com,
-            [name]: Math.round(value),
-          };
+  // const handleQuantityPrice = (value, name, id, variant) => {
+  //   // console.log("handleQuantityPrice", name, "value", value);
+  //   if (name === "price" && Number(variant.originalPrice) < Number(value)) {
+  //     // variants[id][name] = Number(variant.originalPrice);
+  //     notifyError("SalePrice must be less then or equal of product price!");
+  //     setValue("price", variant.originalPrice);
+  //     setIsBulkUpdate(true);
+  //     const timeOutId = setTimeout(() => setIsBulkUpdate(false), 100);
+  //     return () => clearTimeout(timeOutId);
+  //   }
+  //   setVariants((pre) =>
+  //     pre.map((com, i) => {
+  //       if (i === id) {
+  //         const updatedCom = {
+  //           ...com,
+  //           [name]: Math.round(value),
+  //         };
 
-          return updatedCom;
-        }
-        return com;
-      })
-    );
+  //         return updatedCom;
+  //       }
+  //       return com;
+  //     })
+  //   );
 
-    const totalStock = variants.reduce(
-      (pre, acc) => pre + Number(acc.quantity),
-      0
-    );
-    // setTotalStock(Number(totalStock));
-  };
+  //   const totalStock = variants.reduce(
+  //     (pre, acc) => pre + Number(acc.quantity),
+  //     0
+  //   );
+  //   // setTotalStock(Number(totalStock));
+  // };
 
   //for change language in product drawer
   const handleSelectLanguage = (lang) => {
@@ -703,7 +703,7 @@ console.log('serviecData',formData);
     values,
     language,
     register,
-    onSubmit,
+    // onSubmit,
     errors,
     slug,
     openModal,
@@ -738,7 +738,7 @@ console.log('serviecData',formData);
     handleEditVariant,
     handleRemoveVariant,
     handleClearVariant,
-    handleQuantityPrice,
+    // handleQuantityPrice,
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,

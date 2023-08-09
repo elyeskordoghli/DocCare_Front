@@ -11,6 +11,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 //internal import
+import Tooltip from "components/tooltip/Tooltip";
+import { FiEdit } from "react-icons/fi";
+
 import AttributeList from "components/attribute/AttributeList";
 import MainDrawer from "components/drawer/MainDrawer";
 import ProductDrawer from "components/drawer/ProductDrawer";
