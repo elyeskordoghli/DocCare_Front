@@ -16,7 +16,7 @@ import DrawerButton from "components/form/DrawerButton";
 import { useEffect, useState } from "react";
 import DepartmentServices from "services/DepartementServices";
 import AdminServices from "services/AdminServices";
-
+import { notifySuccess } from "utils/toast";
 
 const StaffDrawer = ({ id,data }) => {
   const {
@@ -50,47 +50,51 @@ const [selecttedDepartment, setSelecttedDepartment] = useState([]);
   //----------end states--------------
 
 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
-
-    const Error = ({ errorName }) => {
+ const Error = ({ errorName }) => {
       return (
         <div className="text-red-500 text-sm mt-1">{errorName && errorName.message}</div>
       );
     };
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
 
-      const formData = new FormData();
+   
+    const adminData = {
+      name: name,
+      email: email,
+      password: password,
+      previleges: JSON.stringify(selecttedPrevilege),
+      departments : JSON.stringify(selecttedDepartment)
+    };
+      // const formData = new FormData();
       
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('password', password);
-      formData.append('status', status);
-      formData.append('previleges', JSON.stringify(selecttedPrevilege));
-      formData.append('departments', JSON.stringify(selecttedDepartment));
-
-
-      try {
-        if (id == null) {
-
-          const res = await AdminServices.addStaff(formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-
-        }else{
-
-          const response = await AdminServices.updateStaff(id,formData, {
-            headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-
-        });
-      }
-      } catch (error) {
-        console.error("Erreur lors de l'ajout de l\'admin :", error);
-      }
+      // formData.append('name', name);
+      // formData.append('email', email);
+      // formData.append('password', password);
+      // formData.append('status', status);
+      // formData.append('previleges', JSON.stringify(selecttedPrevilege));
+      // formData.append('departments', JSON.stringify(selecttedDepartment));
+        if (id) {
+          try {
+            const res = await AdminServices.updateStaff(id, adminData);
+            notifySuccess(res.message);
+            closeDrawer();
+            console.log("Réponse de mise à jour de admin :", res);
+            // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
+          } catch (error) {
+            console.error("Erreur lors de la mise à jour de l\'admin :", error);
+          }
+        } else {
+          try {
+            const res = await AdminServices.addStaff(adminData);
+            notifySuccess(res.message);
+           // closeDrawer();
+            console.log("Réponse d'ajout de admin :", res);
+            // Traitez la réponse ou faites d'autres actions nécessaires après l'ajout
+          } catch (error) {
+            console.error("Erreur lors de l'ajout de l\'admin :", error);
+          }
+        }
   };
 
 
@@ -101,8 +105,8 @@ const [selecttedDepartment, setSelecttedDepartment] = useState([]);
           setName(res.data.name);
           setEmail(res.data.email);
           setPassword(res.data.password);
-          setPrevilege(res.data.previleges);
-          setDepartment(res.data.departments);
+          // setPrevilege(res.data.previleges);
+          // setDepartment(res.data.departments);
 
   };
 
@@ -145,14 +149,14 @@ const [selecttedDepartment, setSelecttedDepartment] = useState([]);
         {id ? (
           <Title
             register={register}
-            handleSelectLanguage={handleSelectLanguage}
+            // handleSelectLanguage={handleSelectLanguage}
             title={t("UpdateStaff")}
             description={t("UpdateStaffdescription")}
           />
         ) : (
           <Title
             register={register}
-            handleSelectLanguage={handleSelectLanguage}
+            // handleSelectLanguage={handleSelectLanguage}
             title={t("AddStaffTitle")}
             description={t("AddStaffdescription")}
           />

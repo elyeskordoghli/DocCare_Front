@@ -62,6 +62,7 @@ const Category = () => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
   const [showChild, setShowChild] = useState(false);
+  const [isLoading, setIsLoading]=useState();
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
@@ -74,8 +75,9 @@ const Category = () => {
   return (
     <>
      <PageTitle>{t("Category")}</PageTitle>
-      <DeleteModal ids={allId} setIsCheck={setIsCheck} />
-
+     <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
+      {/* <DeleteModal ids={allId} setIsCheck={setIsCheck} /> */}
+ 
       <BulkActionDrawer ids={allId} title="Categories" lang={lang} data={data} isCheck={isCheck} />
 
       <MainDrawer>
@@ -191,6 +193,8 @@ const Category = () => {
             </TableHeader>
 
             <CategoryTable
+             setIsLoading={setIsLoading}
+              isLoading={isLoading}
               data={data}
               lang={lang}
               isCheck={isCheck}

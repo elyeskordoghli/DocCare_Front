@@ -12,6 +12,7 @@ import Multiselect from "multiselect-react-dropdown";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { notifySuccess } from "utils/toast";
 
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { MultiSelect } from "react-multi-select-component";
@@ -39,7 +40,7 @@ import { showingTranslateValue } from "utils/translate";
 import ServiceServices from "services/ServiceServices";
 //internal import
 
-const ServiceDrawer = ({ id,data }) => {
+const ServiceDrawer = ({ id, data }) => {
   const { t } = useTranslation();
 
   const {
@@ -84,11 +85,14 @@ const ServiceDrawer = ({ id,data }) => {
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,
-  } = useServiceSubmit(id,data);
+  } = useServiceSubmit(id, data);
 
   const currency = globalSetting?.default_currency || "$";
-  
+
   const [imageUrl, setImageUrl] = useState("");
+  const [oldImageUrl, setOldImageUrl] = useState("");
+
+
   const [seo_keywords, setSeo_keywords] = useState("");
   const [title_en, setTitle_en] = useState("");
   const [SubTitle_en, setSubtitle_en] = useState("");
@@ -107,116 +111,174 @@ const ServiceDrawer = ({ id,data }) => {
   const [Short_Description_ar, setShort_description_ar] = useState("");
   const [description_ar, setDescription_ar] = useState("");
   const [seo_description_ar, setSeo_description_ar] = useState("");
+
   const [catalogueUrl, setCatalogueUrl] = useState("");
+  const [oldCataloguenUrl, setOldCatalogueUrl] = useState("");
+
   const [iconUrl, setIconUrl] = useState("");
-const {
-  setValue,
+  const [oldIconUrl, setOldIconUrl] = useState("");
 
-}= useForm();
-console.log("service drawer_id",id);
-const [retsData, setRestData] = useState({});
+  const {
+    setValue,
+
+  } = useForm();
+  console.log("service drawer_id", id);
+  const [retsData, setRestData] = useState({});
 
 
-  
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
+
+    const Error = ({ errorName }) => {
+      return (
+        <div className="text-red-500 text-sm mt-1">{errorName && errorName.message}</div>
+      );
+    };
 
     const formData = new FormData();
-      formData.append('title_en', title_en);
-      formData.append('subtitle_en', SubTitle_en);
-      formData.append('short_description_en', Short_Description_en);
-      formData.append('description_en', description_en);
-      formData.append('seo_description_en', Seo_Description_en);
-    
-      formData.append('title_fr', title_fr);
-      formData.append('subtitle_fr', subtitle_fr);
-      formData.append('short_description_fr', Short_Description_fr);
-      formData.append('description_fr', Description_fr);
-      formData.append('seo_description_fr', Seo_Description_fr);
-    
+    formData.append('title_en', title_en);
+    formData.append('subtitle_en', SubTitle_en);
+    formData.append('short_description_en', Short_Description_en);
+    formData.append('description_en', description_en);
+    formData.append('seo_description_en', Seo_Description_en);
 
-      formData.append('title_ar', title_ar);
-      formData.append('subtitle_ar', SubTitle_ar);
-      formData.append('short_description_ar', Short_Description_ar);
-      formData.append('description_ar', description_ar);
-      formData.append('seo_description_ar', seo_description_ar);
-     
-      formData.append('seo_keywords', seo_keywords);
-      formData.append('image', imageUrl);
-      formData.append('icon', iconUrl);
-      formData.append('catalogue', catalogueUrl);
-      console.log(formData);
-      // const res = await CategoryServices.getCategoryById(id);
-      // console.log("res category", res);
+    formData.append('title_fr', title_fr);
+    formData.append('subtitle_fr', subtitle_fr);
+    formData.append('short_description_fr', Short_Description_fr);
+    formData.append('description_fr', Description_fr);
+    formData.append('seo_description_fr', Seo_Description_fr);
 
-    
-      if (id) {
-        const rest = await ServiceServices.getServiceById(id);
-                console.log("rest service", rest);
-      
-                if (rest) {
-                  setRestData(rest);
-                  setValue("title_en", rest.title_en);
-                  setValue("title_fr", rest.title_fr);
-                  setValue("title_ar", rest.title_ar);
-                }
-        const res = await ServiceServices.updateService(id, formData);
-        // setIsUpdate(true);
-        // setIsSubmitting(false);
-        notifySuccess(res.message);
-        closeDrawer();
-        // reset();
-      } else {
-        const res = await ServiceServices.addService(formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        // setIsUpdate(true);
-        // setIsSubmitting(false);
-        notifySuccess(res.message);
-        closeDrawer();
+
+    formData.append('title_ar', title_ar);
+    formData.append('subtitle_ar', SubTitle_ar);
+    formData.append('short_description_ar', Short_Description_ar);
+    formData.append('description_ar', description_ar);
+    formData.append('seo_description_ar', seo_description_ar);
+
+    formData.append('seo_keywords', seo_keywords);
+    formData.append('image', imageUrl);
+    formData.append('icon', iconUrl);
+    formData.append('catalogue', catalogueUrl);
+    console.log(formData);
+    // const res = await CategoryServices.getCategoryById(id);
+    // console.log("res category", res);
+
+
+    if (id) {
+
+      const res = await ServiceServices.updateService(id, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      // setIsUpdate(true);
+      // setIsSubmitting(false);
+      notifySuccess(res.message);
+      closeDrawer();
+      // reset();
+    } else {
+      const res = await ServiceServices.addService(formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      // setIsUpdate(true);
+      // setIsSubmitting(false);
+      notifySuccess(res.message);
+      closeDrawer();
+    }
+  };
+  const initFormForUpdate = async (id) => {
+
+    const res = await ServiceServices.getServiceById(id);
+    console.log('serviceInputForm', res.data)
+
+    setTitle_en(res.data.title_en);
+    setSubtitle_en(res.data.subtitle_en);
+    setShort_description_en(res.data.short_description_en);
+    setDescription_en(res.data.description_en);
+    setSeo_description_en(res.data.seo_description_en);
+
+    setTitle_fr(res.data.title_fr);
+    setSubtitle_fr(res.data.subtitle_fr);
+    setShort_description_fr(res.data.short_description_fr);
+    setDescription_fr(res.data.description_fr);
+    setSeo_description_fr(res.data.seo_description_fr);
+
+
+    setTitle_ar(res.data.title_ar);
+    setSubtitle_ar(res.data.subtitle_ar);
+    setShort_description_ar(res.data.short_description_ar);
+    setDescription_ar(res.data.description_ar);
+    setSeo_description_ar(res.data.seo_description_ar);
+
+
+    setSeo_keywords(res.data.seo_keywords);
+    setImageUrl(res.data.image);
+    setImageBinary(res.data.image);
+    setOldImageUrl(res.data.image);
+
+    setIconUrl(res.data.icon);
+    setIconBinary(res.data.icon);
+    setOldIconUrl(res.data.icon);
+
+    setCatalogueUrl(res.data.catalogue);
+    setCatalogueBinary(res.data.catalogue);
+    setOldCatalogueUrl(res.data.catalogue);
+
+    // setPrevilege(res.data.previleges);
+    // setDepartment(res.data.departments);
+    console.log('hahahahahah', oldImageUrl);
+  };
+  useEffect(() => {
+    if (id) {
+      initFormForUpdate(id);
+    }
+  }, [id]);
+
+  const [imageBinary, setImageBinary] = useState(null);
+  useEffect(() => {
+    async function fetchImageBinary() {
+      try {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        setImageBinary(blob);
+      } catch (error) {
+        console.error('Error fetching image binary:', error);
       }
-      };
-      // useEffect(() => {
-      //   if (!isDrawerOpen) {
-      //     setResData({});
-      //     setValue("name_en");
-      //     setValue("name_fr");
-      //     setValue("name_ar");
-      //     clearErrors("name_en");
-      //     clearErrors("name_fr");
-      //     clearErrors("name_ar");
-       
-      //     // clearErrors("parentName");
-      //     // clearErrors("description");
-      //     setSelectCategoryName("Home");
-      //     setLanguage(lang);
-      //     setValue("language", language);
-    
-      //     if (data !== undefined && data[0]?._id !== undefined) {
-      //       setChecked(data[0]._id);
-      //     }
-      //     return;
-      //   }
-      //   if (id) {
-      //     (async () => {
-      //       try {
-      //         const res = await CategoryServices.getCategoryById(id);
-      //         console.log("res category", res);
-    
-      //         if (res) {
-      //           setResData(res);
-      //           setValue("name_en", res.name_en);
-      //           setValue("name_fr", res.name_fr);
-      //           setValue("name_ar", res.name_ar);
-      //         }
-      //       } catch (err) {
-      //         notifyError(err ? err.response.data.message : err.message);
-      //       }
-      //     })();
-      //   }
-      // }, [id, setValue, isDrawerOpen, language, clearErrors, data, lang]);
+    }
+
+    fetchImageBinary();
+  }, [imageUrl]);
+  const [iconBinary, setIconBinary] = useState(null);
+  useEffect(() => {
+    async function fetchIconBinary() {
+      try {
+        const response = await fetch(iconUrl);
+        const blob = await response.blob();
+        setIconBinary(blob);
+      } catch (error) {
+        console.error('Error fetching icon binary:', error);
+      }
+    }
+
+    fetchIconBinary();
+  }, [iconUrl]);
+  const [catalogueBinary, setCatalogueBinary] = useState(null);
+  useEffect(() => {
+    async function fetchCatalogueBinary() {
+      try {
+        const response = await fetch(catalogueUrl);
+        const blob = await response.blob();
+        setCatalogueBinary(blob);
+      } catch (error) {
+        console.error('Error fetching catalogue binary:', error);
+      }
+    }
+
+    fetchCatalogueBinary();
+  }, [catalogueUrl]);
   return (
     <>
       <Modal
@@ -242,16 +304,16 @@ const [retsData, setRestData] = useState({});
         {id ? (
           <Title
             register={register}
-            handleSelectLanguage={handleSelectLanguage}
-            title={t("Update Service")}
-            description={t("Update Service Description")}
+            // handleSelectLanguage={handleSelectLanguage}
+            title={"Update Service"}
+            description={"Update Service Description"}
           />
         ) : (
           <Title
             register={register}
-            handleSelectLanguage={handleSelectLanguage}
-            title={t("Add Service")}
-            description={t("Add Service Description")}
+            // handleSelectLanguage={handleSelectLanguage}
+            title={"Add Service"}
+            description={"Add Service Description"}
           />
         )}
       </div>
@@ -304,48 +366,58 @@ const [retsData, setRestData] = useState({});
           {tapValue === "Anglais" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
-                  
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Image")} />
+                <LabelArea label={"Service Image"} />
                 <div className="col-span-8 sm:col-span-4">
-                    <Input
-                      {...register(`imageUrl`, {
-                        required: "Image is required!",
-                      })}
-                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                      name="imageUrl"
-                      type="file"
-                      placeholder={"Image "}
-                      onChange={(e)=>{setImageUrl(e.target.files[0])}}
+                  <Input
+
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="imageUrl"
+                    type="file"
+                    placeholder={"Image "}
+                    onChange={(e) => { setImageUrl(e.target.files[0]) }}
+                  />
+                  <Error errorName={errors.imageUrl} />
+                  {imageUrl && (
+                    <img
+                      src={oldImageUrl} // Utiliser l'URL existante pour afficher l'image
+                      alt="Old Image"
+                      style={{ maxWidth: '100px', marginTop: '10px' }}
                     />
-                    <Error errorName={errors.imageUrl} />
-                  </div>
-              </div>
-            
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Icon")} />
-                <div className="col-span-8 sm:col-span-4">
-                    <Input
-                      {...register(`IconUrl`, {
-                        required: "Icon is required!",
-                      })}
-                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                      name="IconeUrl"
-                      type="file"
-                      placeholder={"Icon "}
-                      onChange={(e)=>{setIconUrl(e.target.files[0])}}
-                    />
-                    <Error errorName={errors.iconUrl} />
-                  </div>
+                  )}
+
+
+                </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Title (en) ")} />
+                <LabelArea label={"Service Icon"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title_en`, {
-                      required: "Title is required!",
-                    })}
+
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="IconeUrl"
+                    type="file"
+                    placeholder={"Icon "}
+                    onChange={(e) => { setIconUrl(e.target.files[0]) }}
+                  />
+                  <Error errorName={errors.iconUrl} />
+                  {iconUrl && (
+                    <img
+                      src={oldIconUrl} // Utiliser l'URL existante pour afficher l'image
+                      alt="Old Icon"
+                      style={{ maxWidth: '100px', marginTop: '10px' }}
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Service Title (en) "} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title_en"
                     type="text"
@@ -362,12 +434,10 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service SubTitle (en)  ")} />
+                <LabelArea label={"Service SubTitle (en)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`SubTitle_en`, {
-                      required: "SubTitle is required!",
-                    })}
+
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="SubTitle_en"
                     type="text"
@@ -380,13 +450,11 @@ const [retsData, setRestData] = useState({});
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Short_Description (en) ")} />
+                <LabelArea label={"Service Short_Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description_en", {
-                      required: "Short_Description is required!",
-                    })}
+
                     name="Short_Description_en"
                     placeholder={"Service Short_Description (en) "}
                     rows="4"
@@ -401,13 +469,11 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Description (en) ")} />
+                <LabelArea label={"Service Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("description_en", {
-                      required: "Description is required!",
-                    })}
+
                     name="description_en"
                     placeholder={"Service Description (en) "}
                     rows="4"
@@ -422,12 +488,10 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Seo Keywords  ")} />
+                <LabelArea label={"Service Seo Keywords  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Seo_Keywords`, {
-                      required: "Seo Keywords is required!",
-                    })}
+
                     name="Seo_Keywords"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
@@ -442,12 +506,10 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Seo Description (en) ")} />
+                <LabelArea label={"Service Seo Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Seo_Description_en`, {
-                      required: "Seo Keywords is required!",
-                    })}
+
                     name="Seo_Description_en"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
@@ -464,14 +526,11 @@ const [retsData, setRestData] = useState({});
 
 
 
-{/* 
+              {/* 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Category")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ParentCategory
-                  {...register("Category", {
-                    required: "Category is required!",
-                  })}
+                  <ParentCategor
                     lang={language}
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
@@ -488,13 +547,11 @@ const [retsData, setRestData] = useState({});
           {tapValue === "French" && (
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
-             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Title (fr) ")} />
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Service Title (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title_fr`, {
-                      required: "Title is required!",
-                    })}
+
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title_fr"
                     type="text"
@@ -509,12 +566,9 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service SubTitle (fr)  ")} />
+                <LabelArea label={"Service SubTitle (fr)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`subtitle_fr`, {
-                      required: "SubTitle is required!",
-                    })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="subtitle_fr"
                     type="text"
@@ -527,13 +581,10 @@ const [retsData, setRestData] = useState({});
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Short_Description (fr) ")} />
+                <LabelArea label={"Service Short_Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description_fr", {
-                      required: "Short_Description is required!",
-                    })}
                     name="Short_Description_fr"
                     placeholder={"Service Short_Description (fr) "}
                     rows="4"
@@ -547,13 +598,10 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Description (fr) ")} />
+                <LabelArea label={"Service Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Description_fr", {
-                      required: "Description is required!",
-                    })}
                     name="Description_fr"
                     placeholder={"Service Description (fr) "}
                     rows="4"
@@ -566,12 +614,9 @@ const [retsData, setRestData] = useState({});
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Seo Keywords (fr)")} />
+                <LabelArea label={"Service Seo Keywords (fr)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Seo_Description_fr`, {
-                      required: "Seo Description is required!",
-                    })}
                     name="Seo_Description_fr"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
@@ -583,14 +628,11 @@ const [retsData, setRestData] = useState({});
                 </div>
               </div>
 
-{/* 
+              {/* 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("Service Seo Description (fr) ")} />
                 <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInput
-                   {...register("Seo_Keywords", {
-                    required: "Seo Keywords is required!",
-                  })}
+                  <ReactTagInpu
                     placeholder={t("Service Seo Description (fr) ")}
                     tags={tag}
                     onChange={(newTags) => setTag(newTags)}
@@ -606,9 +648,6 @@ const [retsData, setRestData] = useState({});
                 <LabelArea label={t("Service Slug")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Service Slug`, {
-                      required: "Service Slug is required!",
-                    })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="slug"
                     type="text"
@@ -626,12 +665,9 @@ const [retsData, setRestData] = useState({});
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Title  ")} />
+                <LabelArea label={"Service Title  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`title_ar`, {
-                      required: "Title is required!",
-                    })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title_ar"
                     type="text"
@@ -646,12 +682,9 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service SubTitle (ar)  ")} />
+                <LabelArea label={"Service SubTitle (ar)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`SubTitle_ar`, {
-                      required: "SubTitle is required!",
-                    })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="SubTitle_ar"
                     type="text"
@@ -664,13 +697,10 @@ const [retsData, setRestData] = useState({});
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Short_Description (fr) ")} />
+                <LabelArea label={"Service Short_Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("Short_Description_ar", {
-                      required: "Short_Description is required!",
-                    })}
                     name="Short_Description_ar"
                     placeholder={"Service Short_Description (fr) "}
                     rows="4"
@@ -684,13 +714,10 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Description (fr) ")} />
+                <LabelArea label={"Service Description (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    {...register("description_ar", {
-                      required: "Description is required!",
-                    })}
                     name="description_ar"
                     placeholder={"Service Description (fr) "}
                     rows="4"
@@ -704,12 +731,9 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Seo Description (ar)")} />
+                <LabelArea label={"Service Seo Description (ar)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`seo_description_ar`, {
-                      required: "Seo Description is required!",
-                    })}
                     name="seo_description_ar"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
@@ -724,20 +748,17 @@ const [retsData, setRestData] = useState({});
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Cotalogue")} />
+                <LabelArea label={"Service Cotalogue"} />
                 <div className="col-span-8 sm:col-span-4">
-                    <Input
-                      {...register(`CatalogueUrl`, {
-                        required: "catalogue is required!",
-                      })}
-                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                      name="CatalogueUrl"
-                      type="file"
-                      placeholder={"Catalogue "}
-                      onChange={(e)=>{setCatalogueUrl(e.target.files[0])}}
-                    />
-                    <Error errorName={errors.catalogueUrl} />
-                  </div>
+                  <Input
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="CatalogueUrl"
+                    type="file"
+                    placeholder={"Catalogue "}
+                    onChange={(e) => { setCatalogueUrl(e.target.files[0]) }}
+                  />
+                  <Error errorName={errors.catalogueUrl} />
+                </div>
               </div>
 
 
@@ -746,9 +767,6 @@ const [retsData, setRestData] = useState({});
                 <LabelArea label={t("Service Slug")} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`Service Slug`, {
-                      required: "Service Slug is required!",
-                    })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="slug"
                     type="text"
@@ -854,10 +872,10 @@ const [retsData, setRestData] = useState({});
           {tapValue === "Arabic" && (
             <DrawerButton id={id} title="Submit" isSubmitting={isSubmitting} />
           )}
-           {tapValue === "Anglais" && (
+          {tapValue === "Anglais" && (
             <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
           )}
-           {tapValue === "French" && (
+          {tapValue === "French" && (
             <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
           )}
         </form>
@@ -906,7 +924,7 @@ const [retsData, setRestData] = useState({});
 
 
 
-     
+
     </>
   );
 };

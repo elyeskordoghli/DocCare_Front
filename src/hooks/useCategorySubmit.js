@@ -99,9 +99,13 @@ console.log('id',id);
 
           if (res) {
             setResData(res);
-            setValue("name_en", res.name_en);
-            setValue("name_fr", res.name_fr);
-            setValue("name_ar", res.name_ar);
+            setName_en(res.data.name_en);
+            setName_fr(res.data.name_fr);
+            setName_ar(res.data.name_ar);
+
+            // setValue("name_en", res.name_en);
+            // setValue("name_fr", res.name_fr);
+            // setValue("name_ar", res.name_ar);
           }
         } catch (err) {
           notifyError(err ? err.response.data.message : err.message);

@@ -7,7 +7,9 @@ import {
   FiSlack,
   FiGlobe,
   FiTarget,
+  FiBookOpen,
 } from "react-icons/fi";
+import routes from "routes";
 
 /**
  * ⚠ These are used just to render the Sidebar!
@@ -25,7 +27,7 @@ const sidebar = [
 
   {
     icon: FiSlack,
-    name: "Catalog",
+    name: "Project Catalog",
     routes: [
       {
         path: "/projects",
@@ -36,21 +38,14 @@ const sidebar = [
         name: "Categories",
       },
       {
-        path: "/departments",
-        name: "Departments",
-      },
-      {
-        path: "/services",
-        name: "Services",
+        path: "/references",
+        name: "References",
       },
       {
         path: "/careers",
         name: "Careers",
       },
-      {
-        path: "/blogs",
-        name: "Blogs",
-      },
+     
     ],
   },
 
@@ -60,16 +55,35 @@ const sidebar = [
     name: "Users",
   },
   {
-    path: "/orders",
-    icon: FiCompass,
-    name: "Orders",
+    path: "/blogs",
+    icon : FiBookOpen,
+    name: "Blogs",
   },
-
   {
-    path: "/our-staff",
-    icon: FiUser,
-    name: "OurStaff",
+    path: "/services",
+    icon: FiCompass,
+    name: "Services",
   },
+{
+  icon: FiUser,
+  name :"Admins",
+  routes : [
+    {
+      path: "/our-staff",
+      name: "OurStaff",
+    },
+    {
+      path :"/departments",
+      name : "Departments"
+    },
+    {
+      path :"/departments-contact",
+      name : "Departments Contact"
+    }
+
+  ]
+},
+  
 
   {
     path: "/settings",
@@ -92,35 +106,26 @@ const sidebar = [
         path: "/details",
         name: "Our Details",
       },
-      {
-        path: "/references",
-        name: "References",
-      },
+     
     ],
   },
-  {
-    icon: FiTarget,
-    name: "ViewStore",
-    path: "http://localhost:3000",
-    outside: "store",
-  },
 
-  {
-    icon: FiSlack,
-    name: "Pages",
-    routes: [
-      // submenu
+  // {
+  //   icon: FiSlack,
+  //   name: "Pages",
+  //   routes: [
+  //     // submenu
 
-      {
-        path: "/404",
-        name: "404",
-      },
-      {
-        path: "/coming-soon",
-        name: "Coming Soon",
-      },
-    ],
-  },
+  //     {
+  //       path: "/404",
+  //       name: "404",
+  //     },
+  //     {
+  //       path: "/coming-soon",
+  //       name: "Coming Soon",
+  //     },
+  //   ],
+  // },
 ];
 
 export default sidebar;

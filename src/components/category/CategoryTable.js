@@ -15,24 +15,26 @@ import CategoryServices from "services/CategoryServices";
 import React, { useState,useEffect } from 'react'
 
 const CategoryTable = ({
-  lang,
+  lang, 
   isCheck,
   categories,
   setIsCheck,
   useParamId,
   showChild,
+  isLoading, 
+  setIsLoading
 }) => {
   const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
 
-  const handleClick = (e) => {
-    const { id, checked } = e.target;
-    setIsCheck([...isCheck, id]);
-    if (!checked) {
-      setIsCheck(isCheck.filter((item) => item !== id));
-    }
-  };
+  // const handleClick = (e) => {
+  //   const { id, checked } = e.target;
+  //   setIsCheck([...isCheck, id]);
+  //   if (!checked) {
+  //     setIsCheck(isCheck.filter((item) => item !== id));
+  //   }
+  // };
   const [data, setData] = useState([]); 
-  useEffect(() => {
+ 
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
     const fetchCategories = async () => {
       try {
@@ -48,20 +50,63 @@ const CategoryTable = ({
       } catch (error) {
         console.error("Erreur lors de la récupération des categories :", error);
       }
+      finally {
+        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+      }
+    };
+    useEffect(() => {
+    fetchCategories(); // Appelez la fonction fetchCategories pour récupérer les projets au chargement du composant
+    }, [isLoading]);
+// console.log("name",data);
+    const getCategory = async () => {
+      try {
+        const cat = await CategoryServices.getCategoryById(isCheck)
+        setIsCheck([...isCheck, cat.id]);
+        console.log('Category selectionnée : ', cat.id);
+
+      } catch (error) {
+        console.error("Erreur lors de la récupération du category :", error);
+
+      }
+    }
+
+
+    useEffect(() => {
+      getCategory();
+    }, [])
+
+    const handleClick = (e) => {
+      const { id, checked } = e.target;
+      console.log("id hatha", id, checked);
+    
+      if (checked) {
+        setIsCheck([...isCheck, id]);
+      } else {
+        setIsCheck(isCheck.filter((item) => item !== id));
+        console.log("id tna7a", id, checked);
+      }
     };
 
-    fetchCategories(); // Appelez la fonction fetchCategories pour récupérer les projets au chargement du composant
-    }, []);
-console.log("name",data);
   return (
     <>
       {isCheck?.length < 1 && (
-        <DeleteModal useParamId={useParamId} id={serviceId} title={title} />
+        <DeleteModal 
+        useParamId={useParamId} 
+        id={serviceId} 
+        title={title}
+        isLoading={isLoading} // Passer la variable isLoading
+        setIsLoading={setIsLoading}  />
       )}
 
-      <MainDrawer>
+      {isCheck?.length < 2 && (
+        <MainDrawer>
         <CategoryDrawer id={serviceId} data={data} lang={lang} />
-      </MainDrawer>
+        </MainDrawer>
+      )}
+
+      {/* <MainDrawer>
+        <CategoryDrawer id={serviceId} data={data} lang={lang} />
+      </MainDrawer> */}
 
       <TableBody>
         {data?.map((category) => (
@@ -73,6 +118,7 @@ console.log("name",data);
                 id={category.id}
                 handleClick={handleClick}
                 isChecked={isCheck?.includes(category.id)}
+                setIsCheck={setIsCheck} 
               />
             </TableCell>
 
@@ -103,6 +149,9 @@ console.log("name",data);
             <TableCell>
               <EditDeleteButton
                 id={category?.id}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                handleClick={handleClick}
                 parent={category}
                 category={category}
                 isCheck={isCheck}

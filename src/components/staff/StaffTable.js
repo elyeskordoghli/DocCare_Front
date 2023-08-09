@@ -11,8 +11,9 @@ import { showingTranslateValue } from "utils/translate";
 import useFilter from "hooks/useFilter";
 import { showDateFormat } from "utils/dateFormate";
 import AdminServices from "services/AdminServices";
+import CheckBox from "components/form/CheckBox";
 
-const StaffTable = ({ lang }) => {
+const StaffTable = ({ lang , isCheck, setIsCheck, isLoading, setIsLoading}) => {
   const {
     title,
     serviceId,
@@ -23,8 +24,8 @@ const StaffTable = ({ lang }) => {
   } = useToggleDrawer();
   const [data, setData] = useState([]); 
   // const { globalSetting } = useFilter();
-  useEffect(() => {
-    const fetchServices = async () => {
+ 
+    const fetchAdmins = async () => {
       try {
         const response = await AdminServices.getAllStaff({
           name: null,
@@ -42,21 +43,78 @@ const StaffTable = ({ lang }) => {
       } catch (error) {
         console.error("Erreur lors de la récupération des services :", error);
       }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
     };
+    useEffect(() => {
+    fetchAdmins(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+    }, [isLoading]);
 
-    fetchServices(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+    const getAdmin = async () => {
+      try {
+        const ad = await AdminServices.getStaffById(isCheck)
+        setIsCheck([...isCheck, ad.id]);
+        console.log('Admin selectionnée : ', ad.id);
+  
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'admin :", error);
+  
+      }
+    }
+  
+  
+    useEffect(() => {
+      getAdmin();
     }, []);
+    // const beforeHandleModalOpen = (id, title, staff) => {
+    //   console.log(id)
+    //   handleModalOpen(id, title, staff);
+    //   setIsCheck([id]);
+    // }
+    const handleClick = (e) => {
+      const { id, checked } = e.target;
+      console.log("id hatha", id, checked);
+    
+      if (checked) {
+        setIsCheck([...isCheck, id]);
+      } else {
+        setIsCheck(isCheck.filter((item) => item !== id));
+        console.log("id tna7a", id, checked);
+      }
+    };
   return (
     <>
-      <DeleteModal id={serviceId} title={title} />
-
-      <MainDrawer>
+      {/* <DeleteModal id={serviceId} title={title} /> */}
+      {isCheck?.length < 1 && <DeleteModal
+        id={serviceId}
+        title={data.title}
+        isLoading={isLoading} // Passer la variable isLoading
+        setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
+      />}
+      {isCheck?.length < 2 && (
+        <MainDrawer>
         <StaffDrawer id={serviceId} />
-      </MainDrawer>
+        </MainDrawer>
+      )}
+      {/* <MainDrawer>
+        <StaffDrawer id={serviceId} />
+      </MainDrawer> */}
 
       <TableBody>
         {data?.map((item) => (
           <TableRow key={item.id}>
+          <TableCell>
+            <CheckBox
+              id={item.id}
+              name={item.title_en}
+              type="checkbox"
+              isChecked={isCheck?.includes(item.id)}
+              handleClick={() => handleClick(item.id)}
+              setIsCheck={setIsCheck} // Passer la fonction setIsCheck en tant que prop
+            />
+          </TableCell>
+
             <TableCell>
               <div className="flex items-center">
                 
@@ -131,7 +189,11 @@ const StaffTable = ({ lang }) => {
             <TableCell>
               <EditDeleteButton
                 id={item.id}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
                 staff={item}
+                isCheck={isCheck}
+                handleClick={handleClick}
                 isSubmitting={isSubmitting}
                 handleUpdate={handleUpdate}
                 handleModalOpen={handleModalOpen}

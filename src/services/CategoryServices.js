@@ -30,7 +30,7 @@ const CategoryServices = {
    },
 
   deleteCategory: async (id, body) => {
-    return requests.delete(`/admin/categories/delete/${id}`, body);
+    return requests.delete(`/admin/categories/delete/${id}`);
   },
 
    updateManyCategory: async (body) => {
