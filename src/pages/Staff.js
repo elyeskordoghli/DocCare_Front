@@ -14,7 +14,7 @@ import {
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FiPlus } from "react-icons/fi";
-
+import CheckBox from "components/form/CheckBox";
 //internal import
 
 import useAsync from "hooks/useAsync";
@@ -29,6 +29,7 @@ import { AdminContext } from "context/AdminContext";
 import { SidebarContext } from "context/SidebarContext";
 import AdminServices from "services/AdminServices";
 import PrevilegeServices from "services/PrevilegeServices";
+import React, { useState, useEffect } from "react";
 
 const Staff = () => {
   const { state } = useContext(AdminContext);
@@ -36,7 +37,10 @@ const Staff = () => {
   const { toggleDrawer, lang } = useContext(SidebarContext);
 
   const { data, loading } = useAsync(() => AdminServices.getAllStaff({ email: adminInfo.email }));
+  const [isCheckAll, setIsCheckAll] = useState(false);
 
+  const [isLoading, setIsLoading] = useState();
+  const [isCheck, setIsCheck] = useState([]);
 
   const {
     userRef,
@@ -109,6 +113,13 @@ const Staff = () => {
           <Table>
             <TableHeader>
               <tr>
+              <CheckBox
+                    type="checkbox"
+                    name="selectAll"
+                    id="selectAll"
+                    //isChecked={isCheckAll}
+                   // handleClick={handleSelectAll}
+                  />
                 <TableCell>{t("Name")}</TableCell>
                 <TableCell>{t("Email")}</TableCell>
                 <TableCell>{t("Last login at")}</TableCell>
@@ -119,14 +130,18 @@ const Staff = () => {
 
                 <TableCell>{t("Previleges")}</TableCell>
                 <TableCell>{t("Department")}</TableCell>
-                <TableCell className="text-right">{t("StaffActionsTbl")}</TableCell> 
+                <TableCell className="text-right">{t("StaffActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
 
             <StaffTable
-             Staff={data?.Staff}
-            //  data={dataTable} 
-             lang={lang} />
+              setIsLoading={setIsLoading}
+              isLoading={isLoading}
+              isCheck={isCheck}
+              setIsCheck={setIsCheck}
+              Staff={data?.Staff}
+              //  data={dataTable} 
+              lang={lang} />
           </Table>
           <TableFooter>
             <Pagination

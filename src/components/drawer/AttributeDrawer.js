@@ -32,14 +32,14 @@ const AttributeDrawer = ({ id }) => {
         {id ? (
           <Title
             register={register}
-            handleSelectLanguage={handleSelectLanguage}
+            // handleSelectLanguage={handleSelectLanguage}
             title={t("UpdateAttribute")}
             description={t("UpdateAttributeDesc")}
           />
         ) : (
           <Title
             register={register}
-            handleSelectLanguage={handleSelectLanguage}
+            // handleSelectLanguage={handleSelectLanguage}
             title={t("AddAttribute")}
             description={t("AddAttributeDesc")}
           />

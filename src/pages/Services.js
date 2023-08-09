@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -39,7 +39,6 @@ import MainModal from "components/modal/MainModal";
 const Services = () => {
   const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
-
   const { t } = useTranslation();
   const {
     toggleDrawer,
@@ -83,6 +82,7 @@ const Services = () => {
       setIsCheck([]);
     }
   };
+  const [isLoading, setIsLoading]=useState();
 
   // console.log('productss',products)
   const {
@@ -96,9 +96,9 @@ const Services = () => {
 
   return (
     <>
-      <PageTitle>{t("ServicesPage")}</PageTitle>
-      <DeleteModal id={isCheck} ids={allId} setIsCheck={setIsCheck} title={data.title} />
-      <MainModal id={isCheck} title={data.title} />
+      <PageTitle>{"Services Page"}</PageTitle>
+      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
+      <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
       <BulkActionDrawer ids={allId} data={data} title="Services" />
       <MainDrawer>
@@ -131,7 +131,7 @@ const Services = () => {
                   <span className="mr-2">
                     <FiEdit />
                   </span>
-                  {t("BulkAction")}
+                  {"BulkAction"}
                 </Button>
               </div>
 
@@ -145,7 +145,7 @@ const Services = () => {
                     <FiTrash2 />
                   </span>
 
-                  {t("Delete")}
+                  {"Delete"}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -156,7 +156,7 @@ const Services = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {t("Add Service")}
+                  {"Add Service"}
                 </Button>
               </div>
             </div>
@@ -183,34 +183,7 @@ const Services = () => {
                 className="absolute right-0 top-0 mt-5 mr-1"
               ></button>
             </div>
-{/* 
-            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <SelectCategory setCategory={setCategory} lang={lang} />
-            </div> */}
-
-            {/* <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <Select
-                onChange={(e) => setSortedField(e.target.value)}
-                className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-              >
-                <option value="All" defaultValue hidden>
-                  {t("Price")}
-                </option>
-                <option value="low">{t("LowtoHigh")}</option>
-                <option value="high">{t("HightoLow")}</option>
-                <option value="published">{t("Published")}</option>
-                <option value="unPublished">{t("Unpublished")}</option>
-                <option value="status-selling">{t("StatusSelling")}</option>
-                <option value="status-out-of-stock">{t("StatusStock")}</option>
-                <option value="date-added-asc">{t("DateAddedAsc")}</option>
-                <option value="date-added-desc">{t("DateAddedDesc")}</option>
-                <option value="date-updated-asc">{t("DateUpdatedAsc")}</option>
-                <option value="date-updated-desc">
-                  {t("DateUpdatedDesc")}
-                </option>
-              </Select>
-            </div> */}
-          </form>
+   </form>
         </CardBody>
       </Card>
 
@@ -230,22 +203,24 @@ const Services = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{t("Service Title")}</TableCell>
-                <TableCell>{t("Service SubTitle")}</TableCell>
-                <TableCell>{t("Short description")}</TableCell>
-                <TableCell>{t("Catalogue")}</TableCell>
-                <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
+                <TableCell>{"Service Title"}</TableCell>
+                <TableCell>{"Service SubTitle"}</TableCell>
+                <TableCell>{"Short description"}</TableCell>
+                <TableCell>{"Catalogue"}</TableCell>
+                <TableCell className="text-center">{"DetailsTbl"}</TableCell>
                
-                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
+                <TableCell className="text-right">{"ActionsTbl"}</TableCell>
               </tr>
             </TableHeader>
             <ServiceTable
+              setIsLoading={setIsLoading}
+              isLoading={isLoading}
               lang={lang}
               isCheck={isCheck}
               Services={data?.Services}
               setIsCheck={setIsCheck}
               currency={currency}
-            />
+            /> 
           </Table>
           <TableFooter>
             <Pagination

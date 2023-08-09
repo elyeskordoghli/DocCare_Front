@@ -34,7 +34,7 @@ const AdminServices = {
   },
 
   updateStaff: async (id, body) => {
-    return requests.put(`/admin/${id}`, body);
+    return requests.put(`/admin/admin_user/update/${id}`, body);
   },
 
   updateStaffStatus: async (id, body) => {
