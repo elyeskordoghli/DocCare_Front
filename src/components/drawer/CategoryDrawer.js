@@ -10,7 +10,8 @@ import Uploader from "components/image-uploader/Uploader";
 import useCategorySubmit from "hooks/useCategorySubmit";
 import SelectProject from "components/form/SelectProject";
 import Tree from "rc-tree";
-import React , { useEffect, useState }from "react";
+import { SidebarContext } from "context/SidebarContext";
+import React , { useEffect, useState ,useContext}from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useTranslation } from "react-i18next";
 //internal import
@@ -19,7 +20,7 @@ import { notifyError,notifySuccess } from "utils/toast";
 import { showingTranslateValue } from "utils/translate";
 import ProjectServices from "services/ProjectServices";
 
-const CategoryDrawer = ({ id, data, lang }) => {
+const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , setIsCheck }) => {
   const { t } = useTranslation();
 
   const {
@@ -37,6 +38,7 @@ const CategoryDrawer = ({ id, data, lang }) => {
     handleSelectLanguage,
     isSubmitting,
   } = useCategorySubmit(id, data);
+  const { closeDrawer } = useContext(SidebarContext);
 
   // console.log("image=======>", imageUrl);
 
@@ -149,9 +151,13 @@ const [name_ar, setName_ar] = useState("");
     };
     if (id) {
       try {
+        setIsLoading(true);
         const res = await CategoryServices.updateCategory(id, categoryData);
         notifySuccess(res.message);
-        // closeDrawer();
+        closeDrawer();
+        setIsCheck([])
+        notifySuccess(response.message);
+        setIsLoading(false);
         console.log("Réponse de mise à jour de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
       } catch (error) {
@@ -159,9 +165,13 @@ const [name_ar, setName_ar] = useState("");
       }
     } else {
       try {
+        setIsLoading(true);
         const res = await CategoryServices.addCategory(categoryData);
         notifySuccess(res.message);
-       // closeDrawer();
+       closeDrawer();
+       setIsCheck([])
+       notifySuccess(response.message);
+        setIsLoading(false);
         console.log("Réponse d'ajout de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après l'ajout
       } catch (error) {

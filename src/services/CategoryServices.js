@@ -40,6 +40,7 @@ const CategoryServices = {
    deleteManyCategory: async (body) => {
      return requests.patch("/category/delete/many", body);
    },
+
 };
 
 export default CategoryServices;

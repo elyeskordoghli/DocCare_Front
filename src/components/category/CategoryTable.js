@@ -22,7 +22,8 @@ const CategoryTable = ({
   useParamId,
   showChild,
   isLoading, 
-  setIsLoading
+  setIsLoading,
+  search
 }) => {
   const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
 
@@ -35,8 +36,31 @@ const CategoryTable = ({
   // };
   const [data, setData] = useState([]); 
  
+
+  const fetchProjects = async (selectedCategory,isLoading,search) => {
+    try {
+      let response;
+      if (selectedCategory === "All" && !search) {
+      // Si la catégorie sélectionnée est "All", récupérer tous les projets
+        response = await CategoryServices.getAllCategories();
+      }
+        else if (search) {
+          response = await CategoryServices.search(search,selectedCategory);
+      }
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des projets :", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+  fetchProjects(selectedCategory,isLoading,search);
+}, [selectedCategory,isLoading,search])
+
+
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchCategories = async () => {
+    const fetchCategories = async (search) => {
       try {
         const response = await CategoryServices.getAllCategories({
           name: null,

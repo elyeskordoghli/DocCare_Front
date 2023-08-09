@@ -72,6 +72,13 @@ const Category = () => {
     }
   };
 
+  const [search, setSearchValue] = useState("");
+
+  const handleSearchInputChange = (e) => {
+    const newSearchValue = e.target.value;
+    setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
+  };
+
   return (
     <>
      <PageTitle>{t("Category")}</PageTitle>
@@ -201,6 +208,7 @@ const Category = () => {
               categories={dataTable}
               setIsCheck={setIsCheck}
               showChild={showChild}
+              search={search}
             />
           </Table>
 
