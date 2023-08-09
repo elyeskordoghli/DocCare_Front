@@ -14,8 +14,9 @@ import requests from "./httpService";
 
       
   
-  getProjectByCategoryId: async(id) =>{
-    return requests.get('user/projects/projects_by_category');
+
+  getProjectByCategoryId: async (id) =>{
+    return requests.get(`admin/projects/projects_by_category/${id}`);
   },
   
   getProjectById: async (id) => {
@@ -28,7 +29,7 @@ import requests from "./httpService";
   //   return requests.get("admin/projects", body);
   // },
   updateProject: async (id, body) => {
-    return requests.put(`/admin/projects/update/${id}`, body);
+    return requests.post(`/admin/projects/update/${id}`, body);
   },
   // updateManyProjects: async (body) => {
   //   return requests.patch("Projects/update/many", body);
@@ -40,9 +41,15 @@ import requests from "./httpService";
   deleteProject: async (id) => {
     return requests.delete(`/admin/projects/delete/${id}`);
   },
+
+  search: async (query, id) => {
+    return requests.post(`/admin/projects/search/${id}?q=${query}`);
+  },
   // deleteManyProjects: async (body) => {
   //   return requests.patch("/Projects/delete/many", body);
   // },
+
+ 
 };
 
 export default ProjectServices;

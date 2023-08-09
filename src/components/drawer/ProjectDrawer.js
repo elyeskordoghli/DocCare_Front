@@ -10,7 +10,8 @@ import {
   Table,
 } from "@windmill/react-ui";
 import Multiselect from "multiselect-react-dropdown";
-import React from "react";
+import React,{useContext} from "react";
+import { SidebarContext } from "context/SidebarContext";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { MultiSelect } from "react-multi-select-component";
 import { Modal } from "react-responsive-modal";
@@ -37,7 +38,8 @@ import DrawerButton from "components/form/DrawerButton";
 import AttributeListTable from "components/attribute/AttributeListTable";
 import { showingTranslateValue } from "utils/translate";
 import { useForm } from 'react-hook-form';
-
+import { notifyError, notifySuccess } from "../../utils/toast";
+import Drawer from "rc-drawer";
 
 import axios from "axios";
 import CategoryServices from "services/CategoryServices";
@@ -47,9 +49,10 @@ import ReferencesServices from "services/ReferencesServices";
 
 //internal import
 
-const ProjectDrawer = ({ id  }) => {
+const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) => {
   const { t } = useTranslation();
 
+  console.log('idid',id);
   const {
     tag,
     setTag,
@@ -90,6 +93,7 @@ const ProjectDrawer = ({ id  }) => {
     handleGenerateCombination,
   } = useProjectSubmit(id);
 
+  const { closeDrawer } = useContext(SidebarContext);
 
 
   const currency = globalSetting?.default_currency || "$";
@@ -142,21 +146,21 @@ const ProjectDrawer = ({ id  }) => {
       formData.append('short_description_en', Short_Description_en);
       formData.append('description_en', description_en);
       formData.append('seo_description_en', Seo_Description_en);
-      formData.append('slug_en', slug_en);
+      formData.append('slug_en', title_en);
 
       formData.append('title_fr', title_fr);
       formData.append('subtitle_fr', subtitle_fr);
       formData.append('short_description_fr', Short_Description_fr);
       formData.append('description_fr', Description_fr);
       formData.append('seo_description_fr', Seo_Description_fr);
-      formData.append('slug_fr', slug_fr);
+      formData.append('slug_fr', title_fr);
 
       formData.append('title_ar', title_ar);
       formData.append('subtitle_ar', SubTitle_ar);
       formData.append('short_description_ar', Short_Description_ar);
       formData.append('description_ar', description_ar);
       formData.append('seo_description_ar', seo_description_ar);
-      formData.append('slug_ar', slug_ar);
+      formData.append('slug_ar', title_ar);
 
       formData.append('seo_keywords', Seo_Keywords);
       formData.append('reference_id', selectedReference);
@@ -165,21 +169,39 @@ const ProjectDrawer = ({ id  }) => {
 
       try {
         if (id == null) {
+          setIsLoading(true);
 
           const res = await ProjectServices.addProject(formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
+            
           });
+          closeDrawer();
+
+          setIsLoading(false);
+          setIsCheck([])
+          notifySuccess(res.message);
+
+          
 
         }else{
+          setIsLoading(true);
 
           const response = await ProjectServices.updateProject(id,formData, {
             headers: {
             'Content-Type': 'multipart/form-data',
           },
 
+
         });
+        
+        closeDrawer();
+        setIsUpdate(true);
+        notifySuccess(res.message);
+        setIsLoading(false);
+        setIsCheck([])
+
       }
       } catch (error) {
         console.error("Erreur lors de l'ajout du projet :", error);
@@ -196,21 +218,21 @@ const ProjectDrawer = ({ id  }) => {
           setShort_description_en(res.data.short_description_en);
           setDescription_en(res.data.description_en);
           setSeo_description_en(res.data.seo_description_en);
-          setSlug_en(res.data.slug_en);
+          setSlug_en(res.data.title_en);
         
           setTitle_fr(res.data.title_fr);
           setSubtitle_fr(res.data.subtitle_fr);
           setShort_description_fr(res.data.short_description_fr);
           setDescription_fr(res.data.description_fr);
           setSeo_description_fr(res.data.seo_description_fr);
-          setSlug_fr(res.data.slug_fr);
+          setSlug_fr(res.data.title_fr);
         
           setTitle_ar(res.data.title_ar);
           setSubtitle_ar(res.data.subtitle_ar);
           setShort_description_ar(res.data.short_description_ar);
           setDescription_ar(res.data.description_ar);
           setSeo_description_ar(res.data.seo_description_ar);
-          setSlug_ar(res.data.slug_ar);
+          setSlug_ar(res.data.title_ar);
         
           setSeo_keywords(res.data.seo_keywords);
           setSelectedReferences(res.data.category_id);
@@ -221,7 +243,41 @@ const ProjectDrawer = ({ id  }) => {
 
   };
 
+  useEffect(() => {
+    if (id && id !== undefined ){
+      initFormForUpdate(id);
+    }else{
 
+      setTitle_en("");
+      setSubtitle_en("");
+      setShort_description_en("");
+      setDescription_en("");
+      setSeo_description_en("");
+      setSlug_en("");
+    
+      setTitle_fr();
+      setSubtitle_fr();
+      setShort_description_fr();
+      setDescription_fr();
+      setSeo_description_fr();
+      setSlug_fr();
+    
+      setTitle_ar();
+      setSubtitle_ar();
+      setShort_description_ar();
+      setDescription_ar();
+      setSeo_description_ar();
+      setSlug_ar();
+    
+      setSeo_keywords();
+      setSelectedReferences();
+      setSelectedCategory();
+      setImageUrl();         
+      setImageBinary();  
+      setOldImageUrl()       
+
+    }
+  },[id]);
 
 
 
@@ -256,11 +312,17 @@ const ProjectDrawer = ({ id  }) => {
     
   }, []);
 
-  useEffect(() => {
-    if(id){
-      initFormForUpdate(id);
+  const handleNextClick = () => {
+    if (tapValue === 'Anglais') {
+      setTapValue('French');
+    } else if (tapValue === 'French') {
+      setTapValue('Arabic');
     }
-  },[id]);
+  };
+
+  const handleSubmitClick = () => {
+    // Place your submission logic here
+  };
 
 
   const [imageBinary, setImageBinary] = useState(null);
@@ -304,14 +366,14 @@ const ProjectDrawer = ({ id  }) => {
         {id ? (
           <Title
             register={register}
-            handleSelectLanguage={handleSelectLanguage}
+            // handleSelectLanguage={handleSelectLanguage}
             title={t("UpdateProject")}
             description={t("UpdateProjectDescription")}
           />
         ) : (
           <Title
             register={register}
-            handleSelectLanguage={handleSelectLanguage}
+            // handleSelectLanguage={handleSelectLanguage}
             title={t("DrawerAddProject")}
             description={t("AddProjectDescription")}
           />
@@ -319,11 +381,11 @@ const ProjectDrawer = ({ id  }) => {
       </div>
 
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-700">
-        <SwitchToggleForCombination
+        {/* <SwitchToggleForCombination
           product
           handleProcess={handleIsCombination}
           processOption={isCombination}
-        />
+        /> */}
 
         <ul className="flex flex-wrap -mb-px">
           <li className="mr-2">
@@ -370,7 +432,7 @@ const ProjectDrawer = ({ id  }) => {
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("ProductImage")} />
+                <LabelArea label={t("Project Image")} />
                 <div className="col-span-8 sm:col-span-4">
                     <Input
                       {...register(`imageUrl`, {
@@ -547,7 +609,7 @@ const ProjectDrawer = ({ id  }) => {
  
 
             
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Slug"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
@@ -562,7 +624,7 @@ const ProjectDrawer = ({ id  }) => {
                   />
                   <Error errorName={errors.slug_en} />
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
 
@@ -651,7 +713,7 @@ const ProjectDrawer = ({ id  }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Slug"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
@@ -666,7 +728,7 @@ const ProjectDrawer = ({ id  }) => {
                   />
                   <Error errorName={errors.slug_fr} />
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
 
@@ -705,13 +767,13 @@ const ProjectDrawer = ({ id  }) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Short_Description (fr) "} />
+                <LabelArea label={"Project Short_Description (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                    
                     name="Short_Description_ar"
-                    placeholder={"Project Short_Description (fr) "}
+                    placeholder={"Project Short_Description (ar) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setShort_description_ar(e.target.value)}
@@ -722,13 +784,13 @@ const ProjectDrawer = ({ id  }) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Description (fr) "} />
+                <LabelArea label={"Project Description (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                    
                     name="description_ar"
-                    placeholder={"Project Description (fr) "}
+                    placeholder={"Project Description (ar) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setDescription_ar(e.target.value)}
@@ -756,7 +818,7 @@ const ProjectDrawer = ({ id  }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Slug"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
@@ -765,13 +827,13 @@ const ProjectDrawer = ({ id  }) => {
                     name="slug_ar"
                     type="text"
                     defaultValue={slug}
-                    placeholder={"Project Slug (fr)"}
+                    placeholder={"Project Slug (ar)"}
                     onChange={(e) => setSlug_ar(e.target.value)}
                     value={slug_ar}
                   />
                   <Error errorName={errors.slug_ar} />
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
 
@@ -860,18 +922,39 @@ const ProjectDrawer = ({ id  }) => {
               isSubmitting={isSubmitting}
               handleProjectTap={handleProjectTap}
             />
-          ) : (
+          ) : ( 
             <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
           )}
-          {tapValue === "Anglais" && (
-            <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
-          )}
-           {tapValue === "French" && (
-            <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
-          )}
-          {tapValue === "Arabic" && (
-            <DrawerButton id={id} title="Submit" isSubmitting={isSubmitting} />
-          )}
+
+{
+  id ? (
+    <>
+      {tapValue === "Anglais" && (
+        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+      )}
+      {tapValue === "French" && (
+        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+      )}
+      {tapValue === "Arabic" && (
+        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+      )}
+    </>
+  ) : (
+    <>
+      {tapValue === "Anglais" && (
+        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+      )}
+      {tapValue === "French" && (
+        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+      )}
+      {tapValue === "Arabic" && (
+        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+      )}
+    </>
+  )
+}
+
+          
           
          
         </form>

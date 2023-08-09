@@ -182,7 +182,7 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("DetailsTbl")}
+                  title={DetailsTbl}
                   bgColor="#ff5a1f"
                 />
               </Link>

@@ -39,9 +39,11 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
         setIsLoading(true);
         const res = await ProjectServices.deleteProject(id);
         setIsLoading(false);
+        // setIsCheck([]);
 
           setIsUpdate(true);
           notifySuccess(res.message);
+          
           setServiceId();
           closeModal();
           setIsSubmitting(false);

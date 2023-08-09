@@ -18,22 +18,24 @@ const SelectCategory = ({ setSelectedCategory,selectedCategory, lang , name, lab
   const { t } = useTranslation();
   return (
     <>
-      <Select
-        onChange={(e) => setSelectedCategory(e.target.value)}
-        className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-        
-        value={selectedCategory}
-      >
+              <Select
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+            value={selectedCategory}
+          >
+            <option value="All">
+              {t("All Projects")}
+            </option>
+            {/* <option value="Category" defaultValue hidden>
+              {t("Category")}
+            </option> */}
+            {categories?.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </Select>
 
-        <option value="All" defaultValue hidden>
-          {t("Category")}
-        </option>
-        {categories?.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.name}
-          </option>
-        ))}
-      </Select>
     </>
   );
 };

@@ -19,7 +19,9 @@ const MainModal = ({ id, title,isLoading, setIsLoading}) => {
   const location = useLocation();
 
   const handleDelete = () => {
+
    // alert(location.pathname)
+
     setIsLoading(true);
     if (location.pathname === "/projects") {
       ProjectServices.deleteProject(id)
