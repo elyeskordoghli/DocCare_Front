@@ -291,7 +291,6 @@ console.log('ischeckkkkkkkkkk',isCheck)
             <TableCell>
               <EditDeleteButton
                 id={item.id}
-                // cercleprogress
                 isLoading={isLoading} // Passer la variable isLoading
                 setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
                 data={item}

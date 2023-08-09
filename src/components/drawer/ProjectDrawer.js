@@ -97,7 +97,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
 
 
   const currency = globalSetting?.default_currency || "$";
-
+  
   const [imageUrl, setImageUrl] = useState("");
   const [oldImageUrl, setOldImageUrl] = useState("");
   const [Seo_Keywords, setSeo_keywords] = useState("");

@@ -155,12 +155,18 @@ const ProductDetails = () => {
                 </div>
               </div>
               <div className="mt-6">
-                <button
-                  onClick={() => handleUpdate(id)}
-                  className="cursor-pointer leading-5 transition-colors duration-150 font-medium text-sm focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300"
-                >
-                  {t("EditProduct")}
-                </button>
+              <button
+            // disabled={isCheck?.length > 0}
+            onClick={() => handleUpdate(id)}
+            className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+          >
+            <Tooltip
+              id="edit"
+              Icon={FiEdit}
+              title={t("Edit")}
+              bgColor="#ff5a1f"
+            />
+          </button>
               </div>
             </div>
           </div>
