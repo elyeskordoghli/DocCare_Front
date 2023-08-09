@@ -21,7 +21,7 @@ import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 //internal import  
 
-const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
+const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const [data, setData] = useState([]);
   const {
     handleModalOpen,
@@ -33,9 +33,16 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
 
  
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchServices = async () => {
+    const fetchServices = async (isLoading,searchService) => {
       try {
-        const response = await ServiceServices.getAllServices({
+        let response;
+        if (searchService) {
+          response = await ServiceServices.searchService(searchService);
+        
+
+      }
+      else{
+        response = await ServiceServices.getAllServices({
           title: null,
           subtitle: null,
           short_description: null,
@@ -43,7 +50,7 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
           image: null,
           catalogue: null,
         });
-
+      }
         // Mettez à jour la variable data avec les données récupérées
         setData(response.data);
       } catch (error) {
@@ -55,8 +62,8 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
     };
     
     useEffect(() => {
-    fetchServices(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+    fetchServices(isLoading,searchService); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading,searchService]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const getService = async () => {
     try {
@@ -78,7 +85,7 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
   const beforeHandleModalOpen = (id, title, service) => {
     console.log(id)
     handleModalOpen(id, title, service);
-    setIsCheck([id]);
+    // setIsCheck([id]);
   }
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -103,7 +110,7 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ServiceDrawer currency={currency} id={serviceId} />
+          <ServiceDrawer  id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck}   />
         </MainDrawer>
       )}
 
@@ -156,7 +163,7 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
             </TableCell>
 
 
-
+{/* 
             <TableCell>
 
               <span className="text-sm ">
@@ -166,7 +173,7 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
               </span>
 
 
-            </TableCell>
+            </TableCell> */}
 
 
             <TableCell>
@@ -182,7 +189,7 @@ const ServiceTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={DetailsTbl}
+                  title={t("DetailsTbl")}
                   bgColor="#ff5a1f"
                 />
               </Link>

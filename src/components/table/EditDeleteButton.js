@@ -273,17 +273,17 @@ const EditDeleteButton = ({
           )}
   
           <button
-            // disabled={isCheck?.length > 0}
-            onClick={() => handleModalOpen(id, title, service)}
-            className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
-          >
-            <Tooltip
-              id="delete"
-              Icon={FiTrash2}
-              title={t("Delete")}
-              bgColor="#EF4444"
-            />
-          </button>
+          // disabled={isCheck?.length > 0}
+          onClick={() => handleModalOpen(id, title, service)}
+          className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
+        >
+          <Tooltip
+            id="delete"
+            Icon={FiTrash2}
+            title={t("Delete")}
+            bgColor="#EF4444"
+          />
+        </button>
         </div>
       </>
     );

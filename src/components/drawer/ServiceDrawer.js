@@ -10,10 +10,11 @@ import {
 } from "@windmill/react-ui";
 import Multiselect from "multiselect-react-dropdown";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
+import { SidebarContext } from "context/SidebarContext";
+
 import { useForm } from "react-hook-form";
 import { notifySuccess } from "utils/toast";
-
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { MultiSelect } from "react-multi-select-component";
 import { Modal } from "react-responsive-modal";
@@ -38,10 +39,12 @@ import DrawerButton from "components/form/DrawerButton";
 import AttributeListTable from "components/attribute/AttributeListTable";
 import { showingTranslateValue } from "utils/translate";
 import ServiceServices from "services/ServiceServices";
+import SidebarContent from "components/sidebar/SidebarContent";
 //internal import
 
-const ServiceDrawer = ({ id, data }) => {
+const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  }) => {
   const { t } = useTranslation();
+
 
   const {
     tag,
@@ -52,6 +55,8 @@ const ServiceDrawer = ({ id, data }) => {
     onSubmit,
     errors,
     slug,
+    tapValue,
+    setTapValue,
     openModal,
     attribue,
     setValues,
@@ -66,8 +71,6 @@ const ServiceDrawer = ({ id, data }) => {
     isBulkUpdate,
     globalSetting,
     isSubmitting,
-    tapValue,
-    setTapValue,
     resetRefTwo,
     handleSkuBarcode,
     handleServiceTap,
@@ -88,6 +91,7 @@ const ServiceDrawer = ({ id, data }) => {
   } = useServiceSubmit(id, data);
 
   const currency = globalSetting?.default_currency || "$";
+ const {closeDrawer} = useContext(SidebarContext)
 
   const [imageUrl, setImageUrl] = useState("");
   const [oldImageUrl, setOldImageUrl] = useState("");
@@ -167,17 +171,22 @@ const ServiceDrawer = ({ id, data }) => {
 
     if (id) {
 
+      setIsLoading(true);
       const res = await ServiceServices.updateService(id, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       // setIsUpdate(true);
+      setIsLoading(false);
+      setIsCheck([]);
       // setIsSubmitting(false);
       notifySuccess(res.message);
       closeDrawer();
       // reset();
     } else {
+      setIsLoading(true);
+
       const res = await ServiceServices.addService(formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -185,6 +194,9 @@ const ServiceDrawer = ({ id, data }) => {
       });
       // setIsUpdate(true);
       // setIsSubmitting(false);
+      setIsLoading(false);
+      setIsCheck([]);
+
       notifySuccess(res.message);
       closeDrawer();
     }
@@ -231,11 +243,59 @@ const ServiceDrawer = ({ id, data }) => {
     // setDepartment(res.data.departments);
     console.log('hahahahahah', oldImageUrl);
   };
+
+ 
   useEffect(() => {
-    if (id) {
+    if (id && id !== undefined ){
       initFormForUpdate(id);
+    }else{
+      setTitle_en("");
+      setSubtitle_en("");
+      setShort_description_en("");
+      setDescription_en("");
+      setSeo_description_en("");
+    
+      setTitle_fr("");
+      setSubtitle_fr("");
+      setShort_description_fr("");
+      setDescription_fr("");
+      setSeo_description_fr("");
+     
+      setTitle_ar("");
+      setSubtitle_ar("");
+      setShort_description_ar("");
+      setDescription_ar("");
+      setSeo_description_ar("");
+     
+      setSeo_keywords("");
+      setImageUrl("");         
+      setImageBinary("");  
+      setOldImageUrl("")  
+
+    setIconUrl("");
+    setIconBinary("");
+    setOldIconUrl("");
+
+    setCatalogueUrl("");
+    setCatalogueBinary("");
+    setOldCatalogueUrl("");
+    setIsCheck([]);
+
     }
   }, [id]);
+  const handleSubmitClick = () => {
+    // Place your submission logic here
+  };
+
+  
+  const handleNextClick = () => {
+    if (tapValue === 'Anglais') {
+      setTapValue('French');
+    } else if (tapValue === 'French') {
+      setTapValue('Arabic');
+    }
+  };
+
 
   const [imageBinary, setImageBinary] = useState(null);
   useEffect(() => {
@@ -508,39 +568,18 @@ const ServiceDrawer = ({ id, data }) => {
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Service Seo Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Input
-
+                <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="Seo_Description_en"
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    type="text"
                     placeholder={"Service Seo description  "}
+                    rows="4"
+                    spellCheck="false"
                     onChange={(e) => setSeo_description_en(e.target.value)}
                     value={Seo_Description_en}
                   />
                   <Error errorName={errors.Seo_Description_en} />
                 </div>
               </div>
-
-
-
-
-
-
-              {/* 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Category")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <ParentCategor
-                    lang={language}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                    setDefaultCategory={setDefaultCategory}
-                  />
-                  <Error errorName={errors.Category} />
-
-                </div>
-              </div> */}
-
             </div>
           )}
 
@@ -614,12 +653,13 @@ const ServiceDrawer = ({ id, data }) => {
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Service Seo Keywords (fr)"} />
+                <LabelArea label={"Service Seo description (fr)"} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Input
+                  <Textarea
                     name="Seo_Description_fr"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    type="text"
+                    rows="4"
+                    spellCheck="false"
                     placeholder={"Service Seo description  "}
                     onChange={(e) => setSeo_description_fr(e.target.value)}
                     value={Seo_Description_fr}
@@ -627,37 +667,6 @@ const ServiceDrawer = ({ id, data }) => {
                   <Error errorName={errors.Seo_Description_fr} />
                 </div>
               </div>
-
-              {/* 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Seo Description (fr) ")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <ReactTagInpu
-                    placeholder={t("Service Seo Description (fr) ")}
-                    tags={tag}
-                    onChange={(newTags) => setTag(newTags)}
-                  />
-                  <Error errorName={errors.Seo_Keywords} />
-
-                </div>
-              </div> */}
-
-
-
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Slug")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug"
-                    type="text"
-                    defaultValue={slug}
-                    placeholder={t("Service Slug (fr)")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-                  />
-                  <Error errorName={errors.Service_Slug} />
-                </div>
-              </div> */}
             </div>
           )}
 
@@ -678,9 +687,7 @@ const ServiceDrawer = ({ id, data }) => {
                   <Error errorName={errors.title_ar} />
                 </div>
               </div>
-
-
-
+              
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Service SubTitle (ar)  "} />
                 <div className="col-span-8 sm:col-span-4">
@@ -733,11 +740,12 @@ const ServiceDrawer = ({ id, data }) => {
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Service Seo Description (ar)"} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Input
+                  <Textarea
+                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="seo_description_ar"
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    type="text"
                     placeholder={"Service Seo description  "}
+                    rows="4"
+                    spellCheck="false"
                     onChange={(e) => setSeo_description_ar(e.target.value)}
                     value={seo_description_ar}
                   />
@@ -869,15 +877,33 @@ const ServiceDrawer = ({ id, data }) => {
             <DrawerButton id={id} title="Service" isSubmitting={isSubmitting} />
           )}
 
-          {tapValue === "Arabic" && (
-            <DrawerButton id={id} title="Submit" isSubmitting={isSubmitting} />
-          )}
-          {tapValue === "Anglais" && (
-            <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
-          )}
-          {tapValue === "French" && (
-            <DrawerButton id={id} title="Next" isSubmitting={isSubmitting} />
-          )}
+          {
+  id ? (
+    <>
+      {tapValue === "Anglais" && (
+        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+      )}
+      {tapValue === "French" && (
+        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+      )}
+      {tapValue === "Arabic" && (
+        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+      )}
+    </>
+  ) : (
+    <>
+      {tapValue === "Anglais" && (
+        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+      )}
+      {tapValue === "French" && (
+        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+      )}
+      {tapValue === "Arabic" && (
+        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+      )}
+    </>
+  )
+}
         </form>
 
         {tapValue === "Combination" &&

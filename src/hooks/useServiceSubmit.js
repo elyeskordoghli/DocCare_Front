@@ -21,7 +21,7 @@ const useServiceSubmit = (id,data) => {
 
   const { data: attribue } = useAsync(AttributeServices.getShowingAttributes);
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-
+ 
   // react ref
   const resetRef = useRef([]);
   const resetRefTwo = useRef("");
@@ -39,6 +39,7 @@ const useServiceSubmit = (id,data) => {
   const [sku, setSku] = useState("");
   const [barcode, setBarcode] = useState("");
   const [isBasicComplete, setIsBasicComplete] = useState(false);
+  const [handleTap,setHandleTap] =useState("handleServiceTap");
   const [tapValue, setTapValue] = useState("Anglais");
   const [isCombination, setIsCombination] = useState(false);
   const [attTitle, setAttTitle] = useState([]);
@@ -368,7 +369,7 @@ console.log('serviecData',formData);
       setUpdatedId();
       return;
     } else {
-      handleServiceTap("French", true);
+      handleServiceTap("Anglais", true);
     }
 
     if (id) {
@@ -610,7 +611,7 @@ console.log('serviecData',formData);
       });
     } else {
       setIsCombination(!isCombination);
-      setTapValue("French");
+      setTapValue("Anglais");
     }
   };
 
@@ -709,6 +710,8 @@ console.log('serviecData',formData);
     attribue,
     setValues,
     variants,
+    tapValue,
+    setTapValue,
     imageUrl,
     setImageUrl,
     handleSubmit,
@@ -722,8 +725,6 @@ console.log('serviecData',formData);
     isBulkUpdate,
     globalSetting,
     isSubmitting,
-    tapValue,
-    setTapValue,
     resetRefTwo,
     handleSkuBarcode,
     handleServiceTap,
