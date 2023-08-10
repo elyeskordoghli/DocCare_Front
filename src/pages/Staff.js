@@ -36,12 +36,18 @@ const Staff = () => {
   const { adminInfo } = state;
   const { toggleDrawer, lang } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(() => AdminServices.getAllStaff({ email: adminInfo.email }));
+  const { data, loading } = useAsync(() => AdminServices.getAllStaff({ 
+    email: adminInfo.email,
+    name: searchText,
+   }));
   const [isCheckAll, setIsCheckAll] = useState(false);
 
   const [isLoading, setIsLoading] = useState();
   const [isCheck, setIsCheck] = useState([]);
-
+  const {
+    searchText,
+    searchRef,
+  } = useContext(SidebarContext);
   const {
     userRef,
     setRole,
@@ -53,14 +59,19 @@ const Staff = () => {
     serviceData,
     handleSubmitUser,
   } = useFilter(data?.data);
-
+  const [searchAdmin, setSearchValue] = useState("");
+  const handleSearchInputChange = (e) => {
+    const newSearchValue = e.target.value;
+    console.log("eee",e.target.value);
+    setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
+  };
   const { t } = useTranslation();
 
   return (
     <>
       <PageTitle>{t("StaffPageTitle")} </PageTitle>
       <MainDrawer>
-        <StaffDrawer />
+        <StaffDrawer setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
       </MainDrawer>
 
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
@@ -71,11 +82,12 @@ const Staff = () => {
           >
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Input
-                ref={userRef}
+                ref={searchRef}
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder={t("StaffSearchBy")}
+                placeholder={t("Search Admin")}
+                onChange={handleSearchInputChange} 
               />
               <button type="submit" className="absolute right-0 top-0 mt-5 mr-1"></button>
             </div>
@@ -140,6 +152,7 @@ const Staff = () => {
               isCheck={isCheck}
               setIsCheck={setIsCheck}
               Staff={data?.Staff}
+              searchAdmin={searchAdmin}
               //  data={dataTable} 
               lang={lang} />
           </Table>

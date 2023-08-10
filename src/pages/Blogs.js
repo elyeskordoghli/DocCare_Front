@@ -60,7 +60,7 @@ const Blogs = () => {
       // page: currentPage,
       // limit: limitData,
       // category_id: category,
-      title: searchText,
+      name: searchText,
       // subtitle: subtitle,
       // short_description: short_description,
       // description : description,

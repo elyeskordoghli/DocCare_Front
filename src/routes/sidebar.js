@@ -8,6 +8,13 @@ import {
   FiGlobe,
   FiTarget,
   FiBookOpen,
+  FiXOctagon,
+  FiActivity,
+  FiArchive,
+  FiArrowUp,
+  FiArrowUpCircle,
+  FiAperture,
+  FiPackage
 } from "react-icons/fi";
 import routes from "routes";
 
@@ -34,21 +41,22 @@ const sidebar = [
         name: "Projects",
       },
       {
-        path: "/categories",
-        name: "Categories",
-      },
-      {
-        path: "/references",
-        name: "References",
-      },
-      {
         path: "/careers",
         name: "Careers",
       },
      
     ],
   },
-
+  {
+    icon : FiArchive,
+    path: "/categories",
+    name: "Categories",
+  },
+  {
+    icon : FiAperture,
+    path: "/references",
+    name: "References",
+  },
   {
     path: "/Users",
     icon: FiUsers,
@@ -72,9 +80,16 @@ const sidebar = [
       path: "/our-staff",
       name: "OurStaff",
     },
+  ]
+},
+  
+{
+  icon: FiPackage,
+  name :"Departments",
+  routes : [
     {
-      path :"/departments",
-      name : "Departments"
+      path :"/our-departments",
+      name : "Our Departments"
     },
     {
       path :"/departments-contact",
@@ -83,8 +98,6 @@ const sidebar = [
 
   ]
 },
-  
-
   {
     path: "/settings",
     icon: FiSettings,
