@@ -13,7 +13,7 @@ import { showDateFormat } from "utils/dateFormate";
 import AdminServices from "services/AdminServices";
 import CheckBox from "components/form/CheckBox";
 
-const StaffTable = ({ lang , isCheck, setIsCheck, isLoading, setIsLoading}) => {
+const StaffTable = ({searchAdmin, lang , isCheck, setIsCheck, isLoading, setIsLoading}) => {
   const {
     title,
     serviceId,
@@ -27,17 +27,14 @@ const StaffTable = ({ lang , isCheck, setIsCheck, isLoading, setIsLoading}) => {
  
     const fetchAdmins = async () => {
       try {
-        const response = await AdminServices.getAllStaff({
-          name: null,
-          email: null,
-          last_login_at: null,
-          last_llogin_ip: null,
-          status:null,
-          previlege :null,
-          department : null,
-          // catalogue:null,
-        });
-
+        let response;
+        if (searchAdmin) {
+          response = await AdminServices.searchAdmin(searchAdmin);
+      }
+      else{
+        response = await AdminServices.getAllStaff();
+      }
+        
         // Mettez à jour la variable data avec les données récupérées
         setData(response.data);
       } catch (error) {
@@ -49,7 +46,7 @@ const StaffTable = ({ lang , isCheck, setIsCheck, isLoading, setIsLoading}) => {
     };
     useEffect(() => {
     fetchAdmins(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-    }, [isLoading]);
+    }, [isLoading,searchAdmin]);
 
     const getAdmin = async () => {
       try {
@@ -94,7 +91,7 @@ const StaffTable = ({ lang , isCheck, setIsCheck, isLoading, setIsLoading}) => {
       />}
       {isCheck?.length < 2 && (
         <MainDrawer>
-        <StaffDrawer id={serviceId} />
+        <StaffDrawer id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck}  />
         </MainDrawer>
       )}
       {/* <MainDrawer>

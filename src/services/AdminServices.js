@@ -44,6 +44,9 @@ const AdminServices = {
   deleteStaff: async (id) => {
     return requests.delete(`/admin/admin_user/delete/${id}`);
   },
+  searchAdmin: async (query) => {
+    return requests.get(`/admin/admin_user/search_admin?q=${query}`);
+  },
 };
 
 export default AdminServices;

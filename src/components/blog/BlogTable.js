@@ -38,8 +38,6 @@ const BlogTable = ({ setId,searchBlog, isCheck, setIsCheck, currency, lang, isLo
         let response;
         if (searchBlog) {
           response = await BlogServices.searchBlog(searchBlog);
-        
-
       }
       else{
         response = await BlogServices.getAllBlogs();

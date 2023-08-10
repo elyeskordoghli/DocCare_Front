@@ -88,7 +88,7 @@ const Services = () => {
     setIsCheck(data?.Services.map((li) => li._id));
     if (isCheckAll) {
       setIsCheck([]);
-    }
+    } 
   };
   const [isLoading, setIsLoading]=useState();
 
