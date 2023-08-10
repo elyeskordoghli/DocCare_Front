@@ -25,7 +25,7 @@ const CategoryTable = ({
   setIsLoading,
   search
 }) => {
-  const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
+  const { title, serviceId, handleModalOpen, handleUpdate} = useToggleDrawer();
 
   // const handleClick = (e) => {
   //   const { id, checked } = e.target;
@@ -35,28 +35,35 @@ const CategoryTable = ({
   //   }
   // };
   const [data, setData] = useState([]); 
- 
 
-  const fetchProjects = async (search) => {
+  const fetch = async (search) => {
     try {
       let response;
-      if (!search) {
+      console.log('search category ==> ', search)
+
+      if (search) {
       // Si la catégorie sélectionnée est "All", récupérer tous les projets
-        response = await CategoryServices.getAllCategories();
+        response = await CategoryServices.searchCategory(search);
+
       }
-        else if (search) {
-          response = await CategoryServices.search(search);
+        else {
+          console.log('hey');
+          response = await CategoryServices.getAllCategories();
+
       }
       setData(response.data);
     } catch (error) {
-      console.error("Erreur lors de la récupération des projets :", error);
+      console.error("Erreur lors de la récupération des categories :", error);
     } finally {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
-  fetchProjects(isLoading,search);
-}, [isLoading,search])
+    fetch(search);
+  }, [isLoading,search])
+
+
 
 
 // console.log("name",data);
@@ -93,16 +100,20 @@ const CategoryTable = ({
     <>
       {isCheck?.length < 1 && (
         <DeleteModal 
-        useParamId={useParamId} 
         id={serviceId} 
-        title={title}
+        title={data.title}
         isLoading={isLoading} // Passer la variable isLoading
         setIsLoading={setIsLoading}  />
       )}
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-        <CategoryDrawer id={serviceId} data={data} lang={lang} />
+        <CategoryDrawer 
+        id={serviceId} 
+        data={data}
+        lang={lang} 
+        isLoading={isLoading} // Passer la variable isLoading
+        setIsLoading={setIsLoading} />
         </MainDrawer>
       )}
 

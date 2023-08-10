@@ -10,7 +10,7 @@ import {
   TableFooter,
   TableHeader,
 } from "@windmill/react-ui";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 import MainModal from "components/modal/MainModal";
@@ -34,7 +34,7 @@ import CategoryTable from "components/category/CategoryTable";
 import NotFound from "components/table/NotFound";
 
 const Category = () => {
-  const { toggleDrawer, lang } = useContext(SidebarContext);
+  const { toggleDrawer, lang,categoryRef } = useContext(SidebarContext);
 
   const { data, loading } = useAsync(CategoryServices.getAllCategory);
   const { data: getAllCategories } = useAsync(CategoryServices.getAllCategories);
@@ -45,7 +45,6 @@ const Category = () => {
 
   const {
     handleSubmitCategory,
-    categoryRef,
     totalResults,
     resultsPerPage,
     dataTable,
@@ -148,6 +147,7 @@ const Category = () => {
                 type="search"
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 placeholder={t("SearchCategory")}
+                onChange={handleSearchInputChange} // Ajoutez cet attribut onChange
               />
             </div>
           </form>

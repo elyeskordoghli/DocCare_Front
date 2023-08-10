@@ -156,9 +156,7 @@ const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , se
         const res = await CategoryServices.updateCategory(id, categoryData);
         notifySuccess(res.message);
         closeDrawer();
-
         setIsCheck([])
-        notifySuccess(res.message);
         setIsLoading(false);
         console.log("Réponse de mise à jour de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
@@ -169,15 +167,12 @@ const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , se
       try {
         setIsLoading(true);
         const res = await CategoryServices.addCategory(categoryData);
+        closeDrawer();
         setIsLoading(false);
         setIsCheck([]);
-
         notifySuccess(res.message);
         
-       closeDrawer();
-       setIsCheck([])
-       notifySuccess(res.message);
-        setIsLoading(false);
+
 
         console.log("Réponse d'ajout de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après l'ajout
@@ -199,6 +194,10 @@ const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , se
   useEffect(() => {
     if (id) {
       initFormForUpdate(id);
+    }else{
+      setName_en("");
+      setName_fr("");
+      setName_ar("");
     }
   }, [id]);
 

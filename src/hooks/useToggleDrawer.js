@@ -39,11 +39,12 @@ const useToggleDrawer = () => {
     }
   }, [isDrawerOpen]);
 
-  const handleDeleteMany = async (id, products) => {
+  const handleDeleteMany = async (id,categories) => {
     setAllId(id);
     toggleModal();
-    setTitle("Selected Products");
+    setTitle("Selected categories");
   };
+
 
   return {
     title,

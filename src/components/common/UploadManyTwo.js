@@ -17,6 +17,8 @@ import { useLocation } from "react-router-dom";
 import spinnerLoadingImage from "../../assets/img/spinner.gif";
 import { SidebarContext } from "../../context/SidebarContext";
 import ProductServices from "../../services/ProductServices";
+import CategoryServices from "../../services/CategoryServices";
+
 import ServiceServices from "services/ServiceServices";
 const UploadManyTwo = ({
   title,
@@ -79,12 +81,26 @@ const UploadManyTwo = ({
         });
     }
     if (location.pathname === "/categories") {
-      exportFromJSON({
-        data: exportData,
-        fileName: "categories",
-        exportType: exportFromJSON.types.csv,
-      });
+      setLoadingExport({ name: "csv", status: true });
+      CategoryServices.getAllCategories({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "categories",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
     }
+
+    
     if (location.pathname === "/attributes") {
       exportFromJSON({
         data: exportData,
@@ -152,12 +168,27 @@ const UploadManyTwo = ({
     }
 
     if (location.pathname === "/categories") {
-      exportFromJSON({
-        data: exportData,
-        fileName: "categories",
-        exportType: exportFromJSON.types.json,
-      });
+      setLoadingExport({ name: "json", status: true });
+      CategoryServices.getAllCategories({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "Categories",
+            exportType: exportFromJSON.types.json,
+          });
+
+        })
+        .catch((err) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log(err);
+        });
     }
+
+   
     if (location.pathname === "/attributes") {
       exportFromJSON({
         data: exportData,

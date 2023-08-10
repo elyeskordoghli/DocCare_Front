@@ -46,9 +46,10 @@ const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) =>
       closeModal();
       setServiceId();
     }
-    if (location.pathname === "/category") {
+    if (location.pathname === "/categories") {
       CategoryServices.deleteCategory(id)
         .then((res) => {
+          setIsLoading(false);
           setIsUpdate(true);
           notifySuccess(res.message);
         })

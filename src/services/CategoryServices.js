@@ -29,7 +29,7 @@ const CategoryServices = {
      return requests.put(`/category/status/${id}`, body);
    },
 
-  deleteCategory: async (id, body) => {
+  deleteCategory: async (id) => {
     return requests.delete(`/admin/categories/delete/${id}`);
   },
 
