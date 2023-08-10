@@ -40,9 +40,11 @@ const CategoryServices = {
    deleteManyCategory: async (body) => {
      return requests.patch("/category/delete/many", body);
    },
+   
    searchCategory: async (query) => {
     return requests.get(`/admin/categories/search_category?q=${query}`);
   },
+
 };
 
 export default CategoryServices;

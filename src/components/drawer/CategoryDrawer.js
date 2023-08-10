@@ -10,7 +10,8 @@ import Uploader from "components/image-uploader/Uploader";
 import useCategorySubmit from "hooks/useCategorySubmit";
 import SelectProject from "components/form/SelectProject";
 import Tree from "rc-tree";
-import React, { useEffect, useState, useContext } from "react";
+import { SidebarContext } from "context/SidebarContext";
+import React , { useEffect, useState ,useContext}from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useTranslation } from "react-i18next";
 //internal import
@@ -18,13 +19,11 @@ import CategoryServices from "services/CategoryServices";
 import { notifyError, notifySuccess } from "utils/toast";
 import { showingTranslateValue } from "utils/translate";
 import ProjectServices from "services/ProjectServices";
-import { SidebarContext } from "context/SidebarContext";
 
-const CategoryDrawer = ({ id, data, lang }) => {
+const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , setIsCheck }) => {
   const { t } = useTranslation();
   const { closeDrawer } = useContext(SidebarContext)
-  const [isLoading, setIsLoading] = useState(false);
-  const [isCheck, setIsCheck] = useState([]);
+ 
 
   const {
     checked,
@@ -149,33 +148,44 @@ const CategoryDrawer = ({ id, data, lang }) => {
       name_fr: name_fr,
       name_ar: name_ar,
     };
-    try {
-      if (id) {
+
+    if (id) {
+      try {
+
         setIsLoading(true);
         const res = await CategoryServices.updateCategory(id, categoryData);
         notifySuccess(res.message);
         closeDrawer();
-        setIsLoading(false);
-        setIsCheck([]);
 
+        setIsCheck([])
+        notifySuccess(res.message);
+        setIsLoading(false);
         console.log("Réponse de mise à jour de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
-      } 
-      else {
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de la catégorie :", error);
+      }
+    } else {
+      try {
         setIsLoading(true);
         const res = await CategoryServices.addCategory(categoryData);
         setIsLoading(false);
         setIsCheck([]);
 
         notifySuccess(res.message);
-        // closeDrawer();
+        
+       closeDrawer();
+       setIsCheck([])
+       notifySuccess(res.message);
+        setIsLoading(false);
+
         console.log("Réponse d'ajout de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après l'ajout
-      }}
+      }
       catch (error) {
         console.error("Erreur lors de l'ajout de la catégorie :", error);
       }
-  };
+  }};
   const initFormForUpdate = async (id) => {
 
     const res = await CategoryServices.getCategoryById(id)
