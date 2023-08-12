@@ -215,9 +215,9 @@ const Services = () => {
                 <TableCell>{"Service Title"}</TableCell>
                 <TableCell>{"Service SubTitle"}</TableCell>
                 <TableCell>{"Catalogue"}</TableCell>
-                <TableCell className="text-center">{"DetailsTbl"}</TableCell>
+                <TableCell className="text-center">{"Details"}</TableCell>
                
-                <TableCell className="text-right">{"ActionsTbl"}</TableCell>
+                <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
             <ServiceTable
