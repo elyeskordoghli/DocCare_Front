@@ -279,8 +279,8 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang, selectedCategory, isL
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={"DetailsTbl"}
-                  bgColor="#10B981"
+                  title={t("DetailsTbl")}
+                  bgColor="#ff5a1f"
                 />
               </Link>
             </TableCell>

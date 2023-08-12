@@ -2,7 +2,7 @@
 	--sp: 2s; /* change speed */
 }		
 
-body {
+/* body {
 	margin: 0;
 	padding: 0;
 	width: 100vw;
@@ -12,7 +12,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	background-color: white;
-}
+} */
 
 .loader-container .content {
 	width: 50vmin;

@@ -367,15 +367,15 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={"UpdateProject"}
-            description={"pdateProjectDescription"}
+            title={"Update Project"}
+            description={"Update Project Description"}
           />
         ) : (
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={"DrawerAddProject"}
-            description={"AddProjectDescription"}
+            title={"Add Project"}
+            description={"Add Project Description"}
           />
         )}
       </div>

@@ -77,7 +77,7 @@ const ProjectDetails = () => {
              setIsLoading={setIsLoading} />  
         </MainDrawer>
 
-      <PageTitle>{"ProjectDetails"}</PageTitle>
+      <PageTitle>{"Project Details"}</PageTitle>
       {loading ? (
         <Loading loading={loading} />
       ) : (
@@ -123,7 +123,7 @@ const ProjectDetails = () => {
                   onClick={() => handleUpdate(data.id)}
                   className="cursor-pointer leading-5 transition-colors duration-150 font-medium text-sm focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300"
                 >
-                  {"EditProject"}
+                  {"Edit Project"}
                 </button>
               </div>
             </div>

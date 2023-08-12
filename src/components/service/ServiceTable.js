@@ -189,11 +189,11 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("DetailsTbl")}
+                  title={t("Details")}
                   bgColor="#ff5a1f"
                 />
               </Link>
-            </TableCell>
+            </TableCell> 
 
             <TableCell>
               <EditDeleteButton
