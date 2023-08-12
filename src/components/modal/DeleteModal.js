@@ -28,6 +28,7 @@ import ReferencesServices from "services/ReferencesServices";
 import DepartmentServices from "services/DepartementServices";
 import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
+import CareerServices from "services/CareerServices";
 
 const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoading, setIsLoading}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -91,6 +92,19 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           closeModal();
           setIsSubmitting(false);
       }
+      if (location.pathname === "/careers") {
+     
+        setIsLoading(true);
+        const res = await CareerServices.deleteCareer(id);
+        setIsLoading(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+       // setIsCheck([]);
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
+    
+    }
       if (location.pathname === "/departments") {
         setIsLoading(true);
         const res = await DepartmentServices.deleteDepartment(id);

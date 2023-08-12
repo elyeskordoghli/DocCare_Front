@@ -11,6 +11,8 @@ const Blogs = lazy(() => import("../pages/Blogs"));
 const References = lazy(() => import("../pages/References"));
 const Departments = lazy(() => import("../pages/Departments"));
 const Quotes = lazy(() => import("../pages/Quote"));
+const Careers = lazy(() => import("../pages/Careers"));
+
 
 const DepartmentContact = lazy(() => import("../pages/DepartmentContact"));
 
@@ -30,6 +32,8 @@ const adminDetails = lazy(() => import("../pages/adminDetails"));
 
 const DepartmentContactDetails = lazy(() => import("../pages/DepartmentContactDetails"));
 const QuoteDetails = lazy(() => import("../pages/QuoteDetails"));
+const CareerDetails = lazy(() => import("../pages/CareerDetails"));
+
 
 
 
@@ -63,6 +67,10 @@ const routes = [
   {
     path: "/dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/careers",
+    component: Careers,
   },
   {
     path: "/quotes",
@@ -111,6 +119,10 @@ const routes = [
   {
     path: "/service/:id",
     component: ServiceDetails,
+  },
+  {
+    path: "/career/:id",
+    component: CareerDetails,
   },
   {
     path: "/reference/:id",
