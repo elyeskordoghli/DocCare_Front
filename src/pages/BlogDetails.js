@@ -34,6 +34,7 @@ const BlogDetails = () => {
   // const [variantTitle, setVariantTitle] = useState([]);
   const { lang } = useContext(SidebarContext);
   const response = useAsync(() => BlogServices.getBlogById(id)); 
+  
   const { loading } = response; 
   const { data } = response.data;
   // const { data, loading } = useAsync(() => ServiceServices.getServiceById(id));
@@ -59,7 +60,7 @@ const BlogDetails = () => {
   // }, [attribue, data?.variants, loading, lang]);
 
   // // console.log("data.variants", globalSetting);
-  console.log("data.title", data);
+  console.log("data---------------title", data);
   return ( 
     <> 
       <MainDrawer product> 
@@ -74,7 +75,7 @@ const BlogDetails = () => {
           <div className="flex flex-col lg:flex-col md:flex-col w-full overflow-hidden"> 
              
             <div className="flex-shrink-0 flex items-center justify-center h-auto"> 
-              <img src={data?.image} alt="Bloge" className="h-64 w-64" /> 
+              <img src={data?.image} alt="Blog" className="h-64 w-64" /> 
               <div className="mb-5 ml-10 block "> 
                 
                 <p className="uppercase font-bold text-lg mb-6 text-gray-500 dark:text-gray-400 "> 

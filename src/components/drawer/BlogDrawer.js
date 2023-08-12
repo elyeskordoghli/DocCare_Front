@@ -12,7 +12,8 @@ import Multiselect from "multiselect-react-dropdown";
 import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { SidebarContext } from "context/SidebarContext";
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Importez les styles CSS
 import { useForm } from "react-hook-form";
 import { notifySuccess } from "utils/toast";
 import { Scrollbars } from "react-custom-scrollbars-2";
@@ -442,7 +443,7 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
               </div>
 
 
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Blog Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
@@ -452,13 +453,23 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
                     placeholder={"Blog Description (en) "}
                     rows="4"
                     spellCheck="false"
-                    onChange={(e) => setDescription_en(e.target.value)}
                     value={description_en}
                   />
-                  {/* {description_en ?? ""} TTEEST */}
+                  {/* {description_en ?? ""} TTEEST *
                   <Error errorName={errors.description_en} />
                 </div>
+              </div> */}
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Blog Description (en) "} />
+              <div className="col-span-8 sm:col-span-4">
+                <ReactQuill
+                  value={description_en}
+                  onChange={(e) => setDescription_en(e.target.value)}
+                  />
+                <Error errorName={errors.description_en} />
               </div>
+            </div>
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
@@ -592,12 +603,12 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
          
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Blog Short_Description (fr) "} />
+                <LabelArea label={"Blog Short_Description (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="Short_Description_ar"
-                    placeholder={"Blog Short_Description (fr) "}
+                    placeholder={"Blog Short_Description (ar) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setShort_description_ar(e.target.value)}
@@ -609,12 +620,12 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Blog Description (fr) "} />
+                <LabelArea label={"Blog Description (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="description_ar"
-                    placeholder={"Blog Description (fr) "}
+                    placeholder={"Blog Description (ar) "}
                     rows="4"
                     spellCheck="false"
                     onChange={(e) => setDescription_ar(e.target.value)}

@@ -227,7 +227,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
   };
 
   const { t } = useTranslation();
-
+  
   return (
     <>
       <Modal isOpen={isModalOpen} onClose={closeModal}>

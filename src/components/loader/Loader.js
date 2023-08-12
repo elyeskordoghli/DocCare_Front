@@ -10,11 +10,12 @@ const override = css`
 const Loader = () => {
   return (
     <div className="loader-container">
-      <div className="content">
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
+      <div className="content"> 
+      <div class="one"></div>
+      <div class="two"></div>
+      <div class="three"></div>
+      <div class="four"></div>
+      <div class="five"></div>
       </div>
     </div>
   );

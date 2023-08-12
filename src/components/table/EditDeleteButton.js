@@ -161,28 +161,43 @@ const EditDeleteButton = ({
     );
   }
   if (location.pathname === "/our-staff"){
-    return (
-      <>
-      
-        <div className="flex justify-end text-right">
-        {/* {isService ? ():();} */}
+
+      return (
+        <>
         
-          {children?.length > 0 ? (
-            <>
-              <Link
-                to={`/categories/${parent?._id}`}
-                className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
-              >
-                <Tooltip
-                  id="view"
-                  Icon={FiZoomIn}
-                  title={"View"}
-                  bgColor="#ff5a1f"
-                />
-              </Link>
-  
+          <div className="flex justify-end text-right">
+          {/* {isService ? ():();} */}
+          
+            {children?.length > 0 ? (
+              <>
+                <Link
+                  to={`/categories/${parent?._id}`}
+                  className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+                >
+                  <Tooltip
+                    id="view"
+                    Icon={FiZoomIn}
+                    title={"View"}
+                    bgColor="#ff5a1f"
+                  />
+                </Link>
+    
+                <button
+                  disabled={isCheck?.length > 0}
+                  onClick={() => handleUpdate(id)}
+                  className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+                >
+                  <Tooltip
+                    id="edit"
+                    Icon={FiEdit}
+                    title={"Edit"}
+                    bgColor="#ff5a1f"
+                  />
+                </button>
+              </>
+            ) : (
               <button
-                disabled={isCheck?.length > 0}
+                // disabled={isCheck?.length > 0}
                 onClick={() => handleUpdate(id)}
                 className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
               >
@@ -193,37 +208,23 @@ const EditDeleteButton = ({
                   bgColor="#ff5a1f"
                 />
               </button>
-            </>
-          ) : (
+            )}
+    
             <button
               // disabled={isCheck?.length > 0}
-              onClick={() => handleUpdate(id)}
-              className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+              onClick={() => handleModalOpen(id, name, staff)}
+              className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
             >
               <Tooltip
-                id="edit"
-                Icon={FiEdit}
-                title={"Edit"}
-                bgColor="#ff5a1f"
+                id="delete"
+                Icon={FiTrash2}
+                title={"Delete"}
+                bgColor="#EF4444"
               />
             </button>
-          )}
-  
-          <button
-            // disabled={isCheck?.length > 0}
-            onClick={() => handleModalOpen(id, name, staff)}
-            className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
-          >
-            <Tooltip
-              id="delete"
-              Icon={FiTrash2}
-              title={"Delete"}
-              bgColor="#EF4444"
-            />
-          </button>
-        </div>
-      </>
-    );
+          </div>
+        </>
+      );
   }
   if (location.pathname === "/projects"){ 
     return (

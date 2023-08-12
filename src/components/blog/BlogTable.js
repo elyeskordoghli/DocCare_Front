@@ -176,6 +176,7 @@ const BlogTable = ({ setId,searchBlog, isCheck, setIsCheck, currency, lang, isLo
               <Link
                 to={`/blog/${item.id}`}
                 className="flex justify-center text-gray-400 hover:text-orange-600"
+                
               >
                 <Tooltip
                   id="view"

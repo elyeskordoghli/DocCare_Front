@@ -1,5 +1,5 @@
 :root {
-	--sp: 2.5s; /* change speed */
+	--sp: 2s; /* change speed */
 }		
 
 body {
@@ -11,7 +11,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: radial-gradient(#222, #101010);
+	background-color: white;
 }
 
 .loader-container .content {
@@ -49,7 +49,7 @@ body {
 	filter: var(--shadow);
 }
 
-.loader-container .content .circle:nth-child(2) {
+.content .circle:nth-child(2) {
     --in: 60%;
     top: -2vmin;
     animation: spin-top var(--sp) ease 0s infinite;
@@ -60,7 +60,7 @@ body {
     background-size: 1.4vmin 1vmin, 1vmin 1.4vmin, 100% 100%;
 }
 
-.loader-container .content .circle:nth-child(3) {
+.content .circle:nth-child(3) {
     --in: 100%;
     top: -5vmin;
     left: -13vmin;
@@ -71,7 +71,7 @@ body {
     background-size: 5vmin 1vmin, 1vmin 5vmin, 100% 100%;
 }
 
-.loader-container .content .circle:nth-child(4) {
+.content .circle:nth-child(4) {
     --in: 60%;
     top: 35vmin;
     left: -6vmin;

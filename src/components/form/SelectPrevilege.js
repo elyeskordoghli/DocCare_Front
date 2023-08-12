@@ -2,12 +2,12 @@ import React from 'react';
 // import { Select } from '@windmill/react-ui';
 import Select from 'react-select';
 
-const SelectPrevilege = ({ setSelecttedPrevilege, register, label ,data, previleges,selecttedPrevilege }) => {
+const SelectPrevilege = ({ setSelecttedPrevilege, oldprevileges, label ,data, previleges,selecttedPrevilege }) => {
   const options = previleges?.map((previlege) => ({
     value: previlege.id,
     label: previlege?.name,
   }));
- 
+ console.log("oldold : ",oldprevileges);
   const handleChange = (selectedOption) => {
     console.log(selectedOption, '__')
     setSelecttedPrevilege(selectedOption?.map(obj => {return obj.value}));
@@ -26,10 +26,17 @@ const SelectPrevilege = ({ setSelecttedPrevilege, register, label ,data, previle
         // {...register(`${name}`, {
         //   required: `${label} is required!`,
         // })}
-      >
+        defaultValue={
+          oldprevileges.map(oldprevilege => ({
+            value: oldprevilege.id,
+            label: oldprevilege.name
+          }))
+        }
+      > 
         <option value="" defaultValue hidden>
           Staff Previlege
         </option>
+        
         {previleges?.map((previlege) => (
           <option key={previlege.id} value={previlege.id}>
             {previlege?.name}

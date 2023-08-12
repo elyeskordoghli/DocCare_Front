@@ -125,6 +125,7 @@ const Staff = () => {
           <Table>
             <TableHeader>
               <tr>
+              <TableCell>
               <CheckBox
                     type="checkbox"
                     name="selectAll"
@@ -132,6 +133,7 @@ const Staff = () => {
                     //isChecked={isCheckAll}
                    // handleClick={handleSelectAll}
                   />
+                  </TableCell>
                 <TableCell>{t("Name")}</TableCell>
                 <TableCell>{t("Email")}</TableCell>
                 <TableCell>{t("Last login at")}</TableCell>

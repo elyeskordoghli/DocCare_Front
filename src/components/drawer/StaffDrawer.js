@@ -47,7 +47,8 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
 
   const [departments, setDepartment] = useState([]);
   const [selecttedDepartment, setSelecttedDepartment] = useState([]);
-
+  
+  const [oldprevileges,setOldPrevileges] =useState([]);
 
   //----------end states--------------
 
@@ -68,6 +69,8 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
       previleges: JSON.stringify(selecttedPrevilege),
       departments: JSON.stringify(selecttedDepartment)
     };
+
+    console.log('admin data',adminData);
     // const formData = new FormData();
 
     // formData.append('name', name);
@@ -113,7 +116,7 @@ const initFormForUpdate = async (id) => {
   setName(res.data.name);
   setEmail(res.data.email);
   setPassword(res.data.password);
-  // setPrevilege(res.data.previleges);
+  setOldPrevileges(res.data.previleges);
   // setDepartment(res.data.departments);
 
 };
@@ -233,7 +236,7 @@ return (
                 <LabelArea label="Staff Previlege" />
                 {/* {JSON.stringify(selecttedPrevilege )} 00 */}
                 <div className="col-span-8 sm:col-span-4">
-                  <SelectPrevilege setSelecttedPrevilege={setSelecttedPrevilege} register={register} label="Previlege" previleges={previleges} selecttedPrevilege={selecttedPrevilege} />
+                  <SelectPrevilege setSelecttedPrevilege={setSelecttedPrevilege} oldprevileges={oldprevileges} register={register} label="Previlege" previleges={previleges} selecttedPrevilege={selecttedPrevilege} />
                   <Error errorName={errors.previlege} />
                 </div>
               </div>

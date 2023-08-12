@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from './utils/toast';
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer';
+import Loader from './components/loader/Loader';
 
 const Layout = lazy(() => import('./layout/Layout'));
 const Login = lazy(() => import('./pages/Login'));
@@ -20,7 +21,7 @@ const App = () => {
       <ToastContainer />
       <Router>
         <AccessibleNavigationAnnouncer />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader/>}>
         <Switch>
        
           <Route path="/login" component={Login} />
