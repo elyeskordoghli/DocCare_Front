@@ -10,10 +10,12 @@ import {
   FiBookOpen,
   FiXOctagon,
   FiActivity,
+  FiCodepen,
   FiArchive,
   FiArrowUp,
   FiArrowUpCircle,
   FiAperture,
+  FiFile,
   FiPackage
 } from "react-icons/fi";
 import routes from "routes";
@@ -34,37 +36,36 @@ const sidebar = [
 
   {
     icon: FiSlack,
-    name: "Project Catalog",
-    routes: [
-      {
-        path: "/projects",
-        name: "Projects",
-      },
-      {
-        path: "/careers",
-        name: "Careers",
-      },
-     
-    ],
+    name: "Projects ",
+    path: "/projects",
+
   },
   {
-    icon : FiArchive,
+    icon: FiCodepen,
+    path: "/careers",
+    name: "Careers",
+  },
+
+
+
+  {
+    icon: FiArchive,
     path: "/categories",
     name: "Categories",
   },
   {
-    icon : FiAperture,
+    icon: FiAperture,
     path: "/references",
     name: "References",
   },
   {
-    path: "/Users",
+    path: "/contacts",
     icon: FiUsers,
-    name: "Users",
+    name: "Contacts",
   },
   {
     path: "/blogs",
-    icon : FiBookOpen,
+    icon: FiBookOpen,
     name: "Blogs",
   },
   {
@@ -72,37 +73,29 @@ const sidebar = [
     icon: FiCompass,
     name: "Services",
   },
-{
-  icon: FiUser,
-  name :"Admins",
-  routes : [
-    {
-      path: "/our-staff",
-      name: "OurStaff",
-    },
-  ]
-},
-  
-{
-  icon: FiPackage,
-  name :"Departments",
-  routes : [
-    {
-      path :"/our-departments",
-      name : "Our Departments"
-    },
-    {
-      path :"/departments-contact",
-      name : "Departments Contact"
-    }
+  {
+    path: "/quotes",
+    icon: FiFile,
+    name: "Quotes",
+  },
+  {
+    icon: FiUser,
+    name: "Admins",
+    path: "/our-staff",
 
-  ]
-},
+  },
+
+  {
+    icon: FiPackage,
+    name: "Departments",
+    path: "/departments",
+  },
   {
     path: "/settings",
     icon: FiSettings,
     name: "StoreSetting",
   },
+
   {
     icon: FiGlobe,
     name: "International",
@@ -119,7 +112,7 @@ const sidebar = [
         path: "/details",
         name: "Our Details",
       },
-     
+
     ],
   },
 

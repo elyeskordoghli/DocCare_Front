@@ -18,6 +18,9 @@ const EditDeleteButton = ({
   project,
   staff,
   category,
+  reference,
+  department,
+  DepartmentsContact,
   name,
   type, // Nouvelle prop "type"
   parent,
@@ -30,6 +33,201 @@ const EditDeleteButton = ({
 // console.log('cat',category);
 
   const location = useLocation();
+  if (location.pathname === "/contacts"){
+    return (
+      <>
+      
+        <div className="flex justify-end text-right">
+        {/* {isService ? ():();} */}
+        
+          {children?.length > 0 ? (
+            <>
+              <Link
+                to={`/categories/${parent?._id}`}
+                className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+              >
+                <Tooltip
+                  id="view"
+                  Icon={FiZoomIn}
+                  title={t("View")}
+                  bgColor="#ff5a1f"
+                />
+              </Link>
+  
+              <button
+                disabled={isCheck?.length > 0}
+                onClick={() => handleUpdate(id)}
+                className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+              >
+                <Tooltip
+                  id="edit"
+                  Icon={FiEdit}
+                  title={t("Edit")}
+                  bgColor="#ff5a1f"
+                />
+              </button>
+            </>
+          ) : (
+            <button
+              // disabled={isCheck?.length > 0}
+              onClick={() => handleUpdate(id)}
+              className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+            >
+              <Tooltip
+                id="edit"
+                Icon={FiEdit}
+                title={t("Edit")}
+                bgColor="#ff5a1f"
+              />
+            </button>
+          )}
+  
+          <button
+            // disabled={isCheck?.length > 0}
+            onClick={() => handleModalOpen(id, name, DepartmentsContact)}
+            className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
+          >
+            <Tooltip
+              id="delete"
+              Icon={FiTrash2}
+              title={t("Delete")}
+              bgColor="#EF4444"
+            />
+          </button>
+        </div>
+      </>
+    );
+  }
+  if (location.pathname === "/departments"){
+    return (
+      <>
+      
+        <div className="flex justify-end text-right">
+        {/* {isService ? ():();} */}
+        
+          {children?.length > 0 ? (
+            <>
+              <Link
+                to={`/categories/${parent?._id}`}
+                className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+              >
+                <Tooltip
+                  id="view"
+                  Icon={FiZoomIn}
+                  title={t("View")}
+                  bgColor="#ff5a1f"
+                />
+              </Link>
+  
+              <button
+                disabled={isCheck?.length > 0}
+                onClick={() => handleUpdate(id)}
+                className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+              >
+                <Tooltip
+                  id="edit"
+                  Icon={FiEdit}
+                  title={t("Edit")}
+                  bgColor="#ff5a1f"
+                />
+              </button>
+            </>
+          ) : (
+            <button
+              // disabled={isCheck?.length > 0}
+              onClick={() => handleUpdate(id)}
+              className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+            >
+              <Tooltip
+                id="edit"
+                Icon={FiEdit}
+                title={t("Edit")}
+                bgColor="#ff5a1f"
+              />
+            </button>
+          )}
+  
+          <button
+            // disabled={isCheck?.length > 0}
+            onClick={() => handleModalOpen(id, title, department)}
+            className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
+          >
+            <Tooltip
+              id="delete"
+              Icon={FiTrash2}
+              title={t("Delete")}
+              bgColor="#EF4444"
+            />
+          </button>
+        </div>
+      </>
+    );
+  }
+  if (location.pathname === "/references"){
+    return (
+      <>
+      
+        <div className="flex justify-end text-right">
+        {/* {isService ? ():();} */}
+        
+          {children?.length > 0 ? (
+            <>
+              <Link
+                to={`/categories/${parent?._id}`}
+                className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+              >
+                <Tooltip
+                  id="view"
+                  Icon={FiZoomIn}
+                  title={t("View")}
+                  bgColor="#ff5a1f"
+                />
+              </Link>
+  
+              <button
+                disabled={isCheck?.length > 0}
+                onClick={() => handleUpdate(id)}
+                className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+              >
+                <Tooltip
+                  id="edit"
+                  Icon={FiEdit}
+                  title={t("Edit")}
+                  bgColor="#ff5a1f"
+                />
+              </button>
+            </>
+          ) : (
+            <button
+              // disabled={isCheck?.length > 0}
+              onClick={() => handleUpdate(id)}
+              className="p-2 cursor-pointer text-gray-400 hover:text-orange-600 focus:outline-none"
+            >
+              <Tooltip
+                id="edit"
+                Icon={FiEdit}
+                title={t("Edit")}
+                bgColor="#ff5a1f"
+              />
+            </button>
+          )}
+  
+          <button
+            // disabled={isCheck?.length > 0}
+            onClick={() => handleModalOpen(id, name, reference)}
+            className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
+          >
+            <Tooltip
+              id="delete"
+              Icon={FiTrash2}
+              title={t("Delete")}
+              bgColor="#EF4444"
+            />
+          </button>
+        </div>
+      </>
+    );
+  }
   if (location.pathname === "/blogs"){
     return (
       <>

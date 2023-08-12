@@ -18,18 +18,18 @@ import { t } from "i18next";
 import { FiZoomIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { showingTranslateValue } from "utils/translate";
-import React, { useState,useEffect } from 'react'
-import {useAsync} from "hooks/useAsync";
+import React, { useState, useEffect } from 'react'
+import { useAsync } from "hooks/useAsync";
 import CategoryServices from "services/CategoryServices";
 
 //internal import 
 
-const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLoading, setIsLoading,projects}) => {
+const ProjectTable = ({ isCheck, setIsCheck, search, lang, selectedCategory, isLoading, setIsLoading, projects }) => {
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
     console.log("id hatha", id, checked);
-  
+
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
@@ -38,10 +38,10 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
     }
   };
 
-  
- 
 
-  const [data, setData] = useState([]); 
+
+
+  const [data, setData] = useState([]);
   const {
     handleModalOpen,
     handleUpdate,
@@ -49,9 +49,9 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
 
-  console.log('isCheck : ',isCheck)
-  console.log('serviceId : ',serviceId);
-  console.log('selectedCategory: ',selectedCategory);
+  console.log('isCheck : ', isCheck)
+  console.log('serviceId : ', serviceId);
+  console.log('selectedCategory: ', selectedCategory);
 
 
   //----------------------------------------------------------------
@@ -73,98 +73,97 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
   // useEffect(() => {
   //   fetchProjects(); // Appelez la fonction fetchProjects pour récupérer les projets au chargement du composant
   // }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
-  
-    const fetchProjects = async (selectedCategory,isLoading,search) => {
-      try {
-        let response;
-        if (selectedCategory === "All" && !search) {
+
+  const fetchProjects = async (selectedCategory, isLoading, search) => {
+    try {
+      let response;
+      if (selectedCategory === "All" && !search) {
         // Si la catégorie sélectionnée est "All", récupérer tous les projets
-          response = await ProjectServices.getAllProjects();
-        }
-          else if (search) {
-            response = await ProjectServices.search(search,selectedCategory);
-          
-
-        }else if (selectedCategory !== "All"  ) {
-          response = await ProjectServices.getProjectByCategoryId(selectedCategory);
-
-        }
-       
-       
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des projets :", error);
-      } finally {
-        setIsLoading(false);
+        response = await ProjectServices.getAllProjects();
       }
-    };
-    useEffect(() => {
-    fetchProjects(selectedCategory,isLoading,search);
-  }, [selectedCategory,isLoading,search]);
-  
- 
+      else if (search) {
+        response = await ProjectServices.search(search, selectedCategory);
 
-//----------------------------------------------------------------
 
-  const getProject = async() =>{
-    try{
+      } else if (selectedCategory !== "All") {
+        response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+
+      }
+
+
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des projets :", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchProjects(selectedCategory, isLoading, search);
+  }, [selectedCategory, isLoading, search]);
+
+
+
+  //----------------------------------------------------------------
+
+  const getProject = async () => {
+    try {
       const pr = await ProjectServices.getProjectById(serviceId)
       setIsCheck([...isCheck, pr.id]);
-      console.log('Projet selectionnée : ',pr.id);
+      console.log('Projet selectionnée : ', pr.id);
 
-    }catch(error){
+    } catch (error) {
       console.error("Erreur lors de la récupération de projet :", error);
 
     }
   }
 
 
-  useEffect(() =>{
+  useEffect(() => {
     getProject();
-  },[])
+  }, [])
 
-//----------------------------------------------------------------
-
-
-// const introjects = async (selectedCategory) =>{
-//   try {
-//     // setIsLoading(true);
-//     const response = await ProjectServices.getProjectByCategoryId(selectedCategory);
-//     setData(response.data);
-//     console.log('projectcat',data)
-//     // setIsLoading(false);
-//     // Vérifier si response.data est un tableau avant d'utiliser .map()
-    
-
-//   } catch (error) {
-//     console.error("Erreur lors de la récupération des projets :", error);
-//   } 
-// }
-
-// console.log('selected categoriiiiiiiii',selectedCategory)
+  //----------------------------------------------------------------
 
 
-// useEffect(() =>{
-//   introjects(selectedCategory);
-// },[selectedCategory,isLoading])
-  
+  // const introjects = async (selectedCategory) =>{
+  //   try {
+  //     // setIsLoading(true);
+  //     const response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+  //     setData(response.data);
+  //     console.log('projectcat',data)
+  //     // setIsLoading(false);
+  //     // Vérifier si response.data est un tableau avant d'utiliser .map()
 
-//----------------------------------------------------------------
+
+  //   } catch (error) {
+  //     console.error("Erreur lors de la récupération des projets :", error);
+  //   } 
+  // }
+
+  // console.log('selected categoriiiiiiiii',selectedCategory)
+
+
+  // useEffect(() =>{
+  //   introjects(selectedCategory);
+  // },[selectedCategory,isLoading])
+
+
+  //----------------------------------------------------------------
 
 
 
 
   const beforeHandleModalOpen = (id, title, project) => {
-    try{
-      console.log('idddddddd',id)
-      handleModalOpen(id, title, project); 
+    try {
+      console.log('idddddddd', id)
+      handleModalOpen(id, title, project);
       setIsCheck([]);
-      
-    }catch(error)
-    {
+
+    } catch (error) {
       alert(`Une erreur est survenue ${error}`);
     }
-    
+
 
   }
 
@@ -178,29 +177,29 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
 
   return (
     <>
-      {isCheck?.length < 1 && <DeleteModal 
-      id={serviceId} 
-      title={data.title} 
-      isLoading={isLoading} // Passer la variable isLoading
-      setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
-       />}
+      {isCheck?.length < 1 && <DeleteModal
+        id={serviceId}
+        title={data.title}
+        isLoading={isLoading} // Passer la variable isLoading
+        setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
+      />}
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ProjectDrawer  id={serviceId} 
-             isLoading={isLoading} // Passer la variable isLoading
-             setIsLoading={setIsLoading} />
+          <ProjectDrawer id={serviceId}
+            isLoading={isLoading} // Passer la variable isLoading
+            setIsLoading={setIsLoading} />
         </MainDrawer>
       )}
 
 
       <TableBody>
-         {/* Afficher le loader si la table est en cours de chargement */}
-    {/* {isLoading && <div>Chargement en cours...</div>} */}
-    
+        {/* Afficher le loader si la table est en cours de chargement */}
+        {/* {isLoading && <div>Chargement en cours...</div>} */}
+
         {data?.map((item, i) => (
           <TableRow key={i + 1}>
-               
+
             {/* <TableCell>
               <CheckBox
                 type="checkbox"
@@ -210,7 +209,7 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
                 handleClick={handleClick}
               />
             </TableCell> */}
-              <TableCell>
+            <TableCell>
               <CheckBox
                 id={item.id}
                 name={item.title_en}
@@ -222,35 +221,33 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
             </TableCell>
 
 
-          
+
 
             <TableCell>
               <div className="flex items-center">
-                  <Avatar
-                    className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
-                    src={item?.image}
-                    alt="project"
-                  />
+                <Avatar
+                  className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
+                  src={item?.image}
+                  alt="project"
+                />
                 <div>
                   <h2 className="text-sm font-medium">
                     {item.title}
                   </h2>
                 </div>
               </div>
-       
-            </TableCell> 
 
-            <TableCell>
-            <span className="text-sm font-semibold">
-              {item.subtitle}
-              </span> 
             </TableCell>
 
             <TableCell>
-            <span className="text-sm font-semibold">
-              {item.category.name_en}
-              </span> 
-         
+              <span className="text-sm font-semibold">
+                {item.subtitle}
+              </span>
+            </TableCell>
+            <TableCell>
+              <span className="text-sm font-semibold">
+                {item?.category ? item.category.name_en : "No Category"}
+              </span>
             </TableCell>
 
 
@@ -262,16 +259,16 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
               </span>
             </TableCell> */}
 
-            
 
-{/* 
+
+            {/* 
             <TableCell >
               <span className="text-sm font-semibold">
               {data.description.length >20 ? data.description.substring(0,30) +"...": data.description}
               </span>
             </TableCell> */}
 
-            
+
             <TableCell>
               <Link
                 to={`/project/${item.id}`}
@@ -285,9 +282,9 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
                   title={"DetailsTbl"}
                   bgColor="#10B981"
                 />
-              </Link> 
+              </Link>
             </TableCell>
-           
+
             <TableCell>
               <EditDeleteButton
                 id={item.id}
@@ -297,10 +294,10 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang ,selectedCategory,isLo
                 isCheck={serviceId}
                 handleClick={handleClick}
                 handleUpdate={handleUpdate}
-                handleModalOpen={beforeHandleModalOpen }
+                handleModalOpen={beforeHandleModalOpen}
                 title={showingTranslateValue(item?.title, lang)}
               />
-        
+
             </TableCell>
           </TableRow>
         ))}

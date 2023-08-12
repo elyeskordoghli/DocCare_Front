@@ -91,7 +91,6 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
   } = useServiceSubmit(id, data);
 
   const currency = globalSetting?.default_currency || "$";
-      closeDrawer();
  const {closeDrawer} = useContext(SidebarContext)
 
   const [imageUrl, setImageUrl] = useState("");
