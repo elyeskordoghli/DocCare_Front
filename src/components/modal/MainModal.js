@@ -12,6 +12,11 @@ import { SidebarContext } from "context/SidebarContext";
 import { notifySuccess, notifyError } from "utils/toast";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import ServiceServices from "services/ServiceServices";
+import ReferencesServices from "services/ReferencesServices";
+import BlogServices from "services/BlogServices";
+import DepartmentServices from "services/DepartementServices";
+import DepartmentContactServices from "services/DepartementContactServices";
+import QuoteServices from "services/QuoteServices";
 
 const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -23,6 +28,18 @@ const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) =>
    // alert(location.pathname)
 
     setIsLoading(true);
+    if (location.pathname === "/quotes") {
+      QuoteServices.deleteQuote(id)
+        .then((res) => {
+          setIsLoading(false);
+          setIsUpdate(true);
+          notifySuccess(res.message);
+        })
+        
+        .catch((err) => notifyError(err.message));
+      closeModal();
+      setServiceId();
+    }
     if (location.pathname === "/projects") {
       ProjectServices.deleteProject(id)
         .then((res) => {
@@ -35,6 +52,54 @@ const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) =>
       closeModal();
       setServiceId();
     }
+    if (location.pathname === "/references") {
+     ReferencesServices.deleteReference(id)
+        .then((res) => {
+          setIsLoading(false);
+          setIsUpdate(true);
+          notifySuccess(res.message);
+        })
+        
+        .catch((err) => notifyError(err.message));
+      closeModal();
+      setServiceId();
+    }
+    if (location.pathname === "/blogs") {
+      BlogServices.deleteBlog(id)
+         .then((res) => {
+           setIsLoading(false);
+           setIsUpdate(true);
+           notifySuccess(res.message);
+         })
+         
+         .catch((err) => notifyError(err.message));
+       closeModal();
+       setServiceId();
+     }
+     if (location.pathname === "/departments") {
+      DepartmentServices.deleteDepartment(id)
+         .then((res) => {
+           setIsLoading(false);
+           setIsUpdate(true);
+           notifySuccess(res.message);
+         })
+         
+         .catch((err) => notifyError(err.message));
+       closeModal();
+       setServiceId();
+     }
+     if (location.pathname === "/contacts") {
+     DepartmentContactServices.deleteContact(id)
+         .then((res) => {
+           setIsLoading(false);
+           setIsUpdate(true);
+           notifySuccess(res.message);
+         })
+         
+         .catch((err) => notifyError(err.message));
+       closeModal();
+       setServiceId();
+     }
     if (location.pathname === "/services") {
      ServiceServices.deleteService(id)
         .then((res) => {

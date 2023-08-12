@@ -2,19 +2,19 @@ import requests from "./httpService";
 
 const DepartmentServices = {
   addDepartment: async (body) => {
-    return requests.post("/admin/store", body);
+    return requests.post("/admin/departments/store", body);
   },
   getAllDepartment: async (body) => {
     return requests.get("/admin/departments/", body);
   },
   getDepartmentById: async (id, body) => {
-    return requests.post(`/admin/departments/department/${id}`, body);
+    return requests.get(`/admin/departments/department/${id}`, body);
   },
   getDepartmentByAdmin: async (id, body) => {
-    return requests.post(`/admin/Departments/departments_by_admin/${id}`, body);
+    return requests.post(`/admin/departments/departments_by_admin/${id}`, body);
   },
   updateDepartment: async (id, body) => {
-    return requests.put(`/admin/${id}`, body);
+    return requests.post(`/admin/departments/update/${id}`, body);
   },
 
   updateDepartmentStatus: async (id, body) => {
@@ -22,7 +22,10 @@ const DepartmentServices = {
   },
 
   deleteDepartment: async (id) => {
-    return requests.delete(`/admin/${id}`);
+    return requests.delete(`/admin/departments/delete/${id}`);
+  },
+  searchDepartment: async (query) => {
+    return requests.get(`/admin/departments/search_department?q=${query}`);
   },
 };
 

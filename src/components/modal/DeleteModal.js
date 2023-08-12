@@ -24,6 +24,10 @@ import ServiceServices from "services/ServiceServices";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { To } from "react-flags-select";
 import BlogServices from "services/BlogServices";
+import ReferencesServices from "services/ReferencesServices";
+import DepartmentServices from "services/DepartementServices";
+import DepartmentContactServices from "services/DepartementContactServices";
+import QuoteServices from "services/QuoteServices";
 
 const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoading, setIsLoading}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -35,10 +39,61 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
     // return notifyError("CRUD operation is disabled for this option!");
     try {
       setIsSubmitting(true);
-      
+      if (location.pathname === "/quotes") {
+        setIsLoading(true);
+        const res = await QuoteServices.deleteQuote(id);
+        setIsLoading(false);
+        // setIsCheck([]);
+
+          setIsUpdate(true);
+          notifySuccess(res.message);
+          
+          setServiceId();
+          closeModal();
+          setIsSubmitting(false);
+      }
+      if (location.pathname === "/contacts") {
+        setIsLoading(true);
+        const res = await DepartmentContactServices.deleteContact(id);
+        setIsLoading(false);
+        // setIsCheck([]);
+
+          setIsUpdate(true);
+          notifySuccess(res.message);
+          
+          setServiceId();
+          closeModal();
+          setIsSubmitting(false);
+      }
       if (location.pathname === "/projects") {
         setIsLoading(true);
         const res = await ProjectServices.deleteProject(id);
+        setIsLoading(false);
+        // setIsCheck([]);
+
+          setIsUpdate(true);
+          notifySuccess(res.message);
+          
+          setServiceId();
+          closeModal();
+          setIsSubmitting(false);
+      }
+      if (location.pathname === "/references") {
+        setIsLoading(true);
+        const res = await ReferencesServices.deleteReference(id);
+        setIsLoading(false);
+        // setIsCheck([]);
+
+          setIsUpdate(true);
+          notifySuccess(res.message);
+          
+          setServiceId();
+          closeModal();
+          setIsSubmitting(false);
+      }
+      if (location.pathname === "/departments") {
+        setIsLoading(true);
+        const res = await DepartmentServices.deleteDepartment(id);
         setIsLoading(false);
         // setIsCheck([]);
 
@@ -237,9 +292,9 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           </span>
           {/* <h2 className="text-xl font-medium mb-1">{t('DeleteModalH2')}</h2> */}
           <h2 className="text-xl font-medium mb-2">
-            {"DeleteModalH2"} <span className="text-red-500">{title}</span>?
+            {t("DeleteModalH2")} <span className="text-red-500">{title}</span>?
           </h2>
-          <p>{"DeleteModalPtag"}</p>
+          <p>{t("DeleteModalPtag")}</p>
         </ModalBody>
 
         <ModalFooter className="justify-center">

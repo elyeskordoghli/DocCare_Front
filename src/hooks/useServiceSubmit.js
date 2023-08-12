@@ -438,27 +438,27 @@ console.log('id',id)
   ]);
 
   //for filter related attribute and extras for every product which need to update
-  useEffect(() => {
-    const result = attribue
-      ?.filter((att) => att.option !== "Checkbox")
-      .map((v) => {
-        return {
-          label: showingTranslateValue(v?.title, lang),
-          value: showingTranslateValue(v?.title, lang),
-        };
-      });
+  // useEffect(() => {
+  //   const result = attribue
+  //     ?.filter((att) => att.option !== "Checkbox")
+  //     .map((v) => {
+  //       return {
+  //         label: showingTranslateValue(v?.title, lang),
+  //         value: showingTranslateValue(v?.title, lang),
+  //       };
+  //     });
 
-    setAttTitle([...result]);
+  //   setAttTitle([...result]);
 
-    const res = Object?.keys(Object.assign({}, ...variants));
-    const varTitle = attribue?.filter((att) => res.includes(att._id));
+  //   const res = Object?.keys(Object.assign({}, ...variants));
+  //   const varTitle = attribue?.filter((att) => res.includes(att._id));
 
-    // if (variants?.length > 0) {
-    //   const totalStock = variants?.reduce((pre, acc) => pre + acc.quantity, 0);
-    //   setTotalStock(Number(totalStock));
-    // }
-    setVariantTitle(varTitle);
-  }, [attribue, variants, language, lang]);
+  //   // if (variants?.length > 0) {
+  //   //   const totalStock = variants?.reduce((pre, acc) => pre + acc.quantity, 0);
+  //   //   setTotalStock(Number(totalStock));
+  //   // }
+  //   setVariantTitle(varTitle);
+  // }, [attribue, variants, language, lang]);
 
   //for adding attribute values
   const handleAddAtt = (v, el) => {

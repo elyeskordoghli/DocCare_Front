@@ -8,14 +8,31 @@ const Products = lazy(() => import("../pages/Products"));
 const Projects = lazy(() => import("../pages/Projects"));
 const Services = lazy(() => import("../pages/Services"));
 const Blogs = lazy(() => import("../pages/Blogs"));
+const References = lazy(() => import("../pages/References"));
+const Departments = lazy(() => import("../pages/Departments"));
+const Quotes = lazy(() => import("../pages/Quote"));
+
+const DepartmentContact = lazy(() => import("../pages/DepartmentContact"));
+
+
+
 
 
 const ProductDetails = lazy(() => import("../pages/ProductDetails"));
 const ServiceDetails = lazy(() => import("../pages/ServiceDetails"));
 const BlogDetails = lazy(() => import("../pages/BlogDetails"));
+const ReferenceDetails = lazy(() => import("../pages/ReferenceDetails"));
+const DepartmentDetails = lazy(() => import("../pages/DepartmentDetails"));
+
 
 const ProjectDetails = lazy(() => import("../pages/ProjectDetails"));
+
 const adminDetails = lazy(() => import("../pages/adminDetails"));
+
+const DepartmentContactDetails = lazy(() => import("../pages/DepartmentContactDetails"));
+const QuoteDetails = lazy(() => import("../pages/QuoteDetails"));
+
+
 
 const Category = lazy(() => import("../pages/Category"));
 const ChildCategory = lazy(() => import("../pages/ChildCategory"));
@@ -49,6 +66,22 @@ const routes = [
     component: Dashboard,
   },
   {
+    path: "/quotes",
+    component:  Quotes,
+  },
+  {
+    path: "/references",
+    component: References,
+  },
+  {
+    path: "/departments",
+    component: Departments,
+  },
+  {
+    path: "/contacts",
+    component: DepartmentContact,
+  },
+  {
     path: "/projects",
     component: Projects,
   },
@@ -79,6 +112,22 @@ const routes = [
   {
     path: "/service/:id",
     component: ServiceDetails,
+  },
+  {
+    path: "/reference/:id",
+    component: ReferenceDetails,
+  },
+  {
+    path: "/contact/:id",
+    component: DepartmentContactDetails,
+  },
+  {
+    path: "/quote/:id",
+    component: QuoteDetails,
+  },
+  {
+    path: "/department/:id",
+    component: DepartmentDetails,
   },
   {
     path: "/blog/:id",

@@ -12,7 +12,9 @@ body
 .bg-orange {
   background-color: rgb(242, 129, 61);
 }
-
+.bg-gray {
+  background-color: rgb(249, 250, 251);
+}
 /* CSS for the dark background */
 .bg-dark {
   background-color: rgb(24, 23, 28);
