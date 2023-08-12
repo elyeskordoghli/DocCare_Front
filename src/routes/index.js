@@ -26,7 +26,6 @@ const DepartmentDetails = lazy(() => import("../pages/DepartmentDetails"));
 
 
 const ProjectDetails = lazy(() => import("../pages/ProjectDetails"));
-
 const adminDetails = lazy(() => import("../pages/adminDetails"));
 
 const DepartmentContactDetails = lazy(() => import("../pages/DepartmentContactDetails"));
