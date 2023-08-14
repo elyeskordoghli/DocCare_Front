@@ -21,10 +21,11 @@ import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 import { useAsync } from "hooks/useAsync";
 import CategoryServices from "services/CategoryServices";
+import Loader from 'components/loader/Loader';
 
 //internal import 
 
-const ProjectTable = ({ isCheck, setIsCheck, search, lang, selectedCategory, isLoading, setIsLoading, projects }) => {
+const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategory, isLoading, setIsLoading, projects }) => {
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -41,7 +42,6 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang, selectedCategory, isL
 
 
 
-  const [data, setData] = useState([]);
   const {
     handleModalOpen,
     handleUpdate,
@@ -53,7 +53,7 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang, selectedCategory, isL
   console.log('serviceId : ', serviceId);
   console.log('selectedCategory: ', selectedCategory);
 
-
+ 
   //----------------------------------------------------------------
 
 
@@ -74,33 +74,43 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang, selectedCategory, isL
   //   fetchProjects(); // Appelez la fonction fetchProjects pour récupérer les projets au chargement du composant
   // }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
-  const fetchProjects = async (selectedCategory, isLoading, search) => {
-    try {
-      let response;
-      if (selectedCategory === "All" && !search) {
-        // Si la catégorie sélectionnée est "All", récupérer tous les projets
-        response = await ProjectServices.getAllProjects();
-      }
-      else if (search) {
-        response = await ProjectServices.search(search, selectedCategory);
+  // const fetchProjects = async (selectedCategory, isLoading, search) => {
+  //   try {
+  //     let response;
+  //     setIsLoading(true);
+
+  //     if (selectedCategory === "All" && !search) {
+      
+
+  //       // Si la catégorie sélectionnée est "All", récupérer tous les projets
+  //       response = await ProjectServices.getAllProjects();
+
+  //     }
+  //     else if (search && selectedCategory ) {
+  //       console.log("hihihi : ",selectedCategory);
+
+  //       response = await ProjectServices.search(search, selectedCategory);
 
 
-      } else if (selectedCategory !== "All") {
-        response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+  //     } else if (selectedCategory !== "All") {
 
-      }
+  //       response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+
+  //     }
+  //     setIsLoading(false);
 
 
-      setData(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des projets :", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchProjects(selectedCategory, isLoading, search);
-  }, [selectedCategory, isLoading, search]);
+  //     setData(response.data);
+  //     console.log("data new data : ",response.data)
+  //   } catch (error) {
+  //     console.error("Erreur lors de la récupération des projets :", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchProjects(selectedCategory, isLoading, search);
+  // }, [selectedCategory, search]);
 
 
 
@@ -121,7 +131,7 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang, selectedCategory, isL
 
   useEffect(() => {
     getProject();
-  }, [])
+  }, [isCheck])
 
   //----------------------------------------------------------------
 
@@ -177,6 +187,7 @@ const ProjectTable = ({ isCheck, setIsCheck, search, lang, selectedCategory, isL
 
   return (
     <>
+      
       {isCheck?.length < 1 && <DeleteModal
         id={serviceId}
         title={data.title}

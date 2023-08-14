@@ -192,7 +192,7 @@ const OrderInvoice = () => {
           >
             {({ blob, url, loading, error }) =>
               loading ? (
-                "Loading..."
+                "Loading..***."
               ) : (
                 <button className="flex items-center text-sm leading-5 transition-colors duration-150 font-medium focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300 w-auto cursor-pointer">
                   Download Invoice

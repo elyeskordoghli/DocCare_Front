@@ -35,11 +35,13 @@ import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
 import ProjectServices from "services/ProjectServices";
 import CategoryServices from "services/CategoryServices";
+import Loader from 'components/loader/Loader';
+
 const Projects = () => {
   const { title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
 
-
+  
 
   const { t } = useTranslation();
   const {
@@ -56,27 +58,58 @@ const Projects = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(() =>
-    ProjectServices.getAllProjects({
-      // page: currentPage,
-      // limit: limitData,
-      // category_id: category,
-      // title: searchText,
-      // subtitle: subtitle,
-      // short_description: short_description,
-      // description : description,
-      //  price: sortedField,
-    })
-  );
+const [data, setData] = useState([]);
+const [isLoading, setIsLoading]=useState(true);
+const [selectedCategory, setSelectedCategory] = useState('All');
+const [search, setSearchValue] = useState("");
+const [categories, setCategory] = useState();
 
-  //---------------------------------------------------------
-  const [isLoading, setIsLoading] = useState();
-  const [selectedCategory, setSelectedCategory] = useState('All');
+//---------------------------------------------------------
+  const fetchProjects = async (selectedCategory, isLoading, search) => {
+    try {
+      let response;
+      setIsLoading(true);
+
+      if (selectedCategory === "All" && !search) {
+      
+
+        // Si la catégorie sélectionnée est "All", récupérer tous les projets
+        response = await ProjectServices.getAllProjects();
+
+      }
+      else if (search && selectedCategory ) {
+        console.log("hihihi : ",selectedCategory);
+
+        response = await ProjectServices.search(search, selectedCategory);
 
 
-  //---------------------------------------------------------
+      } else if (selectedCategory !== "All") {
 
-  const [categories, setCategory] = useState();
+        response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+
+      }
+      setIsLoading(false);
+
+
+      setData(response.data);
+      console.log("data new data : ",response.data)
+    } catch (error) {
+      console.error("Erreur lors de la récupération des projets :", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+
+  useEffect(() => {
+      fetchProjects(selectedCategory, isLoading, search);
+    }, [selectedCategory, search]);
+//---------------------------------------------------------
+
+
+
+//---------------------------------------------------------
+
 
 
   const getCategoriesData = async () => {
@@ -85,16 +118,16 @@ const Projects = () => {
       // Mettez à jour le state avec les départements récupérés depuis l'API
       setCategory(res.data);
     } catch (err) {
-      console.log(err ? err?.response?.data?.message : err?.message);
+     console.log(err ? err?.response?.data?.message : err?.message);
 
     }
   }
 
   useEffect(() => {
-    getCategoriesData();
+    getCategoriesData();    
   }, []);
 
-  console.log("categories project", categories)
+  console.log("categories project",categories)
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
@@ -115,7 +148,6 @@ const Projects = () => {
     }
   };
 
-  const [search, setSearchValue] = useState("");
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -136,16 +168,23 @@ const Projects = () => {
 
   return (
     <>
+    {
+        isLoading?
+          <Loader />
+        :
+          ''
+      }
       <PageTitle>{"Projects Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
       <BulkActionDrawer ids={allId} title="Projects" />
       <MainDrawer>
-        <ProjectDrawer id={serviceId}
-          isLoading={isLoading} // Passer la variable isLoading
-          setIsLoading={setIsLoading}
-          isCheck={isCheck}
-          setIsCheck={setIsCheck} />
+        <ProjectDrawer id={serviceId}  
+              isLoading={isLoading} // Passer la variable isLoading
+              setIsLoading={setIsLoading} 
+                isCheck ={isCheck}
+                categories={categories}
+                setIsCheck={setIsCheck}/>
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -165,7 +204,7 @@ const Projects = () => {
                 handleRemoveSelectFile={handleRemoveSelectFile}
               />
             </div>
-
+            
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
               {/* <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
                 <Button
@@ -235,21 +274,21 @@ const Projects = () => {
               >aaaa</button>
             </div>
 
-            {/* categorie */}
+{/* categorie */}
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <SelectCategory
-                setCategory={setCategory}
-                categories={categories}
-                setSelectedCategory={setSelectedCategory}
-                selectedCategory={selectedCategory}
-                lang={lang}
-                isLoading={isLoading} // Passer la variable isLoading
-                setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
+              <SelectCategory 
+              setCategory={setCategory} 
+              categories={categories} 
+              setSelectedCategory={setSelectedCategory} 
+              selectedCategory={selectedCategory}
+              lang={lang} 
+              isLoading={isLoading} // Passer la variable isLoading
+              setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
               />
             </div>
-            {/*end categorie */}
-
-            {/* 
+{/*end categorie */}
+ 
+{/* 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select
                 onChange={(e) => setSortedField(e.target.value)}
@@ -276,9 +315,7 @@ const Projects = () => {
         </CardBody>
       </Card>
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+      
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -292,7 +329,7 @@ const Projects = () => {
                     handleClick={handleSelectAll}
                   />
 
-
+                
 
 
                 </TableCell>
@@ -312,12 +349,12 @@ const Projects = () => {
             <ProjectTable
               lang={lang}
               isCheck={isCheck}
-              projects={data}
+              data={data}
               setIsCheck={setIsCheck}
               currency={currency}
               selectedCategory={selectedCategory}
               setIsLoading={setIsLoading}
-              isLoading={isLoading}
+              isLoading={isLoading} 
               search={search}
             />
           </Table>
@@ -330,9 +367,7 @@ const Projects = () => {
             />
           </TableFooter>
         </TableContainer>
-      ) : (
-        <NotFound title="Project" />
-      )}
+     
     </>
   );
 };
