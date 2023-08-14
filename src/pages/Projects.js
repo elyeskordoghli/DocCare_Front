@@ -65,44 +65,46 @@ const [search, setSearchValue] = useState("");
 const [categories, setCategory] = useState();
 
 //---------------------------------------------------------
-  const fetchProjects = async (selectedCategory, isLoading, search) => {
+  const fetchProjects = async (selectedCategory, setIsLoading, search) => {
     try {
       let response;
-      setIsLoading(true);
 
       if (selectedCategory === "All" && !search) {
       
+        setIsLoading(true);
 
         // Si la catégorie sélectionnée est "All", récupérer tous les projets
         response = await ProjectServices.getAllProjects();
+        setIsLoading(false);
 
       }
       else if (search && selectedCategory ) {
         console.log("hihihi : ",selectedCategory);
+        setIsLoading(true);
 
         response = await ProjectServices.search(search, selectedCategory);
+        setIsLoading(false);
 
 
       } else if (selectedCategory !== "All") {
+        setIsLoading(true);
 
         response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+        setIsLoading(false);
 
       }
-      setIsLoading(false);
 
 
       setData(response.data);
       console.log("data new data : ",response.data)
     } catch (error) {
       console.error("Erreur lors de la récupération des projets :", error);
-    } finally {
-      setIsLoading(false);
     }
   };
   
 
   useEffect(() => {
-      fetchProjects(selectedCategory, isLoading, search);
+      fetchProjects(selectedCategory, setIsLoading, search);
     }, [selectedCategory, search]);
 //---------------------------------------------------------
 
@@ -175,7 +177,7 @@ const [categories, setCategory] = useState();
           ''
       }
       <PageTitle>{"Projects Page"}</PageTitle>
-      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} />
+      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} isLoading={isLoading} setIsLoading={setIsLoading} title={data.title} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
       <BulkActionDrawer ids={allId} title="Projects" />
       <MainDrawer>

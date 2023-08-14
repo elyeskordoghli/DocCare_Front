@@ -15,6 +15,8 @@ const EditDeleteButton = ({
   isCheck,
   service,
   career,
+  isLoading,
+  setIsLoading,
   blog,
   project,
   staff,
@@ -32,7 +34,7 @@ const EditDeleteButton = ({
 //   console.log('ffdzdf',name);
 //   console.log('staff',staff);
 // console.log('cat',category);
-
+setIsLoading(false);
   const location = useLocation();
   if (location.pathname === "/careers") {
     return (
