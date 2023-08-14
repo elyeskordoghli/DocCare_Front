@@ -53,7 +53,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
     language,
     register,
     onSubmit,
-    errors,
+    errors, 
     slug,
     tapValue,
     setTapValue,
@@ -169,22 +169,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
     // console.log("res category", res);
 
 
-    if (id) {
-
-      setIsLoading(true);
-      const res = await ServiceServices.updateService(id, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      // setIsUpdate(true);
-      setIsLoading(false);
-      setIsCheck([]);
-      // setIsSubmitting(false);
-      notifySuccess(res.message);
-      closeDrawer();
-      // reset();
-    } else {
+    if (id == null) {
       setIsLoading(true);
 
       const res = await ServiceServices.addService(formData, {
@@ -199,6 +184,21 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
 
       notifySuccess(res.message);
       closeDrawer();
+     
+    } else {
+      setIsLoading(true);
+      const res = await ServiceServices.updateService(id, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      // setIsUpdate(true);
+      setIsLoading(false);
+      setIsCheck([]);
+      // setIsSubmitting(false);
+      notifySuccess(res.message);
+      closeDrawer();
+      // reset();
     }
   };
   const initFormForUpdate = async (id) => {
@@ -279,7 +279,6 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
     setCatalogueUrl("");
     setCatalogueBinary("");
     setOldCatalogueUrl("");
-    setIsCheck([]);
 
     }
   }, [id]);

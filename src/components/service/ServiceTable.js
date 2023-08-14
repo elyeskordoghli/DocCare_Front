@@ -25,7 +25,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
   const [data, setData] = useState([]);
   const {
     handleModalOpen,
-    serviceId,
+    serviceId, 
     handleUpdate,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
@@ -83,14 +83,22 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
   }, [])
 
   const beforeHandleModalOpen = (id, title, service) => {
-    console.log(id)
-    handleModalOpen(id, title, service);
-    // setIsCheck([id]);
+    try {
+      console.log('idddddddd', id)
+      handleModalOpen(id, title, service);
+      setIsCheck([]);
+
+    } catch (error) {
+      alert(`Une erreur est survenue ${error}`);
+    }
+
+
   }
+  
   const handleClick = (e) => {
     const { id, checked } = e.target;
     console.log("id hatha", id, checked);
-  
+
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
@@ -98,6 +106,9 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
       console.log("id tna7a", id, checked);
     }
   };
+
+
+  
   return (
     <>
       {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}
@@ -110,7 +121,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ServiceDrawer  id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck}   />
+          <ServiceDrawer  id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading}   />
         </MainDrawer>
       )}
 
@@ -201,7 +212,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
                 service={item}
-                isCheck={isCheck}
+                isCheck={serviceId}
                 handleClick={handleClick}
                 handleUpdate={handleUpdate}
                 handleModalOpen={beforeHandleModalOpen}

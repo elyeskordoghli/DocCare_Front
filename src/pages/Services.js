@@ -217,16 +217,16 @@ const Services = () => {
                 <TableCell>{"Catalogue"}</TableCell>
                 <TableCell className="text-center">{"Details"}</TableCell>
                
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                 <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
             <ServiceTable
               setIsLoading={setIsLoading}
               isLoading={isLoading}
               lang={lang}
+              setIsCheck={setIsCheck}
               isCheck={isCheck}
               Services={data?.Services}
-              setIsCheck={setIsCheck}
               currency={currency}
               searchService={searchService}
             /> 
