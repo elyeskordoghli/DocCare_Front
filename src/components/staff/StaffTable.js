@@ -26,6 +26,7 @@ import Tooltip from "components/tooltip/Tooltip";
 import { FiZoomIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import CheckBox from "components/form/CheckBox";
+import Loader from 'components/loader/Loader';
 
 const StaffTable = ({
   searchAdmin,
@@ -52,7 +53,10 @@ const StaffTable = ({
       if (searchAdmin) {
         response = await AdminServices.searchAdmin(searchAdmin);
       } else {
+      setIsLoading(true);
         response = await AdminServices.getAllStaff();
+        setIsLoading(false);
+
       }
 
       // Mettez à jour la variable data avec les données récupérées
@@ -66,7 +70,7 @@ const StaffTable = ({
   };
   useEffect(() => {
     fetchAdmins(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading, searchAdmin]);
+  }, [ searchAdmin]);
 
   const getAdmin = async () => {
     try {
@@ -100,6 +104,12 @@ const StaffTable = ({
 
   return (
     <>
+     {
+        isLoading?
+          <Loader />
+        :
+          ''
+      }
       {/* <DeleteModal id={serviceId} title={title} /> */}
       {isCheck?.length < 1 && (
         <DeleteModal

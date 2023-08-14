@@ -33,7 +33,7 @@ const App = () => {
             {/* {' '} */}
             <Route path="/" component={Layout} />
           {/* </PrivateRoute> */}
-          <Redirect exact from="/dashboard" to="/login" />
+          <Redirect exact from="/" to="/login" />
         </Switch>
         </Suspense>
       </Router>

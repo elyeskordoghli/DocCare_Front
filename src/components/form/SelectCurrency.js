@@ -11,11 +11,10 @@ const SelectCurrency = ({
   // loading,
 }) => {
   const { data, loading } = useAsync(CurrencyServices.getShowingCurrency);
-
   return (
     <>
       {loading ? (
-        "Loading..."
+        "Loading..............."
       ) : (
         <Select
           className={`border text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white h-12`}

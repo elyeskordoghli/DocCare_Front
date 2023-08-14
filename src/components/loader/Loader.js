@@ -10,6 +10,7 @@ const override = css`
 
 const CustomLoader = () => {
   return (
+    <div className="fullpage-loader">
     <div className="custom-loader-container">
      <div className="custom-centering">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120.29 71.29">
@@ -23,6 +24,7 @@ const CustomLoader = () => {
           <path style={{ fill: "#37474f" }} d="M84.65,0A35.29,35.29,0,0,0,72.78,2.05l-.3.1-.36.13-1,.39v7.62l2.1-.92.45-.18h0a28.64,28.64,0,1,1,11,55.1,28.45,28.45,0,0,1-11-2.18L71.15,61v7.64l1,.37.36.12.33.12A35.64,35.64,0,1,0,84.65,0Z" />
         </g>
       </svg>
+    </div>
     </div>
     </div>
   );

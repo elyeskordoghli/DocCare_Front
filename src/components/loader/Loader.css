@@ -1,5 +1,14 @@
 /* Loader.css */
 
+.fullpage-loader{
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	background: #88888888;
+	top: 0;
+	left: 0;
+	z-index: 999999 !important;
+}
 .custom-loader-container {
 	display: flex;
 	align-items: center;
@@ -25,12 +34,12 @@
   }
   
   .custom-loader-container .custom-left-circle {
-	animation: rotate 10s linear infinite;
+	animation: rotate 3s linear infinite;
 	transform-origin: 29.3% 50%;
   }
   
   .custom-loader-container .custom-right-circle {
-	animation: rotate 10s linear infinite;
+	animation: rotate 3s linear infinite;
 	transform-origin: 70.2% 50%;
   }
   

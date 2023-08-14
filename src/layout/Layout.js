@@ -32,7 +32,7 @@ const Layout = () => {
       <div className="flex flex-col flex-1 w-full">
         <Header />
         <Main>
-          <Suspense fallback={<ThemeSuspense />}>
+          {/* <Suspense fallback={<ThemeSuspense />}> */}
             <Switch>
               {routes.map((route, i) => {
                 return route.component ? (
@@ -47,7 +47,7 @@ const Layout = () => {
               <Redirect exact from="/" to="/dashboard" />
               <Route component={Page404} />
             </Switch>
-          </Suspense>
+          {/* </Suspense> */}
         </Main>
       </div>
     </div>

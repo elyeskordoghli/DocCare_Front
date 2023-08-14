@@ -40,6 +40,7 @@ import { showingTranslateValue } from "utils/translate";
 import { useForm } from 'react-hook-form';
 import { notifyError, notifySuccess } from "../../utils/toast";
 import Drawer from "rc-drawer";
+import Loader from 'components/loader/Loader';
 
 import axios from "axios";
 import CategoryServices from "services/CategoryServices";
@@ -49,10 +50,10 @@ import ReferencesServices from "services/ReferencesServices";
 
 //internal import
 
-const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) => {
+const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , setIsCheck}) => {
   const { t } = useTranslation();
-
-  console.log('idid',id);
+ 
+  console.log("catcat: ",categories);
   const {
     tag,
     setTag,
@@ -102,7 +103,6 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
   const [oldImageUrl, setOldImageUrl] = useState("");
   const [Seo_Keywords, setSeo_keywords] = useState("");
   const [References , setReference] = useState([]);
-  const [categories, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedReference, setSelectedReferences] = useState(null);
 
@@ -128,7 +128,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
   const [slug_ar, setSlug_ar] = useState("");
 
  
-
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
@@ -178,10 +178,11 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
             
           });
           closeDrawer();
-
-          setIsLoading(false);
-          setIsCheck([])
+          // setIsUpdate(true);
           notifySuccess(res.message);
+          setIsLoading(false);
+          setIsCheck([]);
+          
 
           
 
@@ -195,12 +196,12 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
 
 
         });
-        
+
         closeDrawer();
         // setIsUpdate(true);
         notifySuccess(response.message);
         setIsLoading(false);
-        setIsCheck([])
+        setIsCheck([]);
 
       }
       } catch (error) {
@@ -210,8 +211,10 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
 
 
   const initFormForUpdate = async (id) => {
-        
+          setIsLoading(true);
+
           const res = await ProjectServices.getProjectById(id);
+          setIsLoading(false);
 
           setTitle_en(res.data.title_en);
           setSubtitle_en(res.data.subtitle_en);
@@ -235,8 +238,9 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
           setSlug_ar(res.data.title_ar);
         
           setSeo_keywords(res.data.seo_keywords);
-          setSelectedReferences(res.data.category_id);
-          setSelectedCategory(res.data.reference_id);
+          setSelectedReferences(res.data.reference_id);
+          setSelectedCategory(res.data.category_id);
+          
           setImageUrl(res.data.image);         
           setImageBinary(res.data.image);  
           setOldImageUrl(res.data.image)       
@@ -245,7 +249,9 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
 
   useEffect(() => {
     if (id && id !== undefined ){
+
       initFormForUpdate(id);
+
     }else{
 
       setTitle_en("");
@@ -255,19 +261,19 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
       setSeo_description_en("");
       setSlug_en("");
     
-      setTitle_fr();
-      setSubtitle_fr();
-      setShort_description_fr();
-      setDescription_fr();
-      setSeo_description_fr();
-      setSlug_fr();
+      setTitle_fr("");
+      setSubtitle_fr("");
+      setShort_description_fr("");
+      setDescription_fr("");
+      setSeo_description_fr("");
+      setSlug_fr("");
     
-      setTitle_ar();
-      setSubtitle_ar();
-      setShort_description_ar();
-      setDescription_ar();
-      setSeo_description_ar();
-      setSlug_ar();
+      setTitle_ar("");
+      setSubtitle_ar("");
+      setShort_description_ar("");
+      setDescription_ar("");
+      setSeo_description_ar("");
+      setSlug_ar("");
     
       setSeo_keywords();
       setSelectedReferences();
@@ -294,20 +300,20 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
     }
   }
 
-  const getCategoriesData = async () => {
-    try {
-      const res = await CategoryServices.getAllCategories();
-      // Mettez à jour le state avec les départements récupérés depuis l'API
-      setCategory(res.data);
-    } catch (err) {
-     console.log(err ? err?.response?.data?.message : err?.message);
+  // const getCategoriesData = async () => {
+  //   try {
+  //     const res = await CategoryServices.getAllCategories();
+  //     // Mettez à jour le state avec les départements récupérés depuis l'API
+  //     setCategory(res.data);
+  //   } catch (err) {
+  //    console.log(err ? err?.response?.data?.message : err?.message);
 
-    }
-  }
+  //   }
+  // }
 
 
   useEffect(() => {
-    getCategoriesData();
+    // getCategoriesData();
     getReferencesData();
     
   }, []);
@@ -342,7 +348,12 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,  isCheck , setIsCheck}) 
 
   return (
     <>
-
+ {
+        isLoading?
+          <Loader />
+        :
+          ''
+      }
       <Modal
         open={openModal}
         onClose={onCloseModal}

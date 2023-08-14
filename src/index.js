@@ -26,11 +26,11 @@ ReactDOM.render(
   <AdminProvider>
     <SidebarProvider>
       <Provider store={store}>
-        <Suspense fallback={<ThemeSuspense />}>
+        {/* <Suspense fallback={<ThemeSuspense />}> */}
           <Windmill usePreferences theme={myTheme}>
             <App />
           </Windmill>
-        </Suspense>
+        {/* </Suspense> */}
       </Provider>
     </SidebarProvider>
   </AdminProvider>,
