@@ -664,7 +664,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
             <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Career Title  "} />
+                <LabelArea label={"Career Title (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
@@ -683,13 +683,13 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="Requirements_fr"
+                    name="Requirements_ar"
                     type="text"
                     placeholder={"Career Requirements  (ar)  "}
-                    onChange={(e) => setRequirements_fr(e.target.value)}
-                    value={Requirements_fr}
+                    onChange={(e) => setRequirements_ar(e.target.value)}
+                    value={Requirements_ar}
                   />
-                  <Error errorName={errors.Requirements_fr} />
+                  <Error errorName={errors.Requirements_ar} />
                 </div>
               </div>
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">

@@ -161,27 +161,31 @@ const CareerDetails = () => {
 
                 </p>
               </div>
-
-              <div className="mt-6">
+              <div className=" mt-6 space-x-20 flex justify-center items-center mb-6">
                 <button
                   onClick={() => handleUpdate(data.id)}
                   className="cursor-pointer leading-5 transition-colors duration-150 font-medium text-sm focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300"
                 >
                   {"Edit Career"}
                 </button>
-              </div>
-              <div>
-                {/* ... contenu de la carrière ... */}
-                <div className="mt-6">
+                <div>
                   <button
-                     onClick={() => setShowApplies(!showApplies)}
+                    onClick={() => setShowApplies(!showApplies)}
                     className="cursor-pointer leading-5 transition-colors duration-150 font-medium text-sm focus:outline-none px-5 py-2 rounded-md text-white bg-blue-500 border border-transparent active:bg-blue-600 hover:bg-blue-600 focus:ring focus:ring-purple-300"
                   >
-                   {showApplies ? "Hide Apply" : "View Apply"}
+                    {showApplies ? "Hide Apply" : "View Apply"}
                   </button>
                 </div>
-                {showApplies && <ApplyTable data={data} />}
               </div>
+              <div className="flex justify-center">
+                <div className="">
+                  {/* ... contenu de la carrière ... */}
+                  {showApplies && <ApplyTable data={data} />}
+                </div>
+              </div>
+
+
+
 
 
             </div>
