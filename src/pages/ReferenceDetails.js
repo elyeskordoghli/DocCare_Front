@@ -25,6 +25,7 @@ import ServiceServices from "services/ServiceServices";
 import { showingTranslateValue } from "utils/translate";
 import SettingServices from "services/SettingServices";
 import ServiceDrawer from "components/drawer/ServiceDrawer";
+import ReferencesServices from "services/ReferencesServices";
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -33,7 +34,7 @@ const ServiceDetails = () => {
   // const { attribue } = useProductSubmit(id);
   // const [variantTitle, setVariantTitle] = useState([]);
   const { lang } = useContext(SidebarContext);
-  const response = useAsync(() => ServiceServices.getServiceById(id)); 
+  const response = useAsync(() => ReferencesServices.getReferenceById(id)); 
   const { loading } = response; 
   const { data } = response.data;
   const [isCheckAll, setIsCheckAll] = useState(false);

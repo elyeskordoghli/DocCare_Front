@@ -46,12 +46,15 @@ const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) =>
         .then((res) => {
           setIsLoading(false);
           setIsUpdate(true);
+          setIsCheck([]);
+          setServiceId();
           notifySuccess(res.message);
         })
         
         .catch((err) => notifyError(err.message));
-      closeModal();
-      setServiceId();
+        setIsCheck([]);
+        setServiceId();
+        closeModal();
     }
     if (location.pathname === "/references") {
      ReferencesServices.deleteReference(id)

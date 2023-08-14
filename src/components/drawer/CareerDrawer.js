@@ -22,7 +22,6 @@ import "react-responsive-modal/styles.css";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
-import useServiceSubmit from "hooks/useServiceSubmit";
 import UploaderThree from "components/image-uploader/UploaderThree";
 import Title from "components/form/Title";
 import SwitchToggleForCombination from "components/form/SwitchToggleForCombination";
@@ -41,6 +40,7 @@ import { showingTranslateValue } from "utils/translate";
 import ServiceServices from "services/ServiceServices";
 import SidebarContent from "components/sidebar/SidebarContent";
 import CareerServices from "services/CareerServices";
+import useCareerSubmit from "hooks/useCareerSubmit";
 //internal import
 
 const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
@@ -74,7 +74,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     isSubmitting,
     resetRefTwo,
     handleSkuBarcode,
-    handleServiceTap,
+    handleCareerTap,
     selectedCategory,
     setSelectedCategory,
     setDefaultCategory,
@@ -89,7 +89,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,
-  } = useServiceSubmit(id, data);
+  } = useCareerSubmit(id, data);
 
   const currency = globalSetting?.default_currency || "$";
   const { closeDrawer } = useContext(SidebarContext)
@@ -373,7 +373,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
             <ActiveButton
               tapValue={tapValue}
               activeValue="Anglais"
-              handleTap={handleServiceTap}
+              handleTap={handleCareerTap}
             />
           </li>
 
@@ -381,7 +381,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
             <ActiveButton
               tapValue={tapValue}
               activeValue="French"
-              handleTap={handleServiceTap}
+              handleTap={handleCareerTap}
             />
           </li>
 
@@ -389,7 +389,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
             <ActiveButton
               tapValue={tapValue}
               activeValue="Arabic"
-              handleTap={handleServiceTap}
+              handleTap={handleCareerTap}
             />
           </li>
 
@@ -398,7 +398,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
               <ActiveButton
                 tapValue={tapValue}
                 activeValue="Combination"
-                handleTap={handleServiceTap}
+                handleTap={handleCareerTap}
               />
             </li>
           )}
@@ -849,7 +849,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
               save
               title="Product"
               isSubmitting={isSubmitting}
-              handleServiceTap={handleServiceTap}
+              handleCareerTap={handleCareerTap}
             />
           ) : (
             <DrawerButton id={id} title="Submit" isSubmitting={isSubmitting} />

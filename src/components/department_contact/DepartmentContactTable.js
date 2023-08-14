@@ -60,7 +60,7 @@ const DepartmentContactTable = ({ setId,searchDepartmentContact, isCheck, setIsC
 
   const getDepartmentContact = async () => {
     try {
-      const con = await DepartmentContactServices.getContactById(isCheck)
+      const con = await DepartmentContactServices.getContactById(serviceId)
       setIsCheck([...isCheck, con.id]);
       console.log('contact selectionnée : ', con.id);
 

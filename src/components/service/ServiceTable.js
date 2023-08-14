@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 //internal import  
-
+ 
 const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const [data, setData] = useState([]);
   const {
@@ -30,7 +30,17 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
 
+  const handleClick = (e) => {
+    const { id, checked } = e.target;
+    console.log("id hatha", id, checked);
 
+    if (checked) {
+      setIsCheck([...isCheck, id]);
+    } else {
+      setIsCheck(isCheck.filter((item) => item !== id));
+      console.log("id tna7a", id, checked);
+    }
+  };
  
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
     const fetchServices = async (isLoading,searchService) => {
@@ -67,7 +77,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
   const getService = async () => {
     try {
-      const ser = await ServiceServices.getServiceById(isCheck)
+      const ser = await ServiceServices.getServiceById(serviceId)
       setIsCheck([...isCheck, ser.id]);
       console.log('Service selectionnée : ', ser.id);
 
@@ -95,17 +105,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
   }
   
-  const handleClick = (e) => {
-    const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
 
-    if (checked) {
-      setIsCheck([...isCheck, id]);
-    } else {
-      setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
-    }
-  };
 
 
   

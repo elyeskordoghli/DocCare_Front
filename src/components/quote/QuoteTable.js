@@ -61,7 +61,7 @@ const QuoteTable = ({ setId, searchQuote, isCheck, setIsCheck, currency, lang, i
 
   const getQuote = async () => {
     try {
-      const qu = await QuoteServices.getQuoteById(isCheck)
+      const qu = await QuoteServices.getQuoteById(serviceId)
       setIsCheck([...isCheck, qu.id]);
       console.log('contact selectionnée : ', qu.id);
 

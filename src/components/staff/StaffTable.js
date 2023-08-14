@@ -74,7 +74,7 @@ const StaffTable = ({
 
   const getAdmin = async () => {
     try {
-      const ad = await AdminServices.getStaffById(isCheck);
+      const ad = await AdminServices.getStaffById(serviceId);
       setIsCheck([...isCheck, ad.id]);
       console.log("Admin selectionnée : ", ad.id);
     } catch (error) {

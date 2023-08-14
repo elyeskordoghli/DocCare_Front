@@ -12,15 +12,17 @@ import ProductServices from "services/ProductServices";
 import { notifyError, notifySuccess } from "utils/toast";
 import SettingServices from "services/SettingServices";
 import { showingTranslateValue } from "utils/translate";
-import ProjectServices from "services/ProjectServices";
+import ServiceServices from "services/ServiceServices";
+import DepartmentServices from "services/DepartementServices";
 
-const useProjectSubmit = (id) => {
+const useDepartmentSubmit = (id,data) => {
   const location = useLocation();
   const { isDrawerOpen, closeDrawer, setIsUpdate, lang } =
     useContext(SidebarContext);
 
   const { data: attribue } = useAsync(AttributeServices.getShowingAttributes);
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
+ 
   // react ref
   const resetRef = useRef([]);
   const resetRefTwo = useRef("");
@@ -28,7 +30,7 @@ const useProjectSubmit = (id) => {
   // react hook
   const [tag, setTag] = useState([]);
   const [values, setValues] = useState({});
-  let [variants, setVariants] = useState([]); 
+  let [variants, setVariants] = useState([]);
   const [variant, setVariant] = useState([]);
   // const [totalStock, setTotalStock] = useState(0);
   // const [quantity, setQuantity] = useState(0);
@@ -37,8 +39,8 @@ const useProjectSubmit = (id) => {
   const [price, setPrice] = useState(0);
   const [sku, setSku] = useState("");
   const [barcode, setBarcode] = useState("");
-  const [handleTap,setHandleTap] =useState("handleProjectTap")
   const [isBasicComplete, setIsBasicComplete] = useState(false);
+  const [handleTap,setHandleTap] =useState("handleDepartmentTap");
   const [tapValue, setTapValue] = useState("Anglais");
   const [isCombination, setIsCombination] = useState(false);
   const [attTitle, setAttTitle] = useState([]);
@@ -54,34 +56,37 @@ const useProjectSubmit = (id) => {
   const [openModal, setOpenModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  //states
-const [imageUrl, setImageUrl] = useState("");
-const [seo_keywords, setSeo_keywords] = useState("");
-const [defaultReference, setDefaultReference] = useState("");
-const [defaultCategory, setDefaultCategory] = useState("");
-const [title_en, setTitle_en] = useState("");
-const [subtitle_en, setSubtitle_en] = useState("");
-const [short_description_en, setShort_description_en] = useState("");
-const [description_en, setDescription_en] = useState("");
-const [seo_description_en, setSeo_description_en] = useState("");
-const [slug_en, setSlug_en] = useState("");
+  // const [imageUrl, setImageUrl] = useState([]);
+  // const [title,setTitle]=useState("");
+  // const [subtitle,setSubtitle]=useState("");
+  // const [short_description,setShort_description]=useState("");
+  // const [description,setDescription]=useState("");
+  // const [seo_keywords,setSeo_keywords]=useState("");
+  // const [seo_description,setSeo_description]=useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [seo_keywords, setSeo_keywords] = useState("");
+  const [name_en, setName_en] = useState("");
+  const [Short_Description_en, setShort_description_en] = useState("");
+  const [description_en, setDescription_en] = useState("");
+  const [Seo_Description_en, setSeo_description_en] = useState("");
 
-const [title_fr, setTitle_fr] =useState("");
-const [subtitle_fr, setSubtitle_fr] = useState("");
-const [short_description_fr, setShort_description_fr] = useState("");
-const [description_fr, setDescription_fr] = useState("");
-const [seo_description_fr, setSeo_description_fr] = useState("");
-const [slug_fr, setSlug_fr] = useState("");
+  const [name_fr, setName_fr] = useState("");
+  const [Short_Description_fr, setShort_description_fr] = useState("");
+  const [Description_fr, setDescription_fr] = useState("");
+  const [Seo_Description_fr, setSeo_description_fr] = useState("");
 
-const [title_ar, setTitle_ar] = useState("");
-const [subtitle_ar, setSubtitle_ar] = useState("");
-const [short_description_ar, setShort_description_ar] = useState("");
-const [description_ar, setDescription_ar] = useState("");
-const [seo_description_ar, setSeo_description_ar] = useState("");
-const [slug_ar, setSlug_ar] = useState("");
+  const [name_ar, setName_ar] = useState("");
+  const [Short_Description_ar, setShort_description_ar] = useState("");
+  const [description_ar, setDescription_ar] = useState("");
+  const [seo_description_ar, setSeo_description_ar] = useState("");
 
+ 
+  const [owner,setOwner]=useState("");
+  const [views,setViews]=useState("");
 
+  
 
+console.log('id',id)
 
   // console.log("lang", lang);
 
@@ -102,176 +107,61 @@ const [slug_ar, setSlug_ar] = useState("");
     formState: { errors },
   } = useForm();
 
-  // const onSubmit = async (data) => {
-  //   console.log(data??'_____');
-
-  //   // console.log('data is data',data)
-  //   try {
-     
 
 
-  //           // ... Default ...
-  //           setSeo_keywords(data.Seo_Keywords);
-  //           setReference(data.Reference);
-  //           setCategory(data.Category);
-  //           setImage(data.image);
 
-  //           // ... English ...
-  //           setTitle_en(data.title_en);
-  //           setSubtitle_en(data.subtitle_en);
-  //           setShort_description_en(data.short_description_en);
-  //           setDescription_en(data.description_en);
-  //           setSeo_description_en(data.Seo_Description_en);
-  //           setSlug_en(data.slug_en);
 
-  //           // ... French ...
-  //           setTitle_fr(data.title_fr);
-  //           setSubtitle_fr(data.subtitle_fr);
-  //           setShort_description_fr(data.short_description_fr);
-  //           setDescription_fr(data.description_fr);
-  //           setSeo_description_fr(data.Seo_Description_fr);
-  //           setSlug_fr(data.slug_fr);
 
-  //           // ... Arabic ...
-  //           setTitle_ar(data.title_ar);
-  //           setSubtitle_ar(data.SubTitle_ar);
-  //           setShort_description_ar(data.Short_Description_ar);
-  //           setDescription_ar(data.description_ar);
-  //           setSeo_description_ar(data.seo_description_ar);
-  //           setSlug_ar(data.slug_ar);
 
-  //     setIsBasicComplete(true);
-
-  //     const projectData = {
-  //       // ... Default ...
-  //       seo_keywords: data.Seo_Keywords,
-  //       reference: data.Reference,
-  //       category:data.Category,
-  //       image:data.image,
-  //       // ... English ...
-  //       title_en: data.title_en,
-  //       subtitle_en: data.subtitle_en,
-  //       short_description_en: data.short_description_en,
-  //       description_en: data.description_en,
-  //       seo_description_en: data.Seo_Description_en,
-  //       slug_en: data.slug_en,
-
-  //       // ... French ...
-  //       title_fr: data.title_fr,
-  //       subtitle_fr: data.subtitle_fr,
-  //       short_description_fr: data.short_description_fr,
-  //       description_fr: data.description_fr,
-  //       seo_description_fr: data.Seo_Description_fr,
-  //       slug_fr: data.slug_fr,
-
-  //       // ... English ...
-  //       title_ar: data.title_ar,
-  //       subtitle_ar: data.SubTitle_ar,
-  //       short_description_ar: data.Short_Description_ar,
-  //       description_ar: data.description_ar,
-  //       seo_description_ar: data.seo_description_ar,
-  //       slug_ar: data.slug_ar,
       
-        
-  //     };
-
-  //     console.log(projectData);
-
-  //     // console.log("productData ===========>", productData, "data", data);
-  //     // return setIsSubmitting(false);
-
-  //     if (updatedId) {
-  //       const res = await ProjectServices.updateProject(updatedId, projectData);
-  //       console.log(res);
-  //       if (res) {
-  //         if (isCombination) {
-  //           setIsUpdate(true);
-  //           notifySuccess(res.message);
-  //           setIsBasicComplete(true);
-  //           setIsSubmitting(false);
-  //           handleProjectTap("Combination", true);
-  //         } else {
-  //           setIsUpdate(true);
-  //           notifySuccess(res.message);
-  //           setIsSubmitting(false);
-  //         }
-  //       }
-
-  //       if (
-  //         tapValue === "Combination" ||
-  //         (tapValue !== "Combination" && !isCombination)
-  //       ) {
-  //         closeDrawer();
-  //       }
-  //     } else {
-  //       const res = await ProjectServices.addProject(projectData);
-  //       // console.log("res is ", res);
-  //       if (isCombination) {
-  //         setUpdatedId(res._id);
-  //         setTitle(data.title);
-  //         setSubtitle(data.subtitle);
-  //         setShort_description(data.short_description);
-  //         setDescription(data.description);
-  //         setSeo_keywords(data.seo_keywords);
-  //         setSeo_description(data.seo_description);
-  //         setDefaultCategory(data.defaultCategory);
-  //         setDefaultReference(data.defaultReference);
-  //         // setSlug(data.slug);
-          
-  //         setIsUpdate(true);
-  //         setIsBasicComplete(true);
-  //         setIsSubmitting(false);
-  //         handleProjectTap("Combination", true);
-  //         notifySuccess("Project Added Successfully!");
-  //       } else {
-  //         setIsUpdate(false);
-  //         notifySuccess("Failed to Add Project");
-  //       }
-
-  //       if (
-  //         tapValue === "Combination" ||
-  //         (tapValue !== "Combination" && !isCombination)
-  //       ) {
-  //         setIsSubmitting(false);
-  //         closeDrawer();
-  //       }
-  //     }
-  //   } catch (err) {
-  //     console.log("err", err);
-  //     setIsSubmitting(false);
-  //     notifyError(err ? err?.response?.data?.message : err.message);
-  //     closeDrawer();
-  //   }
-  // };
 
   useEffect(() => {
     if (!isDrawerOpen) {
       // setSlug("");
       setLanguage(lang);
       setValue("language", language);
-      handleProjectTap("Anglais", true);
+      handleDepartmentTap("Anglais", true);
       setResData({});
-      setValue("sku");
-      setValue("title");
-      setValue("slug");
-      setValue("description");
-      setValue("quantity");
-      setValue("stock");
-      setValue("originalPrice");
-      setValue("price");
-      setValue("barcode");
-      setValue("productId");
+      setValue("image");
+      setValue("name_en");
+      setValue("name_fr");
+      setValue("name_ar");
+      setValue("subname_en");
+      setValue("subname_fr");
+      setValue("subname_ar");
+      setValue("short_description_en");
+      setValue("short_description_fr");
+      setValue("short_description_ar");
+      setValue("description_en");
+      setValue("description_fr");
+      setValue("description_ar");
+      setValue("seo_keywords");
+      setValue("seo_description_en");
+      setValue("seo_description_fr");
+      setValue("seo_description_ar");
+      setValue("owner");
+      setValue("views");
 
-      setProductId("");
-      // setValue('show');
+
+      
+
+      // setValue("quantity");
+      // setValue("stock");
+      // setValue("originalPrice");
+      // setValue("price");
+      // setValue("barcode");
+      // setValue("productId");
+
+      // setProductId("");
+      // // setValue('show');
       setImageUrl([]);
-      setTag([]);
-      setVariants([]);
-      setVariant([]);
-      setValues({});
-      // setTotalStock(0);
-      setSelectedCategory([]);
-      setDefaultCategory([]);
+      // setTag([]);
+      // setVariants([]);
+      // setVariant([]);
+      // setValues({});
+      // // setTotalStock(0);
+      // setSelectedCategory([]);
+      // setDefaultCategory([]);
       if (location.pathname === "/products") {
         resetRefTwo?.current?.resetSelectedValues();
       }
@@ -281,7 +171,7 @@ const [slug_ar, setSlug_ar] = useState("");
       clearErrors("slug");
       clearErrors("description");
       clearErrors("stock");
-      clearErrors("quantity");
+      // clearErrors("quantity");
       setValue("stock", 0);
       setValue("costPrice", 0);
       setValue("price", 0);
@@ -296,26 +186,22 @@ const [slug_ar, setSlug_ar] = useState("");
       setUpdatedId();
       return;
     } else {
-      handleProjectTap("Anglais", true);
+      handleDepartmentTap("Anglais", true);
     }
 
     if (id) {
       setIsBasicComplete(true);
       (async () => {
         try {
-          const res = await ProjectServices.getProjectById(id);
+          const res = await DepartmentServices.getDepartmentById(id);
 
-          // console.log("res", res);
+          console.log("res", res);
 
           if (res) {
             setResData(res);
-            // setSlug(res.slug);
-            setUpdatedId(res._id);
-            setValue("title", res.title[language ? language : "en"]);
-            setValue(
-              "description",
-              res.description[language ? language : "en"]
-            );
+            setValue("name_en", res.name_en);
+            setValue("name_fr", res.name_fr);
+            setValue("name_ar", res.name_ar);
             setValue("slug", res.slug);
             setValue("show", res.show);
             setValue("sku", res.sku);
@@ -341,7 +227,7 @@ const [slug_ar, setSlug_ar] = useState("");
             );
 
             setSelectedCategory(res.categories);
-            setDefaultCategory([res?.category]);
+            // setDefaultCategory([res?.category]);
             setTag(JSON.parse(res.tag));
             setImageUrl(res.image);
             setVariants(res.variants);
@@ -365,6 +251,7 @@ const [slug_ar, setSlug_ar] = useState("");
     clearErrors,
     language,
     lang,
+    data
   ]);
 
   //for filter related attribute and extras for every product which need to update
@@ -563,8 +450,8 @@ const [slug_ar, setSlug_ar] = useState("");
   const handleSkuBarcode = (value, name, id) => {
     variants[id][name] = value;
   };
-
-  const handleProjectTap = (e, value, name) => {
+  
+  const handleDepartmentTap = (e, value, name) => {
 
     // if (value) {
     //   if (!value)
@@ -622,10 +509,10 @@ const [slug_ar, setSlug_ar] = useState("");
   };
 
   //for handle product slug
-  const handleProductSlug = (value) => {
-    setValue("slug", value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
-    // setSlug(value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
-  };
+  // const handleProductSlug = (value) => {
+  //   setValue("slug", value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
+  //   setSlug(value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
+  // };
 
   return {
     tag,
@@ -635,11 +522,12 @@ const [slug_ar, setSlug_ar] = useState("");
     register,
     // onSubmit,
     errors,
-    // slug,
     openModal,
     attribue,
     setValues,
     variants,
+    tapValue,
+    setTapValue,
     imageUrl,
     setImageUrl,
     handleSubmit,
@@ -653,16 +541,13 @@ const [slug_ar, setSlug_ar] = useState("");
     isBulkUpdate,
     globalSetting,
     isSubmitting,
-    tapValue,
-    setTapValue,
     resetRefTwo,
     handleSkuBarcode,
-    handleProjectTap,
+    handleDepartmentTap,
     selectedCategory,
     setSelectedCategory,
-    setDefaultCategory,
-    defaultCategory,
-    handleProductSlug,
+    // defaultCategory,
+    // handleProductSlug,
     handleSelectLanguage,
     handleIsCombination,
     handleEditVariant,
@@ -675,4 +560,4 @@ const [slug_ar, setSlug_ar] = useState("");
   };
 };
 
-export default useProjectSubmit;
+export default useDepartmentSubmit;

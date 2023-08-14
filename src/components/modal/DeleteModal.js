@@ -30,11 +30,17 @@ import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
 import CareerServices from "services/CareerServices";
 
-const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoading, setIsLoading}) => {
+const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoading,setServiceId, setIsLoading}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
-  const { setServiceId } = useToggleDrawer();
   const location = useLocation();
 
+  const close = () => {
+    closeModal();
+    setServiceId();
+    setIsCheck([]);
+  };
+
+  console.log("serviceID ",id);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleDelete = async () => {
     // return notifyError("CRUD operation is disabled for this option!");
@@ -69,13 +75,15 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
       if (location.pathname === "/projects") {
         setIsLoading(true);
         const res = await ProjectServices.deleteProject(id);
+        setServiceId();
+        setIsCheck([]);
+
         setIsLoading(false);
-        // setIsCheck([]);
+      
 
           setIsUpdate(true);
           notifySuccess(res.message);
           
-          setServiceId();
           closeModal();
           setIsSubmitting(false);
       }
@@ -125,7 +133,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           setIsLoading(false);
           setIsUpdate(true);
           notifySuccess(res.message);
-         // setIsCheck([]);
+         setIsCheck([]);
           setServiceId();
           closeModal();
           setIsSubmitting(false);
@@ -315,7 +323,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           <Button
             className="w-full sm:w-auto hover:bg-white hover:border-gray-50"
             layout="outline"
-            onClick={closeModal}
+            onClick={close}
           >
             {t("modalKeepBtn")}
           </Button>

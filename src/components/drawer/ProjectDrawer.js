@@ -19,7 +19,7 @@ import "react-responsive-modal/styles.css";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
-import useProductSubmit from "hooks/useProductSubmit";
+
 import useProjectSubmit from "hooks/useProjectSubmit";
 import ProjectServices from "services/ProjectServices";
 import UploaderThree from "components/image-uploader/UploaderThree";
@@ -50,10 +50,11 @@ import ReferencesServices from "services/ReferencesServices";
 
 //internal import
 
-const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , setIsCheck}) => {
+const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId, isCheck , setIsCheck}) => {
   const { t } = useTranslation();
  
-  console.log("catcat: ",categories);
+  console.log("idid : ",id)
+  // console.log("catcat: ",categories);
   const {
     tag,
     setTag,
@@ -72,7 +73,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
     attributes,
     attTitle,
     handleAddAtt,
-    // productId,
+   
     onCloseModal,
     isBulkUpdate,
     globalSetting,
@@ -82,7 +83,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
     resetRefTwo,
     handleSkuBarcode,
     handleProjectTap,
-    handleProductSlug,
+    
     handleSelectLanguage,
     handleIsCombination,
     handleEditVariant,
@@ -177,11 +178,13 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
             },
             
           });
+          setServiceId();
+          setIsCheck([]);
           closeDrawer();
           // setIsUpdate(true);
-          notifySuccess(res.message);
+          notifySuccess(res.message); 
           setIsLoading(false);
-          setIsCheck([]);
+      
           
 
           
@@ -196,12 +199,13 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
 
 
         });
-
+        setServiceId();
+        setIsCheck([]);
         closeDrawer();
         // setIsUpdate(true);
         notifySuccess(response.message);
         setIsLoading(false);
-        setIsCheck([]);
+       // setIsCheck([]);
 
       }
       } catch (error) {
@@ -243,7 +247,8 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
           
           setImageUrl(res.data.image);         
           setImageBinary(res.data.image);  
-          setOldImageUrl(res.data.image)       
+          setOldImageUrl(res.data.image)    
+             
 
   };
 
@@ -392,11 +397,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
       </div>
 
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-700">
-        {/* <SwitchToggleForCombination
-          product
-          handleProcess={handleIsCombination}
-          processOption={isCombination}
-        /> */}
+      
 
         <ul className="flex flex-wrap -mb-px">
           <li className="mr-2">
@@ -467,20 +468,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
                   </div>
               </div>
 
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"ProductImage"} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Uploader
-                    // name="imageUrl"
-                    // product
-                    folder="project"
-                    imageUrl={imageUrl}
-                    setImageUrl={setImageUrl}
-                    // onChange={(e) => setImageUrl(e.target.files[0])}
-
-                  />
-                </div>
-              </div> */}
+             
 
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label={"Project Title (en) "} />
@@ -490,7 +478,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
                         name="title_en"
                         type="text"
                         placeholder={"Project Title (en) "}
-                        // onBlur={(e) => handleProductSlug(e.target.value)}
+                       
                         onChange={(e) => setTitle_en(e.target.value)}
                         value={title_en}
                       />
@@ -929,12 +917,12 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
             <DrawerButton
               id={id}
               save
-              title="Product"
+              title="Project "
               isSubmitting={isSubmitting}
               handleProjectTap={handleProjectTap}
             />
           ) : ( 
-            <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
+            <DrawerButton id={id} title="Project" isSubmitting={isSubmitting} />
           )}
 
 {
