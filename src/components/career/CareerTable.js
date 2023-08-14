@@ -74,7 +74,7 @@ const CareerTable = ({ setId, searchCareer, isCheck, setIsCheck, currency, lang,
   const beforeHandleModalOpen = (id, title, career) => {
     console.log(id)
     handleModalOpen(id, title, career);
-    // setIsCheck([id]);
+    setIsCheck([]);
   }
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -159,7 +159,7 @@ const CareerTable = ({ setId, searchCareer, isCheck, setIsCheck, currency, lang,
             </TableCell>
             <TableCell>
               <span className="text-sm">
-                1
+               {item?.associatedCareersCount}
               </span>
             </TableCell>
             <TableCell>
@@ -182,7 +182,7 @@ const CareerTable = ({ setId, searchCareer, isCheck, setIsCheck, currency, lang,
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
                 career={item}
-                isCheck={isCheck}
+                isCheck={serviceId}
                 handleClick={handleClick}
                 handleUpdate={handleUpdate}
                 handleModalOpen={beforeHandleModalOpen}
