@@ -17,6 +17,7 @@ import BlogServices from "services/BlogServices";
 import DepartmentServices from "services/DepartementServices";
 import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
+import CareerServices from "services/CareerServices";
 
 const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -111,6 +112,17 @@ const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) =>
       closeModal();
       setServiceId();
     }
+    if (location.pathname === "/careers") {
+      CareerServices.deleteCareer(id)
+         .then((res) => {
+           setIsLoading(false);
+           setIsUpdate(true);
+           notifySuccess(res.message);
+         })
+         .catch((err) => notifyError(err.message));
+       closeModal();
+       setServiceId();
+     }
     if (location.pathname === "/categories") {
       CategoryServices.deleteCategory(id)
         .then((res) => {
