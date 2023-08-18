@@ -41,6 +41,17 @@ const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) =>
       closeModal();
       setServiceId();
     }
+    if (location.pathname === "/our-staff") {
+      AdminServices.deleteStaff(id)
+        .then((res) => {
+          setIsLoading(false);
+          setIsUpdate(true);
+          notifySuccess(res.message);
+        })
+        .catch((err) => notifyError(err.message));
+      closeModal();
+      setServiceId();
+    }
     if (location.pathname === "/projects") {
       ProjectServices.deleteProject(id)
         .then((res) => {
@@ -158,16 +169,7 @@ const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) =>
       closeModal();
       setServiceId();
     }
-    if (location.pathname === "/our-staff") {
-      AdminServices.deleteStaff(id)
-        .then((res) => {
-          setIsUpdate(true);
-          notifySuccess(res.message);
-        })
-        .catch((err) => notifyError(err.message));
-      closeModal();
-      setServiceId();
-    }
+
   };
 
   return (

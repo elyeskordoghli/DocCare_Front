@@ -108,7 +108,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
 
 
-  
+   
   return (
     <>
       {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}

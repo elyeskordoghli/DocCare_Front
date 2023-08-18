@@ -157,7 +157,7 @@ const StaffTable = ({
             </TableCell>
 
             <TableCell>
-              <span className="text-sm">{item.previleges.length}</span>{" "}
+              <span className="text-sm">{item.email}</span>{" "}
             </TableCell>
             <TableCell>
               <span className="text-sm ">{item.last_login_at}</span>

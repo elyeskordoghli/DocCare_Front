@@ -30,7 +30,7 @@ import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
 import CareerServices from "services/CareerServices";
 
-const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoading,setServiceId, setIsLoading}) => {
+const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoading, setServiceId, setIsLoading }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const location = useLocation();
 
@@ -40,24 +40,31 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
     setIsCheck([]);
   };
 
-  console.log("serviceID ",id);
+  console.log("serviceID ", id);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleDelete = async () => {
     // return notifyError("CRUD operation is disabled for this option!");
     try {
       setIsSubmitting(true);
+      if (location.pathname === "/our-staff") {
+        setIsLoading(true);
+        const res = await AdminServices.deleteStaff(id);
+        setIsLoading(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
+      }
       if (location.pathname === "/quotes") {
         setIsLoading(true);
         const res = await QuoteServices.deleteQuote(id);
         setIsLoading(false);
-        // setIsCheck([]);
-
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          
-          setServiceId();
-          closeModal();
-          setIsSubmitting(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
       }
       if (location.pathname === "/contacts") {
         setIsLoading(true);
@@ -65,12 +72,12 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
         setIsLoading(false);
         // setIsCheck([]);
 
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          
-          setServiceId();
-          closeModal();
-          setIsSubmitting(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
       }
       if (location.pathname === "/projects") {
         setIsLoading(true);
@@ -79,13 +86,13 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
         setIsCheck([]);
 
         setIsLoading(false);
-      
 
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          
-          closeModal();
-          setIsSubmitting(false);
+
+        setIsUpdate(true);
+        notifySuccess(res.message);
+
+        closeModal();
+        setIsSubmitting(false);
       }
       if (location.pathname === "/references") {
         setIsLoading(true);
@@ -93,65 +100,65 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
         setIsLoading(false);
         // setIsCheck([]);
 
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          
-          setServiceId();
-          closeModal();
-          setIsSubmitting(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
       }
       if (location.pathname === "/careers") {
-     
+
         setIsLoading(true);
         const res = await CareerServices.deleteCareer(id);
         setIsLoading(false);
         setIsUpdate(true);
         notifySuccess(res.message);
-       // setIsCheck([]);
+        // setIsCheck([]);
         setServiceId();
         closeModal();
         setIsSubmitting(false);
-    
-    }
+
+      }
       if (location.pathname === "/departments") {
         setIsLoading(true);
         const res = await DepartmentServices.deleteDepartment(id);
         setIsLoading(false);
         // setIsCheck([]);
 
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          
-          setServiceId();
-          closeModal();
-          setIsSubmitting(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
       }
       if (location.pathname === "/services") {
-     
-          setIsLoading(true);
-          const res = await ServiceServices.deleteService(id);
-          setIsLoading(false);
-          setIsUpdate(true);
-          notifySuccess(res.message);
-         setIsCheck([]);
-          setServiceId();
-          closeModal();
-          setIsSubmitting(false);
-      
+
+        setIsLoading(true);
+        const res = await ServiceServices.deleteService(id);
+        setIsLoading(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+        setIsCheck([]);
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
+
       }
       if (location.pathname === "/blogs") {
-     
+
         setIsLoading(true);
         const res = await BlogServices.deleteBlog(id);
         setIsLoading(false);
         setIsUpdate(true);
         notifySuccess(res.message);
-       // setIsCheck([]);
+        // setIsCheck([]);
         setServiceId();
         closeModal();
         setIsSubmitting(false);
-    
-    }
+
+      }
       if (location.pathname === "/coupons") {
         if (ids) {
           const res = await CouponServices.deleteManyCoupons({
@@ -159,7 +166,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           });
           setIsUpdate(true);
           notifySuccess(res.message);
-         // setIsCheck([]);
+          // setIsCheck([]);
           setServiceId();
           closeModal();
           setIsSubmitting(false);
@@ -176,7 +183,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
       if (location.pathname === "/categories") {
         setIsLoading(true);
         const res = await CategoryServices.deleteCategory(id);
-        console.log('categoryyyyyyyyyyy',res);
+        console.log('categoryyyyyyyyyyy', res);
         setIsLoading(false);
         setIsUpdate(true);
         notifySuccess(res.message);
@@ -201,7 +208,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           });
           setIsUpdate(true);
           notifySuccess(res.message);
-        //  setIsCheck([]);
+          //  setIsCheck([]);
           setServiceId();
           closeModal();
           setIsSubmitting(false);
@@ -226,7 +233,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           setIsUpdate(true);
           notifySuccess(res.message);
           setServiceId();
-        //  setIsCheck([]);
+          //  setIsCheck([]);
           closeModal();
           setIsSubmitting(false);
         } else {
@@ -244,16 +251,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
         }
       }
 
-      if (location.pathname === "/our-staff") {
-        setIsLoading(true);
-        const res = await AdminServices.deleteStaff(id);
-        setIsLoading(false);
-        setIsUpdate(true);
-        notifySuccess(res.message);
-        setServiceId();
-        closeModal();
-        setIsSubmitting(false);
-      }
+
 
       if (location.pathname === "/languages") {
         if (ids) {
@@ -262,7 +260,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           });
           setIsUpdate(true);
           notifySuccess(res.message);
-        //  setIsCheck([]);
+          //  setIsCheck([]);
           closeModal();
           setIsSubmitting(false);
         } else {
@@ -282,7 +280,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
           });
           setIsUpdate(true);
           notifySuccess(res.message);
-        //  setIsCheck([]);
+          //  setIsCheck([]);
           closeModal();
           setIsSubmitting(false);
         } else {
@@ -297,14 +295,14 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);
       setServiceId();
-     // setIsCheck([]);
+      // setIsCheck([]);
       closeModal();
       setIsSubmitting(false);
     }
   };
 
   const { t } = useTranslation();
-  
+
   return (
     <>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -356,7 +354,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
               // </button>
             )}
           </div>
-          
+
         </ModalFooter>
       </Modal>
     </>
