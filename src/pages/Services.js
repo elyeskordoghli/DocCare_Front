@@ -53,7 +53,7 @@ const Services = () => {
     setSortedField,
     limitData,
   } = useContext(SidebarContext);
-
+  const [isLoading, setIsLoading]=useState();
   const { data, loading } = useAsync(() =>
     ServiceServices.getAllServices({
       // page: currentPage,
@@ -89,7 +89,7 @@ const Services = () => {
 
     }
   };
-  const [isLoading, setIsLoading]=useState();
+
 
   const {
     serviceData,
@@ -199,7 +199,7 @@ const Services = () => {
       </Card>
 
       {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
+        <TableLoading row={6} col={5} width={230} height={20} />
       ) : serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>

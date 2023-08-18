@@ -7,20 +7,12 @@ import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-const previlegesButton = ({
-  id,
-  title,
-  handleModalOpen,
-  staff,
-}) => {
-  const { t } = useTranslation();
-//   console.log('id staff',id);
-//   console.log('ffdzdf',name);
-//   console.log('staff',staff);
-// console.log('cat',category);
+const PrevilegesButton = ({id,title,handleModalOpen,staff}) => {
+  
 
-  const location = useLocation();
-  if (location.pathname === "/our-staff"){ 
+const Location = useLocation();
+
+  if (Location.pathname === "/our-staff"){ 
     return (
     <>
     
@@ -45,4 +37,4 @@ const previlegesButton = ({
 
 };
 
-export default previlegesButton;
+export default PrevilegesButton;

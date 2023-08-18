@@ -25,7 +25,7 @@ import Loader from 'components/loader/Loader';
 
 //internal import 
 
-const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategory, isLoading, setIsLoading, projects }) => {
+const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data, lang, selectedCategory, isLoading, setIsLoading, projects }) => {
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -46,13 +46,13 @@ const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategor
     handleModalOpen,
     handleUpdate,
     serviceId,
-    setServiceId,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
 
-  // console.log('isCheck : ', isCheck)
-  // console.log('serviceId : ', serviceId);
-  // console.log('selectedCategory: ', selectedCategory);
+  console.log('isCheck : ', isCheck)
+  console.log('serviceId : ', serviceId);
+  console.log('selectedCategory : ', selectedCategory);
+  console.log('isLoading : ', isLoading);
 
  
   //----------------------------------------------------------------
@@ -121,7 +121,7 @@ const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategor
     try {
       const pr = await ProjectServices.getProjectById(serviceId)
       setIsCheck([...isCheck, pr.id]);
-      // console.log('Projet selectionnée : ', pr.id);
+      console.log('Projet selectionnée : ', pr.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de projet :", error);
@@ -167,9 +167,10 @@ const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategor
 
   const beforeHandleModalOpen = (id, title, project) => {
     try {
+      console.log('idddddddd', id)
       handleModalOpen(id, title, project);
-      // setServiceId();
-        setIsCheck([]);
+      setIsCheck([]);
+
     } catch (error) {
       alert(`Une erreur est survenue ${error}`);
     }
@@ -184,13 +185,12 @@ const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategor
 
 
 
-
   return (
     <>
+          {isLoading ? <Loader /> : null}
 
       {isCheck?.length < 1 && <DeleteModal
         id={serviceId}
-        setServiceId={setServiceId}
         title={data.title}
         isLoading={isLoading} // Passer la variable isLoading
         setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
@@ -198,10 +198,10 @@ const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategor
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ProjectDrawer id={serviceId}
+          <ProjectDrawer 
+            id={serviceId}
             isLoading={isLoading} // Passer la variable isLoading
-            setIsLoading={setIsLoading}
-            setServiceId={setServiceId} />
+            setIsLoading={setIsLoading}/>
         </MainDrawer>
       )}
 

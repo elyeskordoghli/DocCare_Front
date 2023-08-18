@@ -35,7 +35,7 @@ import SettingServices from "services/SettingServices";
 import ProjectServices from "services/ProjectServices";
 import CategoryServices from "services/CategoryServices";
 import Loader from 'components/loader/Loader';
-
+import ReferencesServices from "services/ReferencesServices";
 const Projects = () => {
   const { title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
@@ -61,10 +61,12 @@ const [data, setData] = useState([]);
 const [isLoading, setIsLoading]=useState(true);
 const [selectedCategory, setSelectedCategory] = useState('All');
 const [search, setSearchValue] = useState("");
-const [categories, setCategory] = useState();
+const [References, setReference] = useState([]);
+const [categories, setCategory] = useState([]);
+
 
 //---------------------------------------------------------
-  const fetchProjects = async (selectedCategory, search) => {
+  const fetchProjects = async (selectedCategory,isLoading, search) => {
     try {
       let response;
 
@@ -78,7 +80,6 @@ const [categories, setCategory] = useState();
       else if (search && selectedCategory ) {
 
         // console.log("hihihi : ",selectedCategory);
-        setIsLoading(true);
  
         response = await ProjectServices.search(search, selectedCategory);
 
@@ -101,7 +102,7 @@ const [categories, setCategory] = useState();
   };
   
   useEffect(() => {
-      fetchProjects(selectedCategory, search);
+      fetchProjects(selectedCategory, isLoading,search);
     }, [selectedCategory,isLoading,search]);
 //---------------------------------------------------------
 
@@ -111,21 +112,35 @@ const [categories, setCategory] = useState();
 
 
 
-  const getCategoriesData = async () => {
-    try {
-      const res = await CategoryServices.getAllCategories();
-      // Mettez à jour le state avec les départements récupérés depuis l'API
-      setCategory(res.data);
-    } catch (err) {
-     console.log(err ? err?.response?.data?.message : err?.message);
+const getReferencesData = async () => {
+  try {
+    const res = await ReferencesServices.getAllReferences();
+    // Mettez à jour le state avec les départements récupérés depuis l'API
+    setReference(res.data);
+  } catch (err) {
+    console.log(err ? err?.response?.data?.message : err?.message);
 
-    }
   }
+}
 
-  useEffect(() => {
-    getCategoriesData();    
-  }, []);
+const getCategoriesData = async () => {
+  try {
+    const res = await CategoryServices.getAllCategories();
+    // Mettez à jour le state avec les départements récupérés depuis l'API
+    setCategory(res.data);
+  } catch (err) {
+   console.log(err ? err?.response?.data?.message : err?.message);
 
+  }
+}
+
+
+useEffect(() => {
+  getCategoriesData();
+  getReferencesData();
+}, []);
+
+console.log('categories dans projectpage ', categories)
   // console.log("categories project",categories)
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
@@ -151,7 +166,7 @@ const [categories, setCategory] = useState();
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-
+console.log("'isloading from projects : ",isLoading);
  
   const {
     serviceData,
@@ -161,20 +176,26 @@ const [categories, setCategory] = useState();
     handleUploadMultiple, 
     handleRemoveSelectFile,
   } = useProductFilter(data);
+ 
+
   return (
     <>
-
+   
       <PageTitle>{"Projects Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} isLoading={isLoading} setIsLoading={setIsLoading} title={data.title} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
       <BulkActionDrawer ids={allId} title="Projects" />
       <MainDrawer>
-        <ProjectDrawer id={serviceId}  
+        <ProjectDrawer 
+              id={serviceId}  
               isLoading={isLoading} // Passer la variable isLoading
-              setIsLoading={setIsLoading} 
+                setIsLoading={setIsLoading} 
                 isCheck ={isCheck}
                 categories={categories}
-                setIsCheck={setIsCheck}/>
+                setIsCheck={setIsCheck}
+                References={References}
+                setCategory={setCategory}
+                />
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -305,7 +326,9 @@ const [categories, setCategory] = useState();
         </CardBody>
       </Card>
 
-      
+      {isLoading ? (
+        <TableLoading row={6} col={5} width={230} height={20} />
+      ) : serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -357,7 +380,9 @@ const [categories, setCategory] = useState();
             />
           </TableFooter>
         </TableContainer>
-     
+     ) : (
+      <NotFound title="Service" />
+    )}
     </>
   );
 };

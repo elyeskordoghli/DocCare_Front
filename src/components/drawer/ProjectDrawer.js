@@ -46,13 +46,14 @@ import axios from "axios";
 import CategoryServices from "services/CategoryServices";
 import SelectCategory from "components/form/SelectCategory";
 import SelectReferences from "components/form/SelectReferences";
-import ReferencesServices from "services/ReferencesServices";
+
 
 //internal import
 
-const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, setIsCheck }) => {
+const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,References,categories, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
 
+  console.log('categories dans projectDrawer ', categories)
   console.log("idid : ", id)
   // console.log("catcat: ",categories);
   const {
@@ -87,6 +88,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
     handleSelectLanguage,
     handleIsCombination,
     handleEditVariant,
+    setIsSubmitting,
     handleRemoveVariant,
     handleClearVariant,
     handleQuantityPrice,
@@ -94,8 +96,8 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
     handleSelectInlineImage,
     handleGenerateCombination,
   } = useProjectSubmit(id);
+  const { closeDrawer } = useContext(SidebarContext)
 
-  const { closeDrawer } = useContext(SidebarContext);
 
 
   const currency = globalSetting?.default_currency || "$";
@@ -103,8 +105,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
   const [imageUrl, setImageUrl] = useState("");
   const [oldImageUrl, setOldImageUrl] = useState("");
   const [Seo_Keywords, setSeo_keywords] = useState("");
-  const [References, setReference] = useState([]);
-  const [categories, setCategory] = useState([]);
+  
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedReference, setSelectedReferences] = useState(null);
@@ -141,6 +142,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
         <div className="text-red-500 text-sm mt-1">{errorName && errorName.message}</div>
       );
     };
+    setCategory(categories);
 
     const formData = new FormData();
 
@@ -170,7 +172,9 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
     formData.append('category_id', selectedCategory);
     formData.append('image', imageUrl);
 
-
+    const handleSubmitClick = () => {
+      // Place your submission logic here
+    };
 
     try {
       if (id == null) {
@@ -182,16 +186,12 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
           },
 
         });
+        closeDrawer();
+        setIsLoading(false);
         setServiceId();
         setIsCheck([]);
-        closeDrawer();
-        // setIsUpdate(true);
+        setIsSubmitting(false);
         notifySuccess(res.message);
-        setIsLoading(false);
-
-
-
-
 
       } else {
         setIsLoading(true);
@@ -203,13 +203,13 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
 
 
         });
+        setIsSubmitting(false);
+        closeDrawer();
+        setIsLoading(false);
         setServiceId();
         setIsCheck([]);
-        closeDrawer();
         // setIsUpdate(true);
         notifySuccess(response.message);
-        setIsLoading(false);
-        // setIsCheck([]);
 
 
       }
@@ -220,11 +220,10 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
 
 
   const initFormForUpdate = async (id) => {
-    setIsLoading(true);
-
+    // setIsLoading(true);
     const res = await ProjectServices.getProjectById(id);
-    setIsLoading(false);
-
+    // setIsLoading(false);
+    
     setTitle_en(res.data.title_en);
     setSubtitle_en(res.data.subtitle_en);
     setShort_description_en(res.data.short_description_en);
@@ -249,6 +248,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
     setSeo_keywords(res.data.seo_keywords);
     setSelectedReferences(res.data.reference_id);
     setSelectedCategory(res.data.category_id);
+
 
     setImageUrl(res.data.image);
     setImageBinary(res.data.image);
@@ -288,9 +288,10 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
       setSeo_keywords();
       setSelectedReferences();
       setSelectedCategory();
-      setImageUrl();
-      setImageBinary();
-      setOldImageUrl()
+      
+      setImageUrl("");
+      setImageBinary("");
+      setOldImageUrl("")
 
     }
   }, [id]);
@@ -299,34 +300,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
 
   const { formState: { errors } } = useForm();
 
-  const getReferencesData = async () => {
-    try {
-      const res = await ReferencesServices.getAllReferences();
-      // Mettez à jour le state avec les départements récupérés depuis l'API
-      setReference(res.data);
-    } catch (err) {
-      console.log(err ? err?.response?.data?.message : err?.message);
-
-    }
-  }
-
-  const getCategoriesData = async () => {
-    try {
-      const res = await CategoryServices.getAllCategories();
-      // Mettez à jour le state avec les départements récupérés depuis l'API
-      setCategory(res.data);
-    } catch (err) {
-     console.log(err ? err?.response?.data?.message : err?.message);
-
-    }
-  }
-
-
-  useEffect(() => {
-    getCategoriesData();
-    getReferencesData();
-
-  }, []);
+  
 
   const handleNextClick = () => {
     if (tapValue === 'Anglais') {
@@ -357,14 +331,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
 
   return (
     <>
-{
 
-
-        isLoading ?
-          <Loader />
-          :
-          ''
-      }
 
       <Modal
         open={openModal}
@@ -942,7 +909,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
                   <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
                 )}
                 {tapValue === "Arabic" && (
-                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting}  />
                 )}
               </>
             ) : (
@@ -954,12 +921,12 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, set
                   <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
                 )}
                 {tapValue === "Arabic" && (
-                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting}  />
                 )}
               </>
             )
           }
-
+{/* onClick={handleSubmitClick} */}
 
 
 
