@@ -131,7 +131,7 @@ const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategor
 
   useEffect(() => {
     getProject();
-  }, [isCheck])
+  }, [])
 
   //----------------------------------------------------------------
 
@@ -187,7 +187,7 @@ const ProjectTable = ({ isCheck, setIsCheck, search, data, lang, selectedCategor
 
   return (
     <>
-      
+
       {isCheck?.length < 1 && <DeleteModal
         id={serviceId}
         title={data.title}

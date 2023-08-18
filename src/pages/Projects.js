@@ -65,32 +65,26 @@ const [search, setSearchValue] = useState("");
 const [categories, setCategory] = useState();
 
 //---------------------------------------------------------
-  const fetchProjects = async (selectedCategory, setIsLoading, search) => {
+  const fetchProjects = async (selectedCategory, search) => {
     try {
       let response;
 
       if (selectedCategory === "All" && !search) {
       
-        setIsLoading(true);
 
         // Si la catégorie sélectionnée est "All", récupérer tous les projets
         response = await ProjectServices.getAllProjects();
-        setIsLoading(false);
 
       }
       else if (search && selectedCategory ) {
         console.log("hihihi : ",selectedCategory);
-        setIsLoading(true);
 
         response = await ProjectServices.search(search, selectedCategory);
-        setIsLoading(false);
 
 
       } else if (selectedCategory !== "All") {
-        setIsLoading(true);
 
         response = await ProjectServices.getProjectByCategoryId(selectedCategory);
-        setIsLoading(false);
 
       }
 
@@ -100,12 +94,14 @@ const [categories, setCategory] = useState();
     } catch (error) {
       console.error("Erreur lors de la récupération des projets :", error);
     }
+     finally {
+        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+      }
   };
   
-
   useEffect(() => {
-      fetchProjects(selectedCategory, setIsLoading, search);
-    }, [selectedCategory, search]);
+      fetchProjects(selectedCategory, search);
+    }, [selectedCategory,isLoading,search]);
 //---------------------------------------------------------
 
 
@@ -167,15 +163,9 @@ const [categories, setCategory] = useState();
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data);
-
   return (
     <>
-    {
-        isLoading?
-          <Loader />
-        :
-          ''
-      }
+
       <PageTitle>{"Projects Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} isLoading={isLoading} setIsLoading={setIsLoading} title={data.title} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />

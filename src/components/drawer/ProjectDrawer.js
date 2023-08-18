@@ -169,39 +169,36 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
 
       try {
         if (id == null) {
+         
           setIsLoading(true);
-
           const res = await ProjectServices.addProject(formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
-            
+           
+
           });
-          closeDrawer();
-          // setIsUpdate(true);
-          notifySuccess(res.message);
           setIsLoading(false);
-          setIsCheck([]);
+          //  setIsCheck([]);
+           notifySuccess(res.message);
+           closeDrawer();
           
 
           
 
         }else{
           setIsLoading(true);
-
-          const response = await ProjectServices.updateProject(id,formData, {
+          const res = await ProjectServices.updateProject(id,formData, {
             headers: {
             'Content-Type': 'multipart/form-data',
           },
 
-
         });
-
-        closeDrawer();
-        // setIsUpdate(true);
-        notifySuccess(response.message);
+        console.log("isloading : ",isLoading);
         setIsLoading(false);
-        setIsCheck([]);
+        // setIsCheck([]);
+        notifySuccess(res.message);
+        closeDrawer();
 
       }
       } catch (error) {
@@ -326,9 +323,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
     }
   };
 
-  const handleSubmitClick = () => {
-    // Place your submission logic here
-  };
+
 
 
   const [imageBinary, setImageBinary] = useState(null);
@@ -346,14 +341,10 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories,  isCheck , se
     fetchImageBinary();
   }, [imageUrl]);
 
+
   return (
     <>
- {
-        isLoading?
-          <Loader />
-        :
-          ''
-      }
+
       <Modal
         open={openModal}
         onClose={onCloseModal}
