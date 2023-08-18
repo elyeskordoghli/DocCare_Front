@@ -19,7 +19,6 @@ import useAsync from "hooks/useAsync";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import UploadManyTwo from "components/common/UploadManyTwo";
 import NotFound from "components/table/NotFound";
-// import ProductServices from "services/ProductServices";
 import PageTitle from "components/Typography/PageTitle";
 import { SidebarContext } from "context/SidebarContext";
 import ServiceTable from "components/service/ServiceTable";
@@ -27,7 +26,7 @@ import SelectCategory from "components/form/SelectCategory";
 import MainDrawer from "components/drawer/MainDrawer";
 import ServiceDrawer from "components/drawer/ServiceDrawer";
 import CheckBox from "components/form/CheckBox";
-import useProductFilter from "hooks/useProductFilter";
+import useProductFilter from "hooks/useProductFilter"; 
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import DeleteModal from "components/modal/DeleteModal";
 import BulkActionDrawer from "components/drawer/BulkActionDrawer";
@@ -77,22 +76,21 @@ const Services = () => {
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
-  // console.log("product page", data);
-
-  // react hooks
+  
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
-    setIsCheck(data?.Services.map((li) => li._id));
+    setIsCheck(data?.map((li) => li.id));
+    console.log('ischecktw', isCheck);
     if (isCheckAll) {
       setIsCheck([]);
-    } 
+
+    }
   };
   const [isLoading, setIsLoading]=useState();
 
-  // console.log('productss',products)
   const {
     serviceData,
     filename,
@@ -110,7 +108,11 @@ const Services = () => {
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
-        <ServiceDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
+        <ServiceDrawer id={serviceId} 
+        setIsCheck={setIsCheck} 
+        setIsLoading={setIsLoading} 
+        isLoading={isLoading}
+         isCheck={isCheck}/>
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -138,7 +140,7 @@ const Services = () => {
                 >
                   <span className="mr-2">
                     <FiEdit />
-                  </span>
+                  </span> 
                   {"BulkAction"}
                 </Button>
               </div> */}
@@ -217,16 +219,16 @@ const Services = () => {
                 <TableCell>{"Catalogue"}</TableCell>
                 <TableCell className="text-center">{"Details"}</TableCell>
                
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                 <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
             <ServiceTable
               setIsLoading={setIsLoading}
               isLoading={isLoading}
               lang={lang}
+              setIsCheck={setIsCheck}
               isCheck={isCheck}
               Services={data?.Services}
-              setIsCheck={setIsCheck}
               currency={currency}
               searchService={searchService}
             /> 

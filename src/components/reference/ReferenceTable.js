@@ -60,7 +60,7 @@ const ReferenceTable = ({ setId,searchReference, isCheck, setIsCheck, currency, 
 
   const getReference = async () => {
     try {
-      const ref = await ReferencesServices.getReferenceById(isCheck)
+      const ref = await ReferencesServices.getReferenceById(serviceId)
       setIsCheck([...isCheck, ref.id]);
       console.log('Reference selectionnée : ', ref.id);
 

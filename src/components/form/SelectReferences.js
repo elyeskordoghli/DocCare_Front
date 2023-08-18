@@ -11,11 +11,11 @@ import ReferencesServices from "services/ReferencesServices";
 import { showingTranslateValue } from "utils/translate";
 
 const SelectReferences = ({ setSelectedReferences,selectedReference, lang , name, label, References}) => {
-  const response = useAsync(ReferencesServices.getAllReferences);
+  const response = useAsync(ReferencesServices.getAllReferences());
   const { data } = response.data;
   
   const { t } = useTranslation();
-  return (
+  return ( 
     <>
       <Select
         onChange={(e) => setSelectedReferences(e.target.value)}

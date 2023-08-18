@@ -367,7 +367,7 @@ console.log('id',id)
       setIsBasicComplete(true);
       (async () => {
         try {
-          const res = await ServiceServices.getServiceById(id);
+          const res = await BlogServices.getBlogById(id);
 
           console.log("res", res);
 

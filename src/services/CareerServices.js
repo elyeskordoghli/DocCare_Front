@@ -17,9 +17,6 @@ import requests from "./httpService";
   deleteCareer: async (id) => {
     return requests.delete(`/admin/careers/delete/${id}`);
   },
-  // deleteManyServices: async (body) => {
-  //   return requests.patch("/careers/delete/many", body);
-  // },
   searchCareer: async (query) => {
     return requests.get(`/user/careers/search_career?q=${query}`);
   },

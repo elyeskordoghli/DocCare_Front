@@ -7,6 +7,8 @@ import {
   TableHeader,
   WindmillContext,
 } from "@windmill/react-ui";
+import { Link } from 'react-router-dom';
+
 import LineChart from "components/chart/LineChart/LineChart";
 import PieChart from "components/chart/Pie/PieChart";
 import CardItem from "components/dashboard/CardItem";
@@ -44,14 +46,14 @@ const Dashboard = () => {
 
   const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
-  const [departmentCounts,setDepartmentCounts] = useState([])
+  const [departmentCounts, setDepartmentCounts] = useState([])
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function fetchCategories() {
       try {
         setLoading(true);
         const response = await AnalyticsServices.getAll();
-        setCategories(response.categories); 
+        setCategories(response.categories);
         setDepartmentCounts(response.departmentCounts);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -62,23 +64,25 @@ const Dashboard = () => {
 
     fetchCategories();
   }, []);
-console.log('cat',categories)
-console.log('departmentCounts',departmentCounts)
+  console.log('cat', categories)
+  console.log('departmentCounts', departmentCounts)
   return (
     <>
       <PageTitle>{t("DashboardOverview")}</PageTitle>
+
       <div className="grid gap-4 mb-8 md:grid-cols-4 xl:grid-cols-4">
         {departmentCounts?.map((department, index) => (
-          <CardItemTwo
-            key={index}
-            mode={mode}
-            currency={currency}
-            title2={department.name}
-            icon={department.icon} 
-            price={department.count}
-            className="text-white dark:text-orange-100 bg-dark"
-            loading={loading}
-          />
+          <Link to={department.route} key={index}>
+            <CardItemTwo
+              mode={mode}
+              currency={currency}
+              title2={department.name}
+              icon={department.icon}
+              price={department.count}
+              className="text-white dark:text-orange-100 bg-dark"
+              loading={loading}
+            />
+          </Link>
         ))}
         {loading && (
           <>
@@ -90,17 +94,18 @@ console.log('departmentCounts',departmentCounts)
         )}
       </div>
       <div className="grid gap-4 mb-8 md:grid-cols-4 xl:grid-cols-4">
-      {categories?.map((category, index) => (
-          <CardItemTwo
-            key={index}
-            mode={mode}
-            currency={currency}
-            title2={category.name}
-            icon={category.icon}
-            price={category.count}
-            className="text-white dark:text-orange-100 bg-orange"
-            loading={loading}
-          />
+        {categories?.map((category, index) => (
+          <Link to={category.route} key={index}>
+            <CardItemTwo
+              mode={mode}
+              currency={currency}
+              title2={category.name}
+              icon={category.icon}
+              price={category.count}
+              className="text-white dark:text-orange-100 bg-orange"
+              loading={loading}
+            />
+          </Link>
         ))}
         {loading && (
           <>

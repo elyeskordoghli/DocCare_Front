@@ -20,17 +20,27 @@ import { Link } from "react-router-dom";
 import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 //internal import  
-
+ 
 const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const [data, setData] = useState([]);
   const {
     handleModalOpen,
-    serviceId,
+    serviceId, 
     handleUpdate,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
 
+  const handleClick = (e) => {
+    const { id, checked } = e.target;
+    console.log("id hatha", id, checked);
 
+    if (checked) {
+      setIsCheck([...isCheck, id]);
+    } else {
+      setIsCheck(isCheck.filter((item) => item !== id));
+      console.log("id tna7a", id, checked);
+    }
+  };
  
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
     const fetchServices = async (isLoading,searchService) => {
@@ -67,7 +77,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
   const getService = async () => {
     try {
-      const ser = await ServiceServices.getServiceById(isCheck)
+      const ser = await ServiceServices.getServiceById(serviceId)
       setIsCheck([...isCheck, ser.id]);
       console.log('Service selectionnée : ', ser.id);
 
@@ -83,21 +93,22 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
   }, [])
 
   const beforeHandleModalOpen = (id, title, service) => {
-    console.log(id)
-    handleModalOpen(id, title, service);
-    // setIsCheck([id]);
-  }
-  const handleClick = (e) => {
-    const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
-  
-    if (checked) {
-      setIsCheck([...isCheck, id]);
-    } else {
-      setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
+    try {
+      console.log('idddddddd', id)
+      handleModalOpen(id, title, service);
+      setIsCheck([]);
+
+    } catch (error) {
+      alert(`Une erreur est survenue ${error}`);
     }
-  };
+
+
+  }
+  
+
+
+
+  
   return (
     <>
       {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}
@@ -110,7 +121,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ServiceDrawer  id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck}   />
+          <ServiceDrawer  id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading}   />
         </MainDrawer>
       )}
 
@@ -201,7 +212,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
                 service={item}
-                isCheck={isCheck}
+                isCheck={serviceId}
                 handleClick={handleClick}
                 handleUpdate={handleUpdate}
                 handleModalOpen={beforeHandleModalOpen}

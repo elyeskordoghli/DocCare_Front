@@ -58,7 +58,7 @@ const BlogTable = ({ setId,searchBlog, isCheck, setIsCheck, currency, lang, isLo
 
   const getBlog = async () => {
     try {
-      const ser = await BlogServices.getBlogById(isCheck)
+      const ser = await BlogServices.getBlogById(serviceId)
       setIsCheck([...isCheck, ser.id]);
       console.log('Blog selectionnée : ', ser.id);
 

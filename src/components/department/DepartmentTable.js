@@ -58,7 +58,7 @@ const DepartmentTable = ({ setId,searchDepartment, isCheck, setIsCheck, currency
 
   const getDepartment = async () => {
     try {
-      const dep = await DepartmentServices.getDepartmentById(isCheck)
+      const dep = await DepartmentServices.getDepartmentById(serviceId)
       setIsCheck([...isCheck, dep.id]);
       console.log('Department selectionnée : ', dep.id);
 

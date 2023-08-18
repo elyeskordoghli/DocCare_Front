@@ -10,7 +10,7 @@ import {
 } from "@windmill/react-ui";
 import Multiselect from "multiselect-react-dropdown";
 import React from "react";
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { SidebarContext } from "context/SidebarContext";
 
 import { useForm } from "react-hook-form";
@@ -42,14 +42,14 @@ import ServiceServices from "services/ServiceServices";
 import SidebarContent from "components/sidebar/SidebarContent";
 //internal import
 
-const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck  }) => {
+const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
 
 
   const {
     tag,
     setTag,
-    values, 
+    values,
     language,
     register,
     onSubmit,
@@ -66,7 +66,6 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
     attributes,
     attTitle,
     handleAddAtt,
-    // productId,
     onCloseModal,
     isBulkUpdate,
     globalSetting,
@@ -78,7 +77,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
     setSelectedCategory,
     setDefaultCategory,
     defaultCategory,
-    handleProductSlug,
+
     handleSelectLanguage,
     handleIsCombination,
     handleEditVariant,
@@ -91,7 +90,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
   } = useServiceSubmit(id, data);
 
   const currency = globalSetting?.default_currency || "$";
- const {closeDrawer} = useContext(SidebarContext)
+  const { closeDrawer } = useContext(SidebarContext)
 
   const [imageUrl, setImageUrl] = useState("");
   const [oldImageUrl, setOldImageUrl] = useState("");
@@ -168,37 +167,45 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
     // const res = await CategoryServices.getCategoryById(id);
     // console.log("res category", res);
 
+    try {
+      if (id == null) {
+        setIsLoading(true);
 
-    if (id) {
+        const res = await ServiceServices.addService(formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
 
-      setIsLoading(true);
-      const res = await ServiceServices.updateService(id, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      // setIsUpdate(true);
-      setIsLoading(false);
-      setIsCheck([]);
-      // setIsSubmitting(false);
-      notifySuccess(res.message);
-      closeDrawer();
-      // reset();
-    } else {
-      setIsLoading(true);
+        });
+        closeDrawer();
+        // setIsUpdate(true);
+        notifySuccess(res.message);
+        setIsLoading(false);
+        setIsCheck([]);
 
-      const res = await ServiceServices.addService(formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      // setIsUpdate(true);
-      // setIsSubmitting(false);
-      setIsLoading(false);
-      setIsCheck([]);
 
-      notifySuccess(res.message);
-      closeDrawer();
+
+
+      } else {
+        setIsLoading(true);
+
+        const response = await ServiceServices.updateService(id, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+
+
+        });
+
+        closeDrawer();
+        // setIsUpdate(true);
+        notifySuccess(response.message);
+        setIsLoading(false);
+        setIsCheck([]);
+
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'ajout du projet :", error);
     }
   };
   const initFormForUpdate = async (id) => {
@@ -244,42 +251,41 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
     console.log('hahahahahah', oldImageUrl);
   };
 
- 
+
   useEffect(() => {
-    if (id && id !== undefined ){
+    if (id && id !== undefined) {
       initFormForUpdate(id);
-    }else{
+    } else {
       setTitle_en("");
       setSubtitle_en("");
       setShort_description_en("");
       setDescription_en("");
       setSeo_description_en("");
-    
+
       setTitle_fr("");
       setSubtitle_fr("");
       setShort_description_fr("");
       setDescription_fr("");
       setSeo_description_fr("");
-     
+
       setTitle_ar("");
       setSubtitle_ar("");
       setShort_description_ar("");
       setDescription_ar("");
       setSeo_description_ar("");
-     
+
       setSeo_keywords("");
-      setImageUrl("");         
-      setImageBinary("");  
-      setOldImageUrl("")  
+      setImageUrl("");
+      setImageBinary("");
+      setOldImageUrl("")
 
-    setIconUrl("");
-    setIconBinary("");
-    setOldIconUrl("");
+      setIconUrl("");
+      setIconBinary("");
+      setOldIconUrl("");
 
-    setCatalogueUrl("");
-    setCatalogueBinary("");
-    setOldCatalogueUrl("");
-    setIsCheck([]);
+      setCatalogueUrl("");
+      setCatalogueBinary("");
+      setOldCatalogueUrl("");
 
     }
   }, [id]);
@@ -287,7 +293,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
     // Place your submission logic here
   };
 
-  
+
   const handleNextClick = () => {
     if (tapValue === 'Anglais') {
       setTapValue('French');
@@ -378,11 +384,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
         )}
       </div>
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-700">
-        {/* <SwitchToggleForCombination
-          product
-          handleProcess={handleIsCombination}
-          processOption={isCombination}
-        /> */}
+
 
         <ul className="flex flex-wrap -mb-px">
           <li className="mr-2">
@@ -482,7 +484,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
                     name="title_en"
                     type="text"
                     placeholder={"Service Title (en) "}
-                    // onBlur={(e) => handleProductSlug(e.target.value)}
+
                     onChange={(e) => setTitle_en(e.target.value)}
                     value={title_en}
                   />
@@ -568,7 +570,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Service Seo Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">
-                <Textarea
+                  <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                     name="Seo_Description_en"
                     placeholder={"Service Seo description  "}
@@ -687,7 +689,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
                   <Error errorName={errors.title_ar} />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Service SubTitle (ar)  "} />
                 <div className="col-span-8 sm:col-span-4">
@@ -771,20 +773,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
 
 
 
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={t("Service Slug")} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug"
-                    type="text"
-                    defaultValue={slug}
-                    placeholder={t("Service Slug (fr)")}
-                    onBlur={(e) => handleProductSlug(e.target.value)}
-                  />
-                  <Error errorName={errors.Service_Slug} />
-                </div>
-              </div> */}
+
             </div>
           )}
 
@@ -869,7 +858,7 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
             <DrawerButton
               id={id}
               save
-              title="Product"
+              title="Service"
               isSubmitting={isSubmitting}
               handleServiceTap={handleServiceTap}
             />
@@ -878,32 +867,32 @@ const ServiceDrawer = ({ id, data ,isLoading, setIsLoading,isCheck , setIsCheck 
           )}
 
           {
-  id ? (
-    <>
-      {tapValue === "Anglais" && (
-        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
-      )}
-      {tapValue === "French" && (
-        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
-      )}
-      {tapValue === "Arabic" && (
-        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
-      )}
-    </>
-  ) : (
-    <>
-      {tapValue === "Anglais" && (
-        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
-      )}
-      {tapValue === "French" && (
-        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
-      )}
-      {tapValue === "Arabic" && (
-        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
-      )}
-    </>
-  )
-}
+            id ? (
+              <>
+                {tapValue === "Anglais" && (
+                  <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+                )}
+                {tapValue === "French" && (
+                  <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+                )}
+                {tapValue === "Arabic" && (
+                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+                )}
+              </>
+            ) : (
+              <>
+                {tapValue === "Anglais" && (
+                  <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+                )}
+                {tapValue === "French" && (
+                  <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+                )}
+                {tapValue === "Arabic" && (
+                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+                )}
+              </>
+            )
+          }
         </form>
 
         {tapValue === "Combination" &&

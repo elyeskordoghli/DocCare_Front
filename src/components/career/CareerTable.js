@@ -56,7 +56,7 @@ const CareerTable = ({ setId, searchCareer, isCheck, setIsCheck, currency, lang,
 
   const getCareer = async () => {
     try {
-      const car = await CareerServices.getCareerById(isCheck)
+      const car = await CareerServices.getCareerById(serviceId)
       setIsCheck([...isCheck, car.id]);
       console.log('Career selectionnée : ', car.id);
 

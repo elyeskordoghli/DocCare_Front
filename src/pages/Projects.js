@@ -19,7 +19,6 @@ import useAsync from "hooks/useAsync";
 import useToggleDrawer from "hooks/useToggleDrawer";
 import UploadManyTwo from "components/common/UploadManyTwo";
 import NotFound from "components/table/NotFound";
-// import ProductServices from "services/ProductServices";
 import PageTitle from "components/Typography/PageTitle";
 import { SidebarContext } from "context/SidebarContext";
 import ProjectTable from "components/project/ProjectTable";
@@ -77,7 +76,9 @@ const [categories, setCategory] = useState();
 
       }
       else if (search && selectedCategory ) {
-        console.log("hihihi : ",selectedCategory);
+
+        // console.log("hihihi : ",selectedCategory);
+        setIsLoading(true);
 
         response = await ProjectServices.search(search, selectedCategory);
 
@@ -90,7 +91,7 @@ const [categories, setCategory] = useState();
 
 
       setData(response.data);
-      console.log("data new data : ",response.data)
+      // console.log("data new data : ",response.data)
     } catch (error) {
       console.error("Erreur lors de la récupération des projets :", error);
     }
@@ -125,13 +126,11 @@ const [categories, setCategory] = useState();
     getCategoriesData();    
   }, []);
 
-  console.log("categories project",categories)
+  // console.log("categories project",categories)
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
-  // console.log("product page", data);
-
-  // react hooks
+ 
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
@@ -139,7 +138,7 @@ const [categories, setCategory] = useState();
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
     setIsCheck(data?.map((li) => li.id));
-    console.log('ischecktw', isCheck);
+    // console.log('ischecktw', isCheck);
     if (isCheckAll) {
       setIsCheck([]);
 
@@ -153,14 +152,13 @@ const [categories, setCategory] = useState();
   };
 
 
-
-  // console.log('productss',products)
+ 
   const {
     serviceData,
     filename,
     isDisabled,
     handleSelectFile,
-    handleUploadMultiple,
+    handleUploadMultiple, 
     handleRemoveSelectFile,
   } = useProductFilter(data);
   return (
@@ -279,7 +277,7 @@ const [categories, setCategory] = useState();
               />
             </div>
 {/*end categorie */}
- 
+  
 {/* 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select

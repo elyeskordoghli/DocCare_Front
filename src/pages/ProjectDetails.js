@@ -44,38 +44,15 @@ const ProjectDetails = () => {
 
 
   const [isCheck, setIsCheck] = useState([]);
-  const [isLoading, setIsLoading]=useState();
-
-  // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-
-  // const currency = globalSetting?.default_currency || "$";
-
-  // const { handleChangePage, totalResults, resultsPerPage, dataTable } =
-  //   useFilter(data?.variants);
-  // console.log('data',data)
-
-  // useEffect(() => {
-  //   if (!loading) {
-  //     const res = Object.keys(Object.assign({}, ...data?.variants));
-
-  //     const varTitle = attribue?.filter((att) =>
-  //       // res.includes(att.title.replace(/[^a-zA-Z0-9]/g, ''))
-  //       res.includes(att._id)
-  //     );
-
-  //     setVariantTitle(varTitle);
-  //   }
-  // }, [attribue, data?.variants, loading, lang]);
-
-  // console.log("data.variants", globalSetting);
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
       <MainDrawer product>
-      <ProjectDrawer  id={id} 
-             isLoading={isLoading} // Passer la variable isLoading
-             setIsLoading={setIsLoading} />  
-        </MainDrawer>
+        <ProjectDrawer id={id}
+          isLoading={isLoading} // Passer la variable isLoading
+          setIsLoading={setIsLoading} />
+      </MainDrawer>
 
       <PageTitle>{"Project Details"}</PageTitle>
       {loading ? (
@@ -83,11 +60,11 @@ const ProjectDetails = () => {
       ) : (
         <div className="inline-block overflow-y-auto h-full align-middle transition-all transform">
           <div className="flex flex-col lg:flex-col md:flex-col w-full overflow-hidden">
-            
+
             <div className="flex-shrink-0 flex items-center justify-center h-auto">
               <img src={data?.image} alt="Project" className="h-64 w-64" />
               <div className="mb-5 ml-10 block ">
-               
+
                 <p className="uppercase font-bold text-lg mb-6 text-gray-500 dark:text-gray-400 ">
                   {"Project title"} :{" "}
                   <span className="font-bold text-gray-500 dark:text-gray-500">
@@ -120,6 +97,8 @@ const ProjectDetails = () => {
 
               <div className="mt-6">
                 <button
+                  isLoading={isLoading} // Passer la variable isLoading
+                  setIsLoading={setIsLoading}
                   onClick={() => handleUpdate(data.id)}
                   className="cursor-pointer leading-5 transition-colors duration-150 font-medium text-sm focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300"
                 >

@@ -6,7 +6,7 @@ const CategoryServices = {
   //  },
 
   getAllCategories: async () => {
-    return requests.get("/admin/categories");
+    return requests.get("/admin/categories/");
   },
 
   getCategoryById: async (id) => {

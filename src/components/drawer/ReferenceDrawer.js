@@ -22,7 +22,6 @@ import "react-responsive-modal/styles.css";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
-import useServiceSubmit from "hooks/useServiceSubmit";
 import UploaderThree from "components/image-uploader/UploaderThree";
 import Title from "components/form/Title";
 import SwitchToggleForCombination from "components/form/SwitchToggleForCombination";
@@ -41,6 +40,7 @@ import { showingTranslateValue } from "utils/translate";
 import ServiceServices from "services/ServiceServices";
 import SidebarContent from "components/sidebar/SidebarContent";
 import ReferencesServices from "services/ReferencesServices";
+import useReferenceSubmit from "hooks/useReferenceSubmit";
 //internal import
 
 const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
@@ -89,7 +89,7 @@ const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChec
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,
-  } = useServiceSubmit(id, data);
+  } = useReferenceSubmit(id, data);
 
   const currency = globalSetting?.default_currency || "$";
   // closeDrawer();
@@ -188,13 +188,13 @@ const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChec
   };
 
 
-  const handleNextClick = () => {
-    if (tapValue === 'Anglais') {
-      setTapValue('French');
-    } else if (tapValue === 'French') {
-      setTapValue('Arabic');
-    }
-  };
+  // const handleNextClick = () => {
+  //   if (tapValue === 'Anglais') {
+  //     setTapValue('French');
+  //   } else if (tapValue === 'French') {
+  //     setTapValue('Arabic');
+  //   }
+  // };
 
 
   const [imageBinary, setImageBinary] = useState(null);

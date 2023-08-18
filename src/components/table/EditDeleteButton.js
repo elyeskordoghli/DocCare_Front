@@ -34,7 +34,6 @@ const EditDeleteButton = ({
 //   console.log('ffdzdf',name);
 //   console.log('staff',staff);
 // console.log('cat',category);
-setIsLoading(false);
   const location = useLocation();
   if (location.pathname === "/careers") {
     return (
@@ -544,7 +543,7 @@ setIsLoading(false);
         )}
 
         <button
-          // disabled={isCheck?.length > 0}
+          disabled={isCheck?.length > 0}
           onClick={() => handleModalOpen(id, title, project)}
           className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
         >
