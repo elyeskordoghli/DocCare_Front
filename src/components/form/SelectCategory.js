@@ -11,7 +11,7 @@ import CategoryServices from "services/CategoryServices";
 import { showingTranslateValue } from "utils/translate";
 
 const SelectCategory = ({ setSelectedCategory,selectedCategory, lang , name, label, categories}) => {
-  const response = useAsync(CategoryServices.getAllCategories);
+  const response = useAsync(CategoryServices.getAllCategories());
   const { data } = response.data;
   
   console.log("categories selectonné",selectedCategory)
@@ -24,7 +24,7 @@ const SelectCategory = ({ setSelectedCategory,selectedCategory, lang , name, lab
             value={selectedCategory}
           >
             <option value="All">
-              {t("All Projects")}
+              {t("All Projects")} 
             </option>
             {/* <option value="Category" defaultValue hidden>
               {t("Category")}

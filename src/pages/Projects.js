@@ -285,7 +285,7 @@ const [categories, setCategory] = useState();
               />
             </div>
 {/*end categorie */}
- 
+  
 {/* 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select

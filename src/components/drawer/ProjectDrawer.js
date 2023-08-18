@@ -10,7 +10,7 @@ import {
   Table,
 } from "@windmill/react-ui";
 import Multiselect from "multiselect-react-dropdown";
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { SidebarContext } from "context/SidebarContext";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { MultiSelect } from "react-multi-select-component";
@@ -50,10 +50,10 @@ import ReferencesServices from "services/ReferencesServices";
 
 //internal import
 
-const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId, isCheck , setIsCheck}) => {
+const ProjectDrawer = ({ id, isLoading, setIsLoading, setServiceId, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
- 
-  console.log("idid : ",id)
+
+  console.log("idid : ", id)
   // console.log("catcat: ",categories);
   const {
     tag,
@@ -73,7 +73,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
     attributes,
     attTitle,
     handleAddAtt,
-   
+
     onCloseModal,
     isBulkUpdate,
     globalSetting,
@@ -83,7 +83,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
     resetRefTwo,
     handleSkuBarcode,
     handleProjectTap,
-    
+
     handleSelectLanguage,
     handleIsCombination,
     handleEditVariant,
@@ -103,7 +103,9 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
   const [imageUrl, setImageUrl] = useState("");
   const [oldImageUrl, setOldImageUrl] = useState("");
   const [Seo_Keywords, setSeo_keywords] = useState("");
-  const [References , setReference] = useState([]);
+  const [References, setReference] = useState([]);
+  const [categories, setCategory] = useState([]);
+
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedReference, setSelectedReferences] = useState(null);
 
@@ -128,8 +130,8 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
   const [seo_description_ar, setSeo_description_ar] = useState("");
   const [slug_ar, setSlug_ar] = useState("");
 
- 
- 
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
@@ -140,60 +142,60 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
       );
     };
 
-      const formData = new FormData();
-      
-      formData.append('title_en', title_en);
-      formData.append('subtitle_en', SubTitle_en);
-      formData.append('short_description_en', Short_Description_en);
-      formData.append('description_en', description_en);
-      formData.append('seo_description_en', Seo_Description_en);
-      formData.append('slug_en', title_en);
+    const formData = new FormData();
 
-      formData.append('title_fr', title_fr);
-      formData.append('subtitle_fr', subtitle_fr);
-      formData.append('short_description_fr', Short_Description_fr);
-      formData.append('description_fr', Description_fr);
-      formData.append('seo_description_fr', Seo_Description_fr);
-      formData.append('slug_fr', title_fr);
+    formData.append('title_en', title_en);
+    formData.append('subtitle_en', SubTitle_en);
+    formData.append('short_description_en', Short_Description_en);
+    formData.append('description_en', description_en);
+    formData.append('seo_description_en', Seo_Description_en);
+    formData.append('slug_en', title_en);
 
-      formData.append('title_ar', title_ar);
-      formData.append('subtitle_ar', SubTitle_ar);
-      formData.append('short_description_ar', Short_Description_ar);
-      formData.append('description_ar', description_ar);
-      formData.append('seo_description_ar', seo_description_ar);
-      formData.append('slug_ar', title_ar);
+    formData.append('title_fr', title_fr);
+    formData.append('subtitle_fr', subtitle_fr);
+    formData.append('short_description_fr', Short_Description_fr);
+    formData.append('description_fr', Description_fr);
+    formData.append('seo_description_fr', Seo_Description_fr);
+    formData.append('slug_fr', title_fr);
 
-      formData.append('seo_keywords', Seo_Keywords);
-      formData.append('reference_id', selectedReference);
-      formData.append('category_id', selectedCategory);
-      formData.append('image', imageUrl);
+    formData.append('title_ar', title_ar);
+    formData.append('subtitle_ar', SubTitle_ar);
+    formData.append('short_description_ar', Short_Description_ar);
+    formData.append('description_ar', description_ar);
+    formData.append('seo_description_ar', seo_description_ar);
+    formData.append('slug_ar', title_ar);
 
-      try {
-        if (id == null) {
-          setIsLoading(true);
+    formData.append('seo_keywords', Seo_Keywords);
+    formData.append('reference_id', selectedReference);
+    formData.append('category_id', selectedCategory);
+    formData.append('image', imageUrl);
 
-          const res = await ProjectServices.addProject(formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-            
-          });
-          setServiceId();
-          setIsCheck([]);
-          closeDrawer();
-          // setIsUpdate(true);
-          notifySuccess(res.message); 
-          setIsLoading(false);
-      
-          
+    try {
+      if (id == null) {
+        setIsLoading(true);
 
-          
+        const res = await ProjectServices.addProject(formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
 
-        }else{
-          setIsLoading(true);
+        });
+        setServiceId();
+        setIsCheck([]);
+        closeDrawer();
+        // setIsUpdate(true);
+        notifySuccess(res.message);
+        setIsLoading(false);
 
-          const response = await ProjectServices.updateProject(id,formData, {
-            headers: {
+
+
+
+
+      } else {
+        setIsLoading(true);
+
+        const response = await ProjectServices.updateProject(id, formData, {
+          headers: {
             'Content-Type': 'multipart/form-data',
           },
 
@@ -205,59 +207,59 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
         // setIsUpdate(true);
         notifySuccess(response.message);
         setIsLoading(false);
-       // setIsCheck([]);
+        // setIsCheck([]);
 
       }
-      } catch (error) {
-        console.error("Erreur lors de l'ajout du projet :", error);
-      }
+    } catch (error) {
+      console.error("Erreur lors de l'ajout du projet :", error);
+    }
   };
 
 
   const initFormForUpdate = async (id) => {
-          setIsLoading(true);
+    setIsLoading(true);
 
-          const res = await ProjectServices.getProjectById(id);
-          setIsLoading(false);
+    const res = await ProjectServices.getProjectById(id);
+    setIsLoading(false);
 
-          setTitle_en(res.data.title_en);
-          setSubtitle_en(res.data.subtitle_en);
-          setShort_description_en(res.data.short_description_en);
-          setDescription_en(res.data.description_en);
-          setSeo_description_en(res.data.seo_description_en);
-          setSlug_en(res.data.title_en);
-        
-          setTitle_fr(res.data.title_fr);
-          setSubtitle_fr(res.data.subtitle_fr);
-          setShort_description_fr(res.data.short_description_fr);
-          setDescription_fr(res.data.description_fr);
-          setSeo_description_fr(res.data.seo_description_fr);
-          setSlug_fr(res.data.title_fr);
-        
-          setTitle_ar(res.data.title_ar);
-          setSubtitle_ar(res.data.subtitle_ar);
-          setShort_description_ar(res.data.short_description_ar);
-          setDescription_ar(res.data.description_ar);
-          setSeo_description_ar(res.data.seo_description_ar);
-          setSlug_ar(res.data.title_ar);
-        
-          setSeo_keywords(res.data.seo_keywords);
-          setSelectedReferences(res.data.reference_id);
-          setSelectedCategory(res.data.category_id);
-          
-          setImageUrl(res.data.image);         
-          setImageBinary(res.data.image);  
-          setOldImageUrl(res.data.image)    
-             
+    setTitle_en(res.data.title_en);
+    setSubtitle_en(res.data.subtitle_en);
+    setShort_description_en(res.data.short_description_en);
+    setDescription_en(res.data.description_en);
+    setSeo_description_en(res.data.seo_description_en);
+    setSlug_en(res.data.title_en);
+
+    setTitle_fr(res.data.title_fr);
+    setSubtitle_fr(res.data.subtitle_fr);
+    setShort_description_fr(res.data.short_description_fr);
+    setDescription_fr(res.data.description_fr);
+    setSeo_description_fr(res.data.seo_description_fr);
+    setSlug_fr(res.data.title_fr);
+
+    setTitle_ar(res.data.title_ar);
+    setSubtitle_ar(res.data.subtitle_ar);
+    setShort_description_ar(res.data.short_description_ar);
+    setDescription_ar(res.data.description_ar);
+    setSeo_description_ar(res.data.seo_description_ar);
+    setSlug_ar(res.data.title_ar);
+
+    setSeo_keywords(res.data.seo_keywords);
+    setSelectedReferences(res.data.reference_id);
+    setSelectedCategory(res.data.category_id);
+
+    setImageUrl(res.data.image);
+    setImageBinary(res.data.image);
+    setOldImageUrl(res.data.image)
+
 
   };
 
   useEffect(() => {
-    if (id && id !== undefined ){
+    if (id && id !== undefined) {
 
       initFormForUpdate(id);
 
-    }else{
+    } else {
 
       setTitle_en("");
       setSubtitle_en("");
@@ -265,34 +267,34 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
       setDescription_en("");
       setSeo_description_en("");
       setSlug_en("");
-    
+
       setTitle_fr("");
       setSubtitle_fr("");
       setShort_description_fr("");
       setDescription_fr("");
       setSeo_description_fr("");
       setSlug_fr("");
-    
+
       setTitle_ar("");
       setSubtitle_ar("");
       setShort_description_ar("");
       setDescription_ar("");
       setSeo_description_ar("");
       setSlug_ar("");
-    
+
       setSeo_keywords();
       setSelectedReferences();
       setSelectedCategory();
-      setImageUrl();         
-      setImageBinary();  
-      setOldImageUrl()       
+      setImageUrl();
+      setImageBinary();
+      setOldImageUrl()
 
     }
-  },[id]);
+  }, [id]);
 
 
 
-  const {formState: { errors } } = useForm();
+  const { formState: { errors } } = useForm();
 
   const getReferencesData = async () => {
     try {
@@ -300,27 +302,27 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
       // Mettez à jour le state avec les départements récupérés depuis l'API
       setReference(res.data);
     } catch (err) {
+      console.log(err ? err?.response?.data?.message : err?.message);
+
+    }
+  }
+
+  const getCategoriesData = async () => {
+    try {
+      const res = await CategoryServices.getAllCategories();
+      // Mettez à jour le state avec les départements récupérés depuis l'API
+      setCategory(res.data);
+    } catch (err) {
      console.log(err ? err?.response?.data?.message : err?.message);
 
     }
   }
 
-  // const getCategoriesData = async () => {
-  //   try {
-  //     const res = await CategoryServices.getAllCategories();
-  //     // Mettez à jour le state avec les départements récupérés depuis l'API
-  //     setCategory(res.data);
-  //   } catch (err) {
-  //    console.log(err ? err?.response?.data?.message : err?.message);
-
-  //   }
-  // }
-
 
   useEffect(() => {
-    // getCategoriesData();
+    getCategoriesData();
     getReferencesData();
-    
+
   }, []);
 
   const handleNextClick = () => {
@@ -353,10 +355,10 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
 
   return (
     <>
- {
-        isLoading?
+      {
+        isLoading ?
           <Loader />
-        :
+          :
           ''
       }
       <Modal
@@ -397,7 +399,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
       </div>
 
       <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-700">
-      
+
 
         <ul className="flex flex-wrap -mb-px">
           <li className="mr-2">
@@ -446,52 +448,52 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Image"} />
                 <div className="col-span-8 sm:col-span-4">
-                    <Input
-                      {...register(`imageUrl`, {
-                        required: "Image is required!",
-                      })}
-                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                      name="imageUrl"
-                      type="file"
-                      placeholder={"Image "}
-                      onChange={(e)=>{setImageUrl(e.target.files[0])}}
+                  <Input
+                    {...register(`imageUrl`, {
+                      required: "Image is required!",
+                    })}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="imageUrl"
+                    type="file"
+                    placeholder={"Image "}
+                    onChange={(e) => { setImageUrl(e.target.files[0]) }}
 
-                    />
-                    <Error errorName={errors.imageUrl} />
-                    {imageUrl && (
+                  />
+                  <Error errorName={errors.imageUrl} />
+                  {imageUrl && (
                     <img
                       src={oldImageUrl} // Utiliser l'URL existante pour afficher l'image
                       alt="Old Image"
                       style={{ maxWidth: '100px', marginTop: '10px' }}
                     />
                   )}
-                  </div>
+                </div>
               </div>
 
-             
 
-                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label={"Project Title (en) "} />
-                    <div className="col-span-8 sm:col-span-4">
-                      <Input
-                        className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                        name="title_en"
-                        type="text"
-                        placeholder={"Project Title (en) "}
-                       
-                        onChange={(e) => setTitle_en(e.target.value)}
-                        value={title_en}
-                      />
-                      <Error errorName={errors.title_en} />
-                    </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Project Title (en) "} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="title_en"
+                    type="text"
+                    placeholder={"Project Title (en) "}
+
+                    onChange={(e) => setTitle_en(e.target.value)}
+                    value={title_en}
+                  />
+                  <Error errorName={errors.title_en} />
                 </div>
+              </div>
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project SubTitle (en)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    
+
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="SubTitle_en"
                     id="SubTitle_en"
@@ -509,7 +511,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                  
+
                     name="Short_Description_en"
                     placeholder={"Project Short_Description (en) "}
                     rows="4"
@@ -526,7 +528,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                   
+
                     name="description_en"
                     placeholder={"Project Description (en) "}
                     rows="4"
@@ -542,7 +544,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <LabelArea label={"Project Seo Keywords  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                 
+
                     name="Seo_Keywords"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
@@ -554,13 +556,13 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 </div>
               </div>
 
-             
+
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Seo Description (en)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                   
+
                     name="Seo_Description_en"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
@@ -572,42 +574,42 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 </div>
               </div>
 
-              
+
 
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Category" />
-                  <div className="col-span-8 sm:col-span-4">
-                    <SelectCategory
-                      label="Category"
-                      name="category"
-                      categories={categories}
-                      selectedCategory={selectedCategory}
-                      setSelectedCategory={(value) => setSelectedCategory(value)}
-                    />
-                    <Error errorName={errors.categories} />
-                  </div>
+                <LabelArea label="Category" />
+                <div className="col-span-8 sm:col-span-4">
+                  <SelectCategory
+                    label="Category"
+                    name="category"
+                    categories={categories}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={(value) => setSelectedCategory(value)}
+                  />
+                  <Error errorName={errors.categories} />
                 </div>
+              </div>
 
 
 
-                <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label="Reference" />
-                  <div className="col-span-8 sm:col-span-4">
-                    <SelectReferences
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Reference" />
+                <div className="col-span-8 sm:col-span-4">
+                  <SelectReferences
                     label="Reference"
                     name="reference"
                     References={References}
                     selectedReference={selectedReference}
                     setSelectedReferences={(value) => setSelectedReferences(value)}
-                    />
-                    <Error errorName={errors.References} />
-                  </div>
+                  />
+                  <Error errorName={errors.References} />
                 </div>
- 
+              </div>
 
-            
+
+
               {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Slug"} />
                 <div className="col-span-8 sm:col-span-4">
@@ -633,7 +635,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <LabelArea label={"Project Title (fr) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                  
+
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title_fr"
                     type="text"
@@ -649,7 +651,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <LabelArea label={"Project SubTitle (fr)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    
+
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="subtitle_fr"
                     type="text"
@@ -666,7 +668,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                    
+
                     name="Short_Description_fr"
                     placeholder={"Project Short_Description (fr) "}
                     rows="4"
@@ -683,7 +685,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                   
+
                     name="Description_fr"
                     placeholder={"Project Description (fr) "}
                     rows="4"
@@ -700,7 +702,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <LabelArea label={"Project Seo Description (fr)"} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                   
+
                     name="Seo_Description_fr"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
@@ -737,7 +739,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <LabelArea label={"Project Title  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                   
+
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="title_ar"
                     type="text"
@@ -753,7 +755,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <LabelArea label={"Project SubTitle (ar)  "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                   
+
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="SubTitle_ar"
                     type="text"
@@ -770,7 +772,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                   
+
                     name="Short_Description_ar"
                     placeholder={"Project Short_Description (ar) "}
                     rows="4"
@@ -787,7 +789,7 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 <div className="col-span-8 sm:col-span-4">
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                   
+
                     name="description_ar"
                     placeholder={"Project Description (ar) "}
                     rows="4"
@@ -799,13 +801,13 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
                 </div>
               </div>
 
-             
+
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Project Seo Description (ar) "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                   
+
                     name="seo_description_ar"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
@@ -921,41 +923,41 @@ const ProjectDrawer = ({ id , isLoading, setIsLoading ,categories, setServiceId,
               isSubmitting={isSubmitting}
               handleProjectTap={handleProjectTap}
             />
-          ) : ( 
+          ) : (
             <DrawerButton id={id} title="Project" isSubmitting={isSubmitting} />
           )}
 
-{
-  id ? (
-    <>
-      {tapValue === "Anglais" && (
-        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
-      )}
-      {tapValue === "French" && (
-        <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
-      )}
-      {tapValue === "Arabic" && (
-        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
-      )}
-    </>
-  ) : (
-    <>
-      {tapValue === "Anglais" && (
-        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
-      )}
-      {tapValue === "French" && (
-        <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
-      )}
-      {tapValue === "Arabic" && (
-        <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
-      )}
-    </>
-  )
-}
+          {
+            id ? (
+              <>
+                {tapValue === "Anglais" && (
+                  <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+                )}
+                {tapValue === "French" && (
+                  <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
+                )}
+                {tapValue === "Arabic" && (
+                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+                )}
+              </>
+            ) : (
+              <>
+                {tapValue === "Anglais" && (
+                  <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+                )}
+                {tapValue === "French" && (
+                  <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
+                )}
+                {tapValue === "Arabic" && (
+                  <DrawerButton id={id} title="Submit" value="submit" isSubmitting={isSubmitting} onClick={handleSubmitClick} />
+                )}
+              </>
+            )
+          }
 
-          
-          
-         
+
+
+
         </form>
 
         {tapValue === "Combination" &&
