@@ -79,7 +79,7 @@ const [categories, setCategory] = useState();
 
         // console.log("hihihi : ",selectedCategory);
         setIsLoading(true);
-
+ 
         response = await ProjectServices.search(search, selectedCategory);
 
 
