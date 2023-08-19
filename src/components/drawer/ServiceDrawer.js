@@ -46,9 +46,9 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
   const { t } = useTranslation();
 
 
-  const {
+  const { 
     tag,
-    setTag,
+    setTag, 
     values,
     language,
     register,

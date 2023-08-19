@@ -249,7 +249,7 @@ const StaffTable = ({
               />
             </TableCell>
           </TableRow>
-        ))}
+        ))} 
       </TableBody>
     </>
   );

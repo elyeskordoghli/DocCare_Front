@@ -26,7 +26,7 @@ import SelectCategory from "components/form/SelectCategory";
 import MainDrawer from "components/drawer/MainDrawer";
 import ServiceDrawer from "components/drawer/ServiceDrawer";
 import CheckBox from "components/form/CheckBox";
-import useProductFilter from "hooks/useProductFilter"; 
+import useProductFilter from "hooks/useProductFilter";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import DeleteModal from "components/modal/DeleteModal";
 import BulkActionDrawer from "components/drawer/BulkActionDrawer";
@@ -36,7 +36,7 @@ import ServiceServices from "services/ServiceServices";
 import MainModal from "components/modal/MainModal";
 
 const Services = () => {
-  const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
   const {
@@ -53,7 +53,7 @@ const Services = () => {
     setSortedField,
     limitData,
   } = useContext(SidebarContext);
-  const [isLoading, setIsLoading]=useState();
+  const [isLoading, setIsLoading] = useState();
   const { data, loading } = useAsync(() =>
     ServiceServices.getAllServices({
       // page: currentPage,
@@ -63,10 +63,10 @@ const Services = () => {
       // subtitle: subtitle,
       // short_description: short_description,
       // description : description,
-    //  price: sortedField,
+      //  price: sortedField,
     })
   );
-  
+
   const [searchService, setSearchValue] = useState("");
 
   const handleSearchInputChange = (e) => {
@@ -76,7 +76,7 @@ const Services = () => {
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
-  
+
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
@@ -108,18 +108,19 @@ const Services = () => {
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
-        <ServiceDrawer id={serviceId} 
-        setIsCheck={setIsCheck} 
-        setIsLoading={setIsLoading} 
-        isLoading={isLoading}
-         isCheck={isCheck}/>
+        <ServiceDrawer
+          id={serviceId}
+          setIsCheck={setIsCheck}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
+          isCheck={isCheck} />
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
           <form
             onSubmit={handleSubmitForAll}
             className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6  xl:flex"
-          > 
+          >
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
                 title="Services"
@@ -187,14 +188,14 @@ const Services = () => {
                 type="search"
                 name="search"
                 placeholder="Search Service"
-                onChange={handleSearchInputChange} 
+                onChange={handleSearchInputChange}
               />
               <button
                 type="submit"
                 className="absolute right-0 top-0 mt-5 mr-1"
               ></button>
             </div>
-   </form>
+          </form>
         </CardBody>
       </Card>
 
@@ -218,8 +219,8 @@ const Services = () => {
                 <TableCell>{"Service SubTitle"}</TableCell>
                 <TableCell>{"Catalogue"}</TableCell>
                 <TableCell className="text-center">{"Details"}</TableCell>
-               
-                 <TableCell className="text-right">{"Actions"}</TableCell>
+
+                <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
             <ServiceTable
@@ -231,7 +232,7 @@ const Services = () => {
               Services={data?.Services}
               currency={currency}
               searchService={searchService}
-            /> 
+            />
           </Table>
           <TableFooter>
             <Pagination

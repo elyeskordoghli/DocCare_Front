@@ -121,7 +121,10 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ServiceDrawer  id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading}   />
+          <ServiceDrawer 
+           id={serviceId} 
+           isLoading={isLoading} 
+           setIsLoading={setIsLoading}   />
         </MainDrawer>
       )}
 

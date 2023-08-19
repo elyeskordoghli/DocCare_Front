@@ -15,10 +15,14 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FiPlus } from "react-icons/fi";
 import CheckBox from "components/form/CheckBox";
-//internal import
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
+//internal import
+import useProductFilter from "hooks/useProductFilter"; 
+import DeleteModal from "components/modal/DeleteModal";
 import useAsync from "hooks/useAsync";
 import useFilter from "hooks/useFilter";
+import UploadManyTwo from "components/common/UploadManyTwo";
 import MainDrawer from "components/drawer/MainDrawer";
 import StaffDrawer from "components/drawer/StaffDrawer";
 import TableLoading from "components/preloader/TableLoading";
@@ -30,12 +34,15 @@ import { SidebarContext } from "context/SidebarContext";
 import AdminServices from "services/AdminServices";
 import PrevilegeServices from "services/PrevilegeServices";
 import React, { useState, useEffect } from "react";
+import MainModal from "components/modal/MainModal";
+import useToggleDrawer from "hooks/useToggleDrawer";
 
 const Staff = () => {
   const { state } = useContext(AdminContext);
   const { adminInfo } = state;
   const { toggleDrawer, lang } = useContext(SidebarContext);
-
+  const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  useToggleDrawer();
   const { data, loading } = useAsync(() => AdminServices.getAllStaff({ 
     email: adminInfo.email,
     name: searchText,
@@ -59,6 +66,14 @@ const Staff = () => {
     serviceData,
     handleSubmitUser,
   } = useFilter(data?.data);
+  const {
+   
+    filename,
+    isDisabled,
+    handleSelectFile,
+    handleUploadMultiple,
+    handleRemoveSelectFile,
+  } = useProductFilter(data?.Services);
   const [searchAdmin, setSearchValue] = useState("");
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -70,8 +85,15 @@ const Staff = () => {
   return (
     <>
       <PageTitle>{t("StaffPageTitle")} </PageTitle>
+      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
+      <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainDrawer>
-        <StaffDrawer setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
+        <StaffDrawer
+         id={serviceId} 
+         setIsCheck={setIsCheck} 
+         setIsLoading={setIsLoading} 
+         isLoading={isLoading} 
+         isCheck={isCheck} />
       </MainDrawer>
 
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
@@ -80,6 +102,17 @@ const Staff = () => {
             onSubmit={handleSubmitUser}
             className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex"
           >
+           <div className="flex justify-start xl:w-1/2  md:w-full">
+              <UploadManyTwo
+                title="Admins"
+                filename={filename}
+                isDisabled={isDisabled}
+                totalDoc={data?.totalDoc}
+                handleSelectFile={handleSelectFile}
+                handleUploadMultiple={handleUploadMultiple}
+                handleRemoveSelectFile={handleRemoveSelectFile}
+              />
+            </div>
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Input
                 ref={searchRef}
@@ -104,7 +137,19 @@ const Staff = () => {
                 <option value="Super Admin">{t("SelectSuperAdmin")}</option>
               </Select>
             </div> */}
+            <div className="w-full md:w-32 lg:w-32 xl:w-32 mr-3 mb-3 lg:mb-0">
+                <Button
+                  disabled={isCheck?.length < 1}
+                  onClick={() => handleDeleteMany(isCheck, data.products)}
+                  className="w-full rounded-md h-12 bg-red-300 disabled btn-red"
+                >
+                  <span className="mr-2">
+                    <FiTrash2 />
+                  </span>
 
+                  {"Delete"}
+                </Button>
+              </div>
             <div className="w-full md:w-56 lg:w-56 xl:w-56">
               <Button onClick={toggleDrawer} className="w-full rounded-md h-12">
                 <span className="mr-3">
@@ -147,7 +192,7 @@ const Staff = () => {
                 <TableCell className="text-right">{t("StaffActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
-
+ 
             <StaffTable
               setIsLoading={setIsLoading}
               isLoading={isLoading}
