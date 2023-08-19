@@ -27,12 +27,11 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
     imageUrl,
     setImageUrl,
     selectedDate,
-    setSelectedDate,
+    setSelectedDate, 
     handleSelectLanguage,
   } = useStaffSubmit(id);
   const { t } = useTranslation();
 
-  console.log('idddd', id);
 
   //----------begin states----------------
   const { closeDrawer } = useContext(SidebarContext)
@@ -70,15 +69,6 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
       departments: JSON.stringify(selecttedDepartment)
     };
 
-    console.log('admin data', adminData);
-    // const formData = new FormData();
-
-    // formData.append('name', name);
-    // formData.append('email', email);
-    // formData.append('password', password);
-    // formData.append('status', status);
-    // formData.append('previleges', JSON.stringify(selecttedPrevilege));
-    // formData.append('departments', JSON.stringify(selecttedDepartment));
     try {
       if (id == null) {
         setIsLoading(true);
@@ -117,7 +107,6 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
   const initFormForUpdate = async (id) => {
 
     const res = await AdminServices.getStaffById(id);
-    console.log('admin', res.data)
     setName(res.data.name);
     setEmail(res.data.email);
     setPassword(res.data.password);
@@ -127,7 +116,16 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
   };
 
   useEffect(() => {
-    initFormForUpdate(id);
+    if (id && id !== undefined) {
+      initFormForUpdate(id);
+    } else {
+      setName("");
+      setEmail("");
+      setPassword("");
+     // setOldPrevileges("");
+      setIsCheck([]);
+
+    }
   }, [id]);
 
   const getPrevilegesData = async () => {

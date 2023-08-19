@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
 import useBlogSubmit from "hooks/useBlogSubmit";
-
+ 
 import UploaderThree from "components/image-uploader/UploaderThree";
 import Title from "components/form/Title";
 import SwitchToggleForCombination from "components/form/SwitchToggleForCombination";
@@ -839,7 +839,7 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
                     />
                   </Table>
                 </TableContainer>
-              )}
+              )} 
             </div>
           )}
       </Scrollbars>

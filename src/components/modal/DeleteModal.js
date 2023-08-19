@@ -56,6 +56,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
         closeModal();
         setIsSubmitting(false);
       }
+
       if (location.pathname === "/quotes") {
         setIsLoading(true);
         const res = await QuoteServices.deleteQuote(id);
@@ -183,7 +184,6 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
       if (location.pathname === "/categories") {
         setIsLoading(true);
         const res = await CategoryServices.deleteCategory(id);
-        console.log('categoryyyyyyyyyyy', res);
         setIsLoading(false);
         setIsUpdate(true);
         notifySuccess(res.message);
@@ -252,17 +252,6 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
       }
 
 
-      if (location.pathname === "/our-staff") {
-        setIsLoading(true);
-        const res = await AdminServices.deleteStaff(id);
-        setServiceId();
-        setIsCheck([]);
-        setIsLoading(false);
-        setIsUpdate(true);
-        notifySuccess(res.message);
-        closeModal();
-        setIsSubmitting(false);
-      }
 
 
       if (location.pathname === "/languages") {
@@ -306,7 +295,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
       }
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);
-      setServiceId();
+   //   setServiceId();
       // setIsCheck([]);
       closeModal();
       setIsSubmitting(false);

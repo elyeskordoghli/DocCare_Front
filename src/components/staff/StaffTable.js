@@ -37,7 +37,7 @@ const StaffTable = ({
   setIsLoading,
 }) => {
   const {
-    title,
+    title, 
     serviceId,
     handleModalOpen,
     handleUpdate,
@@ -53,9 +53,9 @@ const StaffTable = ({
       if (searchAdmin) {
         response = await AdminServices.searchAdmin(searchAdmin);
       } else {
-      setIsLoading(true);
+      // setIsLoading(true);
         response = await AdminServices.getAllStaff();
-        setIsLoading(false);
+        // setIsLoading(false);
 
       }
 
@@ -70,13 +70,12 @@ const StaffTable = ({
   };
   useEffect(() => {
     fetchAdmins(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [ searchAdmin]);
+  }, [ searchAdmin,isLoading]);
 
   const getAdmin = async () => {
     try {
       const ad = await AdminServices.getStaffById(serviceId);
       setIsCheck([...isCheck, ad.id]);
-      console.log("Admin selectionnée : ", ad.id);
     } catch (error) {
       console.error("Erreur lors de la récupération de l'admin :", error);
     }
@@ -85,20 +84,26 @@ const StaffTable = ({
   useEffect(() => {
     getAdmin();
   }, []);
-  // const beforeHandleModalOpen = (id, title, staff) => {
-  //   console.log(id)
-  //   handleModalOpen(id, title, staff);
-  //   setIsCheck([id]);
-  // }
+
+  const beforeHandleModalOpen = (id, title, staff) => {
+    try {
+      handleModalOpen(id, title,staff);
+      setIsCheck([]);
+
+    } catch (error) {
+      alert(`Une erreur est survenue ${error}`);
+    }
+
+
+  }
+  
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
 
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
 
@@ -236,14 +241,14 @@ const StaffTable = ({
             <TableCell>
               <EditDeleteButton
                 id={item.id}
-                isLoading={isLoading}
+                isLoading={isLoading} 
                 setIsLoading={setIsLoading}
                 staff={item}
-                isCheck={isCheck}
+                isCheck={serviceId}
                 handleClick={handleClick}
                 isSubmitting={isSubmitting}
                 handleUpdate={handleUpdate}
-                handleModalOpen={handleModalOpen}
+                handleModalOpen={beforeHandleModalOpen}
                 handleResetPassword={handleResetPassword}
                 name={item?.name}
               />

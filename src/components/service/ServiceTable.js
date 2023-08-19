@@ -20,12 +20,21 @@ import { Link } from "react-router-dom";
 import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 //internal import  
- 
-const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
+
+const ServiceTable = ({
+  setId,
+  searchService,
+  isCheck,
+  setIsCheck,
+  currency,
+  lang,
+  isLoading,
+  setIsLoading
+}) => {
   const [data, setData] = useState([]);
   const {
     handleModalOpen,
-    serviceId, 
+    serviceId,
     handleUpdate,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
@@ -41,17 +50,17 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
       console.log("id tna7a", id, checked);
     }
   };
- 
-    // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchServices = async (isLoading,searchService) => {
-      try {
-        let response;
-        if (searchService) {
-          response = await ServiceServices.searchService(searchService);
-        
+
+  // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
+  const fetchServices = async (isLoading, searchService) => {
+    try {
+      let response;
+      if (searchService) {
+        response = await ServiceServices.searchService(searchService);
+
 
       }
-      else{
+      else {
         response = await ServiceServices.getAllServices({
           title: null,
           subtitle: null,
@@ -61,19 +70,19 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
           catalogue: null,
         });
       }
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des services :", error);
-      }
-      finally {
-        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-      }
-    };
-    
-    useEffect(() => {
-    fetchServices(isLoading,searchService); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading,searchService]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des services :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+
+  useEffect(() => {
+    fetchServices(isLoading, searchService); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading, searchService]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const getService = async () => {
     try {
@@ -104,11 +113,11 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
 
   }
-  
 
 
 
-   
+
+
   return (
     <>
       {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}
@@ -121,10 +130,10 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ServiceDrawer 
-           id={serviceId} 
-           isLoading={isLoading} 
-           setIsLoading={setIsLoading}   />
+          <ServiceDrawer
+            id={serviceId}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading} />
         </MainDrawer>
       )}
 
@@ -132,16 +141,17 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
         {data?.map((item, i) => (
           <TableRow key={i + 1}>
 
-          <TableCell>
-            <CheckBox
-              id={item.id}
-              name={item.title_en}
-              type="checkbox"
-              isChecked={isCheck?.includes(item.id)}
-              handleClick={() => handleClick(item.id)}
-              setIsCheck={setIsCheck} // Passer la fonction setIsCheck en tant que prop
-            />
-          </TableCell>
+
+            <TableCell>
+              <CheckBox
+                id={item.id}
+                name={item.title_en}
+                type="checkbox"
+                isChecked={isCheck?.includes(item.id)}
+                handleClick={() => handleClick(item.id)}
+                setIsCheck={setIsCheck} // Passer la fonction setIsCheck en tant que prop
+              />
+            </TableCell>
 
 
 
@@ -177,7 +187,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
             </TableCell>
 
 
-{/* 
+            {/* 
             <TableCell>
 
               <span className="text-sm ">
@@ -207,7 +217,7 @@ const ServiceTable = ({ setId,searchService, isCheck, setIsCheck, currency, lang
                   bgColor="#ff5a1f"
                 />
               </Link>
-            </TableCell> 
+            </TableCell>
 
             <TableCell>
               <EditDeleteButton

@@ -125,7 +125,7 @@ const useStaffSubmit = (id, data) => {
       getStaffData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, setValue, isDrawerOpen, adminInfo.email, clearErrors]);
+  }, [id, setValue, isDrawerOpen, adminInfo?.email, clearErrors]);
 
   useEffect(() => {
     if (location.pathname === "/edit-profile" && Cookies.get("adminInfo")) {

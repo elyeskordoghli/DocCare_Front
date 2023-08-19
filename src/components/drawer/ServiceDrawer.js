@@ -293,7 +293,7 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
     // Place your submission logic here
   };
 
-
+ 
   const handleNextClick = () => {
     if (tapValue === 'Anglais') {
       setTapValue('French');
