@@ -77,15 +77,11 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
         const res = await ProjectServices.deleteProject(id);
         setServiceId();
         setIsCheck([]);
-
         setIsLoading(false);
-      
-
-          setIsUpdate(true);
-          notifySuccess(res.message);
-          
-          closeModal();
-          setIsSubmitting(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+        closeModal();
+        setIsSubmitting(false);
       }
       if (location.pathname === "/references") {
         setIsLoading(true);
@@ -247,10 +243,11 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId ,isLoadi
       if (location.pathname === "/our-staff") {
         setIsLoading(true);
         const res = await AdminServices.deleteStaff(id);
+        setServiceId();
+        setIsCheck([]);
         setIsLoading(false);
         setIsUpdate(true);
         notifySuccess(res.message);
-        setServiceId();
         closeModal();
         setIsSubmitting(false);
       }
