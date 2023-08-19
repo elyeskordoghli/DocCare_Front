@@ -170,7 +170,26 @@ const MainModal = ({ id, title,isLoading, setIsLoading,isCheck , setIsCheck}) =>
       setServiceId();
     }
 
+    if (location.pathname === "/our-staff") {
+      AdminServices.deleteStaff(id)
+        .then((res) => {
+          setIsLoading(false);
+          setIsUpdate(true);
+          setIsCheck([]);
+          setServiceId();
+          notifySuccess(res.message);
+        })
+        .catch((err) => notifyError(err.message));
+        setIsCheck([]);
+        setServiceId();
+        closeModal();
+    }
+
   };
+
+
+   
+
 
   return (
     <>

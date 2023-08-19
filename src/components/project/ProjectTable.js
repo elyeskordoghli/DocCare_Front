@@ -25,7 +25,7 @@ import Loader from 'components/loader/Loader';
 
 //internal import 
 
-const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data, lang, selectedCategory, isLoading, setIsLoading, projects }) => {
+const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data, lang, selectedCategory, isLoading, setIsLoading, projects, handleServiceIdChange = null }) => {
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -54,6 +54,9 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data
   console.log('selectedCategory : ', selectedCategory);
   console.log('isLoading : ', isLoading);
 
+  useEffect(() => {
+    handleServiceIdChange(serviceId)
+  }, [serviceId])
  
   //----------------------------------------------------------------
 
@@ -187,7 +190,6 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data
 
   return (
     <>
-          {isLoading ? <Loader /> : null}
 
       {isCheck?.length < 1 && <DeleteModal
         id={serviceId}
@@ -196,14 +198,14 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data
         setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
       />}
 
-      {isCheck?.length < 2 && (
+      {/* {isCheck?.length < 2 && (
         <MainDrawer>
           <ProjectDrawer 
             id={serviceId}
             isLoading={isLoading} // Passer la variable isLoading
             setIsLoading={setIsLoading}/>
         </MainDrawer>
-      )}
+      )} */}
 
 
       <TableBody>

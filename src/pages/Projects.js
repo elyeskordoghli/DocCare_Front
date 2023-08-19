@@ -37,10 +37,8 @@ import CategoryServices from "services/CategoryServices";
 import Loader from 'components/loader/Loader';
 import ReferencesServices from "services/ReferencesServices";
 const Projects = () => {
-  const { title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  const { title, subtitle, short_description, description, allId, /*serviceId,*/ handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
-
-  
 
   const { t } = useTranslation();
   const {
@@ -56,6 +54,11 @@ const Projects = () => {
     setSortedField,
     limitData,
   } = useContext(SidebarContext);
+
+const [serviceId, setServiceId] = useState(null);
+const handleServiceIdChange = (new_service_id) => {
+  setServiceId(new_service_id)
+}
 
 const [data, setData] = useState([]);
 const [isLoading, setIsLoading]=useState(true);
@@ -117,6 +120,7 @@ const getReferencesData = async () => {
     const res = await ReferencesServices.getAllReferences();
     // Mettez à jour le state avec les départements récupérés depuis l'API
     setReference(res.data);
+    console.log('ooooooooOOOOOOOOOOOOOOO')
   } catch (err) {
     console.log(err ? err?.response?.data?.message : err?.message);
 
@@ -130,12 +134,12 @@ const getCategoriesData = async () => {
     setCategory(res.data);
   } catch (err) {
    console.log(err ? err?.response?.data?.message : err?.message);
-
   }
 }
 
 
 useEffect(() => {
+ 
   getCategoriesData();
   getReferencesData();
 }, []);
@@ -180,16 +184,16 @@ console.log("'isloading from projects : ",isLoading);
 
   return (
     <>
-   
+             {isLoading ? <Loader /> : null}
+
       <PageTitle>{"Projects Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} isLoading={isLoading} setIsLoading={setIsLoading} title={data.title} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
       <BulkActionDrawer ids={allId} title="Projects" />
       <MainDrawer>
-        <ProjectDrawer 
-              id={serviceId}  
+        <ProjectDrawer id={serviceId}  
               isLoading={isLoading} // Passer la variable isLoading
-                setIsLoading={setIsLoading} 
+              setIsLoading={setIsLoading} 
                 isCheck ={isCheck}
                 categories={categories}
                 setIsCheck={setIsCheck}
@@ -369,6 +373,7 @@ console.log("'isloading from projects : ",isLoading);
               setIsLoading={setIsLoading}
               isLoading={isLoading} 
               search={search}
+              handleServiceIdChange={(new_service_id) => handleServiceIdChange(new_service_id)}
             />
           </Table>
           <TableFooter>
