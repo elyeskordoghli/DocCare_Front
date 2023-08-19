@@ -85,7 +85,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
         setServiceId();
         setIsCheck([]);
         setIsLoading(false);
-
+  
         setIsUpdate(true);
         notifySuccess(res.message);
 
