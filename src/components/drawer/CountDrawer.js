@@ -43,9 +43,11 @@ import { showingTranslateValue } from "utils/translate";
 import ServiceServices from "services/ServiceServices";
 import SidebarContent from "components/sidebar/SidebarContent";
 import SlidersServices from "services/SlidersServices";
+import CountServices from "services/CountServices";
+import useCountSubmit from "hooks/useCountSubmit";
 //internal import
 
-const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
+const CountDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
 
 
@@ -92,25 +94,20 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,
-  } = useSliderSubmit(id, data);
+  } = useCountSubmit(id, data);
 
   const currency = globalSetting?.default_currency || "$";
   const { closeDrawer } = useContext(SidebarContext)
 
-  const [imageUrl, setImageUrl] = useState("");
-  const [oldImageUrl, setOldImageUrl] = useState("");
+
   const [title_en, setTitle_en] = useState("");
-  const [subtitle_en, setSubtitle_en] = useState("");
-  const [description_en, setDescription_en] = useState("");
-
   const [title_fr, setTitle_fr] = useState("");
-  const [subtitle_fr, setSubtitle_fr] = useState("");
-  const [Description_fr, setDescription_fr] = useState("");
-
   const [title_ar, setTitle_ar] = useState("");
-  const [subtitle_ar, setSubtitle_ar] = useState("");
-  const [description_ar, setDescription_ar] = useState("");
-  const [id_video_youtube, setId_video_youtube] = useState("");
+  const [number, setNumber] = useState("");
+  const [icon, setIcon] = useState("");
+
+
+
 
 
 
@@ -118,7 +115,6 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     setValue,
 
   } = useForm();
-  console.log("Slider drawer_id", id);
   const [retsData, setRestData] = useState({});
 
 
@@ -132,32 +128,18 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
       );
     };
 
-    const formData = new FormData();
-    formData.append('title_en', title_en);
-    formData.append('subtitle_en', subtitle_en);
-    formData.append('description_en', description_en);
-
-    formData.append('title_fr', title_fr);
-    formData.append('subtitle_fr', subtitle_fr);
-    formData.append('description_fr', Description_fr);
-
-
-
-    formData.append('title_ar', title_ar);
-    formData.append('subtitle_ar', subtitle_ar);
-    formData.append('description_ar', description_ar);
-
-    formData.append('image', imageUrl);
-    formData.append('id_video_youtube', id_video_youtube);
-    console.log(formData);
-    // const res = await CategoryServices.getCategoryById(id);
-    // console.log("res category", res);
-
+    const formData = {
+      title_en: title_en,
+      title_fr: title_fr,
+      title_ar: title_ar,
+      number: number,
+      icon: icon,
+    };
 
     if (id) {
 
       setIsLoading(true);
-      const res = await SlidersServices.updateSlider(id, formData, {
+      const res = await CountServices.updateCount(id, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -172,7 +154,7 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     } else {
       setIsLoading(true);
 
-      const res = await SlidersServices.addSlider(formData, {
+      const res = await CountServices.addCount(formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -188,30 +170,14 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
   };
   const initFormForUpdate = async (id) => {
 
-    const res = await SlidersServices.getSliderById(id);
+    const res = await CountServices.getCountById(id);
 
 
     setTitle_en(res.data.title_en);
-    setSubtitle_en(res.data.subtitle_en);
-    setDescription_en(res.data.description_en);
-
-
     setTitle_fr(res.data.title_fr);
-    setSubtitle_fr(res.data.subtitle_fr);
-    setDescription_fr(res.data.description_fr);
-
-
     setTitle_ar(res.data.title_ar);
-    setSubtitle_ar(res.data.subtitle_ar);
-    setDescription_ar(res.data.description_ar);
-
-
-    setImageUrl(res.data.image);
-    setImageBinary(res.data.image);
-    setOldImageUrl(res.data.image);
-
-    setId_video_youtube(res.data.id_video_youtube);
-
+    setNumber(res.data.number);
+    setIcon(res.data.icon);
   };
 
 
@@ -220,24 +186,10 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
       initFormForUpdate(id);
     } else {
       setTitle_en("");
-      setSubtitle_en("");
-      setDescription_en("");
-
-
       setTitle_fr("");
-      setSubtitle_fr("");
-      setDescription_fr("");
-
-
       setTitle_ar("");
-      setSubtitle_ar("");
-      setDescription_ar("");
-
-      setImageUrl("");
-      setImageBinary("");
-      setOldImageUrl("")
-
-      setId_video_youtube("");
+      setNumber("");
+      setIcon("");
       setIsCheck([]);
 
     }
@@ -256,23 +208,9 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
   // };
 
 
-  const [imageBinary, setImageBinary] = useState(null);
-  useEffect(() => {
-    async function fetchImageBinary() {
-      try {
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-        setImageBinary(blob);
-      } catch (error) {
-        console.error('Error fetching image binary:', error);
-      }
-    }
-
-    fetchImageBinary();
-  }, [imageUrl]);
   return (
     <>
-      <Modal
+      {/* <Modal
         open={openModal}
         onClose={onCloseModal}
         center
@@ -289,66 +227,42 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
             handleSelectImage={handleSelectImage}
           />
         </div>
-      </Modal>
+      </Modal> */}
 
       <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
         {id ? (
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={"Update Slider"}
-            description={"Update Slider Description"}
+            title={"Update Statistic"}
+            description={"Update Statistic Description"}
           />
         ) : (
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={"Add Slider"}
-            description={"Add Slider Description"}
+            title={"Add Statistic"}
+            description={"Add Statistic Description"}
           />
         )}
       </div>
- 
+
 
       <Scrollbars className="track-horizontal thumb-horizontal w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
         <form onSubmit={handleSubmit} className="block" id="block">
           {/* {tapValue === "Anglais" && ( */}
           <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-20 md:pb-32 lg:pb-32 xl:pb-32">
-
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Image"} />
-              <div className="col-span-8 sm:col-span-4">
-                <Input
-
-                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="imageUrl"
-                  type="file"
-                  placeholder={"Image "}
-                  onChange={(e) => { setImageUrl(e.target.files[0]) }}
-                />
-                <Error errorName={errors.imageUrl} />
-                {imageUrl && (
-                  <img
-                    src={oldImageUrl} // Utiliser l'URL existante pour afficher l'image
-                    alt="Old Image"
-                    style={{ maxWidth: '100px', marginTop: '10px' }}
-                  />
-                )}
-
-
-              </div>
-            </div>
+    
 
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Title (en) "} />
+              <LabelArea label={"Statistic Title (en) "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
 
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                   name="title_en"
                   type="text"
-                  placeholder={"Slider Title (en) "}
+                  placeholder={"Statistic Title (en) "}
                   // onBlur={(e) => handleProductSlug(e.target.value)}
                   onChange={(e) => setTitle_en(e.target.value)}
                   value={title_en}
@@ -358,172 +272,72 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
               </div>
             </div>
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider SubTitle (en) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Input
-
-                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="subTitle_en"
-                  type="text"
-                  placeholder={"Slider Title (en) "}
-                  // onBlur={(e) => handleProductSlug(e.target.value)}
-                  onChange={(e) => setSubtitle_en(e.target.value)}
-                  value={subtitle_en}
-                />
-                {/* {title_en ?? ""} TTEEST */}
-                <Error errorName={errors.subtitle_en} />
-              </div>
-            </div>
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Description (en) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Textarea
-                  className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                  name="Description_en"
-                  placeholder={"Slider Description (en) "}
-                  rows="4"
-                  spellCheck="false"
-                  onChange={(e) => setDescription_en(e.target.value)}
-                  value={description_en}
-                />
-                <Error errorName={errors.description_en} />
-              </div>
-            </div>
-
-            {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Slider Description (en) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <ReactQuill
-                    value={description_en}
-                    onChange={(e) => setDescription_en(e.target.value)}
-                  />
-                  <Error errorName={errors.description_en} />
-                </div>
-              </div> */}
-
-
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Title (fr) "} />
+              <LabelArea label={"Statistic Title (fr) "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
 
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                   name="title_fr"
                   type="text"
-                  placeholder={"Slider Title (fr) "}
+                  placeholder={"Statistic Title (fr) "}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
                   onChange={(e) => setTitle_fr(e.target.value)}
                   value={title_fr}
                 />
+                {/* {title_en ?? ""} TTEEST */}
                 <Error errorName={errors.title_fr} />
               </div>
             </div>
-
-
-
-
-
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider SubTitle (fr) "} />
+              <LabelArea label={"Statistic Title (ar) "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
 
-                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="subtitle_fr"
-                  type="text"
-                  placeholder={"Slider SubTitle (fr) "}
-                  onChange={(e) => setSubtitle_fr(e.target.value)}
-                  value={subtitle_fr}
-                />
-                <Error errorName={errors.subtitle_fr} />
-              </div>
-            </div>
-
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Description (fr) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Textarea
-                  className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                  name="Description_fr"
-                  placeholder={"Slider Description (fr) "}
-                  rows="4"
-                  spellCheck="false"
-                  onChange={(e) => setDescription_fr(e.target.value)}
-                  value={Description_fr}
-                />
-                <Error errorName={errors.Description_fr} />
-              </div>
-            </div>
-
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Title (ar) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Input
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                   name="title_ar"
                   type="text"
-                  placeholder={"Slider Title (ar)"}
+                  placeholder={"Statistic Title (ar) "}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
                   onChange={(e) => setTitle_ar(e.target.value)}
                   value={title_ar}
                 />
+                {/* {title_en ?? ""} TTEEST */}
                 <Error errorName={errors.title_ar} />
               </div>
             </div>
-
-
-
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider SubTitle (ar) "} />
+              <LabelArea label={"Statistic number  "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
-
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="subtitle_ar"
+                  name="number"
                   type="text"
-                  placeholder={"Slider SubTitle (ar) "}
-                  onChange={(e) => setSubtitle_ar(e.target.value)}
-                  value={subtitle_ar}
+                  placeholder={"Statistic Number"}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
+                  onChange={(e) => setNumber(e.target.value)}
+                  value={number}
                 />
-                <Error errorName={errors.subtitle_ar} />
-              </div>
-            </div>
-
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Description (ar) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Textarea
-                  className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                  name="description_ar"
-                  placeholder={"Slider Description (ar) "}
-                  rows="4"
-                  spellCheck="false"
-                  onChange={(e) => setDescription_ar(e.target.value)}
-                  value={description_ar}
-                />
-                <Error errorName={errors.description_ar} />
+                {/* {title_en ?? ""} TTEEST */}
+                <Error errorName={errors.number} />
               </div>
             </div>
 
 
 
 
-
-
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Youtube Video  "} />
+              <LabelArea label={"Statistic icon "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
+
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="Youtube Video"
+                  name="icon"
                   type="text"
-                  placeholder={"Slider Youtube Video  "}
-                  onChange={(e) => setId_video_youtube(e.target.value)}
-                  value={id_video_youtube}
+                  placeholder={"Statistic icon "}
+                  onChange={(e) => setIcon(e.target.value)}
+                  value={icon}
                 />
-                <Error errorName={errors.id_video_youtube} />
+                <Error errorName={errors.icon} />
               </div>
             </div>
 
@@ -685,4 +499,4 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
   );
 };
 
-export default React.memo(SliderDrawer);
+export default React.memo(CountDrawer);

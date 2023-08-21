@@ -19,6 +19,7 @@ import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
 import CareerServices from "services/CareerServices";
 import SlidersServices from "services/SlidersServices";
+import CountServices from "services/CountServices";
 
 const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -30,8 +31,20 @@ const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) 
     // alert(location.pathname)
 
     setIsLoading(true);
-    if (location.pathname === "/sliderss") {
+    if (location.pathname === "/sliders") {
       SlidersServices.deleteSlider(id)
+        .then((res) => {
+          setIsLoading(false);
+          setIsUpdate(true);
+          notifySuccess(res.message);
+        })
+
+        .catch((err) => notifyError(err.message));
+      closeModal();
+      setServiceId();
+    }
+    if (location.pathname === "/counts") {
+      CountServices.deleteCount(id)
         .then((res) => {
           setIsLoading(false);
           setIsUpdate(true);
