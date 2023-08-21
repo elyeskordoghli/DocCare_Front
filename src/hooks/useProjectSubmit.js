@@ -19,8 +19,8 @@ const useProjectSubmit = (id) => {
   const { isDrawerOpen, closeDrawer, setIsUpdate, lang } =
     useContext(SidebarContext);
 
-  const { data: attribue } = useAsync(AttributeServices.getShowingAttributes);
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
+  // const { data: attribue } = useAsync(AttributeServices.getShowingAttributes);
+  // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   // react ref
   const resetRef = useRef([]);
   const resetRefTwo = useRef("");
@@ -56,29 +56,29 @@ const useProjectSubmit = (id) => {
 
   //states
 const [imageUrl, setImageUrl] = useState("");
-const [seo_keywords, setSeo_keywords] = useState("");
-const [defaultReference, setDefaultReference] = useState("");
+// const [seo_keywords, setSeo_keywords] = useState("");
+// const [defaultReference, setDefaultReference] = useState("");
 const [defaultCategory, setDefaultCategory] = useState("");
-const [title_en, setTitle_en] = useState("");
-const [subtitle_en, setSubtitle_en] = useState("");
-const [short_description_en, setShort_description_en] = useState("");
-const [description_en, setDescription_en] = useState("");
-const [seo_description_en, setSeo_description_en] = useState("");
-const [slug_en, setSlug_en] = useState("");
+// const [title_en, setTitle_en] = useState("");
+// const [subtitle_en, setSubtitle_en] = useState("");
+// const [short_description_en, setShort_description_en] = useState("");
+// const [description_en, setDescription_en] = useState("");
+// const [seo_description_en, setSeo_description_en] = useState("");
+// const [slug_en, setSlug_en] = useState("");
 
-const [title_fr, setTitle_fr] =useState("");
-const [subtitle_fr, setSubtitle_fr] = useState("");
-const [short_description_fr, setShort_description_fr] = useState("");
-const [description_fr, setDescription_fr] = useState("");
-const [seo_description_fr, setSeo_description_fr] = useState("");
-const [slug_fr, setSlug_fr] = useState("");
+// const [title_fr, setTitle_fr] =useState("");
+// const [subtitle_fr, setSubtitle_fr] = useState("");
+// const [short_description_fr, setShort_description_fr] = useState("");
+// const [description_fr, setDescription_fr] = useState("");
+// const [seo_description_fr, setSeo_description_fr] = useState("");
+// const [slug_fr, setSlug_fr] = useState("");
 
-const [title_ar, setTitle_ar] = useState("");
-const [subtitle_ar, setSubtitle_ar] = useState("");
-const [short_description_ar, setShort_description_ar] = useState("");
-const [description_ar, setDescription_ar] = useState("");
-const [seo_description_ar, setSeo_description_ar] = useState("");
-const [slug_ar, setSlug_ar] = useState("");
+// const [title_ar, setTitle_ar] = useState("");
+// const [subtitle_ar, setSubtitle_ar] = useState("");
+// const [short_description_ar, setShort_description_ar] = useState("");
+// const [description_ar, setDescription_ar] = useState("");
+// const [seo_description_ar, setSeo_description_ar] = useState("");
+// const [slug_ar, setSlug_ar] = useState("");
 
 
 
@@ -244,170 +244,170 @@ const [slug_ar, setSlug_ar] = useState("");
   //   }
   // };
 
-  useEffect(() => {
-    if (!isDrawerOpen) {
-      // setSlug("");
-      setLanguage(lang);
-      setValue("language", language);
-      handleProjectTap("Anglais", true);
-      setResData({});
-      setValue("sku");
-      setValue("title");
-      setValue("slug");
-      setValue("description");
-      setValue("quantity");
-      setValue("stock");
-      setValue("originalPrice");
-      setValue("price");
-      setValue("barcode");
-      setValue("productId");
+  // useEffect(() => {
+  //   if (!isDrawerOpen) {
+  //     // setSlug("");
+  //     setLanguage(lang);
+  //     setValue("language", language);
+  //     handleProjectTap("Anglais", true);
+  //     setResData({});
+  //     setValue("sku");
+  //     setValue("title");
+  //     setValue("slug");
+  //     setValue("description");
+  //     setValue("quantity");
+  //     setValue("stock");
+  //     setValue("originalPrice");
+  //     setValue("price");
+  //     setValue("barcode");
+  //     setValue("productId");
 
-      setProductId("");
-      // setValue('show');
-      setImageUrl([]);
-      setTag([]);
-      setVariants([]);
-      setVariant([]);
-      setValues({});
-      // setTotalStock(0);
-      setSelectedCategory([]);
-      setDefaultCategory([]);
-      if (location.pathname === "/products") {
-        resetRefTwo?.current?.resetSelectedValues();
-      }
+  //     setProductId("");
+  //     // setValue('show');
+  //     setImageUrl([]);
+  //     setTag([]);
+  //     setVariants([]);
+  //     setVariant([]);
+  //     setValues({});
+  //     // setTotalStock(0);
+  //     setSelectedCategory([]);
+  //     setDefaultCategory([]);
+  //     if (location.pathname === "/products") {
+  //       resetRefTwo?.current?.resetSelectedValues();
+  //     }
 
-      clearErrors("sku");
-      clearErrors("title");
-      clearErrors("slug");
-      clearErrors("description");
-      clearErrors("stock");
-      clearErrors("quantity");
-      setValue("stock", 0);
-      setValue("costPrice", 0);
-      setValue("price", 0);
-      setValue("originalPrice", 0);
-      clearErrors("show");
-      clearErrors("barcode");
-      setIsCombination(false);
-      setIsBasicComplete(false);
-      setIsSubmitting(false);
-      setAttributes([]);
+  //     clearErrors("sku");
+  //     clearErrors("title");
+  //     clearErrors("slug");
+  //     clearErrors("description");
+  //     clearErrors("stock");
+  //     clearErrors("quantity");
+  //     setValue("stock", 0);
+  //     setValue("costPrice", 0);
+  //     setValue("price", 0);
+  //     setValue("originalPrice", 0);
+  //     clearErrors("show");
+  //     clearErrors("barcode");
+  //     setIsCombination(false);
+  //     setIsBasicComplete(false);
+  //     setIsSubmitting(false);
+  //     setAttributes([]);
 
-      setUpdatedId();
-      return;
-    } else {
-      handleProjectTap("Anglais", true);
-    }
+  //     setUpdatedId();
+  //     return;
+  //   } else {
+  //     handleProjectTap("Anglais", true);
+  //   }
 
-    if (id) {
-      setIsBasicComplete(true);
-      (async () => {
-        try {
-          const res = await ProjectServices.getProjectById(id);
+  //   if (id) {
+  //     setIsBasicComplete(true);
+  //     (async () => {
+  //       try {
+  //         const res = await ProjectServices.getProjectById(id);
 
-          // console.log("res", res);
+  //         // console.log("res", res);
 
-          if (res) {
-            setResData(res);
-            // setSlug(res.slug);
-            setUpdatedId(res._id);
-            setValue("title", res.title[language ? language : "en"]);
-            setValue(
-              "description",
-              res.description[language ? language : "en"]
-            );
-            setValue("slug", res.slug);
-            setValue("show", res.show);
-            setValue("sku", res.sku);
-            setValue("barcode", res.barcode);
-            setValue("stock", res.stock);
-            setValue("productId", res.productId);
-            setValue("price", res?.prices?.price);
-            setValue("originalPrice", res?.prices?.originalPrice);
-            setValue("stock", res.stock);
-            setProductId(res.productId ? res.productId : res._id);
-            setBarcode(res.barcode);
-            setSku(res.sku);
+  //         if (res) {
+  //           setResData(res);
+  //           // setSlug(res.slug);
+  //           setUpdatedId(res._id);
+  //           setValue("title", res.title[language ? language : "en"]);
+  //           setValue(
+  //             "description",
+  //             res.description[language ? language : "en"]
+  //           );
+  //           setValue("slug", res.slug);
+  //           setValue("show", res.show);
+  //           setValue("sku", res.sku);
+  //           setValue("barcode", res.barcode);
+  //           setValue("stock", res.stock);
+  //           setValue("productId", res.productId);
+  //           setValue("price", res?.prices?.price);
+  //           setValue("originalPrice", res?.prices?.originalPrice);
+  //           setValue("stock", res.stock);
+  //           setProductId(res.productId ? res.productId : res._id);
+  //           setBarcode(res.barcode);
+  //           setSku(res.sku);
 
-            res.categories.map((category) => {
-              category.name = showingTranslateValue(category?.name, lang);
+  //           res.categories.map((category) => {
+  //             category.name = showingTranslateValue(category?.name, lang);
 
-              return category;
-            });
+  //             return category;
+  //           });
 
-            res.category.name = showingTranslateValue(
-              res?.category?.name,
-              lang
-            );
+  //           res.category.name = showingTranslateValue(
+  //             res?.category?.name,
+  //             lang
+  //           );
 
-            setSelectedCategory(res.categories);
-            setDefaultCategory([res?.category]);
-            setTag(JSON.parse(res.tag));
-            setImageUrl(res.image);
-            setVariants(res.variants);
-            setIsCombination(res.isCombination);
-            // setQuantity(res?.stock);
-            // setTotalStock(res.stock);
-            setOriginalPrice(res?.prices?.originalPrice);
-            setPrice(res?.prices?.price);
-          }
-        } catch (err) {
-          notifyError(err ? err?.response?.data?.message : err.message);
-        }
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    id,
-    setValue,
-    isDrawerOpen,
-    location.pathname,
-    clearErrors,
-    language,
-    lang,
-  ]);
+  //           setSelectedCategory(res.categories);
+  //           setDefaultCategory([res?.category]);
+  //           setTag(JSON.parse(res.tag));
+  //           setImageUrl(res.image);
+  //           setVariants(res.variants);
+  //           setIsCombination(res.isCombination);
+  //           // setQuantity(res?.stock);
+  //           // setTotalStock(res.stock);
+  //           setOriginalPrice(res?.prices?.originalPrice);
+  //           setPrice(res?.prices?.price);
+  //         }
+  //       } catch (err) {
+  //         notifyError(err ? err?.response?.data?.message : err.message);
+  //       }
+  //     })();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [
+  //   id,
+  //   setValue,
+  //   isDrawerOpen,
+  //   location.pathname,
+  //   clearErrors,
+  //   language,
+  //   lang,
+  // ]);
 
   //for filter related attribute and extras for every product which need to update
-  useEffect(() => {
-    const result = attribue
-      ?.filter((att) => att.option !== "Checkbox")
-      .map((v) => {
-        return {
-          label: showingTranslateValue(v?.title, lang),
-          value: showingTranslateValue(v?.title, lang),
-        };
-      });
+  // useEffect(() => {
+  //   const result = attribue
+  //     ?.filter((att) => att.option !== "Checkbox")
+  //     .map((v) => {
+  //       return {
+  //         label: showingTranslateValue(v?.title, lang),
+  //         value: showingTranslateValue(v?.title, lang),
+  //       };
+  //     });
 
-    setAttTitle([...result]);
+  //   setAttTitle([...result]);
 
-    const res = Object?.keys(Object.assign({}, ...variants));
-    const varTitle = attribue?.filter((att) => res.includes(att._id));
+  //   const res = Object?.keys(Object.assign({}, ...variants));
+  //   const varTitle = attribue?.filter((att) => res.includes(att._id));
 
-    // if (variants?.length > 0) {
-    //   const totalStock = variants?.reduce((pre, acc) => pre + acc.quantity, 0);
-    //   setTotalStock(Number(totalStock));
-    // }
-    setVariantTitle(varTitle);
-  }, [attribue, variants, language, lang]);
+  //   // if (variants?.length > 0) {
+  //   //   const totalStock = variants?.reduce((pre, acc) => pre + acc.quantity, 0);
+  //   //   setTotalStock(Number(totalStock));
+  //   // }
+  //   setVariantTitle(varTitle);
+  // }, [attribue, variants, language, lang]);
 
   //for adding attribute values
-  const handleAddAtt = (v, el) => {
-    const result = attribue.filter((att) => {
-      const attribueTItle = showingTranslateValue(att?.title, lang);
-      return v.some((item) => item.label === attribueTItle);
-    });
+  // const handleAddAtt = (v, el) => {
+  //   const result = attribue.filter((att) => {
+  //     const attribueTItle = showingTranslateValue(att?.title, lang);
+  //     return v.some((item) => item.label === attribueTItle);
+  //   });
 
-    const attributeArray = result.map((value) => {
-      const attributeTitle = showingTranslateValue(value?.title, lang);
-      return {
-        ...value,
-        label: attributeTitle,
-        value: attributeTitle,
-      };
-    });
+  //   const attributeArray = result.map((value) => {
+  //     const attributeTitle = showingTranslateValue(value?.title, lang);
+  //     return {
+  //       ...value,
+  //       label: attributeTitle,
+  //       value: attributeTitle,
+  //     };
+  //   });
 
-    setAttributes(attributeArray);
-  };
+  //   setAttributes(attributeArray);
+  // };
 
   //generate all combination combination
   const handleGenerateCombination = () => {
@@ -637,7 +637,7 @@ const [slug_ar, setSlug_ar] = useState("");
     errors,
     // slug,
     openModal,
-    attribue,
+    // attribue,
     setValues,
     variants,
     imageUrl,
@@ -647,11 +647,11 @@ const [slug_ar, setSlug_ar] = useState("");
     variantTitle,
     attributes,
     attTitle,
-    handleAddAtt,
+    // handleAddAtt,
     productId,
     onCloseModal,
     isBulkUpdate,
-    globalSetting,
+    // globalSetting,
     isSubmitting,
     tapValue,
     setTapValue,

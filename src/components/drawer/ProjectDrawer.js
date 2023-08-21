@@ -46,7 +46,7 @@ import axios from "axios";
 import CategoryServices from "services/CategoryServices";
 import SelectCategory from "components/form/SelectCategory";
 import SelectReferences from "components/form/SelectReferences";
-
+       
 
 //internal import
 
@@ -65,7 +65,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
     onSubmit,
     slug,
     openModal,
-    attribue,
+    // attribue,
     setValues,
     variants,
     // handleSubmit,
@@ -133,7 +133,6 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
 
 
-
   const handleSubmit = async (e) => {
     e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
 
@@ -186,16 +185,20 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
           },
 
         });
+             console.log("add mirgll");
         closeDrawer();
         setIsLoading(false);
         setServiceId();
         setIsCheck([]);
         setIsSubmitting(false);
+   
         notifySuccess(res.message);
+        console.log("add mirgll2");
 
       } else {
         setIsLoading(true);
 
+        console.log("id 9bal update : ",originalId);
         const response = await ProjectServices.updateProject(id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -203,22 +206,21 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
 
         });
+      
         setIsSubmitting(false);
         closeDrawer();
         setIsLoading(false);
-        setServiceId();
-        setIsCheck([]);
+        // setServiceId();
+        // setIsCheck([]);
         // setIsUpdate(true);
         notifySuccess(response.message);
-
 
       }
     } catch (error) {
       console.error("Erreur lors de l'ajout du projet :", error);
     }
+   
   };
-
-
   const initFormForUpdate = async (id) => {
     // setIsLoading(true);
     const res = await ProjectServices.getProjectById(id);
@@ -810,7 +812,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
             </div>
           )}
 
-          {tapValue === "Combination" &&
+          {/* {tapValue === "Combination" &&
             isCombination &&
             (attribue.length < 1 ? (
               <div
@@ -840,7 +842,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
               </div>
             ) : (
               <div className="p-6">
-                {/* <h4 className="mb-4 font-semibold text-lg">Variants</h4> */}
+                {/* <h4 className="mb-4 font-semibold text-lg">Variants</h4> 
                 <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3 md:gap-3 xl:gap-3 lg:gap-2 mb-3">
                   <MultiSelect
                     options={attTitle}
@@ -885,21 +887,21 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
                   )}
                 </div>
               </div>
-            ))}
+            ))} */}
 
-          {isCombination ? (
+            {isCombination ? (
             <DrawerButton
               id={id}
               save
               title="Project "
               isSubmitting={isSubmitting}
               handleProjectTap={handleProjectTap}
-            />
-          ) : (
+             />
+            ) : (
             <DrawerButton id={id} title="Project" isSubmitting={isSubmitting} />
-          )}
+            )}
 
-          {
+            {
             id ? (
               <>
                 {tapValue === "Anglais" && (

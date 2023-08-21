@@ -43,14 +43,13 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data
 
 
   const {
-    handleModalOpen,
+    handleModalOpen, 
     handleUpdate,
     serviceId,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
-
+  console.log("service id from projectTable : ",serviceId)
   console.log('isCheck : ', isCheck)
-  console.log('serviceId : ', serviceId);
   console.log('selectedCategory : ', selectedCategory);
   console.log('isLoading : ', isLoading);
 
@@ -185,7 +184,7 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data
 
 
 
-
+console.log("serviceID : : : : : ",serviceId);
 
 
   return (

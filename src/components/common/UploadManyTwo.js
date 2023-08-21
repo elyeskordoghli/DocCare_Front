@@ -42,108 +42,108 @@ const UploadManyTwo = ({
 
   // console.log(exportData);
 
-  const handleExportCSV = () => {
-    if (location.pathname === "/our-staff") {
-      setLoadingExport({ name: "csv", status: true });
-      AdminServices.getAllStaff({})
-        .then((res) => {
-          setDropDown(false);
-          setLoadingExport({ name: "csv", status: true });
-          console.log("Data to be exported:", res.data);
-          exportFromJSON({
-            data: res.data,
-            fileName: "admins",
-            exportType: exportFromJSON.types.csv,
-          });
-        })
-        .catch((err) => {
-          setLoadingExport({ name: "csv", status: true });
-          setDropDown(false);
-          console.log(err);
-        });
-    }
-    if (location.pathname === "/projects") {
-      setLoadingExport({ name: "csv", status: true });
-      ProjectServices.getAllProjects({})
-        .then((res) => {
-          setDropDown(false);
-          setLoadingExport({ name: "csv", status: true });
-          console.log("Data to be exported:", res.data);
-          exportFromJSON({
-            data: res.data,
-            fileName: "projects",
-            exportType: exportFromJSON.types.csv,
-          });
-        })
-        .catch((err) => {
-          setLoadingExport({ name: "csv", status: true });
-          setDropDown(false);
-          console.log(err);
-        });
-    }
-    if (location.pathname === "/services") {
-      setLoadingExport({ name: "csv", status: true });
-      ServiceServices.getAllServices({})
-        .then((res) => {
-          setDropDown(false);
-          setLoadingExport({ name: "csv", status: true });
-          console.log("Data to be exported:", res.data);
-          exportFromJSON({
-            data: res.data,
-            fileName: "services",
-            exportType: exportFromJSON.types.csv,
-          });
-        })
-        .catch((err) => {
-          setLoadingExport({ name: "csv", status: true });
-          setDropDown(false);
-          console.log(err);
-        });
-    }
-    if (location.pathname === "/categories") {
-      setLoadingExport({ name: "csv", status: true });
-      CategoryServices.getAllCategories({})
-        .then((res) => {
-          setDropDown(false);
-          setLoadingExport({ name: "csv", status: true });
-          console.log("Data to be exported:", res.data);
-          exportFromJSON({
-            data: res.data,
-            fileName: "categories",
-            exportType: exportFromJSON.types.csv,
-          });
-        })
-        .catch((err) => {
-          setLoadingExport({ name: "csv", status: true });
-          setDropDown(false);
-          console.log(err);
-        });
-    }
+  // const handleExportCSV = () => {
+  //   if (location.pathname === "/our-staff") {
+  //     setLoadingExport({ name: "csv", status: true });
+  //     AdminServices.getAllStaff({})
+  //       .then((res) => {
+  //         setDropDown(false);
+  //         setLoadingExport({ name: "csv", status: true });
+  //         console.log("Data to be exported:", res.data);
+  //         exportFromJSON({
+  //           data: res.data,
+  //           fileName: "admins",
+  //           exportType: exportFromJSON.types.csv,
+  //         });
+  //       })
+  //       .catch((err) => {
+  //         setLoadingExport({ name: "csv", status: true });
+  //         setDropDown(false);
+  //         console.log(err);
+  //       });
+  //   }
+  //   if (location.pathname === "/projects") {
+  //     setLoadingExport({ name: "csv", status: true });
+  //     ProjectServices.getAllProjects({})
+  //       .then((res) => {
+  //         setDropDown(false);
+  //         setLoadingExport({ name: "csv", status: true });
+  //         console.log("Data to be exported:", res.data);
+  //         exportFromJSON({
+  //           data: res.data,
+  //           fileName: "projects",
+  //           exportType: exportFromJSON.types.csv,
+  //         });
+  //       })
+  //       .catch((err) => {
+  //         setLoadingExport({ name: "csv", status: true });
+  //         setDropDown(false);
+  //         console.log(err);
+  //       });
+  //   }
+  //   if (location.pathname === "/services") {
+  //     setLoadingExport({ name: "csv", status: true });
+  //     ServiceServices.getAllServices({})
+  //       .then((res) => {
+  //         setDropDown(false);
+  //         setLoadingExport({ name: "csv", status: true });
+  //         console.log("Data to be exported:", res.data);
+  //         exportFromJSON({
+  //           data: res.data,
+  //           fileName: "services",
+  //           exportType: exportFromJSON.types.csv,
+  //         });
+  //       })
+  //       .catch((err) => {
+  //         setLoadingExport({ name: "csv", status: true });
+  //         setDropDown(false);
+  //         console.log(err);
+  //       });
+  //   }
+  //   if (location.pathname === "/categories") {
+  //     setLoadingExport({ name: "csv", status: true });
+  //     CategoryServices.getAllCategories({})
+  //       .then((res) => {
+  //         setDropDown(false);
+  //         setLoadingExport({ name: "csv", status: true });
+  //         console.log("Data to be exported:", res.data);
+  //         exportFromJSON({
+  //           data: res.data,
+  //           fileName: "categories",
+  //           exportType: exportFromJSON.types.csv,
+  //         });
+  //       })
+  //       .catch((err) => {
+  //         setLoadingExport({ name: "csv", status: true });
+  //         setDropDown(false);
+  //         console.log(err);
+  //       });
+  //   }
 
     
-    if (location.pathname === "/attributes") {
-      exportFromJSON({
-        data: exportData,
-        fileName: "attributes",
-        exportType: exportFromJSON.types.csv,
-      });
-    }
+  //   if (location.pathname === "/attributes") {
+  //     exportFromJSON({
+  //       data: exportData,
+  //       fileName: "attributes",
+  //       exportType: exportFromJSON.types.csv,
+  //     });
+  //   }
 
-    if (location.pathname === "/coupons") {
-      exportFromJSON({
-        data: exportData,
-        fileName: "coupons",
-        exportType: exportFromJSON.types.csv,
-      });
-    }
-    if (location.pathname === "/customers") {
-      exportFromJSON({
-        data: exportData,
-        fileName: "customers",
-        exportType: exportFromJSON.types.csv,
-      });
-    }
-  };
+  //   if (location.pathname === "/coupons") {
+  //     exportFromJSON({
+  //       data: exportData,
+  //       fileName: "coupons",
+  //       exportType: exportFromJSON.types.csv,
+  //     });
+  //   }
+  //   if (location.pathname === "/customers") {
+  //     exportFromJSON({
+  //       data: exportData,
+  //       fileName: "customers",
+  //       exportType: exportFromJSON.types.csv,
+  //     });
+  //   }
+  // };
 
   const handleExportJSON = () => {
     if (location.pathname === "/our-staff") {
