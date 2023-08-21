@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
+  TableRow,
+  TableBody,
   TableCell,
   TableFooter,
   TableContainer,
@@ -101,7 +103,9 @@ const Blogs = () => {
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data?.Services);
-
+  const tableStyle = {
+    width: '100%', // Assurez-vous de spécifier la valeur comme chaîne de caractères
+  };
   return (
     <>
       <PageTitle>{"Blogs Page"}</PageTitle>
@@ -189,45 +193,91 @@ const Blogs = () => {
         <TableLoading row={12} col={7} width={160} height={20} />
       ) : serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
-          <Table>
-            <TableHeader>
+           <Table className="border-collapse border-0" style={tableStyle}>
+           <TableHeader>
               <tr>
-                <TableCell>
-                  <CheckBox
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    isChecked={isCheckAll}
-                    handleClick={handleSelectAll}
-                  />
-                </TableCell>
-                <TableCell>{"Blog Name"}</TableCell>
                 
-                <TableCell>{"Blog owner"}</TableCell>
-                <TableCell>{"Blog views"}</TableCell>
-                <TableCell className="text-center">{"Details"}</TableCell>
+                <TableCell>{"Name"}</TableCell>
+                <TableCell>{"Value"}</TableCell>
                 <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
-            <BlogTable
-              setIsLoading={setIsLoading}
-              isLoading={isLoading}
-              lang={lang}
-              isCheck={isCheck}
-              Blogs={data?.Blogs}
-              setIsCheck={setIsCheck}
-              currency={currency}
-              searchBlog={searchBlog}
-            /> 
+
+
+            <TableBody className="bg-gray-50 border-0">
+            <TableCell>
+
+              <TableRow >
+                <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
+                  <strong>Adresse :</strong>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm ">{data?.first_name}</span>
+                </TableCell>
+              </TableRow>
+
+
+              <TableRow >
+                <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
+                  <strong>Whatsapp_num:</strong>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm ">{data?.last_name}</span>
+                </TableCell>
+              </TableRow>
+
+
+              <TableRow >
+                <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
+                  <strong>Standard_num:</strong>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm ">{data?.email}</span>
+                </TableCell>
+              </TableRow>
+
+
+              <TableRow >
+                <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
+                  <strong>Email:</strong>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm ">{data?.phone}</span>
+                </TableCell>
+              </TableRow>
+
+
+              <TableRow >
+                <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
+                  <strong>Working_hours :</strong>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm ">{data?.company}</span>
+                </TableCell>
+              </TableRow>
+
+
+              <TableRow >
+                <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
+                  <strong>Map_localisation :</strong>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm ">{data?.site_address}</span>
+                </TableCell>
+              </TableRow>
+
+              </TableCell>
+              
+            </TableBody>
           </Table>
-          <TableFooter>
+          {/* <TableFooter>
             <Pagination
               totalResults={data?.totalDoc}
               resultsPerPage={limitData}
               onChange={handleChangePage}
               label="Service Page Navigation"
             />
-          </TableFooter>
+          </TableFooter> */}
         </TableContainer>
       ) : (
         <NotFound title="Service" />
