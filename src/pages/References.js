@@ -53,7 +53,7 @@ const References = () => {
     setCategory,
     searchRef,
     handleSubmitForAll,
-    sortedField,
+    sortedField, 
     setSortedField,
     limitData,
   } = useContext(SidebarContext);

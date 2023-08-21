@@ -12,6 +12,7 @@ import {
   CardBody,
   Pagination,
 } from "@windmill/react-ui";
+
 import { useTranslation } from "react-i18next";
 import { FiPlus } from "react-icons/fi";
 import MainModal from "components/modal/MainModal";
@@ -37,21 +38,18 @@ import CategoryServices from "services/CategoryServices";
 import Loader from 'components/loader/Loader';
 import ReferencesServices from "services/ReferencesServices";
 const Projects = () => {
-  const { title, subtitle, short_description, description, allId, /*serviceId,*/ handleDeleteMany, handleUpdateMany } =
+  const {  allId, /*serviceId,*/ handleDeleteMany } =
     useToggleDrawer();
 
   const { t } = useTranslation();
   const {
     toggleDrawer,
     lang,
-    currentPage,
     handleChangePage,
     // searchText,
-    category,
     searchRef,
     handleSubmitForAll,
-    sortedField,
-    setSortedField,
+  
     limitData,
   } = useContext(SidebarContext);
 
@@ -68,8 +66,10 @@ const [References, setReference] = useState([]);
 const [categories, setCategory] = useState([]);
 
 
+
+
 //---------------------------------------------------------
-  const fetchProjects = async (selectedCategory,isLoading, search) => {
+  const fetchProjects = async (selectedCategory, search) => {
     try {
       let response;
 
@@ -105,7 +105,7 @@ const [categories, setCategory] = useState([]);
   };
   
   useEffect(() => {
-      fetchProjects(selectedCategory, isLoading,search);
+      fetchProjects(selectedCategory,search);
     }, [selectedCategory,isLoading,search]);
 //---------------------------------------------------------
 
@@ -120,7 +120,7 @@ const getReferencesData = async () => {
     const res = await ReferencesServices.getAllReferences();
     // Mettez à jour le state avec les départements récupérés depuis l'API
     setReference(res.data);
-    console.log('ooooooooOOOOOOOOOOOOOOO')
+
   } catch (err) {
     console.log(err ? err?.response?.data?.message : err?.message);
 
@@ -139,12 +139,11 @@ const getCategoriesData = async () => {
 
 
 useEffect(() => {
- 
   getCategoriesData();
   getReferencesData();
 }, []);
 
-console.log('categories dans projectpage ', categories)
+
   // console.log("categories project",categories)
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
@@ -170,7 +169,7 @@ console.log('categories dans projectpage ', categories)
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-console.log("'isloading from projects : ",isLoading);
+console.log("service id from project page : ",serviceId);
  
   const {
     serviceData,
@@ -191,9 +190,10 @@ console.log("'isloading from projects : ",isLoading);
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
       <BulkActionDrawer ids={allId} title="Projects" />
       <MainDrawer>
-        <ProjectDrawer id={serviceId}  
-              isLoading={isLoading} // Passer la variable isLoading
-              setIsLoading={setIsLoading} 
+        <ProjectDrawer 
+                id={serviceId}  
+                isLoading={isLoading} // Passer la variable isLoading
+                setIsLoading={setIsLoading} 
                 isCheck ={isCheck}
                 categories={categories}
                 setIsCheck={setIsCheck}
