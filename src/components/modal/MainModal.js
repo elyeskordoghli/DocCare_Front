@@ -18,6 +18,7 @@ import DepartmentServices from "services/DepartementServices";
 import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
 import CareerServices from "services/CareerServices";
+import SlidersServices from "services/SlidersServices";
 
 const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -29,6 +30,18 @@ const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) 
     // alert(location.pathname)
 
     setIsLoading(true);
+    if (location.pathname === "/sliderss") {
+      SlidersServices.deleteSlider(id)
+        .then((res) => {
+          setIsLoading(false);
+          setIsUpdate(true);
+          notifySuccess(res.message);
+        })
+
+        .catch((err) => notifyError(err.message));
+      closeModal();
+      setServiceId();
+    }
     if (location.pathname === "/quotes") {
       QuoteServices.deleteQuote(id)
         .then((res) => {

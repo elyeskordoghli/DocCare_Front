@@ -225,12 +225,12 @@ const Blogs = () => {
               totalResults={data?.totalDoc}
               resultsPerPage={limitData}
               onChange={handleChangePage}
-              label="Blog Page Navigation"
+              label="Service Page Navigation"
             />
           </TableFooter>
         </TableContainer>
       ) : (
-        <NotFound title="Blog" />
+        <NotFound title="Service" />
       )}
     </>
   );
