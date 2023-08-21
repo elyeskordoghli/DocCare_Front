@@ -21,6 +21,7 @@ import CategoryServices from "../../services/CategoryServices";
 
 import ServiceServices from "services/ServiceServices";
 import AdminServices from "services/AdminServices";
+import SlidersServices from "services/SlidersServices";
 const UploadManyTwo = ({
   title,
   totalDoc,
@@ -43,6 +44,25 @@ const UploadManyTwo = ({
   // console.log(exportData);
 
   const handleExportCSV = () => {
+    if (location.pathname === "/sliders") {
+      setLoadingExport({ name: "csv", status: true });
+      SlidersServices.getAllSliders({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "sliders",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
+    }
     if (location.pathname === "/our-staff") {
       setLoadingExport({ name: "csv", status: true });
       AdminServices.getAllStaff({})
@@ -146,6 +166,26 @@ const UploadManyTwo = ({
   };
 
   const handleExportJSON = () => {
+    if (location.pathname === "/sliders") {
+      setLoadingExport({ name: "json", status: true });
+      SlidersServices.getAllSliders({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "sliders",
+            exportType: exportFromJSON.types.json,
+          });
+
+        })
+        .catch((err) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log(err);
+        });
+    }
     if (location.pathname === "/our-staff") {
       setLoadingExport({ name: "json", status: true });
       AdminServices.getAllStaff({})
@@ -276,6 +316,7 @@ const UploadManyTwo = ({
           {(title === "Projects" ||
             title === "Services" ||
             title === "Admins" ||
+            title === "Sliders" ||
             title === "Attribute" ||
             title === "Extra" ||
             title === "Coupon" ||

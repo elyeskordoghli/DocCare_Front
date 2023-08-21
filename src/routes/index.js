@@ -7,6 +7,13 @@ const ChildAttributes = lazy(() => import("../pages/ChildAttributes"));
 const Products = lazy(() => import("../pages/Products"));
 const Projects = lazy(() => import("../pages/Projects"));
 const Services = lazy(() => import("../pages/Services"));
+const Sliders = lazy(() => import("../pages/Sliders"));
+const Counts = lazy(() => import("../pages/Counts"));
+const Details = lazy(() => import("../pages/Details"));
+
+
+
+
 const Blogs = lazy(() => import("../pages/Blogs"));
 const References = lazy(() => import("../pages/References"));
 const Departments = lazy(() => import("../pages/Departments"));
@@ -22,6 +29,8 @@ const DepartmentContact = lazy(() => import("../pages/DepartmentContact"));
 
 const ProductDetails = lazy(() => import("../pages/ProductDetails"));
 const ServiceDetails = lazy(() => import("../pages/ServiceDetails"));
+const SlidersDetails = lazy(() => import("../pages/SlidersDetails"));
+
 const BlogDetails = lazy(() => import("../pages/BlogDetails"));
 const ReferenceDetails = lazy(() => import("../pages/ReferenceDetails"));
 const DepartmentDetails = lazy(() => import("../pages/DepartmentDetails"));
@@ -71,6 +80,18 @@ const routes = [
   {
     path: "/careers",
     component: Careers,
+  },
+  {
+    path: "/sliders",
+    component: Sliders,
+  },
+  {
+    path: "/counts",
+    component: Counts,
+  },
+  {
+    path: "/details",
+    component: Details,
   },
   {
     path: "/quotes",
@@ -127,6 +148,10 @@ const routes = [
   {
     path: "/reference/:id",
     component: ReferenceDetails,
+  },
+  {
+    path: "/slider/:id",
+    component: SlidersDetails,
   },
   {
     path: "/contact/:id",

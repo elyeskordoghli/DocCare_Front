@@ -107,22 +107,20 @@ const sidebar = [
 
   },
   {
-    path: "/settings",
-    icon: FiSettings,
-    name: "StoreSetting",
-  },
-
-  {
     icon: FiGlobe,
-    name: "International",
+    name: "Website Manager",
     routes: [
       {
         path: "/languages",
         name: "Languages",
       },
       {
-        path: "/currencies",
-        name: "Currencies",
+        path: "/sliders",
+        name: "Slider management",
+      },
+      {
+        path: "/counts",
+        name: "Counts management",
       },
       {
         path: "/details",
@@ -131,6 +129,13 @@ const sidebar = [
 
     ],
   },
+  {
+    path: "/settings",
+    icon: FiSettings,
+    name: "StoreSetting",
+  },
+
+
 
 ];
 
