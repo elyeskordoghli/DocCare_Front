@@ -53,9 +53,9 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data
   console.log('selectedCategory : ', selectedCategory);
   console.log('isLoading : ', isLoading);
 
-  useEffect(() => {
-    handleServiceIdChange(serviceId)
-  }, [serviceId])
+  // useEffect(() => {
+  //   handleServiceIdChange(serviceId)
+  // }, [serviceId])
  
   //----------------------------------------------------------------
 
@@ -197,14 +197,14 @@ console.log("serviceID : : : : : ",serviceId);
         setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
       />}
 
-      {/* {isCheck?.length < 2 && (
+      {isCheck?.length < 2 && (
         <MainDrawer>
           <ProjectDrawer 
             id={serviceId}
             isLoading={isLoading} // Passer la variable isLoading
             setIsLoading={setIsLoading}/>
         </MainDrawer>
-      )} */}
+      )}
 
 
       <TableBody>
