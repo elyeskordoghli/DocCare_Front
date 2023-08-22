@@ -40,7 +40,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
   const close = () => {
     closeModal();
     setServiceId();
-    setIsCheck([]);
+
   };
 
   console.log("serviceID ", id);
@@ -106,6 +106,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
       if (location.pathname === "/projects") {
         setIsLoading(true);
         const res = await ProjectServices.deleteProject(id);
+        closeModal();
         setServiceId();
         setIsCheck([]);
         setIsLoading(false);
@@ -115,8 +116,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
 
 
 
-        closeModal();
-        setIsSubmitting(false);
+        // setIsSubmitting(false);
       }
       if (location.pathname === "/references") {
         setIsLoading(true);
