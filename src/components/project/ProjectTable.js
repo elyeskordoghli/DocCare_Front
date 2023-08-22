@@ -258,6 +258,7 @@ console.log("serviceID : : : : : ",serviceId);
                 {item.subtitle}
               </span>
             </TableCell>
+            
             <TableCell>
               <span className="text-sm font-semibold">
                 {item?.category ? item.category.name_en : "No Category"}

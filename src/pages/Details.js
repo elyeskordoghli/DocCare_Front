@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
+  TableRow,
+  TableBody,
   TableCell,
   TableFooter,
   TableContainer,
@@ -89,7 +91,9 @@ const Details = () => {
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data?.Services);
-
+  const tableStyle = {
+    width: '100%', // Assurez-vous de spécifier la valeur comme chaîne de caractères
+  };
   return (
     <>
       <PageTitle>{"Details Page"}</PageTitle>
@@ -152,9 +156,10 @@ const Details = () => {
         <TableLoading row={12} col={7} width={160} height={20} />
       ) : serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
-          <Table>
-            <TableHeader>
+           <Table className="border-collapse border-0" style={tableStyle}>
+           <TableHeader>
               <tr>
+
                 {/* <TableCell>
                   <CheckBox
                     type="checkbox"
@@ -192,7 +197,7 @@ const Details = () => {
               currency={currency}
              
             />
-          </Table>
+   </Table>
           {/* <TableFooter>
             <Pagination
               totalResults={data?.totalDoc}
