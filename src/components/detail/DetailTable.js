@@ -27,13 +27,13 @@ const DetailTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, se
   const [data, setData] = useState([]);
   const {
     handleModalOpen,
-    serviceId,
+  
     handleUpdate,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
 
 
-
+  const  [serviceId, setServiceId] = useState();
   // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
   const fetchDetails = async (isLoading) => {
     try {
@@ -57,8 +57,9 @@ const DetailTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, se
   const getDetail = async () => {
     try {
       const ser = await DetailsServices.getDetailById(serviceId)
+      // setServiceId(ser.id);
       setIsCheck([...isCheck, ser.id]);
-      console.log('Slider selectionnée : ', ser.id);
+      console.log('detail selectionnée : ', ser.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération  :", error);
@@ -90,19 +91,7 @@ const DetailTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, se
   return (
     <>
 
-      {isCheck?.length < 1 && <DeleteModal
-        id={serviceId}
-        title={data.title}
-        isLoading={isLoading} // Passer la variable isLoading
-        setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
-      />}
-
-      {isCheck?.length < 2 && (
-        <MainDrawer>
-          <DetailDrawer id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck} />
-        </MainDrawer>
-      )}
-
+      
       <TableBody>
         {data?.map((item, i) => (
           <TableRow key={i + 1}>
@@ -124,7 +113,7 @@ const DetailTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, se
               <TableCell>
                 <span className="text-sm "> {item.adresse_en}</span>
               </TableCell>
-            </TableRow>
+            </TableRow> 
             <TableRow >
               <TableCell>{"Whatsapp Number"}</TableCell>
               <TableCell>
