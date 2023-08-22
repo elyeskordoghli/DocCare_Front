@@ -43,12 +43,14 @@ import { showingTranslateValue } from "utils/translate";
 import ServiceServices from "services/ServiceServices";
 import SidebarContent from "components/sidebar/SidebarContent";
 import SlidersServices from "services/SlidersServices";
+import DetailsServices from "services/DetailsServices";
 //internal import
 
-const DetailDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
+const DetailDrawer = ({ data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
+  const[id,setId]=useState();
 
-
+  console.log("Slider drawer_id", data);
   const {
     tag,
     setTag,
@@ -99,18 +101,25 @@ const DetailDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
 
   const [imageUrl, setImageUrl] = useState("");
   const [oldImageUrl, setOldImageUrl] = useState("");
-  const [title_en, setTitle_en] = useState("");
-  const [subtitle_en, setSubtitle_en] = useState("");
-  const [description_en, setDescription_en] = useState("");
+  const [adresse_en, setAdresse_en] = useState("");
+  const [adresse_fr, setAdresse_fr] = useState("");
+  const [adresse_ar, setAdresse_ar] = useState("");
 
-  const [title_fr, setTitle_fr] = useState("");
-  const [subtitle_fr, setSubtitle_fr] = useState("");
-  const [Description_fr, setDescription_fr] = useState("");
+  const [whatsapp_num, setWhatsapp_num] = useState("");
+  const [standard_num, setStandard_num] = useState("");
 
-  const [title_ar, setTitle_ar] = useState("");
-  const [subtitle_ar, setSubtitle_ar] = useState("");
-  const [description_ar, setDescription_ar] = useState("");
-  const [id_video_youtube, setId_video_youtube] = useState("");
+  const [email, setEmail] = useState("");
+  const [working_hours_en, setWorking_hours_en] = useState("");
+  const [working_hours_fr, setWorking_hours_fr] = useState("");
+  const [working_hours_ar, setWorking_hours_ar] = useState("");
+  const [map_localisation, setMap_localisation] = useState("");
+
+  const [video, setVideo] = useState("");
+
+  const [facebook, setFacebook] = useState("");
+  const [insta, setInsta] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [linkedIn, setLinkedIn] = useState("");
 
 
 
@@ -118,7 +127,7 @@ const DetailDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     setValue,
 
   } = useForm();
-  console.log("Slider drawer_id", id);
+  
   const [retsData, setRestData] = useState({});
 
 
@@ -132,32 +141,31 @@ const DetailDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
       );
     };
 
-    const formData = new FormData();
-    formData.append('title_en', title_en);
-    formData.append('subtitle_en', subtitle_en);
-    formData.append('description_en', description_en);
+    const formData = {
+      adresse_en: adresse_en,
+      adresse_fr : adresse_fr,
+      adresse_ar : adresse_ar,
+      whatsapp_num: whatsapp_num,
+      standard_num : standard_num,
+      email : email,
+      working_hours_en : working_hours_en,
+      working_hours_fr : working_hours_fr,
+      map_localisation : map_localisation,
+      video : video,
+      facebook : facebook ,
+      insta : insta ,
+      twitter : twitter ,
+      linkedIn : linkedIn ,
+      working_hours_en : working_hours_en,
+      working_hours_fr : working_hours_fr ,
+      working_hours_ar: working_hours_ar ,
 
-    formData.append('title_fr', title_fr);
-    formData.append('subtitle_fr', subtitle_fr);
-    formData.append('description_fr', Description_fr);
+    };
 
-
-
-    formData.append('title_ar', title_ar);
-    formData.append('subtitle_ar', subtitle_ar);
-    formData.append('description_ar', description_ar);
-
-    formData.append('image', imageUrl);
-    formData.append('id_video_youtube', id_video_youtube);
-    console.log(formData);
-    // const res = await CategoryServices.getCategoryById(id);
-    // console.log("res category", res);
-
-
-    if (id) {
+   
 
       setIsLoading(true);
-      const res = await SlidersServices.updateSlider(id, formData, {
+      const res = await DetailsServices.updateDetail(id, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -169,84 +177,48 @@ const DetailDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
       notifySuccess(res.message);
       closeDrawer();
       // reset();
-    } else {
-      setIsLoading(true);
-
-      const res = await SlidersServices.addSlider(formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+   
       // setIsUpdate(true);
       // setIsSubmitting(false);
-      setIsLoading(false);
-      setIsCheck([]);
-
-      notifySuccess(res.message);
-      closeDrawer();
-    }
+      
+    
   };
-  const initFormForUpdate = async (id) => {
+  const initFormForUpdate = async () => {
 
-    const res = await SlidersServices.getSliderById(id);
+    const res = await DetailsServices.getAllDetails();
 
-
-    setTitle_en(res.data.title_en);
-    setSubtitle_en(res.data.subtitle_en);
-    setDescription_en(res.data.description_en);
-
-
-    setTitle_fr(res.data.title_fr);
-    setSubtitle_fr(res.data.subtitle_fr);
-    setDescription_fr(res.data.description_fr);
-
-
-    setTitle_ar(res.data.title_ar);
-    setSubtitle_ar(res.data.subtitle_ar);
-    setDescription_ar(res.data.description_ar);
-
-
-    setImageUrl(res.data.image);
-    setImageBinary(res.data.image);
-    setOldImageUrl(res.data.image);
-
-    setId_video_youtube(res.data.id_video_youtube);
-
+    if (res.data && res.data.length > 0) {
+      const firstItem = res.data[0];
+      console.log("first ",firstItem);
+      setId(firstItem.id);
+    setAdresse_en(firstItem.adresse_en);
+    setAdresse_fr(firstItem.adresse_fr);
+    setAdresse_ar(firstItem.adresse_ar);
+    setEmail(firstItem.email);
+    setFacebook(firstItem.facebook);
+    setInsta(firstItem.insta);
+    setTwitter(firstItem.twitter);
+    setLinkedIn(firstItem.linkedIn);
+    setWhatsapp_num(firstItem.whatsapp_num);
+    setStandard_num(firstItem.standard_num);
+    setWorking_hours_en(firstItem.working_hours_en);
+    setWorking_hours_fr(firstItem.working_hours_fr);
+    setWorking_hours_ar(firstItem.working_hours_ar);
+    setVideo(firstItem.video);
+    setMap_localisation(firstItem.map_localisation);
+    }
   };
 
 
   useEffect(() => {
-    if (id && id !== undefined) {
-      initFormForUpdate(id);
-    } else {
-      setTitle_en("");
-      setSubtitle_en("");
-      setDescription_en("");
-
-
-      setTitle_fr("");
-      setSubtitle_fr("");
-      setDescription_fr("");
-
-
-      setTitle_ar("");
-      setSubtitle_ar("");
-      setDescription_ar("");
-
-      setImageUrl("");
-      setImageBinary("");
-      setOldImageUrl("")
-
-      setId_video_youtube("");
-      setIsCheck([]);
-
-    }
-  }, [id]);
+    // if (id && id !== undefined) {
+      initFormForUpdate();
+  },[]);
   const handleSubmitClick = () => {
     // Place your submission logic here
   };
 
-
+console.log("hihi",adresse_en);
   // const handleNextClick = () => {
   //   if (tapValue === 'Anglais') {
   //     setTapValue('French');
@@ -256,20 +228,7 @@ const DetailDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
   // };
 
 
-  const [imageBinary, setImageBinary] = useState(null);
-  useEffect(() => {
-    async function fetchImageBinary() {
-      try {
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-        setImageBinary(blob);
-      } catch (error) {
-        console.error('Error fetching image binary:', error);
-      }
-    }
 
-    fetchImageBinary();
-  }, [imageUrl]);
   return (
     <>
       <Modal
@@ -282,31 +241,18 @@ const DetailDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
           </div>
         }
       >
-        <div className="cursor-pointer">
-          <UploaderThree
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            handleSelectImage={handleSelectImage}
-          />
-        </div>
+
       </Modal>
 
       <div className="w-full relative p-6 border-b border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-        {id ? (
+        
           <Title
             register={register}
             // handleSelectLanguage={handleSelectLanguage}
-            title={"Update Slider"}
-            description={"Update Slider Description"}
+            title={"Update Detail"}
+            description={"Update Detail Description"}
           />
-        ) : (
-          <Title
-            register={register}
-            // handleSelectLanguage={handleSelectLanguage}
-            title={"Add Slider"}
-            description={"Add Slider Description"}
-          />
-        )}
+ 
       </div>
  
 
@@ -316,214 +262,246 @@ const DetailDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
           <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-20 md:pb-32 lg:pb-32 xl:pb-32">
 
 
+          
+
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Image"} />
+              <LabelArea label={"Adresse (en) "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
 
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="imageUrl"
-                  type="file"
-                  placeholder={"Image "}
-                  onChange={(e) => { setImageUrl(e.target.files[0]) }}
-                />
-                <Error errorName={errors.imageUrl} />
-                {imageUrl && (
-                  <img
-                    src={oldImageUrl} // Utiliser l'URL existante pour afficher l'image
-                    alt="Old Image"
-                    style={{ maxWidth: '100px', marginTop: '10px' }}
-                  />
-                )}
-
-
-              </div>
-            </div>
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Title (en) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Input
-
-                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="title_en"
+                  name="adresse_en"
                   type="text"
-                  placeholder={"Slider Title (en) "}
+                  placeholder={"Adresse (en) "}
                   // onBlur={(e) => handleProductSlug(e.target.value)}
-                  onChange={(e) => setTitle_en(e.target.value)}
-                  value={title_en}
+                  onChange={(e) => setAdresse_en(e.target.value)}
+                  value={adresse_en}
                 />
                 {/* {title_en ?? ""} TTEEST */}
-                <Error errorName={errors.title_en} />
+                <Error errorName={errors.adresse_en} />
               </div>
             </div>
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider SubTitle (en) "} />
+              <LabelArea label={"Adresse (fr) "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
 
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="subTitle_en"
+                  name="adresse_fr"
                   type="text"
-                  placeholder={"Slider Title (en) "}
+                  placeholder={"Adresse (fr) "}
                   // onBlur={(e) => handleProductSlug(e.target.value)}
-                  onChange={(e) => setSubtitle_en(e.target.value)}
-                  value={subtitle_en}
+                  onChange={(e) => setAdresse_fr(e.target.value)}
+                  value={adresse_fr}
                 />
                 {/* {title_en ?? ""} TTEEST */}
-                <Error errorName={errors.subtitle_en} />
+                <Error errorName={errors.adresse_fr} />
               </div>
             </div>
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Description (en) "} />
+              <LabelArea label={"Adresse (ar) "} />
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  name="adresse_ar"
+                  type="text"
+                  placeholder={"Adresse (ar) "}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
+                  onChange={(e) => setAdresse_ar(e.target.value)}
+                  value={adresse_ar}
+                />
+                {/* {title_en ?? ""} TTEEST */}
+                <Error errorName={errors.adresse_ar} />
+              </div>
+            </div>
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Whatsapp Number "} />
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  name="whatsapp_num"
+                  type="text"
+                  placeholder={"Whatsapp Number "}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
+                  onChange={(e) => setWhatsapp_num(e.target.value)}
+                  value={whatsapp_num}
+                />
+                {/* {title_en ?? ""} TTEEST */}
+                <Error errorName={errors.whatsapp_num} />
+              </div>
+            </div>
+          
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Standard Number "} />
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  name="standard_num"
+                  type="text"
+                  placeholder={"Standard Number "}
+                  // onBlur={(e) => handleProductSlug(e.target.value)}
+                  onChange={(e) => setStandard_num(e.target.value)}
+                  value={standard_num}
+                />
+                {/* {title_en ?? ""} TTEEST */}
+                <Error errorName={errors.standard_num} />
+              </div>
+            </div>
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Email "} />
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  name="email"
+                  type="text"
+                  placeholder={"Email "}
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                />
+                <Error errorName={errors.email} />
+              </div>
+            </div>
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Working hours (en) "} />
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  name="working_hours_en"
+                  type="text"
+                  placeholder={"Working hours (en) "}
+                  onChange={(e) => setWorking_hours_en(e.target.value)}
+                  value={working_hours_en}
+                />
+                <Error errorName={errors.working_hours_en} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Working hours (fr) "} />
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  name="working_hours_fr"
+                  type="text"
+                  placeholder={"Working hours (fr) "}
+                  onChange={(e) => setWorking_hours_fr(e.target.value)}
+                  value={working_hours_fr}
+                />
+                <Error errorName={errors.working_hours_fr} />
+              </div>
+            </div>
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Working hours (ar) "} />
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  name="working_hours_ar"
+                  type="text"
+                  placeholder={"Working hours (ar) "}
+                  onChange={(e) => setWorking_hours_ar(e.target.value)}
+                  value={working_hours_en}
+                />
+                <Error errorName={errors.working_hours_ar} />
+              </div>
+            </div>
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Map localisation "} />
               <div className="col-span-8 sm:col-span-4">
                 <Textarea
                   className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                  name="Description_en"
-                  placeholder={"Slider Description (en) "}
-                  rows="4"
+                  name="map_localisation"
+                  placeholder={"Map localisation "}
+                  rows="2"
                   spellCheck="false"
-                  onChange={(e) => setDescription_en(e.target.value)}
-                  value={description_en}
+                  onChange={(e) => setMap_localisation(e.target.value)}
+                  value={map_localisation}
                 />
-                <Error errorName={errors.description_en} />
+                <Error errorName={errors.map_localisation} />
               </div>
             </div>
 
-            {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Slider Description (en) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <ReactQuill
-                    value={description_en}
-                    onChange={(e) => setDescription_en(e.target.value)}
-                  />
-                  <Error errorName={errors.description_en} />
-                </div>
-              </div> */}
+
+            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label={"Facebook "} />
+              <div className="col-span-8 sm:col-span-4">
+                <Input
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  name="facebook"
+                  type="text"
+                  placeholder={"Facebook"}
+                  onChange={(e) => setFacebook(e.target.value)}
+                  value={facebook}
+                />
+                <Error errorName={errors.facebook} />
+              </div>
+            </div>
 
 
 
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Title (fr) "} />
+              <LabelArea label={"Instagram "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
 
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="title_fr"
+                  name="insta"
                   type="text"
-                  placeholder={"Slider Title (fr) "}
-                  onChange={(e) => setTitle_fr(e.target.value)}
-                  value={title_fr}
+                  placeholder={"Instagram "}
+                  onChange={(e) => setInsta(e.target.value)}
+                  value={insta}
                 />
-                <Error errorName={errors.title_fr} />
+                <Error errorName={errors.insta} />
               </div>
             </div>
-
-
-
-
-
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider SubTitle (fr) "} />
+              <LabelArea label={"Twitter "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
 
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="subtitle_fr"
+                  name="twitter"
                   type="text"
-                  placeholder={"Slider SubTitle (fr) "}
-                  onChange={(e) => setSubtitle_fr(e.target.value)}
-                  value={subtitle_fr}
+                  placeholder={"Twitter "}
+                  onChange={(e) => setTwitter(e.target.value)}
+                  value={twitter}
                 />
-                <Error errorName={errors.subtitle_fr} />
+                <Error errorName={errors.twitter} />
               </div>
             </div>
-
-
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Description (fr) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Textarea
-                  className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                  name="Description_fr"
-                  placeholder={"Slider Description (fr) "}
-                  rows="4"
-                  spellCheck="false"
-                  onChange={(e) => setDescription_fr(e.target.value)}
-                  value={Description_fr}
-                />
-                <Error errorName={errors.Description_fr} />
-              </div>
-            </div>
-
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Title (ar) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Input
-                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="title_ar"
-                  type="text"
-                  placeholder={"Slider Title (ar)"}
-                  onChange={(e) => setTitle_ar(e.target.value)}
-                  value={title_ar}
-                />
-                <Error errorName={errors.title_ar} />
-              </div>
-            </div>
-
-
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider SubTitle (ar) "} />
+              <LabelArea label={"LinkedIn "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
 
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="subtitle_ar"
+                  name="linkedIn"
                   type="text"
-                  placeholder={"Slider SubTitle (ar) "}
-                  onChange={(e) => setSubtitle_ar(e.target.value)}
-                  value={subtitle_ar}
+                  placeholder={"LinkedIn "}
+                  onChange={(e) => setLinkedIn(e.target.value)}
+                  value={linkedIn}
                 />
-                <Error errorName={errors.subtitle_ar} />
+                <Error errorName={errors.linkedIn} />
               </div>
             </div>
-
-
             <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Description (ar) "} />
-              <div className="col-span-8 sm:col-span-4">
-                <Textarea
-                  className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                  name="description_ar"
-                  placeholder={"Slider Description (ar) "}
-                  rows="4"
-                  spellCheck="false"
-                  onChange={(e) => setDescription_ar(e.target.value)}
-                  value={description_ar}
-                />
-                <Error errorName={errors.description_ar} />
-              </div>
-            </div>
-
-
-
-
-
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={"Slider Youtube Video  "} />
+              <LabelArea label={"Youtube Video  "} />
               <div className="col-span-8 sm:col-span-4">
                 <Input
                   className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  name="Youtube Video"
+                  name="video"
                   type="text"
-                  placeholder={"Slider Youtube Video  "}
-                  onChange={(e) => setId_video_youtube(e.target.value)}
-                  value={id_video_youtube}
+                  placeholder={"Youtube Video  "}
+                  onChange={(e) => setVideo(e.target.value)}
+                  value={video}
                 />
-                <Error errorName={errors.id_video_youtube} />
+                <Error errorName={errors.video} />
               </div>
             </div>
 
