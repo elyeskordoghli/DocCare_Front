@@ -25,7 +25,7 @@ import Loader from 'components/loader/Loader';
 
 //internal import 
 
-const ProjectTable = ({ isCheck, setIsCheck,categories ,References, search, data, lang, selectedCategory, isLoading, setIsLoading, projects, handleServiceIdChange = null }) => {
+const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory,References, data, lang, selectedCategory, isLoading, setIsLoading, projects}) => {
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -197,12 +197,23 @@ console.log("serviceID : : : : : ",serviceId);
         setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
       />}
 
+  
       {isCheck?.length < 2 && (
         <MainDrawer>
           <ProjectDrawer 
             id={serviceId}
             isLoading={isLoading} // Passer la variable isLoading
-            setIsLoading={setIsLoading}/>
+            setIsLoading={setIsLoading}
+            References={References}
+            // setReferences={setReferences}
+
+            isCheck ={isCheck}
+            setIsCheck={setIsCheck}
+
+            categories={categories}
+            setCategory={setCategory}
+            
+            />
         </MainDrawer>
       )}
 

@@ -64,7 +64,15 @@ const [selectedCategory, setSelectedCategory] = useState('All');
 const [search, setSearchValue] = useState("");
 const [References, setReference] = useState([]);
 const [categories, setCategory] = useState([]);
+const [load, setLoad] = useState(true);
+const loading = async () => {
+  setLoad(false);
+}
 
+
+useEffect(() => {
+  loading()
+}, []);
 
 
 
@@ -187,18 +195,18 @@ console.log("service id from project page : ",serviceId);
 
       <PageTitle>{"Projects Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} isLoading={isLoading} setIsLoading={setIsLoading} title={data.title} />
-      <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
+      <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} setIsCheck={setIsCheck}/>
       <BulkActionDrawer ids={allId} title="Projects" />
       <MainDrawer>
         <ProjectDrawer 
-                id={serviceId}  
-                isLoading={isLoading} // Passer la variable isLoading
-                setIsLoading={setIsLoading} 
-                isCheck ={isCheck}
-                categories={categories}
-                setIsCheck={setIsCheck}
-                References={References}
-                setCategory={setCategory}
+                // id={serviceId}  
+                // isLoading={isLoading} // Passer la variable isLoading
+                // setIsLoading={setIsLoading} 
+                // isCheck ={isCheck}
+                // categories={categories}
+                // setIsCheck={setIsCheck}
+                // References={References}
+                // setCategory={setCategory}
                 />
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
@@ -330,7 +338,7 @@ console.log("service id from project page : ",serviceId);
         </CardBody>
       </Card>
 
-      {isLoading ? (
+      {load ? (
         <TableLoading row={6} col={5} width={230} height={20} />
       ) : serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
@@ -364,6 +372,9 @@ console.log("service id from project page : ",serviceId);
               </tr>
             </TableHeader>
             <ProjectTable
+             categories={categories}
+             References={References}
+             setCategory={setCategory}
              serviceId={serviceId}
               lang={lang}
               isCheck={isCheck}
@@ -374,6 +385,8 @@ console.log("service id from project page : ",serviceId);
               setIsLoading={setIsLoading}
               isLoading={isLoading} 
               search={search}
+              setReference={setReference}
+              
               // handleServiceIdChange={(new_service_id) => handleServiceIdChange(new_service_id)}
             />
           </Table>

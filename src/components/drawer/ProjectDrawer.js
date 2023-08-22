@@ -53,7 +53,6 @@ import SelectReferences from "components/form/SelectReferences";
 const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,References,categories, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
 
-  console.log('categories dans projectDrawer ', categories)
   console.log("idid : ", id)
   // console.log("catcat: ",categories);
   const {
@@ -185,7 +184,6 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
           },
 
         });
-             console.log("add mirgll");
         closeDrawer();
         setIsLoading(false);
         setServiceId();
@@ -193,11 +191,11 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
         setIsSubmitting(false);
    
         notifySuccess(res.message);
-        console.log("add mirgll2");
+   
 
       } else {
         setIsLoading(true);
-
+        console.log("id 9bal update : ",id);
         const response = await ProjectServices.updateProject(id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -205,14 +203,13 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
 
         });
-      
-        setIsSubmitting(false);
+        console.log("id ba3d update : ",id);
+
         closeDrawer();
         setIsLoading(false);
-        // setServiceId();
-        // setIsCheck([]);
-        // setIsUpdate(true);
+   
         notifySuccess(response.message);
+
 
       }
     } catch (error) {
@@ -220,6 +217,9 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
     }
    
   };
+
+  console.log("id ba3dd update : ",id);
+
   const initFormForUpdate = async (id) => {
     // setIsLoading(true);
     const res = await ProjectServices.getProjectById(id);
