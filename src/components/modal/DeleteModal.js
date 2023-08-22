@@ -31,6 +31,7 @@ import QuoteServices from "services/QuoteServices";
 import CareerServices from "services/CareerServices";
 import SlidersServices from "services/SlidersServices";
 import CountServices from "services/CountServices";
+import DetailsServices from "services/DetailsServices";
 
 const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoading, setServiceId, setIsLoading }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -48,6 +49,16 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
     // return notifyError("CRUD operation is disabled for this option!");
     try {
       setIsSubmitting(true);
+      if (location.pathname === "/details") {
+        setIsLoading(true);
+        const res = await DetailsServices.deleteDetail(id);
+        setIsLoading(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
+      }
       if (location.pathname === "/our-staff") {
         setIsLoading(true);
         const res = await AdminServices.deleteStaff(id);
