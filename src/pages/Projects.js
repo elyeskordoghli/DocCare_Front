@@ -38,7 +38,7 @@ import CategoryServices from "services/CategoryServices";
 import Loader from 'components/loader/Loader';
 import ReferencesServices from "services/ReferencesServices";
 const Projects = () => {
-  const {  allId, /*serviceId,*/ handleDeleteMany } =
+  const {  allId, serviceId, handleDeleteMany } =
     useToggleDrawer();
 
   const { t } = useTranslation();
@@ -53,10 +53,10 @@ const Projects = () => {
     limitData,
   } = useContext(SidebarContext);
 
-const [serviceId, setServiceId] = useState(null);
-const handleServiceIdChange = (new_service_id) => {
-  setServiceId(new_service_id)
-}
+// const [serviceId, setServiceId] = useState(null);
+// const handleServiceIdChange = (new_service_id) => {
+//   setServiceId(new_service_id)
+// }
 
 const [data, setData] = useState([]);
 const [isLoading, setIsLoading]=useState(true);
@@ -364,6 +364,7 @@ console.log("service id from project page : ",serviceId);
               </tr>
             </TableHeader>
             <ProjectTable
+             serviceId={serviceId}
               lang={lang}
               isCheck={isCheck}
               data={data}
@@ -373,7 +374,7 @@ console.log("service id from project page : ",serviceId);
               setIsLoading={setIsLoading}
               isLoading={isLoading} 
               search={search}
-              handleServiceIdChange={(new_service_id) => handleServiceIdChange(new_service_id)}
+              // handleServiceIdChange={(new_service_id) => handleServiceIdChange(new_service_id)}
             />
           </Table>
           <TableFooter>
