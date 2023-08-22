@@ -54,13 +54,14 @@ const Counts = () => {
     limitData,
   } = useContext(SidebarContext);
 
+  const [dataLength, setDataLength] = useState(0); // Initialisez la longueur à 0
   const { data, loading } = useAsync(() =>
     CountServices.getAllCounts()
-  );
-
-
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
+  );  
+ 
+  console.log("datacount : ",data);
+console.log("data.lenght  : ",data.length);
+ 
   // console.log("product page", data);
 
   // react hooks
@@ -85,6 +86,14 @@ const Counts = () => {
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data?.Services);
+
+   useEffect(() => {
+    if (data) {
+      setDataLength(data?.data?.length);
+    } 
+   }, [data]); // Assurez-vous de déclencher cela lorsque les données changent
+
+  console.log("dataLength : ",dataLength);
 
   return (
     <>
@@ -133,6 +142,7 @@ const Counts = () => {
                 <Button
                   onClick={toggleDrawer}
                   className="w-full rounded-md h-12"
+                  disabled={dataLength >= 4}
                 >
                   <span className="mr-2">
                     <FiPlus />
@@ -185,7 +195,6 @@ const Counts = () => {
               isCheck={isCheck}
               Statistics={data?.Statistics}
               setIsCheck={setIsCheck}
-              currency={currency}
 
             />
           </Table>
