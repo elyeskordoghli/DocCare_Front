@@ -126,6 +126,12 @@ const sidebar = [
         path: "/details",
         name: "Our Details",
       },
+      {
+        path: "/history",
+        name: "Our History",
+        previleges: ["view_history"],
+
+      },
 
     ],
   },
