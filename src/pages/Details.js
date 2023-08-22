@@ -35,9 +35,12 @@ import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
 import BlogServices from "services/BlogServices";
 import MainModal from "components/modal/MainModal";
+import DetailsServices from "services/DetailsServices";
+import DetailDrawer from "components/drawer/DetailDrawer";
+import DetailTable from "components/detail/DetailTable";
 
-const Blogs = () => {
-  const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+const Details = () => {
+  const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
   const {
@@ -56,24 +59,9 @@ const Blogs = () => {
   } = useContext(SidebarContext);
 
   const { data, loading } = useAsync(() =>
-    BlogServices.getAllBlogs({
-      // page: currentPage,
-      // limit: limitData,
-      // category_id: category,
-      name: searchText,
-      // subtitle: subtitle,
-      // short_description: short_description,
-      // description : description,
-    //  price: sortedField,
-    })
+    DetailsServices.getAllDetails()
   );
-  
-  const [searchBlog, setSearchValue] = useState("");
 
-  const handleSearchInputChange = (e) => {
-    const newSearchValue = e.target.value;
-    setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
-  };
 
   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
   const currency = globalSetting?.default_currency || "$";
@@ -90,7 +78,7 @@ const Blogs = () => {
       setIsCheck([]);
     }
   };
-  const [isLoading, setIsLoading]=useState();
+  const [isLoading, setIsLoading] = useState();
 
   // console.log('productss',products)
   const {
@@ -104,23 +92,23 @@ const Blogs = () => {
 
   return (
     <>
-      <PageTitle>{"Blogs Page"}</PageTitle>
+      <PageTitle>{"Details Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
-        <BlogDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
+        <DetailDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
           <form
             onSubmit={handleSubmitForAll}
             className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6  xl:flex"
-          > 
+          >
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
-                title="Blogs"
+                title="Details"
                 filename={filename}
                 isDisabled={isDisabled}
                 totalDoc={data?.totalDoc}
@@ -130,7 +118,7 @@ const Blogs = () => {
               />
             </div>
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-      
+
 
               <div className="w-full md:w-32 lg:w-32 xl:w-32 mr-3 mb-3 lg:mb-0">
                 <Button
@@ -153,38 +141,13 @@ const Blogs = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Blog"}
+                  {"Add Detail"}
                 </Button>
               </div>
             </div>
           </form>
         </CardBody>
       </Card>
-
-      <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 rounded-t-lg rounded-0 mb-4">
-        <CardBody>
-          <form
-            onSubmit={handleSubmitForAll}
-            className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex"
-          >
-            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <Input
-                ref={searchRef}
-                className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-                type="search"
-                name="search"
-                placeholder="Search Blog"
-                onChange={handleSearchInputChange} 
-              />
-              <button
-                type="submit"
-                className="absolute right-0 top-0 mt-5 mr-1"
-              ></button>
-            </div>
-   </form>
-        </CardBody>
-      </Card>
-
       {loading ? (
         <TableLoading row={12} col={7} width={160} height={20} />
       ) : serviceData?.length !== 0 ? (
@@ -192,7 +155,7 @@ const Blogs = () => {
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>
+                {/* <TableCell>
                   <CheckBox
                     type="checkbox"
                     name="selectAll"
@@ -200,34 +163,44 @@ const Blogs = () => {
                     isChecked={isCheckAll}
                     handleClick={handleSelectAll}
                   />
-                </TableCell>
-                <TableCell>{"Blog Name"}</TableCell>
-                
-                <TableCell>{"Blog owner"}</TableCell>
-                <TableCell>{"Blog views"}</TableCell>
-                <TableCell className="text-center">{"Details"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                </TableCell> */}
+                <TableCell >{"Item"}</TableCell>
+                <TableCell >{"Value"}</TableCell>
               </tr>
-            </TableHeader>
-            <BlogTable
+
+                </TableHeader>
+
+                {/* <TableCell>{"Adresse"}</TableCell>
+                <TableCell>{"Whatsapp Number"}</TableCell>
+                <TableCell>{"Standard Number"}</TableCell>
+                <TableCell>{"Email"}</TableCell>
+                <TableCell>{"Working Hours"}</TableCell>
+                <TableCell>{"Facebook"}</TableCell>
+                <TableCell>{"Instagram"}</TableCell>
+                <TableCell>{"Twitter"}</TableCell>
+                <TableCell>{"LinkedIn"}</TableCell>
+                <TableCell>{"Location"}</TableCell>
+                <TableCell className="text-center">{"Details"}</TableCell>
+                <TableCell className="text-right">{"Actions"}</TableCell> */}
+            <DetailTable
               setIsLoading={setIsLoading}
               isLoading={isLoading}
               lang={lang}
               isCheck={isCheck}
-              Blogs={data?.Blogs}
+              Details={data?.Details}
               setIsCheck={setIsCheck}
               currency={currency}
-              searchBlog={searchBlog}
-            /> 
+             
+            />
           </Table>
-          <TableFooter>
+          {/* <TableFooter>
             <Pagination
               totalResults={data?.totalDoc}
               resultsPerPage={limitData}
               onChange={handleChangePage}
               label="Service Page Navigation"
             />
-          </TableFooter>
+          </TableFooter> */}
         </TableContainer>
       ) : (
         <NotFound title="Service" />
@@ -236,4 +209,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default Details;

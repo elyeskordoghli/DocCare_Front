@@ -23,6 +23,7 @@ import ServiceServices from "services/ServiceServices";
 import AdminServices from "services/AdminServices";
 import SlidersServices from "services/SlidersServices";
 import CountServices from "services/CountServices";
+import DetailsServices from "services/DetailsServices";
 const UploadManyTwo = ({
   title,
   totalDoc,
@@ -55,6 +56,25 @@ const UploadManyTwo = ({
           exportFromJSON({
             data: res.data,
             fileName: "counts",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
+    }
+    if (location.pathname === "/details") {
+      setLoadingExport({ name: "csv", status: true });
+      CountServices.getAllCounts({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "details",
             exportType: exportFromJSON.types.csv,
           });
         })
@@ -196,6 +216,26 @@ const UploadManyTwo = ({
           exportFromJSON({
             data: res.data,
             fileName: "sliders",
+            exportType: exportFromJSON.types.json,
+          });
+
+        })
+        .catch((err) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log(err);
+        });
+    }
+    if (location.pathname === "/details") {
+      setLoadingExport({ name: "json", status: true });
+      DetailsServices.getAllDetails({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "details",
             exportType: exportFromJSON.types.json,
           });
 
@@ -358,6 +398,7 @@ const UploadManyTwo = ({
             title === "Admins" ||
             title === "Counts" ||
             title === "Sliders" ||
+            title === "Details" ||
             title === "Attribute" ||
             title === "Extra" ||
             title === "Coupon" ||
