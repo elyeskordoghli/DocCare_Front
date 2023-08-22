@@ -198,7 +198,6 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
       } else {
         setIsLoading(true);
 
-        console.log("id 9bal update : ",originalId);
         const response = await ProjectServices.updateProject(id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
