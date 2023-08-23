@@ -24,45 +24,52 @@ import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
 //internal import  
 
-const QuoteTable = ({ setId, searchQuote, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
-  const [data, setData] = useState([]);
+const QuoteTable = ({id, setId,data, searchQuote, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const {
     handleModalOpen,
-    serviceId,
     handleUpdate,
+    serviceId,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
+  const [status, setStatus] = useState("");
+  
+  console.log("id from quoteTable : ",serviceId);
 
+  const handleStatusChange = async (id,newStatus) => {
+    // Mettez à jour l'état local
+    setStatus(newStatus);
+    // console.log("newStatus",newStatus)
+    // const qu = await QuoteServices.getQuoteById(id)
+    // setId([...id, qu.id]);
+    const formData = {status: newStatus,};
+    // console.log("fffffffff",formData)
+    setIsLoading(false);
+    console.log("serser : ",id);
+    // Appelez le service pour mettre à jour le statut dans la base de données
+    QuoteServices.updateQuote(id,
+       formData
+       )
+
+      .then((response) => {
+        // Traitez la réponse si nécessaire
+        setIsLoading(true);
+
+        console.log('Quote updated:', response.data);
+      })
+      .catch((error) => {
+        // Traitez les erreurs si nécessaire
+        console.error('Error updating quote:', error);
+      });
+  };
 
 
   // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-  const fetchQuotes = async (isLoading, searchQuote) => {
-    try {
-      let response;
-      if (searchQuote) {
-        response = await QuoteServices.searchQuote(searchQuote);
-      }
-      else {
-        response = await QuoteServices.getAllQuote();
-      }
-      // Mettez à jour la variable data avec les données récupérées
-      setData(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des quotes :", error);
-    }
-    finally {
-      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-    }
-  };
-
-  useEffect(() => {
-    fetchQuotes(isLoading, searchQuote); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading, searchQuote]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const getQuote = async () => {
     try {
       const qu = await QuoteServices.getQuoteById(serviceId)
       setIsCheck([...isCheck, qu.id]);
+      setId([...id, qu.id]);
       console.log('contact selectionnée : ', qu.id);
 
     } catch (error) {
@@ -92,7 +99,7 @@ const QuoteTable = ({ setId, searchQuote, isCheck, setIsCheck, currency, lang, i
     <>
       {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}
       {isCheck?.length < 1 && <DeleteModal
-        id={serviceId}
+        id={id}
         title={data?.first_name}
         isLoading={isLoading} // Passer la variable isLoading
         setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
@@ -100,7 +107,7 @@ const QuoteTable = ({ setId, searchQuote, isCheck, setIsCheck, currency, lang, i
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <DepartmentDrawer id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck} />
+          <DepartmentDrawer id={id} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck} />
         </MainDrawer>
       )}
 
@@ -144,7 +151,17 @@ const QuoteTable = ({ setId, searchQuote, isCheck, setIsCheck, currency, lang, i
               </span>
             </TableCell>
             <TableCell>
-            {item?.services ? (
+              <select
+                value={item.status}
+                onChange={(e) => handleStatusChange(item.id,e.target.value)}
+              >
+                <option value="in progress">in progress</option>
+                <option value="completed">completed</option>
+                <option value="canceled">canceled</option>
+              </select>
+            </TableCell>
+            <TableCell>
+              {item?.services ? (
                 <ul className="list-disc pl-6">
                   {item?.services.map((services, index) => (
                     <li key={index} className="text-sm font-semibold">
@@ -156,7 +173,7 @@ const QuoteTable = ({ setId, searchQuote, isCheck, setIsCheck, currency, lang, i
                 <span className="text-sm font-semibold">Aucun service</span>
               )}
             </TableCell>
-       
+
             <TableCell>
               <Link
                 to={`/quote/${item.id}`}

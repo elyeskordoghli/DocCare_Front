@@ -36,7 +36,7 @@ import MainModal from "components/modal/MainModal";
 import DepartmentServices from "services/DepartementServices";
 import DepartmentDrawer from "components/drawer/DepartmentDrawer";
 import DepartmentTable from "components/department/DepartmentTable";
-
+import Loader from 'components/loader/Loader';
 import QuoteServices from "services/QuoteServices";
 import QuoteTable from "components/quote/QuoteTable";
 
@@ -44,6 +44,11 @@ const Quote = () => {
   const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading]=useState(true);
+  const [searchQuote, setSearchValue] = useState("");
+
+  const[status,setStatus] =useState();
   const {
     toggleDrawer,
     lang,
@@ -59,21 +64,40 @@ const Quote = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(() =>
-    QuoteServices.getAllQuote({
-      first_name: searchText,
-    })
-  );
-  
-  const [searchQuote, setSearchValue] = useState("");
+  const handleStatusInputChange = (e) => {
+    const newStatusValue = e.target.value;
+    setStatus(newStatusValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
+  };
+
+
+  const fetchQuotes = async (isLoading, searchQuote) => {
+    try {
+      let response;
+      if (searchQuote) {
+        response = await QuoteServices.searchQuote(searchQuote);
+      }
+      else {
+        response = await QuoteServices.getAllQuote();
+      }
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des quotes :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+
+  useEffect(() => {
+    fetchQuotes(isLoading, searchQuote); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading, searchQuote]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
   // console.log("product page", data);
 
   // react hooks
@@ -87,7 +111,6 @@ const Quote = () => {
       setIsCheck([]);
     } 
   };
-  const [isLoading, setIsLoading]=useState();
 
   // console.log('productss',products)
   const {
@@ -101,6 +124,7 @@ const Quote = () => {
 
   return (
     <>
+    {isLoading ? <Loader /> : null}
       <PageTitle>{"Quote Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -129,13 +153,24 @@ const Quote = () => {
                 className="absolute right-0 top-0 mt-5 mr-1"
               ></button>
             </div>
+            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+              <Select
+                onChange={(e) => handleStatusInputChange}
+                className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+              >
+                <option value="All" defaultValue hidden>
+                  {t("Status")}
+                </option>
+                <option value="In Progress">{t("In Progress")}</option>
+                <option value="Completed">{t("Completed")}</option>
+                <option value="Canceled">{t("Canceled")}</option>
+              </Select>
+            </div>
    </form>
         </CardBody>
       </Card>
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+       {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -153,19 +188,22 @@ const Quote = () => {
                 <TableCell>{"Last Name"}</TableCell>
                 <TableCell>{"Email"}</TableCell>
                 <TableCell>{"Phone"}</TableCell>
+                <TableCell>{"Status"}</TableCell>
                 <TableCell>{"Service"}</TableCell>
                 <TableCell className="text-center">{"Details"}</TableCell>
                 <TableCell className="text-right">{"Actions"}</TableCell>
               </tr>
             </TableHeader>
             <QuoteTable
+            id={serviceId}
               setIsLoading={setIsLoading}
               isLoading={isLoading}
               lang={lang}
               isCheck={isCheck}
               quote={data?.quote}
               setIsCheck={setIsCheck}
-              currency={currency}
+              // currency={currency}
+              data={data}
               searchQuote={searchQuote}
             /> 
           </Table>

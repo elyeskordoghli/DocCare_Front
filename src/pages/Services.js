@@ -14,6 +14,7 @@ import {
 } from "@windmill/react-ui";
 import { useTranslation } from "react-i18next";
 import { FiPlus } from "react-icons/fi";
+import Loader from 'components/loader/Loader';
 
 import useAsync from "hooks/useAsync";
 import useToggleDrawer from "hooks/useToggleDrawer";
@@ -54,20 +55,12 @@ const Services = () => {
     limitData,
   } = useContext(SidebarContext);
   const [isLoading, setIsLoading] = useState();
-  const { data, loading } = useAsync(() =>
-    ServiceServices.getAllServices({
-      // page: currentPage,
-      // limit: limitData,
-      // category_id: category,
-      title: searchText,
-      // subtitle: subtitle,
-      // short_description: short_description,
-      // description : description,
-      //  price: sortedField,
-    })
-  );
-
+  const [data, setData] = useState([]);
   const [searchService, setSearchValue] = useState("");
+
+  // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+
+
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -89,8 +82,16 @@ const Services = () => {
 
     }
   };
+  const [load, setLoad] = useState(true);
 
-
+  const loading = async () => {
+    setLoad(false);
+  }
+  
+  
+  useEffect(() => {
+    loading()
+  }, []);
   const {
     serviceData,
     filename,
@@ -99,9 +100,34 @@ const Services = () => {
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data?.Services);
+  const fetchServices = async (isLoading, searchService) => {
+    try {
+      let response;
+      if (searchService) {
+        response = await ServiceServices.searchService(searchService);
 
+
+      }
+      else {
+        response = await ServiceServices.getAllServices();
+      }
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des services :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+
+  useEffect(() => {
+    fetchServices(isLoading, searchService); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading, searchService]);
   return (
     <>
+       {isLoading ? <Loader /> : null}
+
       <PageTitle>{"Services Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -199,7 +225,7 @@ const Services = () => {
         </CardBody>
       </Card>
 
-      {loading ? (
+      {load ? (
         <TableLoading row={6} col={5} width={230} height={20} />
       ) : serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
@@ -227,6 +253,7 @@ const Services = () => {
               setIsLoading={setIsLoading}
               isLoading={isLoading}
               lang={lang}
+              data={data}
               setIsCheck={setIsCheck}
               isCheck={isCheck}
               Services={data?.Services}

@@ -44,7 +44,7 @@ import ServiceServices from "services/ServiceServices";
 import SidebarContent from "components/sidebar/SidebarContent";
 import BlogServices from "services/BlogServices";
 //internal import
-
+// import RichTextInputWithImages from "components/input/RichTextInputWithImages";
 const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
 
@@ -441,7 +441,19 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
                 </div>
               </div>
 
-
+              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={"Blog Description (en) "} />
+                <div className="col-span-8 sm:col-span-4">
+                  <RichTextInputWithImages
+                    name="Description_en"
+                    label="Blog Description (en)"
+                    source="Description_en" // Remplacez par le champ correspondant dans votre API
+                    onChange={(content) => setDescription_en(content)}
+                    value={description_en}
+                  />
+                  <Error errorName={errors.description_en} />
+                </div>
+              </div> */}
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={"Blog Description (en) "} />
                 <div className="col-span-8 sm:col-span-4">

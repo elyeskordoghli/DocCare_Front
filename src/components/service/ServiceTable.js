@@ -29,9 +29,9 @@ const ServiceTable = ({
   currency,
   lang,
   isLoading,
-  setIsLoading
+  setIsLoading,
+  data,
 }) => {
-  const [data, setData] = useState([]);
   const {
     handleModalOpen,
     serviceId,
@@ -52,38 +52,7 @@ const ServiceTable = ({
   };
 
   // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-  const fetchServices = async (isLoading, searchService) => {
-    try {
-      let response;
-      if (searchService) {
-        response = await ServiceServices.searchService(searchService);
-
-
-      }
-      else {
-        response = await ServiceServices.getAllServices({
-          title: null,
-          subtitle: null,
-          short_description: null,
-          description: null,
-          image: null,
-          catalogue: null,
-        });
-      }
-      // Mettez à jour la variable data avec les données récupérées
-      setData(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des services :", error);
-    }
-    finally {
-      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-    }
-  };
-
-  useEffect(() => {
-    fetchServices(isLoading, searchService); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading, searchService]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
-
+ 
   const getService = async () => {
     try {
       const ser = await ServiceServices.getServiceById(serviceId)

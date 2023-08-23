@@ -177,6 +177,19 @@ const DepartmentContact = () => {
                 className="absolute right-0 top-0 mt-5 mr-1"
               ></button>
             </div>
+            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+              <Select
+                // onChange={(e) => setSortedField(e.target.value)}
+                className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+              >
+                <option value="All" defaultValue hidden>
+                  {t("Status")}
+                </option>
+                <option value="In Progress">{t("In Progress")}</option>
+                <option value="Completed">{t("Completed")}</option>
+                <option value="Canceled">{t("Canceled")}</option>
+              </Select>
+            </div>
    </form>
         </CardBody>
       </Card>
@@ -200,6 +213,7 @@ const DepartmentContact = () => {
                 <TableCell>{"Contact name"}</TableCell>
                 <TableCell>{"Contact Email"}</TableCell>
                 <TableCell>{"Contact Phone"}</TableCell>
+                <TableCell>{"Status"}</TableCell>
                 <TableCell>{"Contact Department"}</TableCell>
                 <TableCell className="text-center">{"Details"}</TableCell>
                 <TableCell className="text-right">{"Actions"}</TableCell>
