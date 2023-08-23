@@ -61,7 +61,7 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
     tapValue,
     setTapValue,
     openModal,
-    attribue,
+    // attribue,
     setValues,
     variants,
     isCombination,
@@ -94,7 +94,6 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
     handleGenerateCombination,
   } = useBlogSubmit(id, data);
 
-  const currency = globalSetting?.default_currency || "$";
   const { closeDrawer } = useContext(SidebarContext)
 
   const [imageUrl, setImageUrl] = useState("");
@@ -124,7 +123,6 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
     setValue,
 
   } = useForm();
-  console.log("blog drawer_id", id);
   const [retsData, setRestData] = useState({});
 
 
@@ -159,7 +157,6 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
     formData.append('image', imageUrl);
     formData.append('owner', owner);
     formData.append('views', views);
-    console.log(formData);
     // const res = await CategoryServices.getCategoryById(id);
     // console.log("res category", res);
 
@@ -172,13 +169,10 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
           'Content-Type': 'multipart/form-data',
         },
       });
-      // setIsUpdate(true);
       setIsLoading(false);
       setIsCheck([]);
-      // setIsSubmitting(false);
       notifySuccess(res.message);
       closeDrawer();
-      // reset();
     } else {
       setIsLoading(true);
 
@@ -197,9 +191,11 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
     }
   };
   const initFormForUpdate = async (id) => {
+    setIsLoading(true);
 
     const res = await BlogServices.getBlogById(id);
-    console.log('blogInputForm', res.data)
+    setIsLoading(false);
+
 
     setName_en(res.data.name_en);
     setShort_description_en(res.data.short_description_en);
@@ -227,7 +223,6 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
     setViews(res.data.views);
     // setPrevilege(res.data.previleges);
     // setDepartment(res.data.departments);
-    console.log('hahahahahah', oldImageUrl);
   };
 
 

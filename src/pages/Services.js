@@ -35,6 +35,7 @@ import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
 import ServiceServices from "services/ServiceServices";
 import MainModal from "components/modal/MainModal";
+import Loader from 'components/loader/Loader';
 
 const Services = () => {
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
@@ -54,11 +55,35 @@ const Services = () => {
     setSortedField,
     limitData,
   } = useContext(SidebarContext);
-  const [isLoading, setIsLoading] = useState();
+
+
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchService, setSearchValue] = useState("");
 
-  // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+  const fetchServices = async (isLoading, searchService) => {
+    try {
+      let response;
+      if (searchService) {
+        response = await ServiceServices.searchService(searchService);
+      }
+      else {
+        response = await ServiceServices.getAllServices();
+      }
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des services :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+
+  useEffect(() => {
+    fetchServices(isLoading, searchService); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading, searchService]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+
 
 
 
@@ -67,8 +92,7 @@ const Services = () => {
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
+  
 
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
@@ -76,7 +100,6 @@ const Services = () => {
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
     setIsCheck(data?.map((li) => li.id));
-    console.log('ischecktw', isCheck);
     if (isCheckAll) {
       setIsCheck([]);
 
@@ -100,33 +123,11 @@ const Services = () => {
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data?.Services);
-  const fetchServices = async (isLoading, searchService) => {
-    try {
-      let response;
-      if (searchService) {
-        response = await ServiceServices.searchService(searchService);
-
-
-      }
-      else {
-        response = await ServiceServices.getAllServices();
-      }
-      // Mettez à jour la variable data avec les données récupérées
-      setData(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des services :", error);
-    }
-    finally {
-      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-    }
-  };
-
-  useEffect(() => {
-    fetchServices(isLoading, searchService); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading, searchService]);
+ 
   return (
     <>
        {isLoading ? <Loader /> : null}
+
 
       <PageTitle>{"Services Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -224,10 +225,8 @@ const Services = () => {
           </form>
         </CardBody>
       </Card>
-
-      {load ? (
-        <TableLoading row={6} col={5} width={230} height={20} />
-      ) : serviceData?.length !== 0 ? (
+ 
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -257,7 +256,7 @@ const Services = () => {
               setIsCheck={setIsCheck}
               isCheck={isCheck}
               Services={data?.Services}
-              currency={currency}
+              // currency={currency}
               searchService={searchService}
             />
           </Table>

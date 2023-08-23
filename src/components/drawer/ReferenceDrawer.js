@@ -48,50 +48,14 @@ const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChec
 
 
   const {
-    tag,
-    setTag,
-    values,
-    language,
     register,
-    onSubmit,
     errors,
-    slug,
-    tapValue,
-    setTapValue,
     openModal,
-    attribue,
-    setValues,
-    variants,
-    isCombination,
-    variantTitle,
-    attributes,
-    attTitle,
-    handleAddAtt,
-    // productId,
     onCloseModal,
-    isBulkUpdate,
-    globalSetting,
     isSubmitting,
-    resetRefTwo,
-    handleSkuBarcode,
-    handleServiceTap,
-    selectedCategory,
-    setSelectedCategory,
-    setDefaultCategory,
-    defaultCategory,
-    handleProductSlug,
-    handleSelectLanguage,
-    handleIsCombination,
-    handleEditVariant,
-    handleRemoveVariant,
-    handleClearVariant,
-    handleQuantityPrice,
     handleSelectImage,
-    handleSelectInlineImage,
-    handleGenerateCombination,
   } = useReferenceSubmit(id, data);
 
-  const currency = globalSetting?.default_currency || "$";
   // closeDrawer();
   const { closeDrawer } = useContext(SidebarContext)
 
@@ -105,7 +69,6 @@ const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChec
     setValue,
 
   } = useForm();
-  console.log("reference drawer_id", id);
   const [retsData, setRestData] = useState({});
 
 
@@ -123,7 +86,6 @@ const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChec
     formData.append('name', name);
     formData.append('working_field', working_field);
     formData.append('image', imageUrl);
-    console.log(formData);
     if (id) {
 
       setIsLoading(true);
@@ -132,13 +94,12 @@ const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChec
           'Content-Type': 'multipart/form-data',
         },
       });
-      // setIsUpdate(true);
+
+
+
       setIsLoading(false);
-      setIsCheck([]);
-      // setIsSubmitting(false);
       notifySuccess(res.message);
       closeDrawer();
-      // reset();
     } else {
       setIsLoading(true);
 
@@ -147,8 +108,7 @@ const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChec
           'Content-Type': 'multipart/form-data',
         },
       });
-      // setIsUpdate(true);
-      // setIsSubmitting(false);
+     
       setIsLoading(false);
       setIsCheck([]);
 
@@ -157,16 +117,15 @@ const ReferenceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChec
     }
   };
   const initFormForUpdate = async (id) => {
-
+setIsLoading(true);
     const res = await ReferencesServices.getReferenceById(id);
-    console.log('referenceInputForm', res.data)
+    setIsLoading(false);
 
     setName(res.data.name);
     setWorking_field(res.data.working_field);
     setImageUrl(res.data.image);
     setImageBinary(res.data.image);
     setOldImageUrl(res.data.image);
-    console.log('hahahahahah', oldImageUrl);
   };
 
 

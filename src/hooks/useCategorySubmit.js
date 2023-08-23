@@ -30,37 +30,37 @@ const useCategorySubmit = (id, data) => {
 
   // console.log("lang", lang, language);
 console.log('id',id);
-  const onSubmit = async (data) => {
-    try {
-      setIsSubmitting(true);
-      const categoryData = {
-        name_en: data.name_en,
-        name_fr: data.name_fr,
-        name_ar: data.name_ar,
-      };
+  // const onSubmit = async (data) => {
+  //   try {
+  //     setIsSubmitting(true);
+  //     const categoryData = {
+  //       name_en: data.name_en,
+  //       name_fr: data.name_fr,
+  //       name_ar: data.name_ar,
+  //     };
 
-     console.log('category submit', categoryData);
+  //    console.log('category submit', categoryData);
 
-      if (id) {
-        const res = await CategoryServices.updateCategory(id, categoryData);
-        setIsUpdate(true);
-        setIsSubmitting(false);
-        notifySuccess(res.message);
-        closeDrawer();
-        reset();
-      } else {
-        const res = await CategoryServices.addCategory(categoryData);
-        setIsUpdate(true);
-        setIsSubmitting(false);
-        notifySuccess(res.message);
-        closeDrawer();
-      }
-    } catch (err) {
-      setIsSubmitting(false);
-      notifyError(err ? err?.response?.data?.message : err?.message);
-      closeDrawer();
-    }
-  };
+  //     if (id) {
+  //       const res = await CategoryServices.updateCategory(id, categoryData);
+  //       setIsUpdate(true);
+  //       setIsSubmitting(false);
+  //       notifySuccess(res.message);
+  //       closeDrawer();
+  //       reset();
+  //     } else {
+  //       const res = await CategoryServices.addCategory(categoryData);
+  //       setIsUpdate(true);
+  //       setIsSubmitting(false);
+  //       notifySuccess(res.message);
+  //       closeDrawer();
+  //     }
+  //   } catch (err) {
+  //     setIsSubmitting(false);
+  //     notifyError(err ? err?.response?.data?.message : err?.message);
+  //     closeDrawer();
+  //   }
+  // };
 
   const handleSelectLanguage = (lang) => {
     setLanguage(lang);
@@ -70,54 +70,54 @@ console.log('id',id);
     }
   };
 
-  useEffect(() => {
-    if (!isDrawerOpen) {
-      setResData({});
-      setValue("name_en");
-      setValue("name_fr");
-      setValue("name_ar");
-      clearErrors("name_en");
-      clearErrors("name_fr");
-      clearErrors("name_ar");
+  // useEffect(() => {
+  //   if (!isDrawerOpen) {
+  //     setResData({});
+  //     setValue("name_en");
+  //     setValue("name_fr");
+  //     setValue("name_ar");
+  //     clearErrors("name_en");
+  //     clearErrors("name_fr");
+  //     clearErrors("name_ar");
    
-      // clearErrors("parentName");
-      // clearErrors("description");
-      setSelectCategoryName("Home");
-      setLanguage(lang);
-      setValue("language", language);
+  //     // clearErrors("parentName");
+  //     // clearErrors("description");
+  //     setSelectCategoryName("Home");
+  //     setLanguage(lang);
+  //     setValue("language", language);
 
-      if (data !== undefined && data[0]?._id !== undefined) {
-        setChecked(data[0]._id);
-      }
-      return;
-    }
-    if (id) {
-      (async () => {
-        try {
-          const res = await CategoryServices.getCategoryById(id);
-          console.log("res category", res);
+  //     if (data !== undefined && data[0]?._id !== undefined) {
+  //       setChecked(data[0]._id);
+  //     }
+  //     return;
+  //   }
+  //   if (id) {
+  //     (async () => {
+  //       try {
+  //         const res = await CategoryServices.getCategoryById(id);
+  //         console.log("res category", res);
 
-          if (res) {
-            setResData(res);
-            setName_en(res.data.name_en);
-            setName_fr(res.data.name_fr);
-            setName_ar(res.data.name_ar);
+  //         if (res) {
+  //           setResData(res);
+  //           setName_en(res.data.name_en);
+  //           setName_fr(res.data.name_fr);
+  //           setName_ar(res.data.name_ar);
 
-            // setValue("name_en", res.name_en);
-            // setValue("name_fr", res.name_fr);
-            // setValue("name_ar", res.name_ar);
-          }
-        } catch (err) {
-          notifyError(err ? err.response.data.message : err.message);
-        }
-      })();
-    }
-  }, [id, setValue, isDrawerOpen, language, clearErrors, data, lang]);
+  //           // setValue("name_en", res.name_en);
+  //           // setValue("name_fr", res.name_fr);
+  //           // setValue("name_ar", res.name_ar);
+  //         }
+  //       } catch (err) {
+  //         notifyError(err ? err.response.data.message : err.message);
+  //       }
+  //     })();
+  //   }
+  // }, [id, setValue, isDrawerOpen, language, clearErrors, data, lang]);
 
   return {
     register,
     handleSubmit,
-    onSubmit,
+    // onSubmit,
     errors,
     imageUrl,
     setImageUrl,

@@ -41,7 +41,7 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
 
 
 
-
+  
   const {
     handleModalOpen, 
     handleUpdate,
@@ -184,7 +184,6 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
 
 
 
-console.log("serviceID : : : : : ",serviceId);
 
 
   return (

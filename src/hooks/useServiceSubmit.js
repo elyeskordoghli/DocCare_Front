@@ -19,8 +19,7 @@ const useServiceSubmit = (id,data) => {
   const { isDrawerOpen, closeDrawer, setIsUpdate, lang } =
     useContext(SidebarContext);
 
-  const { data: attribue } = useAsync(AttributeServices.getShowingAttributes);
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
+  
  
   // react ref
   const resetRef = useRef([]);
@@ -63,32 +62,31 @@ const useServiceSubmit = (id,data) => {
   // const [seo_keywords,setSeo_keywords]=useState("");
   // const [seo_description,setSeo_description]=useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [seo_keywords, setSeo_keywords] = useState("");
-  const [title_en, setTitle_en] = useState("");
-  const [SubTitle_en, setSubtitle_en] = useState("");
-  const [Short_Description_en, setShort_description_en] = useState("");
-  const [description_en, setDescription_en] = useState("");
-  const [Seo_Description_en, setSeo_description_en] = useState("");
+  // const [seo_keywords, setSeo_keywords] = useState("");
+  // const [title_en, setTitle_en] = useState("");
+  // const [SubTitle_en, setSubtitle_en] = useState("");
+  // const [Short_Description_en, setShort_description_en] = useState("");
+  // const [description_en, setDescription_en] = useState("");
+  // const [Seo_Description_en, setSeo_description_en] = useState("");
 
-  const [title_fr, setTitle_fr] = useState("");
-  const [subtitle_fr, setSubtitle_fr] = useState("");
-  const [Short_Description_fr, setShort_description_fr] = useState("");
-  const [Description_fr, setDescription_fr] = useState("");
-  const [Seo_Description_fr, setSeo_description_fr] = useState("");
+  // const [title_fr, setTitle_fr] = useState("");
+  // const [subtitle_fr, setSubtitle_fr] = useState("");
+  // const [Short_Description_fr, setShort_description_fr] = useState("");
+  // const [Description_fr, setDescription_fr] = useState("");
+  // const [Seo_Description_fr, setSeo_description_fr] = useState("");
 
-  const [title_ar, setTitle_ar] = useState("");
-  const [SubTitle_ar, setSubtitle_ar] = useState("");
-  const [Short_Description_ar, setShort_description_ar] = useState("");
-  const [description_ar, setDescription_ar] = useState("");
-  const [seo_description_ar, setSeo_description_ar] = useState("");
-  const [catalogueUrl, setCatalogueUrl] = useState("");
-  const [iconUrl, setIconUrl] = useState("");
+  // const [title_ar, setTitle_ar] = useState("");
+  // const [SubTitle_ar, setSubtitle_ar] = useState("");
+  // const [Short_Description_ar, setShort_description_ar] = useState("");
+  // const [description_ar, setDescription_ar] = useState("");
+  // const [seo_description_ar, setSeo_description_ar] = useState("");
+  // const [catalogueUrl, setCatalogueUrl] = useState("");
+  // const [iconUrl, setIconUrl] = useState("");
 
-  const [defaultCategory, setDefaultCategory] = useState([]);
-  const [defaultReference,setDefaultReference]=useState("");
-  const [slug,setSlug]=useState("");
+  // const [defaultCategory, setDefaultCategory] = useState([]);
+  // const [defaultReference,setDefaultReference]=useState("");
+  // const [slug,setSlug]=useState("");
 
-console.log('id',id)
 
   // console.log("lang", lang);
 
@@ -299,143 +297,143 @@ console.log('id',id)
 //     }
 //   };
 
-  useEffect(() => {
-    if (!isDrawerOpen) {
-      setSlug("");
-      setLanguage(lang);
-      setValue("language", language);
-      handleServiceTap("Anglais", true);
-      setResData({});
-      setValue("image");
-      setValue("icon");
-      setValue("title_en");
-      setValue("title_fr");
-      setValue("title_ar");
-      setValue("subtitle_en");
-      setValue("subtitle_fr");
-      setValue("subtitle_ar");
-      setValue("short_description_en");
-      setValue("short_description_fr");
-      setValue("short_description_ar");
-      setValue("description_en");
-      setValue("description_fr");
-      setValue("description_ar");
-      setValue("seo_keywords");
-      setValue("seo_description_en");
-      setValue("seo_description_fr");
-      setValue("seo_description_ar");
-      setValue("catalogue");
+  // useEffect(() => {
+  //   if (!isDrawerOpen) {
+  //     setSlug("");
+  //     setLanguage(lang);
+  //     setValue("language", language);
+  //     handleServiceTap("Anglais", true);
+  //     setResData({});
+  //     setValue("image");
+  //     setValue("icon");
+  //     setValue("title_en");
+  //     setValue("title_fr");
+  //     setValue("title_ar");
+  //     setValue("subtitle_en");
+  //     setValue("subtitle_fr");
+  //     setValue("subtitle_ar");
+  //     setValue("short_description_en");
+  //     setValue("short_description_fr");
+  //     setValue("short_description_ar");
+  //     setValue("description_en");
+  //     setValue("description_fr");
+  //     setValue("description_ar");
+  //     setValue("seo_keywords");
+  //     setValue("seo_description_en");
+  //     setValue("seo_description_fr");
+  //     setValue("seo_description_ar");
+  //     setValue("catalogue");
 
       
 
-      // setValue("quantity");
-      // setValue("stock");
-      // setValue("originalPrice");
-      // setValue("price");
-      // setValue("barcode");
-      // setValue("productId");
+  //     // setValue("quantity");
+  //     // setValue("stock");
+  //     // setValue("originalPrice");
+  //     // setValue("price");
+  //     // setValue("barcode");
+  //     // setValue("productId");
 
-      setProductId("");
-      // setValue('show');
-      setImageUrl([]);
-      setTag([]);
-      setVariants([]);
-      setVariant([]);
-      setValues({});
-      // setTotalStock(0);
-      setSelectedCategory([]);
-      setDefaultCategory([]);
-      if (location.pathname === "/products") {
-        resetRefTwo?.current?.resetSelectedValues();
-      }
+  //     setProductId("");
+  //     // setValue('show');
+  //     setImageUrl([]);
+  //     setTag([]);
+  //     setVariants([]);
+  //     setVariant([]);
+  //     setValues({});
+  //     // setTotalStock(0);
+  //     setSelectedCategory([]);
+  //     setDefaultCategory([]);
+  //     if (location.pathname === "/products") {
+  //       resetRefTwo?.current?.resetSelectedValues();
+  //     }
 
-      clearErrors("sku");
-      clearErrors("title");
-      clearErrors("slug");
-      clearErrors("description");
-      clearErrors("stock");
-      clearErrors("quantity");
-      setValue("stock", 0);
-      setValue("costPrice", 0);
-      setValue("price", 0);
-      setValue("originalPrice", 0);
-      clearErrors("show");
-      clearErrors("barcode");
-      setIsCombination(false);
-      setIsBasicComplete(false);
-      setIsSubmitting(false);
-      setAttributes([]);
+  //     clearErrors("sku");
+  //     clearErrors("title");
+  //     clearErrors("slug");
+  //     clearErrors("description");
+  //     clearErrors("stock");
+  //     clearErrors("quantity");
+  //     setValue("stock", 0);
+  //     setValue("costPrice", 0);
+  //     setValue("price", 0);
+  //     setValue("originalPrice", 0);
+  //     clearErrors("show");
+  //     clearErrors("barcode");
+  //     setIsCombination(false);
+  //     setIsBasicComplete(false);
+  //     setIsSubmitting(false);
+  //     setAttributes([]);
 
-      setUpdatedId();
-      return;
-    } else {
-      handleServiceTap("Anglais", true);
-    }
+  //     setUpdatedId();
+  //     return;
+  //   } else {
+  //     handleServiceTap("Anglais", true);
+  //   }
 
-    if (id) {
-      setIsBasicComplete(true);
-      (async () => {
-        try {
-          const res = await ServiceServices.getServiceById(id);
+  //   if (id) {
+  //     setIsBasicComplete(true);
+  //     (async () => {
+  //       try {
+  //         const res = await ServiceServices.getServiceById(id);
 
-          console.log("res", res);
+  //         console.log("res", res);
 
-          if (res) {
-            setResData(res);
-            setValue("title_en", res.title_en);
-            setValue("title_fr", res.title_fr);
-            setValue("title_ar", res.title_ar);
-            setValue("slug", res.slug);
-            setValue("show", res.show);
-            setValue("sku", res.sku);
-            setValue("barcode", res.barcode);
-            setValue("stock", res.stock);
-            setValue("productId", res.productId);
-            setValue("price", res?.prices?.price);
-            setValue("originalPrice", res?.prices?.originalPrice);
-            setValue("stock", res.stock);
-            setProductId(res.productId ? res.productId : res._id);
-            setBarcode(res.barcode);
-            setSku(res.sku);
+  //         if (res) {
+  //           setResData(res);
+  //           setValue("title_en", res.title_en);
+  //           setValue("title_fr", res.title_fr);
+  //           setValue("title_ar", res.title_ar);
+  //           setValue("slug", res.slug);
+  //           setValue("show", res.show);
+  //           setValue("sku", res.sku);
+  //           setValue("barcode", res.barcode);
+  //           setValue("stock", res.stock);
+  //           setValue("productId", res.productId);
+  //           setValue("price", res?.prices?.price);
+  //           setValue("originalPrice", res?.prices?.originalPrice);
+  //           setValue("stock", res.stock);
+  //           setProductId(res.productId ? res.productId : res._id);
+  //           setBarcode(res.barcode);
+  //           setSku(res.sku);
 
-            res.categories.map((category) => {
-              category.name = showingTranslateValue(category?.name, lang);
+  //           res.categories.map((category) => {
+  //             category.name = showingTranslateValue(category?.name, lang);
 
-              return category;
-            });
+  //             return category;
+  //           });
 
-            res.category.name = showingTranslateValue(
-              res?.category?.name,
-              lang
-            );
+  //           res.category.name = showingTranslateValue(
+  //             res?.category?.name,
+  //             lang
+  //           );
 
-            setSelectedCategory(res.categories);
-            setDefaultCategory([res?.category]);
-            setTag(JSON.parse(res.tag));
-            setImageUrl(res.image);
-            setVariants(res.variants);
-            setIsCombination(res.isCombination);
-            // setQuantity(res?.stock);
-            // setTotalStock(res.stock);
-            setOriginalPrice(res?.prices?.originalPrice);
-            setPrice(res?.prices?.price);
-          }
-        } catch (err) {
-          notifyError(err ? err?.response?.data?.message : err.message);
-        }
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    id,
-    setValue,
-    isDrawerOpen,
-    location.pathname,
-    clearErrors,
-    language,
-    lang,
-    data
-  ]);
+  //           setSelectedCategory(res.categories);
+  //           setDefaultCategory([res?.category]);
+  //           setTag(JSON.parse(res.tag));
+  //           setImageUrl(res.image);
+  //           setVariants(res.variants);
+  //           setIsCombination(res.isCombination);
+  //           // setQuantity(res?.stock);
+  //           // setTotalStock(res.stock);
+  //           setOriginalPrice(res?.prices?.originalPrice);
+  //           setPrice(res?.prices?.price);
+  //         }
+  //       } catch (err) {
+  //         notifyError(err ? err?.response?.data?.message : err.message);
+  //       }
+  //     })();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [
+  //   id,
+  //   setValue,
+  //   isDrawerOpen,
+  //   location.pathname,
+  //   clearErrors,
+  //   language,
+  //   lang,
+  //   data
+  // ]);
 
   //for filter related attribute and extras for every product which need to update
   // useEffect(() => {
@@ -461,23 +459,23 @@ console.log('id',id)
   // }, [attribue, variants, language, lang]);
 
   //for adding attribute values
-  const handleAddAtt = (v, el) => {
-    const result = attribue.filter((att) => {
-      const attribueTItle = showingTranslateValue(att?.title, lang);
-      return v.some((item) => item.label === attribueTItle);
-    });
+  // const handleAddAtt = (v, el) => {
+  //   const result = attribue.filter((att) => {
+  //     const attribueTItle = showingTranslateValue(att?.title, lang);
+  //     return v.some((item) => item.label === attribueTItle);
+  //   });
 
-    const attributeArray = result.map((value) => {
-      const attributeTitle = showingTranslateValue(value?.title, lang);
-      return {
-        ...value,
-        label: attributeTitle,
-        value: attributeTitle,
-      };
-    });
+  //   const attributeArray = result.map((value) => {
+  //     const attributeTitle = showingTranslateValue(value?.title, lang);
+  //     return {
+  //       ...value,
+  //       label: attributeTitle,
+  //       value: attributeTitle,
+  //     };
+  //   });
 
-    setAttributes(attributeArray);
-  };
+  //   setAttributes(attributeArray);
+  // };
 
   //generate all combination combination
   const handleGenerateCombination = () => {
@@ -692,10 +690,10 @@ console.log('id',id)
   };
 
   //for handle product slug
-  const handleProductSlug = (value) => {
-    setValue("slug", value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
-    setSlug(value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
-  };
+  // const handleProductSlug = (value) => {
+  //   setValue("slug", value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
+  //   setSlug(value.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"));
+  // };
 
   return {
     tag,
@@ -705,9 +703,9 @@ console.log('id',id)
     register,
     // onSubmit,
     errors,
-    slug,
+    // slug,
     openModal,
-    attribue,
+    // attribue,
     setValues,
     variants,
     tapValue,
@@ -719,20 +717,20 @@ console.log('id',id)
     variantTitle,
     attributes,
     attTitle,
-    handleAddAtt,
+    // handleAddAtt,
     productId,
     onCloseModal,
     isBulkUpdate,
-    globalSetting,
+    // globalSetting,
     isSubmitting,
     resetRefTwo,
     handleSkuBarcode,
     handleServiceTap,
     selectedCategory,
     setSelectedCategory,
-    setDefaultCategory,
-    defaultCategory,
-    handleProductSlug,
+    // setDefaultCategory,
+    // defaultCategory,
+    // handleProductSlug,
     handleSelectLanguage,
     handleIsCombination,
     handleEditVariant,

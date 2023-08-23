@@ -28,6 +28,7 @@ const ServiceTable = ({
   setIsCheck,
   currency,
   lang,
+  data,
   isLoading,
   setIsLoading,
   data,
@@ -41,13 +42,11 @@ const ServiceTable = ({
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
 
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
 
@@ -57,7 +56,6 @@ const ServiceTable = ({
     try {
       const ser = await ServiceServices.getServiceById(serviceId)
       setIsCheck([...isCheck, ser.id]);
-      console.log('Service selectionnée : ', ser.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de service :", error);
@@ -72,7 +70,6 @@ const ServiceTable = ({
 
   const beforeHandleModalOpen = (id, title, service) => {
     try {
-      console.log('idddddddd', id)
       handleModalOpen(id, title, service);
       setIsCheck([]);
 
@@ -84,6 +81,7 @@ const ServiceTable = ({
   }
 
 
+  // console.log("serviceId from serviceTable : ",serviceId);
 
 
 
@@ -102,7 +100,8 @@ const ServiceTable = ({
           <ServiceDrawer
             id={serviceId}
             isLoading={isLoading}
-            setIsLoading={setIsLoading} />
+            setIsLoading={setIsLoading}
+             />
         </MainDrawer>
       )}
 

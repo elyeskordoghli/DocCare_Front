@@ -35,6 +35,7 @@ import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
 import BlogServices from "services/BlogServices";
 import MainModal from "components/modal/MainModal";
+import Loader from 'components/loader/Loader';
 
 const Blogs = () => {
   const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
@@ -43,40 +44,47 @@ const Blogs = () => {
   const {
     toggleDrawer,
     lang,
-    currentPage,
     handleChangePage,
-    searchText,
-    category,
-    setCategory,
     searchRef,
     handleSubmitForAll,
-    sortedField,
-    setSortedField,
     limitData,
   } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(() =>
-    BlogServices.getAllBlogs({
-      // page: currentPage,
-      // limit: limitData,
-      // category_id: category,
-      name: searchText,
-      // subtitle: subtitle,
-      // short_description: short_description,
-      // description : description,
-    //  price: sortedField,
-    })
-  );
-  
   const [searchBlog, setSearchValue] = useState("");
+  const [isLoading, setIsLoading]=useState(true);
+  const [data, setData] = useState([]);
+
+  const fetchBlogs = async (isLoading,searchBlog) => {
+    try {
+      let response;
+      if (searchBlog) {
+        response = await BlogServices.searchBlog(searchBlog);
+    }
+    else{
+      response = await BlogServices.getAllBlogs();
+    }
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des Blogs :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+  
+  useEffect(() => {
+  fetchBlogs(isLoading,searchBlog); // Appelez la fonction fetchBlogs pour récupérer les projets au chargement du composant
+}, [isLoading,searchBlog]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+
+  
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
+  
   // console.log("product page", data);
   // react hooks
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -89,7 +97,6 @@ const Blogs = () => {
       setIsCheck([]);
     }
   };
-  const [isLoading, setIsLoading]=useState();
 
   // console.log('productss',products)
   const {
@@ -103,6 +110,7 @@ const Blogs = () => {
 
   return (
     <>
+         {isLoading ? <Loader /> : null}
       <PageTitle>{"Blogs Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -184,9 +192,7 @@ const Blogs = () => {
         </CardBody>
       </Card>
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+       {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -213,9 +219,9 @@ const Blogs = () => {
               isLoading={isLoading}
               lang={lang}
               isCheck={isCheck}
-              Blogs={data?.Blogs}
+              data={data}
               setIsCheck={setIsCheck}
-              currency={currency}
+              // currency={currency}
               searchBlog={searchBlog}
             /> 
           </Table>

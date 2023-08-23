@@ -36,6 +36,7 @@ import PrevilegeServices from "services/PrevilegeServices";
 import React, { useState, useEffect } from "react";
 import MainModal from "components/modal/MainModal";
 import useToggleDrawer from "hooks/useToggleDrawer";
+import Loader from 'components/loader/Loader';
 
 const Staff = () => {
   const { state } = useContext(AdminContext);
@@ -43,26 +44,50 @@ const Staff = () => {
   const { toggleDrawer, lang } = useContext(SidebarContext);
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
-  const { data, loading } = useAsync(() => AdminServices.getAllStaff({
-    email: adminInfo.email,
-    name: searchText,
-  }));
-  const [isCheckAll, setIsCheckAll] = useState(false);
+ 
 
-  const [isLoading, setIsLoading] = useState();
+    const [full, setFull] = useState();
+
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+    const [searchAdmin, setSearchValue] = useState("");
+
+  const fetchAdmins = async () => {
+    try {
+      let response;
+      if (searchAdmin) {
+        response = await AdminServices.searchAdmin(searchAdmin);
+      } else {
+      // setIsLoading(true);
+        response = await AdminServices.getAllStaff();
+        // setIsLoading(false);
+
+      }
+
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+      setFull(response.countPrevilege);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des services :", error);
+    } finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+  useEffect(() => {
+    fetchAdmins(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [ searchAdmin,isLoading]);
+
+
   const [isCheck, setIsCheck] = useState([]);
   const {
     searchText,
     searchRef,
   } = useContext(SidebarContext);
   const {
-    userRef,
-    setRole,
-    setPrevilege,
+   
     handleChangePage,
     totalResults,
     resultsPerPage,
-    dataTable,
     serviceData,
     handleSubmitUser,
   } = useFilter(data?.data);
@@ -74,7 +99,6 @@ const Staff = () => {
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data?.Services);
-  const [searchAdmin, setSearchValue] = useState("");
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
@@ -83,6 +107,7 @@ const Staff = () => {
 
   return (
     <>
+     {isLoading ? <Loader /> : null}
       <PageTitle>{t("StaffPageTitle")} </PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -195,10 +220,8 @@ const Staff = () => {
           </form>
         </CardBody>
       </Card>
-      {loading ? (
-        // <Loading loading={loading} />
-        <TableLoading row={12} col={7} width={163} height={20} />
-      ) : serviceData?.length !== 0 ? (
+
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -233,7 +256,8 @@ const Staff = () => {
               setIsCheck={setIsCheck}
               Staff={data?.Staff}
               searchAdmin={searchAdmin}
-              //  data={dataTable} 
+               data={data} 
+               full={full}
               lang={lang} />
           </Table>
           <TableFooter>

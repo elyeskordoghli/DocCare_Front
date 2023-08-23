@@ -158,7 +158,6 @@ const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , se
         closeDrawer();
         setIsCheck([])
         setIsLoading(false);
-        console.log("Réponse de mise à jour de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après la mise à jour
       } catch (error) {
         console.error("Erreur lors de la mise à jour de la catégorie :", error);
@@ -181,10 +180,12 @@ const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , se
         console.error("Erreur lors de l'ajout de la catégorie :", error);
       }
   }};
-  const initFormForUpdate = async (id) => {
 
+  const initFormForUpdate = async (id) => {
+    setIsLoading(true);
     const res = await CategoryServices.getCategoryById(id)
-    console.log('categoryInputForm', res.data)
+        setIsLoading(true);
+
     setName_en(res.data.name_en);
     setName_fr(res.data.name_fr);
     setName_ar(res.data.name_ar);

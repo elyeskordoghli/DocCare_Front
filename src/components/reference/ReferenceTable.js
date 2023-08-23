@@ -21,8 +21,7 @@ import ReferencesServices from "services/ReferencesServices";
 import ReferenceDrawer from "components/drawer/ReferenceDrawer";
 //internal import  
 
-const ReferenceTable = ({ setId,searchReference, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
-  const [data, setData] = useState([]);
+const ReferenceTable = ({ setId,searchReference,data, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const {
     handleModalOpen,
     serviceId,
@@ -32,37 +31,12 @@ const ReferenceTable = ({ setId,searchReference, isCheck, setIsCheck, currency, 
 
 
  
-    // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchReferences = async (isLoading,searchReference) => {
-      try {
-        let response;
-        if (searchReference) {
-          response = await ReferencesServices.searchReference(searchReference);
-        
-
-      }
-      else{
-        response = await ReferencesServices.getAllReferences();
-      }
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des reference :", error);
-      }
-      finally {
-        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-      }
-    };
-    
-    useEffect(() => {
-      fetchReferences(isLoading,searchReference); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading,searchReference]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+   
 
   const getReference = async () => {
     try {
       const ref = await ReferencesServices.getReferenceById(serviceId)
       setIsCheck([...isCheck, ref.id]);
-      console.log('Reference selectionnée : ', ref.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de reference :", error);
@@ -76,19 +50,16 @@ const ReferenceTable = ({ setId,searchReference, isCheck, setIsCheck, currency, 
   }, [])
 
   const beforeHandleModalOpen = (id, title, reference) => {
-    console.log(id)
     handleModalOpen(id, title, reference);
     // setIsCheck([id]);
   }
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
   
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
   return (

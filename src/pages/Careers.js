@@ -33,11 +33,14 @@ import MainModal from "components/modal/MainModal";
 import CareerServices from "services/CareerServices";
 import CareerDrawer from "components/drawer/CareerDrawer";
 import CareerTable from "components/career/CareerTable";
+import Loader from 'components/loader/Loader';
 
 const Careers = () => {
   const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
+  const [data, setData] = useState([]);
+
   const {
     toggleDrawer,
     lang,
@@ -52,22 +55,40 @@ const Careers = () => {
     setSortedField,
     limitData,
   } = useContext(SidebarContext);
-
-  const { data, loading } = useAsync(() =>
-    CareerServices.getAllCareers({
-      title: searchText,
-    })
-  );
-  
   const [searchCareer, setSearchValue] = useState("");
+  const [isLoading, setIsLoading]=useState(true);
+
+  const fetchCareers = async (isLoading, searchCareer) => {
+    try {
+      let response;
+      if (searchCareer) {
+        response = await CareerServices.searchCareer(searchCareer);
+
+
+      }
+      else {
+        response = await CareerServices.getAllCareers();
+      }
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des careers :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+
+  useEffect(() => {
+    fetchCareers(isLoading, searchCareer);
+  }, [isLoading, searchCareer]);
+  
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
   // console.log("product page", data);
 
   // react hooks
@@ -83,7 +104,6 @@ const Careers = () => {
 
     }
   };
-  const [isLoading, setIsLoading]=useState();
 
   // console.log('productss',products)
   const {
@@ -97,6 +117,7 @@ const Careers = () => {
 
   return (
     <>
+       {isLoading ? <Loader /> : null}
       <PageTitle>{"Careers Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -177,9 +198,7 @@ const Careers = () => {
         </CardBody>
       </Card>
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+       {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -207,8 +226,8 @@ const Careers = () => {
               isCheck={isCheck}
               Careers={data?.Careers}
               setIsCheck={setIsCheck}
-              currency={currency}
               searchCareer={searchCareer}
+              data={data}
             /> 
           </Table>
           <TableFooter>

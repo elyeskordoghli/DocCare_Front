@@ -38,6 +38,7 @@ import MainModal from "components/modal/MainModal";
 import ReferenceTable from "components/reference/ReferenceTable";
 import ReferencesServices from "services/ReferencesServices";
 import ReferenceDrawer from "components/drawer/ReferenceDrawer";
+import Loader from 'components/loader/Loader';
 
 const References = () => {
   const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
@@ -57,29 +58,44 @@ const References = () => {
     setSortedField,
     limitData,
   } = useContext(SidebarContext);
-
-  const { data, loading } = useAsync(() =>
-    ReferencesServices.getAllReferences({
-      // page: currentPage,
-      // limit: limitData,
-      // category_id: category,
-      name: searchText,
-      // subtitle: subtitle,
-      // short_description: short_description,
-      // description : description,
-    //  price: sortedField,
-    })
-  );
-  
+  const [data, setData] = useState([]);
   const [searchReference, setSearchValue] = useState("");
+  const [isLoading, setIsLoading]=useState(true);
+
+   // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
+   const fetchReferences = async (isLoading,searchReference) => {
+    try {
+      let response;
+      if (searchReference) {
+        response = await ReferencesServices.searchReference(searchReference);
+      
+
+    }
+    else{
+      response = await ReferencesServices.getAllReferences();
+    }
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des reference :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+  
+  useEffect(() => {
+    fetchReferences(isLoading,searchReference); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+}, [isLoading,searchReference]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+  
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
+  // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
+  // const currency = globalSetting?.default_currency || "$";
   // console.log("product page", data);
 
   // react hooks
@@ -93,7 +109,6 @@ const References = () => {
       setIsCheck([]);
     } 
   };
-  const [isLoading, setIsLoading]=useState();
 
   // console.log('productss',products)
   const {
@@ -107,6 +122,8 @@ const References = () => {
 
   return (
     <>
+               {isLoading ? <Loader /> : null}
+
       <PageTitle>{"References Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -199,9 +216,7 @@ const References = () => {
         </CardBody>
       </Card>
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+       {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -225,9 +240,8 @@ const References = () => {
               isLoading={isLoading}
               lang={lang}
               isCheck={isCheck}
-              Referencess={data?.References}
+              data={data}
               setIsCheck={setIsCheck}
-              currency={currency}
               searchReference={searchReference}
             /> 
           </Table>
