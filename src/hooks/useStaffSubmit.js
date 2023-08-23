@@ -36,61 +36,61 @@ const useStaffSubmit = (id, data) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      setIsSubmitting(true);
+  // const onSubmit = async (data) => {
+  //   try {
+  //     setIsSubmitting(true);
 
-      const staffData = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        status : data.status,
-        previleges : data.previleges,
-        departments : data.departments,
-        // lang: language,
-      };
-      console.log('staffData',staffData)
-      if (id) {
-        // console.log('id is ',id)
-        const res = await AdminServices.updateStaff(id, staffData);
-        setIsUpdate(true);
-        setIsSubmitting(false);
-        notifySuccess(res.message);
-        closeDrawer();
-      } else {
-        const res = await AdminServices.addStaff({ staffData });
-        console.log(res);
-        setIsUpdate(true);
-        setIsSubmitting(false);
-        notifySuccess(res.message);
-        closeDrawer();
+  //     const staffData = {
+  //       name: data.name,
+  //       email: data.email,
+  //       password: data.password,
+  //       status : data.status,
+  //       previleges : data.previleges,
+  //       departments : data.departments,
+  //       // lang: language,
+  //     };
+  //     console.log('staffData',staffData)
+  //     if (id) {
+  //       // console.log('id is ',id)
+  //       const res = await AdminServices.updateStaff(id, staffData);
+  //       setIsUpdate(true);
+  //       setIsSubmitting(false);
+  //       notifySuccess(res.message);
+  //       closeDrawer();
+  //     } else {
+  //       const res = await AdminServices.addStaff({ staffData });
+  //       console.log(res);
+  //       setIsUpdate(true);
+  //       setIsSubmitting(false);
+  //       notifySuccess(res.message);
+  //       closeDrawer();
 
-      }
-    } catch (err) {
-      notifyError(err ? err?.response?.data?.message : err?.message);
-      setIsSubmitting(false);
-      closeDrawer();
-    }
-  };
+  //     }
+  //   } catch (err) {
+  //     notifyError(err ? err?.response?.data?.message : err?.message);
+  //     setIsSubmitting(false);
+  //     closeDrawer();
+  //   }
+  // };
 
-  const getStaffData = async () => {
-    try {
-      const res = await AdminServices.getStaffById(id, {
-        email: adminInfo.email,
-      });
-      if (res) {
-        setResData(res);
-        setValue("name", res.name);
-        setValue("email", res.email);
-        setValue("password");
-        setValue("statuts", res.status);
-        setValue("previleges", res.previleges);
-        setValue("departments", res.departments);
-      }
-    } catch (err) {
-      notifyError(err ? err?.response?.data?.message : err?.message);
-    }
-  };
+  // const getStaffData = async () => {
+  //   try {
+  //     const res = await AdminServices.getStaffById(id, {
+  //       email: adminInfo.email,
+  //     });
+  //     if (res) {
+  //       setResData(res);
+  //       setValue("name", res.name);
+  //       setValue("email", res.email);
+  //       setValue("password");
+  //       setValue("statuts", res.status);
+  //       setValue("previleges", res.previleges);
+  //       setValue("departments", res.departments);
+  //     }
+  //   } catch (err) {
+  //     notifyError(err ? err?.response?.data?.message : err?.message);
+  //   }
+  // };
 
   const handleSelectLanguage = (lang) => {
     setLanguage(lang);
@@ -100,44 +100,44 @@ const useStaffSubmit = (id, data) => {
     }
   };
 
-  useEffect(() => {
-    if (!isDrawerOpen) {
-      setResData({});
-      setValue("name");
-      setValue("email");
-      setValue("password");
-      setValue("status");
-      setValue("previleges");
-      setValue("departments");
-      clearErrors("name");
-      clearErrors("email");
-      clearErrors("password");
-      clearErrors("status");
-      clearErrors("previleges");
-      clearErrors("departments");
-      // clearErrors("joiningDate");
-      // setImageUrl("");
-      // setLanguage(lang);
-      // setValue("language", language);
-      return;
-    }
-    if (id) {
-      getStaffData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, setValue, isDrawerOpen, adminInfo?.email, clearErrors]);
+  // useEffect(() => {
+  //   if (!isDrawerOpen) {
+  //     setResData({});
+  //     setValue("name");
+  //     setValue("email");
+  //     setValue("password");
+  //     setValue("status");
+  //     setValue("previleges");
+  //     setValue("departments");
+  //     clearErrors("name");
+  //     clearErrors("email");
+  //     clearErrors("password");
+  //     clearErrors("status");
+  //     clearErrors("previleges");
+  //     clearErrors("departments");
+  //     // clearErrors("joiningDate");
+  //     // setImageUrl("");
+  //     // setLanguage(lang);
+  //     // setValue("language", language);
+  //     return;
+  //   }
+  //   if (id) {
+  //     getStaffData();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [id, setValue, isDrawerOpen, adminInfo?.email, clearErrors]);
 
-  useEffect(() => {
-    if (location.pathname === "/edit-profile" && Cookies.get("adminInfo")) {
-      getStaffData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, setValue]);
+  // useEffect(() => {
+  //   if (location.pathname === "/edit-profile" && Cookies.get("adminInfo")) {
+  //     getStaffData();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location.pathname, setValue]);
 
   return {
     register,
     handleSubmit,
-    onSubmit,
+    // onSubmit,
     language,
     errors,
     setImageUrl,

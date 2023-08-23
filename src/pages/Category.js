@@ -32,12 +32,41 @@ import TableLoading from "components/preloader/TableLoading";
 import CheckBox from "components/form/CheckBox";
 import CategoryTable from "components/category/CategoryTable";
 import NotFound from "components/table/NotFound";
+import Loader from 'components/loader/Loader';
 
 const Category = () => {
   const { toggleDrawer, lang,categoryRef } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(CategoryServices.getAllCategory);
-  const { data: getAllCategories } = useAsync(CategoryServices.getAllCategories);
+  const [data, setData] = useState([]); 
+  const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearchValue] = useState("");
+
+  const fetch = async (search) => {
+    try {
+      let response;
+      console.log('search category ==> ', search)
+
+      if (search) {
+      // Si la catégorie sélectionnée est "All", récupérer tous les projets
+        response = await CategoryServices.searchCategory(search);
+
+      }
+        else {
+          console.log('hey');
+          response = await CategoryServices.getAllCategories();
+
+      }
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des categories :", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetch(search);
+  }, [isLoading,search])
 
   const { handleDeleteMany, allId, handleUpdateMany, serviceId } = useToggleDrawer();
 
@@ -61,7 +90,6 @@ const Category = () => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
   const [showChild, setShowChild] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
@@ -71,7 +99,6 @@ const Category = () => {
     }
   };
 
-  const [search, setSearchValue] = useState("");
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -80,6 +107,8 @@ const Category = () => {
 
   return (
     <>
+           {isLoading ? <Loader /> : null}
+
      <PageTitle>{t("Category")}</PageTitle>
      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       {/* <DeleteModal ids={allId} setIsCheck={setIsCheck} /> */}
@@ -98,7 +127,7 @@ const Category = () => {
             <div className="flex justify-start w-1/2 xl:w-1/2 md:w-full">
               <UploadManyTwo
                 title="Categories"
-                exportData={getAllCategories}
+                exportData={data}
                 filename={filename}
                 isDisabled={isDisabled}
                 handleSelectFile={handleSelectFile}
@@ -160,9 +189,8 @@ const Category = () => {
         processOption={showChild}
         name={showChild}
       /> */}
-      {/* {loading ? ( */}
-        {/* <TableLoading row={12} col={6} width={190} height={20} /> */}
-       {/* {data?.length !== 0 ? ( */}
+      
+        {data?.length !== 0 ? ( 
         <TableContainer className="mb-8">
           <Table>
             <TableHeader>
@@ -208,9 +236,9 @@ const Category = () => {
             />
           </TableFooter>
         </TableContainer>
-      {/* ) : (
+       ) : (
         <NotFound title="Sorry, There are no categories right now." />
-      )} */}
+      )} 
     </>
   );
 };

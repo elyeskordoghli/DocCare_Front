@@ -21,8 +21,7 @@ import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 //internal import  
 
-const BlogTable = ({ setId,searchBlog, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, Blogs }) => {
-  const [data, setData] = useState([]);
+const BlogTable = ({ data,setId,searchBlog, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, Blogs }) => {
   const {
     handleModalOpen,
     serviceId,
@@ -33,34 +32,11 @@ const BlogTable = ({ setId,searchBlog, isCheck, setIsCheck, currency, lang, isLo
 
  
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchBlogs = async (isLoading,searchBlog) => {
-      try {
-        let response;
-        if (searchBlog) {
-          response = await BlogServices.searchBlog(searchBlog);
-      }
-      else{
-        response = await BlogServices.getAllBlogs();
-      }
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des Blogs :", error);
-      }
-      finally {
-        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-      }
-    };
-    
-    useEffect(() => {
-    fetchBlogs(isLoading,searchBlog); // Appelez la fonction fetchBlogs pour récupérer les projets au chargement du composant
-  }, [isLoading,searchBlog]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
-
+   
   const getBlog = async () => {
     try {
       const ser = await BlogServices.getBlogById(serviceId)
       setIsCheck([...isCheck, ser.id]);
-      console.log('Blog selectionnée : ', ser.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de Blog :", error);
@@ -74,19 +50,16 @@ const BlogTable = ({ setId,searchBlog, isCheck, setIsCheck, currency, lang, isLo
   }, [])
 
   const beforeHandleModalOpen = (id, title, Blog) => {
-    console.log(id)
     handleModalOpen(id, title, Blog);
     // setIsCheck([id]);
   }
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
   
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
   return (

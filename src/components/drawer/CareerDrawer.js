@@ -132,7 +132,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     setValue,
 
   } = useForm();
-  console.log("career drawer_id", id);
+  // console.log("career drawer_id", id);
   const [retsData, setRestData] = useState({});
 
 
@@ -175,7 +175,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     formData.append('seo_keywords', seo_keywords);
     formData.append('image', imageUrl);
   
-    console.log(formData);
+    // console.log(formData);
     // const res = await CategoryServices.getCategoryById(id);
     // console.log("res category", res);
 
@@ -215,7 +215,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
   const initFormForUpdate = async (id) => {
 
     const res = await CareerServices.getCareerById(id);
-    console.log('careerInputForm', res.data)
+    // console.log('careerInputForm', res.data)
 
     setTitle_en(res.data.title_en);
     
@@ -251,7 +251,7 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
 
     // setPrevilege(res.data.previleges);
     // setDepartment(res.data.departments);
-    console.log('hahahahahah', oldImageUrl);
+    // console.log('hahahahahah', oldImageUrl);
   };
 
 

@@ -58,7 +58,7 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
     tapValue,
     setTapValue,
     openModal,
-    attribue,
+    // attribue,
     setValues,
     variants,
     isCombination,
@@ -125,7 +125,7 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
     setValue,
 
   } = useForm();
-  console.log("service drawer_id", id);
+  // console.log("service drawer_id", id);
   const [retsData, setRestData] = useState({});
 
 
@@ -163,7 +163,7 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
     formData.append('image', imageUrl);
     formData.append('icon', iconUrl);
     formData.append('catalogue', catalogueUrl);
-    console.log(formData);
+    // console.log(formData);
     // const res = await CategoryServices.getCategoryById(id);
     // console.log("res category", res);
 
@@ -178,11 +178,12 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
 
         });
         closeDrawer();
-        // setIsUpdate(true);
-        notifySuccess(res.message);
         setIsLoading(false);
+        // setServiceId();
         setIsCheck([]);
-
+        // setIsSubmitting(false);
+   
+        notifySuccess(res.message);
 
 
 
@@ -198,10 +199,9 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
         });
 
         closeDrawer();
-        // setIsUpdate(true);
-        notifySuccess(response.message);
         setIsLoading(false);
-        setIsCheck([]);
+
+        notifySuccess(response.message);
 
       }
     } catch (error) {
@@ -209,10 +209,9 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
     }
   };
   const initFormForUpdate = async (id) => {
-
+    setIsLoading(true);
     const res = await ServiceServices.getServiceById(id);
-    console.log('serviceInputForm', res.data)
-
+    setIsLoading(false);
     setTitle_en(res.data.title_en);
     setSubtitle_en(res.data.subtitle_en);
     setShort_description_en(res.data.short_description_en);
@@ -248,7 +247,7 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
 
     // setPrevilege(res.data.previleges);
     // setDepartment(res.data.departments);
-    console.log('hahahahahah', oldImageUrl);
+    // console.log('hahahahahah', oldImageUrl);
   };
 
 
@@ -777,7 +776,7 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
             </div>
           )}
 
-          {tapValue === "Combination" &&
+          {/* {tapValue === "Combination" &&
             isCombination &&
             (attribue.length < 1 ? (
               <div
@@ -807,7 +806,7 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
               </div>
             ) : (
               <div className="p-6">
-                {/* <h4 className="mb-4 font-semibold text-lg">Variants</h4> */}
+                {/* <h4 className="mb-4 font-semibold text-lg">Variants</h4> 
                 <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3 md:gap-3 xl:gap-3 lg:gap-2 mb-3">
                   <MultiSelect
                     options={attTitle}
@@ -852,7 +851,7 @@ const ServiceDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck 
                   )}
                 </div>
               </div>
-            ))}
+            ))} */}
 
           {isCombination ? (
             <DrawerButton

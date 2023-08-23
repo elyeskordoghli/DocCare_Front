@@ -221,9 +221,9 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
   console.log("id ba3dd update : ",id);
 
   const initFormForUpdate = async (id) => {
-    // setIsLoading(true);
+    setIsLoading(true);
     const res = await ProjectServices.getProjectById(id);
-    // setIsLoading(false);
+    setIsLoading(false);
     
     setTitle_en(res.data.title_en);
     setSubtitle_en(res.data.subtitle_en);

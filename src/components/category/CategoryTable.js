@@ -11,8 +11,8 @@ import CheckBox from "components/form/CheckBox";
 import ShowHideButton from "components/table/ShowHideButton";
 import EditDeleteButton from "components/table/EditDeleteButton";
 import { showingTranslateValue } from "utils/translate";
-import CategoryServices from "services/CategoryServices";
 import React, { useState,useEffect } from 'react'
+import CategoryServices from "services/CategoryServices";
 
 const CategoryTable = ({
   lang, 
@@ -23,7 +23,8 @@ const CategoryTable = ({
   showChild,
   isLoading, 
   setIsLoading,
-  search
+  search,
+  data
 }) => {
   const { title, serviceId, handleModalOpen, handleUpdate} = useToggleDrawer();
 
@@ -34,34 +35,7 @@ const CategoryTable = ({
   //     setIsCheck(isCheck.filter((item) => item !== id));
   //   }
   // };
-  const [data, setData] = useState([]); 
-
-  const fetch = async (search) => {
-    try {
-      let response;
-      console.log('search category ==> ', search)
-
-      if (search) {
-      // Si la catégorie sélectionnée est "All", récupérer tous les projets
-        response = await CategoryServices.searchCategory(search);
-
-      }
-        else {
-          console.log('hey');
-          response = await CategoryServices.getAllCategories();
-
-      }
-      setData(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des categories :", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetch(search);
-  }, [isLoading,search])
+  
 
 
 

@@ -19,40 +19,18 @@ import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 import CareerServices from "services/CareerServices";
 import CareerDrawer from "components/drawer/CareerDrawer";
+import Loader from 'components/loader/Loader';
+
 //internal import  
 
-const CareerTable = ({ setId, searchCareer, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
-  const [data, setData] = useState([]);
+const CareerTable = ({ setId,data, searchCareer, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const {
     handleModalOpen,
     serviceId,
     handleUpdate,
   } = useToggleDrawer();
 
-  const fetchCareers = async (isLoading, searchCareer) => {
-    try {
-      let response;
-      if (searchCareer) {
-        response = await CareerServices.searchCareer(searchCareer);
 
-
-      }
-      else {
-        response = await CareerServices.getAllCareers();
-      }
-      // Mettez à jour la variable data avec les données récupérées
-      setData(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des careers :", error);
-    }
-    finally {
-      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-    }
-  };
-
-  useEffect(() => {
-    fetchCareers(isLoading, searchCareer);
-  }, [isLoading, searchCareer]);
 
   const getCareer = async () => {
     try {
@@ -88,7 +66,10 @@ const CareerTable = ({ setId, searchCareer, isCheck, setIsCheck, currency, lang,
     }
   };
   return (
+
     <>
+           {isLoading ? <Loader /> : null}
+
       {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}
       {isCheck?.length < 1 && <DeleteModal
         id={serviceId}
