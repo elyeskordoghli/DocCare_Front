@@ -67,7 +67,7 @@ const useBlogSubmit = (id,data) => {
 
   
 
-console.log('id',id)
+// console.log('id',id)
 
   // console.log("lang", lang);
 

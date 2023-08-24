@@ -32,10 +32,7 @@ const EditDeleteButton = ({
   children,
 }) => {
   const { t } = useTranslation();
-//   console.log('id staff',id);
-//   console.log('ffdzdf',name);
-//   console.log('staff',staff);
-// console.log('cat',category);
+
   const location = useLocation();
   if (location.pathname === "/sliders") {
     return (

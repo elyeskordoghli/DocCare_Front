@@ -38,7 +38,6 @@ const CountTable = ({ data , isCheck, setIsCheck, currency, lang, isLoading, set
     try {
       const ser = await CountServices.getCountById(serviceId)
       setIsCheck([...isCheck, ser.id]);
-      console.log('Slider selectionnée : ', ser.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération  :", error);
@@ -52,7 +51,6 @@ const CountTable = ({ data , isCheck, setIsCheck, currency, lang, isLoading, set
   }, [])
 
   const beforeHandleModalOpen = (id, title, Count) => {
-    console.log(id)
     handleModalOpen(id, title, Count);
     // setIsCheck([id]);
   }

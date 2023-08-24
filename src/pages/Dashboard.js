@@ -64,8 +64,8 @@ const Dashboard = () => {
 
     fetchCategories();
   }, []);
-  console.log('cat', categories)
-  console.log('departmentCounts', departmentCounts)
+  // console.log('cat', categories)
+  // console.log('departmentCounts', departmentCounts)
   return (
     <>
       <PageTitle>{t("DashboardOverview")}</PageTitle>

@@ -50,7 +50,6 @@ const DetailDrawer = ({ data, isLoading, setIsLoading, isCheck, setIsCheck }) =>
   const { t } = useTranslation();
   const[id,setId]=useState();
 
-  console.log("Slider drawer_id", data);
   const {
     tag,
     setTag,
@@ -191,7 +190,6 @@ const DetailDrawer = ({ data, isLoading, setIsLoading, isCheck, setIsCheck }) =>
 
     if (res.data && res.data.length > 0) {
       const firstItem = res.data[0];
-      console.log("first ",firstItem);
       setId(firstItem.id);
     setAdresse_en(firstItem.adresse_en);
     setAdresse_fr(firstItem.adresse_fr);
@@ -220,7 +218,6 @@ const DetailDrawer = ({ data, isLoading, setIsLoading, isCheck, setIsCheck }) =>
     // Place your submission logic here
   };
 
-console.log("hihi",adresse_en);
   // const handleNextClick = () => {
   //   if (tapValue === 'Anglais') {
   //     setTapValue('French');

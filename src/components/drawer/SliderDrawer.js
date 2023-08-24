@@ -118,7 +118,6 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     setValue,
 
   } = useForm();
-  console.log("Slider drawer_id", id);
   const [retsData, setRestData] = useState({});
 
 
@@ -149,9 +148,7 @@ const SliderDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
 
     formData.append('image', imageUrl);
     formData.append('id_video_youtube', id_video_youtube);
-    console.log(formData);
     // const res = await CategoryServices.getCategoryById(id);
-    // console.log("res category", res);
 
 
     if (id) {

@@ -177,7 +177,7 @@ useEffect(() => {
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-console.log("service id from project page : ",serviceId);
+// console.log("service id from project page : ",serviceId);
  
   const {
     serviceData,

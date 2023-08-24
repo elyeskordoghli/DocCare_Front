@@ -39,8 +39,8 @@ const DepartmentContactTable = ({ data, searchDepartmentContact, isCheck, setIsC
     const formData = { status: newStatus, };
     setIsLoading(false);
 
-    console.log("serser : ", newStatus);
-    console.log("formDataaa : ", formData);
+   
+
 
     // Appelez le service pour mettre à jour le statut dans la base de données
     DepartmentContactServices.updateContact(id,
@@ -51,7 +51,6 @@ const DepartmentContactTable = ({ data, searchDepartmentContact, isCheck, setIsC
         // Traitez la réponse si nécessaire
         setIsLoading(true);
 
-        console.log('contact updated:', response.data);
       })
       .catch((error) => {
         // Traitez les erreurs si nécessaire
@@ -65,7 +64,6 @@ const DepartmentContactTable = ({ data, searchDepartmentContact, isCheck, setIsC
     try {
       const con = await DepartmentContactServices.getContactById(serviceId)
       setIsCheck([...isCheck, con.id]);
-      console.log('contact selectionnée : ', con.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de contact :", error);

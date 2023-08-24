@@ -98,7 +98,7 @@ const Careers = () => {
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
     setIsCheck(data?.map((li) => li.id));
-    console.log('ischecktw', isCheck);
+    // console.log('ischecktw', isCheck);
     if (isCheckAll) {
       setIsCheck([]);
 

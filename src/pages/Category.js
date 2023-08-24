@@ -44,7 +44,7 @@ const Category = () => {
   const fetch = async (search) => {
     try {
       let response;
-      console.log('search category ==> ', search)
+      // console.log('search category ==> ', search)
 
       if (search) {
       // Si la catégorie sélectionnée est "All", récupérer tous les projets
@@ -52,7 +52,7 @@ const Category = () => {
 
       }
         else {
-          console.log('hey');
+          // console.log('hey');
           response = await CategoryServices.getAllCategories();
 
       }

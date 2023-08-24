@@ -33,6 +33,7 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
   } = useToggleDrawer();
   const [status, setStatus] = useState("");
 
+
   console.log("id from quoteTable : ", serviceId);
 
   const handleStatusChange = async (id, newStatus) => {
@@ -44,7 +45,8 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
     const formData = { status: newStatus, };
     // console.log("fffffffff",formData)
     setIsLoading(false);
-    console.log("serser : ", id);
+
+
     // Appelez le service pour mettre à jour le statut dans la base de données
     QuoteServices.updateQuote(id,
       formData
@@ -54,7 +56,6 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
         // Traitez la réponse si nécessaire
         setIsLoading(true);
 
-        console.log('Quote updated:', response.data);
       })
       .catch((error) => {
         // Traitez les erreurs si nécessaire
@@ -70,7 +71,6 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
       const qu = await QuoteServices.getQuoteById(serviceId)
       setIsCheck([...isCheck, qu.id]);
       setId([...id, qu.id]);
-      console.log('contact selectionnée : ', qu.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de quote :", error);
