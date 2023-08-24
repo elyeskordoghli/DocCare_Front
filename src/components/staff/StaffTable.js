@@ -35,8 +35,6 @@ const StaffTable = ({
   setIsCheck,
   isLoading,
   setIsLoading,
-  data,
-  full
 }) => {
   const {
     title, 
@@ -46,8 +44,33 @@ const StaffTable = ({
     isSubmitting,
     handleResetPassword,
   } = useToggleDrawer();
+  const [data, setData] = useState([]);
   // const { globalSetting } = useFilter();
-  
+  const [full, setFull] = useState();
+  const fetchAdmins = async () => {
+    try {
+      let response;
+      if (searchAdmin) {
+        response = await AdminServices.searchAdmin(searchAdmin);
+      } else {
+      // setIsLoading(true);
+        response = await AdminServices.getAllStaff();
+        // setIsLoading(false);
+
+      }
+
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+      setFull(response.countPrevilege);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des services :", error);
+    } finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+  useEffect(() => {
+    fetchAdmins(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [ searchAdmin,isLoading]);
 
   const getAdmin = async () => {
     try {
@@ -86,7 +109,12 @@ const StaffTable = ({
 
   return (
     <>
-     
+     {
+        isLoading?
+          <Loader />
+        :
+          ''
+      }
       {/* <DeleteModal id={serviceId} title={title} /> */}
       {isCheck?.length < 1 && (
         <DeleteModal
