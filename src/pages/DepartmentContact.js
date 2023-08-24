@@ -41,7 +41,7 @@ import DepartmentContactServices from "services/DepartementContactServices";
 import Loader from 'components/loader/Loader';
 
 const DepartmentContact = () => {
-  const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
   const {
@@ -59,22 +59,39 @@ const DepartmentContact = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  
-  
+
+
   const [searchDepartmentContact, setSearchValue] = useState("");
-  const [isLoading, setIsLoading]=useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
 
+  const [selectedStatus, setSelectedStatus] = useState("");
+  useEffect(() => {
+    async function fetchContactsByStatus() {
+      try {
+        if (selectedStatus) {
+          const response = await DepartmentContactServices.getContactsByStatus(selectedStatus); // Utilisez votre fonction de requête pour appeler la route
+          setData(response);
+        }
+      } catch (error) {
+        console.error("Error fetching contacts:", error);
+      }
+    }
 
-  const fetchDepartmentsContact = async (isLoading,searchDepartmentContact) => {
+    fetchContactsByStatus();
+  }, [selectedStatus]);
+  const handleStatusChange = (status) => {
+    setSelectedStatus(status);
+  };
+  const fetchDepartmentsContact = async (isLoading, searchDepartmentContact) => {
     try {
       let response;
       if (searchDepartmentContact) {
         response = await DepartmentContactServices.searchContact(searchDepartmentContact);
-    }
-    else{
-      response = await DepartmentContactServices.getAllContact();
-    }
+      }
+      else {
+        response = await DepartmentContactServices.getAllContact();
+      }
       // Mettez à jour la variable data avec les données récupérées
       setData(response.data);
     } catch (error) {
@@ -84,10 +101,10 @@ const DepartmentContact = () => {
       setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
     }
   };
-  
+
   useEffect(() => {
-    fetchDepartmentsContact (isLoading,searchDepartmentContact); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-}, [isLoading,searchDepartmentContact]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+    fetchDepartmentsContact(isLoading, searchDepartmentContact); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading, searchDepartmentContact]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -106,7 +123,7 @@ const DepartmentContact = () => {
     setIsCheck(data?.Services.map((li) => li._id));
     if (isCheckAll) {
       setIsCheck([]);
-    } 
+    }
   };
 
   // console.log('productss',products)
@@ -121,14 +138,14 @@ const DepartmentContact = () => {
 
   return (
     <>
-    {isLoading ? <Loader /> : null}
+      {isLoading ? <Loader /> : null}
       <PageTitle>{"Departments Contact Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
-        <DepartmentDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
+        <DepartmentDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
       </MainDrawer>
       {/* <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -192,7 +209,7 @@ const DepartmentContact = () => {
                 type="search"
                 name="search"
                 placeholder="Search Department Contact"
-                onChange={handleSearchInputChange} 
+                onChange={handleSearchInputChange}
               />
               <button
                 type="submit"
@@ -201,18 +218,18 @@ const DepartmentContact = () => {
             </div>
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select
-                // onChange={(e) => setSortedField(e.target.value)}
+                onChange={(e) => handleStatusChange(e.target.value)}
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
               >
                 <option value="All" defaultValue hidden>
                   {t("Status")}
                 </option>
-                <option value="In Progress">{t("In Progress")}</option>
-                <option value="Completed">{t("Completed")}</option>
-                <option value="Canceled">{t("Canceled")}</option>
+                <option value="in progress">{t("in progress")}</option>
+                <option value="completed">{t("completed")}</option>
+                <option value="canceled">{t("canceled")}</option>
               </Select>
             </div>
-   </form>
+          </form>
         </CardBody>
       </Card>
 
@@ -248,7 +265,7 @@ const DepartmentContact = () => {
               setIsCheck={setIsCheck}
               data={data}
               searchDepartmentContact={searchDepartmentContact}
-            /> 
+            />
           </Table>
           <TableFooter>
             <Pagination
