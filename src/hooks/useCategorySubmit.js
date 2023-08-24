@@ -29,7 +29,7 @@ const useCategorySubmit = (id, data) => {
   } = useForm();
 
   // console.log("lang", lang, language);
-console.log('id',id);
+// console.log('id',id);
   // const onSubmit = async (data) => {
   //   try {
   //     setIsSubmitting(true);

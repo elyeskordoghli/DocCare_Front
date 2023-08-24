@@ -41,7 +41,6 @@ const DetailTable = ({ data, isCheck, setIsCheck, currency, lang, isLoading, set
       const ser = await DetailsServices.getDetailById(serviceId)
       // setServiceId(ser.id);
       setIsCheck([...isCheck, ser.id]);
-      console.log('detail selectionnée : ', ser.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération  :", error);
@@ -55,19 +54,16 @@ const DetailTable = ({ data, isCheck, setIsCheck, currency, lang, isLoading, set
   }, [])
 
   const beforeHandleModalOpen = (id, title, Detail) => {
-    console.log(id)
     handleModalOpen(id, title, Detail);
     // setIsCheck([id]);
   }
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
 
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
   return (

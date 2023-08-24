@@ -35,7 +35,6 @@ const SliderTable = ({ data, isCheck, setIsCheck, currency, lang, isLoading, set
     try {
       const ser = await SlidersServices.getSliderById(serviceId)
       setIsCheck([...isCheck, ser.id]);
-      console.log('Slider selectionnée : ', ser.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération  :", error);
@@ -49,19 +48,16 @@ const SliderTable = ({ data, isCheck, setIsCheck, currency, lang, isLoading, set
   }, [])
 
   const beforeHandleModalOpen = (id, title, Slider) => {
-    console.log(id)
     handleModalOpen(id, title, Slider);
     // setIsCheck([id]);
   }
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
   
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
   return (

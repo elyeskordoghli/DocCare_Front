@@ -45,7 +45,6 @@ const PrevilegesModal = ({ data ,handleModalOpen,staff,name}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-  console.log("datares",data);
 
   const { t } = useTranslation();
 

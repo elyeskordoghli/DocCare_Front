@@ -69,12 +69,12 @@ const Quote = () => {
     setStatus(newStatusValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-
+console.log("statusssss : ",status);
   const fetchQuotes = async (isLoading, searchQuote) => {
     try {
       let response;
-      if (searchQuote) {
-        response = await QuoteServices.searchQuote(searchQuote);
+      if (searchQuote || status) {
+        response = await QuoteServices.searchQuote(searchQuote,status);
       }
       else {
         response = await QuoteServices.getAllQuote();
@@ -91,7 +91,7 @@ const Quote = () => {
 
   useEffect(() => {
     fetchQuotes(isLoading, searchQuote); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading, searchQuote]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+  }, [isLoading, searchQuote,status]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -155,15 +155,15 @@ const Quote = () => {
             </div>
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select
-                onChange={(e) => handleStatusInputChange}
+                onChange={handleStatusInputChange} 
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
               >
                 <option value="All" defaultValue hidden>
                   {t("Status")}
                 </option>
-                <option value="In Progress">{t("In Progress")}</option>
-                <option value="Completed">{t("Completed")}</option>
-                <option value="Canceled">{t("Canceled")}</option>
+                <option value="in progress">{t("in progress")}</option>
+                <option value="completed">{t("completed")}</option>
+                <option value="canceled">{t("canceled")}</option>
               </Select>
             </div>
    </form>

@@ -18,8 +18,8 @@ const useProductSubmit = (id) => {
   const { isDrawerOpen, closeDrawer, setIsUpdate, lang } =
     useContext(SidebarContext);
 
-  const { data: attribue } = useAsync(AttributeServices.getShowingAttributes);
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
+  // const { data: attribue } = useAsync(AttributeServices.getShowingAttributes);
+  // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
 
   // react ref
   const resetRef = useRef([]);
@@ -217,7 +217,7 @@ const useProductSubmit = (id) => {
         }
       }
     } catch (err) {
-      console.log("err", err);
+      // console.log("err", err);
       setIsSubmitting(false);
       notifyError(err ? err?.response?.data?.message : err.message);
       closeDrawer();

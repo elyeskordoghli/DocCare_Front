@@ -53,8 +53,6 @@ import SelectReferences from "components/form/SelectReferences";
 const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,References,categories, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
 
-  console.log("idid : ", id)
-  // console.log("catcat: ",categories);
   const {
     tag,
     setTag,
@@ -195,7 +193,6 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
       } else {
         setIsLoading(true);
-        console.log("id 9bal update : ",id);
         const response = await ProjectServices.updateProject(id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -203,7 +200,6 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
 
         });
-        console.log("id ba3d update : ",id);
 
         closeDrawer();
         setIsLoading(false);
@@ -218,7 +214,6 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
    
   };
 
-  console.log("id ba3dd update : ",id);
 
   const initFormForUpdate = async (id) => {
     setIsLoading(true);

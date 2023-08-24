@@ -173,7 +173,6 @@ const CategoryDrawer = ({ id, data, lang,isLoading, setIsLoading ,  isCheck , se
         
 
 
-        console.log("Réponse d'ajout de catégorie :", res);
         // Traitez la réponse ou faites d'autres actions nécessaires après l'ajout
       }
       catch (error) {

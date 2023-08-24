@@ -13,9 +13,10 @@ const QuoteServices = {
   updateQuote: async (id, body) => {
     return requests.put(`/admin/quotes/update/${id}`, body);
   },
-  searchQuote: async (query) => {
-    return requests.get(`/admin/quotes/search_quote?q=${query}`);
-  },
+  searchQuote: async (query, status) => {
+    return requests.get(`/admin/quotes/search_quote?q=${query}&status=${status}`);
+},
+
 };
 
 export default QuoteServices;

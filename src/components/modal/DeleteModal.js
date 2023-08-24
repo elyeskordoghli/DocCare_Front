@@ -43,7 +43,6 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
 
   };
 
-  console.log("serviceID ", id);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleDelete = async () => {
     // return notifyError("CRUD operation is disabled for this option!");
@@ -273,7 +272,6 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
           closeModal();
           setIsSubmitting(false);
         } else {
-          console.log("att value delete", id, location.pathname.split("/")[2]);
 
           const res = await AttributeServices.deleteChildAttribute({
             id: id,

@@ -29,13 +29,11 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
 
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
 
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
 
@@ -48,10 +46,7 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
     serviceId,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin
   } = useToggleDrawer();
-  console.log("service id from projectTable : ",serviceId)
-  console.log('isCheck : ', isCheck)
-  console.log('selectedCategory : ', selectedCategory);
-  console.log('isLoading : ', isLoading);
+  
 
   // useEffect(() => {
   //   handleServiceIdChange(serviceId)
@@ -123,7 +118,6 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
     try {
       const pr = await ProjectServices.getProjectById(serviceId)
       setIsCheck([...isCheck, pr.id]);
-      console.log('Projet selectionnée : ', pr.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de projet :", error);
@@ -169,7 +163,6 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
 
   const beforeHandleModalOpen = (id, title, project) => {
     try {
-      console.log('idddddddd', id)
       handleModalOpen(id, title, project);
       setIsCheck([]);
 

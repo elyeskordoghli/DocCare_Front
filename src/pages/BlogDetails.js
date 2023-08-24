@@ -65,7 +65,7 @@ const BlogDetails = () => {
   // }, [attribue, data?.variants, loading, lang]);
 
   // // console.log("data.variants", globalSetting);
-  console.log("data---------------title", data);
+  // console.log("data---------------title", data);
   return (
     <>
       <MainDrawer product>

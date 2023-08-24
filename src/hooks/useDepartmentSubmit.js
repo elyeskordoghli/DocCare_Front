@@ -64,29 +64,29 @@ const useDepartmentSubmit = (id,data) => {
   // const [seo_keywords,setSeo_keywords]=useState("");
   // const [seo_description,setSeo_description]=useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [seo_keywords, setSeo_keywords] = useState("");
-  const [name_en, setName_en] = useState("");
-  const [Short_Description_en, setShort_description_en] = useState("");
-  const [description_en, setDescription_en] = useState("");
-  const [Seo_Description_en, setSeo_description_en] = useState("");
+  // const [seo_keywords, setSeo_keywords] = useState("");
+  // const [name_en, setName_en] = useState("");
+  // const [Short_Description_en, setShort_description_en] = useState("");
+  // const [description_en, setDescription_en] = useState("");
+  // const [Seo_Description_en, setSeo_description_en] = useState("");
 
-  const [name_fr, setName_fr] = useState("");
-  const [Short_Description_fr, setShort_description_fr] = useState("");
-  const [Description_fr, setDescription_fr] = useState("");
-  const [Seo_Description_fr, setSeo_description_fr] = useState("");
+  // const [name_fr, setName_fr] = useState("");
+  // const [Short_Description_fr, setShort_description_fr] = useState("");
+  // const [Description_fr, setDescription_fr] = useState("");
+  // const [Seo_Description_fr, setSeo_description_fr] = useState("");
 
-  const [name_ar, setName_ar] = useState("");
-  const [Short_Description_ar, setShort_description_ar] = useState("");
-  const [description_ar, setDescription_ar] = useState("");
-  const [seo_description_ar, setSeo_description_ar] = useState("");
+  // const [name_ar, setName_ar] = useState("");
+  // const [Short_Description_ar, setShort_description_ar] = useState("");
+  // const [description_ar, setDescription_ar] = useState("");
+  // const [seo_description_ar, setSeo_description_ar] = useState("");
 
  
-  const [owner,setOwner]=useState("");
-  const [views,setViews]=useState("");
+  // const [owner,setOwner]=useState("");
+  // const [views,setViews]=useState("");
 
   
 
-console.log('id',id)
+// console.log('id',id)
 
   // console.log("lang", lang);
 

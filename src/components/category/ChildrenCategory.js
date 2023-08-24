@@ -6,7 +6,6 @@ const ChildrenCategory = ({ value }) => {
   const [categories, setCategories] = useState([]);
 
   const { data } = useAsync(CategoryServices.getAllCategory);
-  // console.log('data',data)
   useEffect(() => {
     if (value) {
       const result = data.filter((parent) =>
