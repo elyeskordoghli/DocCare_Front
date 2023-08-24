@@ -224,7 +224,7 @@ const StaffDrawer = ({ id, full_access, data, isLoading, setIsLoading, isCheck, 
                 </div>
 
 
-
+                {id &&(
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label={"Change password ?"} />
                   <div className="col-span-8 sm:col-span-4">
@@ -236,9 +236,10 @@ const StaffDrawer = ({ id, full_access, data, isLoading, setIsLoading, isCheck, 
                      <span className="ml-2">Yes</span>
                   </div>
                 </div>
+                )}
 
                 {/* Afficher le champ de mot de passe si l'admin est un super admin et la case est cochée */}
-                {full_access && changePassword && (
+                {(full_access && changePassword) || !id && (
                   <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                     <LabelArea label={"password "} />
                     <div className="col-span-8 sm:col-span-4">

@@ -36,7 +36,6 @@ const CareerTable = ({ setId,data, searchCareer, isCheck, setIsCheck, currency, 
     try {
       const car = await CareerServices.getCareerById(serviceId)
       setIsCheck([...isCheck, car.id]);
-      console.log('Career selectionnée : ', car.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de career :", error);
@@ -50,19 +49,16 @@ const CareerTable = ({ setId,data, searchCareer, isCheck, setIsCheck, currency, 
   }, [])
 
   const beforeHandleModalOpen = (id, title, career) => {
-    console.log(id)
     handleModalOpen(id, title, career);
     setIsCheck([]);
   }
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
 
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
   return (
