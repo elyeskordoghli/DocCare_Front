@@ -22,9 +22,9 @@ const useStaffSubmit = (id, data) => {
   const [language, setLanguage] = useState(lang);
   const [resData, setResData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const location = useLocation();
-  const [selecttedPrevilege, setSelecttedPrevilege] = useState(null);
-  const [selecttedDepartment, setSelecttedDepartment] = useState(null);
+  // const location = useLocation();
+  // const [selecttedPrevilege, setSelecttedPrevilege] = useState(null);
+  // const [selecttedDepartment, setSelecttedDepartment] = useState(null);
 
 
 
@@ -100,44 +100,44 @@ const useStaffSubmit = (id, data) => {
     }
   };
 
-  useEffect(() => {
-    if (!isDrawerOpen) {
-      setResData({});
-      setValue("name");
-      setValue("email");
-      setValue("password");
-      setValue("status");
-      setValue("previleges");
-      setValue("departments");
-      clearErrors("name");
-      clearErrors("email");
-      clearErrors("password");
-      clearErrors("status");
-      clearErrors("previleges");
-      clearErrors("departments");
-      // clearErrors("joiningDate");
-      // setImageUrl("");
-      // setLanguage(lang);
-      // setValue("language", language);
-      return;
-    }
-    if (id) {
-      getStaffData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, setValue, isDrawerOpen, adminInfo?.email, clearErrors]);
+  // useEffect(() => {
+  //   if (!isDrawerOpen) {
+  //     setResData({});
+  //     setValue("name");
+  //     setValue("email");
+  //     setValue("password");
+  //     setValue("status");
+  //     setValue("previleges");
+  //     setValue("departments");
+  //     clearErrors("name");
+  //     clearErrors("email");
+  //     clearErrors("password");
+  //     clearErrors("status");
+  //     clearErrors("previleges");
+  //     clearErrors("departments");
+  //     // clearErrors("joiningDate");
+  //     // setImageUrl("");
+  //     // setLanguage(lang);
+  //     // setValue("language", language);
+  //     return;
+  //   }
+  //   if (id) {
+  //     getStaffData();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [id, setValue, isDrawerOpen, adminInfo?.email, clearErrors]);
 
-  useEffect(() => {
-    if (location.pathname === "/edit-profile" && Cookies.get("adminInfo")) {
-      getStaffData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, setValue]);
+  // useEffect(() => {
+  //   if (location.pathname === "/edit-profile" && Cookies.get("adminInfo")) {
+  //     getStaffData();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location.pathname, setValue]);
 
   return {
     register,
     handleSubmit,
-    onSubmit,
+    // onSubmit,
     language,
     errors,
     setImageUrl,
@@ -147,8 +147,8 @@ const useStaffSubmit = (id, data) => {
     isSubmitting,
     handleSelectLanguage,
     data,
-    setSelecttedPrevilege,
-    setSelecttedDepartment,
+    // setSelecttedPrevilege,
+    // setSelecttedDepartment,
   };
 };
 
