@@ -30,8 +30,32 @@ const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCh
     handleUpdate,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
+  const [status, setStatus] = useState("");
 
+  const handleStatusChange = async (id,newStatus) => {
+    setStatus(newStatus);
+    
+    const formData = {status: newStatus,};
+    setIsLoading(false);
+    console.log("serser : ",newStatus);
+    console.log("formDataaa : ",formData);
 
+    // Appelez le service pour mettre à jour le statut dans la base de données
+   DepartmentContactServices.updateContact(id,
+       formData
+       )
+
+      .then((response) => {
+        // Traitez la réponse si nécessaire
+        setIsLoading(true);
+
+        console.log('contact updated:', response.data);
+      })
+      .catch((error) => {
+        // Traitez les erreurs si nécessaire
+        console.error('Error updating contact:', error);
+      });
+  };
  
    
 
@@ -119,10 +143,15 @@ const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCh
               </span>
             </TableCell>
 
-                  <TableCell>
-              <span className="text-sm">
-                {item?.status}
-              </span>
+            <TableCell>
+              <select
+                value={item.status}
+                onChange={(e) => handleStatusChange(item.id,e.target.value)}
+              >
+                <option value="in progress">in progress</option>
+                <option value="completed">completed</option>
+                <option value="canceled">canceled</option>
+              </select>
             </TableCell>
 
 

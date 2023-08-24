@@ -10,8 +10,8 @@ const DepartmentContactServices = {
   deleteContact: async (id) => {
     return requests.delete(`/admin/contacts/delete/${id}`);
   },
-  updateContact: async (id) => {
-    return requests.put(`/admin/contacts/update/${id}`);
+  updateContact: async (id, body) => {
+    return requests.put(`/admin/contacts/update/${id}`, body);
   },
   searchContact: async (query) => {
     return requests.get(`/admin/contacts/search_contact?q=${query}`);
