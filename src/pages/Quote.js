@@ -39,7 +39,11 @@ import DepartmentTable from "components/department/DepartmentTable";
 import Loader from 'components/loader/Loader';
 import QuoteServices from "services/QuoteServices";
 import QuoteTable from "components/quote/QuoteTable";
+import {
 
+  Badge,
+
+} from "@windmill/react-ui";
 const Quote = () => {
   const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
@@ -48,7 +52,7 @@ const Quote = () => {
   const [isLoading, setIsLoading]=useState(true);
   const [searchQuote, setSearchValue] = useState("");
 
-  const[status,setStatus] =useState();
+  const[status,setStatus] =useState('All');
   const {
     toggleDrawer,
     lang,
@@ -69,15 +73,15 @@ const Quote = () => {
     setStatus(newStatusValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-console.log("statusssss : ",status);
   const fetchQuotes = async (isLoading, searchQuote) => {
     try {
       let response;
-      if (searchQuote || status) {
-        response = await QuoteServices.searchQuote(searchQuote,status);
-      }
-      else {
+      if(status === "All" && !searchQuote) {
         response = await QuoteServices.getAllQuote();
+      }
+
+      else if (searchQuote || status) {
+        response = await QuoteServices.searchQuote(searchQuote,status);
       }
       // Mettez à jour la variable data avec les données récupérées
       setData(response.data);
@@ -121,7 +125,9 @@ console.log("statusssss : ",status);
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data?.Services);
-
+  const countQuotesByStatus = (status) => {
+    return data.filter((Quote) => Quote.status === status).length;
+  };
   return (
     <>
     {isLoading ? <Loader /> : null}
@@ -133,6 +139,40 @@ console.log("statusssss : ",status);
       <MainDrawer>
         <DepartmentDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
       </MainDrawer>
+      <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
+        <CardBody className="">
+          <form
+            onSubmit={handleSubmitForAll}
+            className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6  xl:flex"
+          >
+            <div className="flex justify-start xl:w-1/2  md:w-full">
+              <UploadManyTwo
+                title="Quotes"
+                filename={filename}
+                isDisabled={isDisabled}
+                totalDoc={data?.totalDoc}
+                handleSelectFile={handleSelectFile}
+                handleUploadMultiple={handleUploadMultiple}
+                handleRemoveSelectFile={handleRemoveSelectFile}
+              />
+            </div>
+            <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
+              <div className="flex">
+                <Badge className="bg-red-500  text-white mx-2">
+                  In Progress: {countQuotesByStatus("in progress")}
+                </Badge>
+                <Badge className="bg-red-500 text-white mx-2">
+                  Canceled: {countQuotesByStatus("canceled")}
+                </Badge>
+                <Badge className="bg-green-500 text-white mx-2">
+                  Completed: {countQuotesByStatus("completed")}
+                </Badge>
+              </div>
+            </div>
+          </form>
+        </CardBody>
+      </Card>
+
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 rounded-t-lg rounded-0 mb-4">
         <CardBody>
           <form
@@ -161,6 +201,7 @@ console.log("statusssss : ",status);
                 <option value="All" defaultValue hidden>
                   {t("Status")}
                 </option>
+                <option value="All">{t("All")}</option>
                 <option value="in progress">{t("in progress")}</option>
                 <option value="completed">{t("completed")}</option>
                 <option value="canceled">{t("canceled")}</option>

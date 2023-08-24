@@ -64,34 +64,33 @@ const DepartmentContact = () => {
   const [searchDepartmentContact, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
+  const[status,setStatus] =useState('All');
 
-  const [selectedStatus, setSelectedStatus] = useState("");
-  useEffect(() => {
-    async function fetchContactsByStatus() {
-      try {
-        if (selectedStatus) {
-          const response = await DepartmentContactServices.getContactsByStatus(selectedStatus); // Utilisez votre fonction de requête pour appeler la route
-          setData(response);
-        }
-      } catch (error) {
-        console.error("Error fetching contacts:", error);
-      }
-    }
+  
+  
 
-    fetchContactsByStatus();
-  }, [selectedStatus]);
-  const handleStatusChange = (status) => {
-    setSelectedStatus(status);
+  const handleStatusChange = (e) => {
+    const newStatusValue = e.target.value;
+    setStatus(newStatusValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
+
+  console.log("statussssssssssssssss : ",status)
   const fetchDepartmentsContact = async (isLoading, searchDepartmentContact) => {
     try {
       let response;
-      if (searchDepartmentContact) {
-        response = await DepartmentContactServices.searchContact(searchDepartmentContact);
-      }
-      else {
+      if (status === "All" && !searchDepartmentContact) {
+      
+
+        // Si la catégorie sélectionnée est "All", récupérer tous les projets
         response = await DepartmentContactServices.getAllContact();
+
       }
+
+      else if (searchDepartmentContact||status) {
+        response = await DepartmentContactServices.searchContact(searchDepartmentContact,status);
+
+      }
+     
       // Mettez à jour la variable data avec les données récupérées
       setData(response.data);
     } catch (error) {
@@ -104,7 +103,7 @@ const DepartmentContact = () => {
 
   useEffect(() => {
     fetchDepartmentsContact(isLoading, searchDepartmentContact); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading, searchDepartmentContact]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+  }, [isLoading,status, searchDepartmentContact]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -140,8 +139,8 @@ const DepartmentContact = () => {
     <>
       {isLoading ? <Loader /> : null}
       <PageTitle>{"Departments Contact Page"}</PageTitle>
-      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
-      <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
+      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data?.title} setIsLoading={setIsLoading} />
+      <MainModal id={isCheck} title={data?.title} setIsLoading={setIsLoading} />
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
@@ -218,12 +217,13 @@ const DepartmentContact = () => {
             </div>
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <Select
-                onChange={(e) => handleStatusChange(e.target.value)}
+                onChange={handleStatusChange}
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
               >
                 <option value="All" defaultValue hidden>
                   {t("Status")}
                 </option>
+                <option value="All">{t("All")}</option>
                 <option value="in progress">{t("in progress")}</option>
                 <option value="completed">{t("completed")}</option>
                 <option value="canceled">{t("canceled")}</option>

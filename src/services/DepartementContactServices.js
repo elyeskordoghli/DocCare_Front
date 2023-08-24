@@ -13,8 +13,8 @@ const DepartmentContactServices = {
   updateContact: async (id, body) => {
     return requests.put(`/admin/contacts/update/${id}`, body);
   },
-  searchContact: async (query) => {
-    return requests.get(`/admin/contacts/search_contact?q=${query}`);
+  searchContact: async (query, status) => {
+    return requests.get(`/admin/contacts/search_contact?q=${query}&status=${status}`);
   },
   getContactsByStatus: async (status) => {
     return requests.get(`/admin/contacts/get_contacts_by_status/${status}`);
