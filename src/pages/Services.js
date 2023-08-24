@@ -35,7 +35,7 @@ import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
 import ServiceServices from "services/ServiceServices";
 import MainModal from "components/modal/MainModal";
-import Loader from 'components/loader/Loader';
+// import Loader from 'components/loader/Loader';
 
 const Services = () => {
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =

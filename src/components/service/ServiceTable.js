@@ -31,7 +31,6 @@ const ServiceTable = ({
   data,
   isLoading,
   setIsLoading,
-  data,
 }) => {
   const {
     handleModalOpen,

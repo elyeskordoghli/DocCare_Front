@@ -17,7 +17,7 @@ const useLoginSubmit = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = ({ name, email, last_login_at, last_login_ip, status, previleges, password }) => {
+  const onSubmit = ({ name, email, last_login_at, last_login_ip, status, previleges, password,full_access }) => {
     setLoading(true);
     const cookieTimeOut = 0.5;
     if (location.pathname === '/login') {
@@ -40,7 +40,7 @@ const useLoginSubmit = () => {
     }
 
     if (location.pathname === '/signup') {
-      AdminServices.registerAdmin({ name, email, password, last_login_at, last_login_ip, status, previleges})
+      AdminServices.registerAdmin({ name, email, password, last_login_at, last_login_ip, status, previleges,full_access})
         .then((res) => {
           if (res) { 
             setLoading(false);
