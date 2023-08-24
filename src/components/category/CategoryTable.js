@@ -40,12 +40,10 @@ const CategoryTable = ({
 
 
 
-// console.log("name",data);
     const getCategory = async () => {
       try {
         const cat = await CategoryServices.getCategoryById(isCheck)
         setIsCheck([...isCheck, cat.id]);
-        console.log('Category selectionnée : ', cat.id);
 
       } catch (error) {
         console.error("Erreur lors de la récupération du category :", error);
@@ -60,13 +58,11 @@ const CategoryTable = ({
 
     const handleClick = (e) => {
       const { id, checked } = e.target;
-      console.log("id hatha", id, checked);
     
       if (checked) {
         setIsCheck([...isCheck, id]);
       } else {
         setIsCheck(isCheck.filter((item) => item !== id));
-        console.log("id tna7a", id, checked);
       }
     };
 
