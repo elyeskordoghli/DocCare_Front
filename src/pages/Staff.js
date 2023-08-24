@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { FiPlus } from "react-icons/fi";
 import CheckBox from "components/form/CheckBox";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import Cookies from "js-cookie";
 
 //internal import
 import useProductFilter from "hooks/useProductFilter";
@@ -44,11 +45,39 @@ const Staff = () => {
   const { toggleDrawer, lang } = useContext(SidebarContext);
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
-    const [searchAdmin, setSearchValue] = useState("");
+  const [searchAdmin, setSearchValue] = useState("");
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState([]);
-    const [full, setFull] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [full, setFull] = useState();
+  const [full_access, setFullAccess] = useState(false);
+
+
+   const  fetchAdminAccess = async () => {
+      try {
+        const adminInfoString = Cookies.get("adminInfo");
+        if (adminInfoString) {
+          const adminInfo = JSON.parse(adminInfoString);
+
+          if (adminInfo && adminInfo.id) {
+            const response = await AdminServices.getStaffById(adminInfo.id);
+
+            const adminAccess = response.data.full_access;
+            setFullAccess(adminAccess); // Utiliser le même nom d'état ici
+            console.log("user full_access", adminAccess);
+          } else {
+            console.log('ID de l\'admin non trouvé dans les informations');
+          }
+        } else {
+          console.log('Cookie adminInfo non trouvé');
+        }
+      } catch (error) {
+        console.log('Erreur lors de la récupération d\'access', error);
+      }
+    };
+    useEffect(() => {
+    fetchAdminAccess();
+  }, []);
 
   const fetchAdmins = async () => {
     try {
@@ -56,7 +85,7 @@ const Staff = () => {
       if (searchAdmin) {
         response = await AdminServices.searchAdmin(searchAdmin);
       } else {
-      // setIsLoading(true);
+        // setIsLoading(true);
         response = await AdminServices.getAllStaff();
         // setIsLoading(false);
 
@@ -73,10 +102,10 @@ const Staff = () => {
   };
   useEffect(() => {
     fetchAdmins(); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [ searchAdmin,isLoading]);
+  }, [searchAdmin, isLoading]);
 
 
-  
+
   const [isCheckAll, setIsCheckAll] = useState(false);
 
   const [isCheck, setIsCheck] = useState([]);
@@ -111,7 +140,7 @@ const Staff = () => {
 
   return (
     <>
-           {isLoading ? <Loader /> : null}
+      {isLoading ? <Loader /> : null}
 
       <PageTitle>{t("StaffPageTitle")} </PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -122,7 +151,8 @@ const Staff = () => {
           setIsCheck={setIsCheck}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
-          isCheck={isCheck} />
+          isCheck={isCheck}
+          full_access={full_access} />
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -225,7 +255,7 @@ const Staff = () => {
           </form>
         </CardBody>
       </Card>
-       {serviceData?.length !== 0 ? (
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -260,9 +290,10 @@ const Staff = () => {
               setIsCheck={setIsCheck}
               Staff={data?.Staff}
               searchAdmin={searchAdmin}
-               data={data}
-               full={full} 
-              lang={lang} />
+              data={data}
+              full={full}
+              lang={lang}
+              full_access={full_access} />
           </Table>
           <TableFooter>
             <Pagination
