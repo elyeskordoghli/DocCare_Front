@@ -44,13 +44,11 @@ const Staff = () => {
   const { toggleDrawer, lang } = useContext(SidebarContext);
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
- 
-
-    const [full, setFull] = useState();
-
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
     const [searchAdmin, setSearchValue] = useState("");
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [full, setFull] = useState();
 
   const fetchAdmins = async () => {
     try {
@@ -78,16 +76,22 @@ const Staff = () => {
   }, [ searchAdmin,isLoading]);
 
 
+  
+  const [isCheckAll, setIsCheckAll] = useState(false);
+
   const [isCheck, setIsCheck] = useState([]);
   const {
     searchText,
     searchRef,
   } = useContext(SidebarContext);
   const {
-   
+    userRef,
+    setRole,
+    setPrevilege,
     handleChangePage,
     totalResults,
     resultsPerPage,
+    dataTable,
     serviceData,
     handleSubmitUser,
   } = useFilter(data?.data);
@@ -107,7 +111,8 @@ const Staff = () => {
 
   return (
     <>
-     {isLoading ? <Loader /> : null}
+           {isLoading ? <Loader /> : null}
+
       <PageTitle>{t("StaffPageTitle")} </PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -220,8 +225,7 @@ const Staff = () => {
           </form>
         </CardBody>
       </Card>
-
-      {serviceData?.length !== 0 ? (
+       {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -256,8 +260,8 @@ const Staff = () => {
               setIsCheck={setIsCheck}
               Staff={data?.Staff}
               searchAdmin={searchAdmin}
-               data={data} 
-               full={full}
+               data={data}
+               full={full} 
               lang={lang} />
           </Table>
           <TableFooter>

@@ -79,6 +79,7 @@ const StaffDrawer = ({ id,full_access, data, isLoading, setIsLoading, isCheck, s
 
         });
         closeDrawer();
+        // setIsUpdate(true);
         notifySuccess(res.message);
         setIsLoading(false);
         setIsCheck([]);
@@ -94,6 +95,7 @@ const StaffDrawer = ({ id,full_access, data, isLoading, setIsLoading, isCheck, s
         // setIsUpdate(true);
         notifySuccess(res.message);
         setIsLoading(false);
+        setIsCheck([]);
 
       }
     } catch (error) {
@@ -103,16 +105,11 @@ const StaffDrawer = ({ id,full_access, data, isLoading, setIsLoading, isCheck, s
 
 
   const initFormForUpdate = async (id) => {
-    setIsLoading(true);
-    const res = await AdminServices.getStaffById(id);
-    setIsLoading(false);
 
+    const res = await AdminServices.getStaffById(id);
     setName(res.data.name);
     setEmail(res.data.email);
     setPassword(res.data.password);
-    console.log("padd", res.data.password)
-    console.log("passworddd", res.data.email)
-
     setOldPrevileges(res.data.previleges);
     // setDepartment(res.data.departments);
 

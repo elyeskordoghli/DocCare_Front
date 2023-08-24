@@ -34,9 +34,9 @@ const StaffTable = ({
   isCheck,
   setIsCheck,
   isLoading,
-  setIsLoading,
   data,
-  full
+  full,
+  setIsLoading,
 }) => {
   const {
     title, 
@@ -46,7 +46,6 @@ const StaffTable = ({
     isSubmitting,
     handleResetPassword,
   } = useToggleDrawer();
-  // const { globalSetting } = useFilter();
   
 
   const getAdmin = async () => {

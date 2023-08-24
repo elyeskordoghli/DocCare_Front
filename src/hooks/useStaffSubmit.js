@@ -22,9 +22,9 @@ const useStaffSubmit = (id, data) => {
   const [language, setLanguage] = useState(lang);
   const [resData, setResData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const location = useLocation();
-  const [selecttedPrevilege, setSelecttedPrevilege] = useState(null);
-  const [selecttedDepartment, setSelecttedDepartment] = useState(null);
+  // const location = useLocation();
+  // const [selecttedPrevilege, setSelecttedPrevilege] = useState(null);
+  // const [selecttedDepartment, setSelecttedDepartment] = useState(null);
 
 
 
@@ -147,8 +147,8 @@ const useStaffSubmit = (id, data) => {
     isSubmitting,
     handleSelectLanguage,
     data,
-    setSelecttedPrevilege,
-    setSelecttedDepartment,
+    // setSelecttedPrevilege,
+    // setSelecttedDepartment,
   };
 };
 
