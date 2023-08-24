@@ -24,7 +24,7 @@ import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
 //internal import  
 
-const QuoteTable = ({id, setId,data, searchQuote, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
+const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const {
     handleModalOpen,
     handleUpdate,
@@ -32,23 +32,23 @@ const QuoteTable = ({id, setId,data, searchQuote, isCheck, setIsCheck, currency,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
   const [status, setStatus] = useState("");
-  
-  console.log("id from quoteTable : ",serviceId);
 
-  const handleStatusChange = async (id,newStatus) => {
+  console.log("id from quoteTable : ", serviceId);
+
+  const handleStatusChange = async (id, newStatus) => {
     // Mettez à jour l'état local
     setStatus(newStatus);
     // console.log("newStatus",newStatus)
     // const qu = await QuoteServices.getQuoteById(id)
     // setId([...id, qu.id]);
-    const formData = {status: newStatus,};
+    const formData = { status: newStatus, };
     // console.log("fffffffff",formData)
     setIsLoading(false);
-    console.log("serser : ",id);
+    console.log("serser : ", id);
     // Appelez le service pour mettre à jour le statut dans la base de données
     QuoteServices.updateQuote(id,
-       formData
-       )
+      formData
+    )
 
       .then((response) => {
         // Traitez la réponse si nécessaire
@@ -153,13 +153,24 @@ const QuoteTable = ({id, setId,data, searchQuote, isCheck, setIsCheck, currency,
             <TableCell>
               <select
                 value={item.status}
-                onChange={(e) => handleStatusChange(item.id,e.target.value)}
+                onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                className={`px-2 py-1 rounded-full border-none ${item?.status === "in progress"
+                    ? "bg-blue-300 text-white font-bold"
+                    : item?.status === "canceled"
+                      ? "bg-red-300 text-white font-bold"
+                      : item?.status === "completed"
+                        ? "bg-green-300 text-white font-bold"
+                        : ""
+                  }`}
               >
-                <option value="in progress">in progress</option>
-                <option value="completed">completed</option>
-                <option value="canceled">canceled</option>
+                <option className="text-black bg-white border-none" value="in progress">in progress</option>
+                <option className="text-black bg-white border-none" value="completed">completed</option>
+                <option className="text-black bg-white border-none" value="canceled">canceled</option>
               </select>
             </TableCell>
+
+
+
             <TableCell>
               {item?.services ? (
                 <ul className="list-disc pl-6">

@@ -23,7 +23,7 @@ import DepartmentDrawer from "components/drawer/DepartmentDrawer";
 import DepartmentContactServices from "services/DepartementContactServices";
 //internal import  
 
-const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
+const DepartmentContactTable = ({ data, searchDepartmentContact, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const {
     handleModalOpen,
     serviceId,
@@ -32,18 +32,20 @@ const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCh
   } = useToggleDrawer();
   const [status, setStatus] = useState("");
 
-  const handleStatusChange = async (id,newStatus) => {
+
+  const handleStatusChange = async (id, newStatus) => {
     setStatus(newStatus);
-    
-    const formData = {status: newStatus,};
+
+    const formData = { status: newStatus, };
     setIsLoading(false);
-    console.log("serser : ",newStatus);
-    console.log("formDataaa : ",formData);
+
+    console.log("serser : ", newStatus);
+    console.log("formDataaa : ", formData);
 
     // Appelez le service pour mettre à jour le statut dans la base de données
-   DepartmentContactServices.updateContact(id,
-       formData
-       )
+    DepartmentContactServices.updateContact(id,
+      formData
+    )
 
       .then((response) => {
         // Traitez la réponse si nécessaire
@@ -56,8 +58,8 @@ const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCh
         console.error('Error updating contact:', error);
       });
   };
- 
-   
+
+
 
   const getDepartmentContact = async () => {
     try {
@@ -100,7 +102,7 @@ const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCh
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <DepartmentDrawer  id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck}   />
+          <DepartmentDrawer id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck} />
         </MainDrawer>
       )}
 
@@ -108,16 +110,16 @@ const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCh
         {data?.map((item, i) => (
           <TableRow key={i + 1}>
 
-          <TableCell>
-            <CheckBox
-              id={item.id}
-              name={item?.name}
-              type="checkbox"
-              isChecked={isCheck?.includes(item.id)}
-              handleClick={() => handleClick(item.id)}
-              setIsCheck={setIsCheck} // Passer la fonction setIsCheck en tant que prop
-            />
-          </TableCell>
+            <TableCell>
+              <CheckBox
+                id={item.id}
+                name={item?.name}
+                type="checkbox"
+                isChecked={isCheck?.includes(item.id)}
+                handleClick={() => handleClick(item.id)}
+                setIsCheck={setIsCheck} // Passer la fonction setIsCheck en tant que prop
+              />
+            </TableCell>
 
 
 
@@ -142,15 +144,22 @@ const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCh
                 {item?.phone}
               </span>
             </TableCell>
-
             <TableCell>
               <select
                 value={item.status}
-                onChange={(e) => handleStatusChange(item.id,e.target.value)}
+                onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                className={`px-2 py-1 rounded-full border-none ${item?.status === "in progress"
+                  ? "bg-blue-300 text-white font-bold"
+                  : item?.status === "canceled"
+                    ? "bg-red-300 text-white font-bold"
+                    : item?.status === "completed"
+                      ? "bg-green-300 text-white font-bold"
+                      : ""
+                  }`}
               >
-                <option value="in progress">in progress</option>
-                <option value="completed">completed</option>
-                <option value="canceled">canceled</option>
+                <option className="text-black bg-white border-none" value="in progress">in progress</option>
+                <option className="text-black bg-white border-none" value="completed">completed</option>
+                <option className="text-black bg-white border-none" value="canceled">canceled</option>
               </select>
             </TableCell>
 
@@ -160,12 +169,12 @@ const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCh
                 {item?.department?.title}
               </span>
             </TableCell>
- 
+
             <TableCell>
               <Link
                 to={`/contact/${item.id}`}
                 className="flex justify-center text-gray-400 hover:text-orange-600"
-                // handleUpdate={handleUpdate}
+              // handleUpdate={handleUpdate}
 
               >
                 <Tooltip
