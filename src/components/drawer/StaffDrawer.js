@@ -19,15 +19,15 @@ import AdminServices from "services/AdminServices";
 import { notifySuccess } from "utils/toast";
 import { SidebarContext } from "context/SidebarContext";
 
-const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
+const StaffDrawer = ({ id,full_access, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const {
-    register, 
+    register,
     onSubmit,
     errors,
     imageUrl,
     setImageUrl,
     selectedDate,
-    setSelectedDate, 
+    setSelectedDate,
     handleSelectLanguage,
   } = useStaffSubmit(id);
   const { t } = useTranslation();
@@ -110,8 +110,8 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
     setName(res.data.name);
     setEmail(res.data.email);
     setPassword(res.data.password);
-    console.log("padd",res.data.password)
-    console.log("passworddd",res.data.email)
+    console.log("padd", res.data.password)
+    console.log("passworddd", res.data.email)
 
     setOldPrevileges(res.data.previleges);
     // setDepartment(res.data.departments);
@@ -125,7 +125,7 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
       setName("");
       setEmail("");
       setPassword("");
-     // setOldPrevileges("");
+      // setOldPrevileges("");
       setIsCheck([]);
 
     }
@@ -222,18 +222,23 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                   <LabelArea label={"password "} />
                   <div className="col-span-8 sm:col-span-4">
-                    <Input
-                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                      name="password"
-                      type="password"
-                      placeholder={"password"}
-                      // onBlur={(e) => handleProductSlug(e.target.value)}
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
-                    />
-                    <Error errorName={errors.password} />
+                    {/* Condition pour afficher la section uniquement si l'admin est un super admin */}
+                    {full_access && (
+                      <>
+                        <Input
+                          className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                          name="password"
+                          type="password"
+                          placeholder={"password"}
+                          onChange={(e) => setPassword(e.target.value)}
+                          value={password}
+                        />
+                        <Error errorName={errors.password} />
+                      </>
+                    )}
                   </div>
                 </div>
+
 
 
 
