@@ -25,6 +25,8 @@ import SlidersServices from "services/SlidersServices";
 import CountServices from "services/CountServices";
 import DetailsServices from "services/DetailsServices";
 import HistoryServices from "services/HistoryServices";
+import DepartmentContactServices from "services/DepartementContactServices";
+import QuoteServices from "services/QuoteServices";
 const UploadManyTwo = ({
   title,
   totalDoc,
@@ -50,6 +52,25 @@ const UploadManyTwo = ({
     if (location.pathname === "/history") {
       setLoadingExport({ name: "csv", status: true });
       HistoryServices.getAllHistory({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "history",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
+    }
+    if (location.pathname === "/quotes") {
+      setLoadingExport({ name: "csv", status: true });
+      QuoteServices.getAllQuote({})
         .then((res) => {
           setDropDown(false);
           setLoadingExport({ name: "csv", status: true });
@@ -171,6 +192,44 @@ const UploadManyTwo = ({
           exportFromJSON({
             data: res.data,
             fileName: "services",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
+    }
+    if (location.pathname === "/quotes") {
+      setLoadingExport({ name: "csv", status: true });
+     QuoteServices.getAllQuote({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "quotes",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
+    }
+    if (location.pathname === "/contacts") {
+      setLoadingExport({ name: "csv", status: true });
+      DepartmentContactServices.getAllContact({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "contacts",
             exportType: exportFromJSON.types.csv,
           });
         })
@@ -366,7 +425,26 @@ const UploadManyTwo = ({
           console.log(err);
         });
     }
+    if (location.pathname === "/contacts") {
+      setLoadingExport({ name: "json", status: true });
+      DepartmentContactServices.getAllContact({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "contacts",
+            exportType: exportFromJSON.types.json,
+          });
 
+        })
+        .catch((err) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log(err);
+        });
+    }
     if (location.pathname === "/categories") {
       setLoadingExport({ name: "json", status: true });
       CategoryServices.getAllCategories({})
@@ -438,6 +516,8 @@ const UploadManyTwo = ({
             title === "Admins" ||
             title === "Counts" ||
             title === "Sliders" ||
+            title === "Departments Contact" ||
+            title === "Quotes" ||
             title === "Details" ||
             title === "Attribute" ||
             title === "History" ||
