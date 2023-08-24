@@ -19,15 +19,15 @@ import AdminServices from "services/AdminServices";
 import { notifySuccess } from "utils/toast";
 import { SidebarContext } from "context/SidebarContext";
 
-const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
+const StaffDrawer = ({ id, full_access, data, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const {
-    register, 
+    register,
     onSubmit,
     errors,
     imageUrl,
     setImageUrl,
     selectedDate,
-    setSelectedDate, 
+    setSelectedDate,
     handleSelectLanguage,
   } = useStaffSubmit(id);
   const { t } = useTranslation();
@@ -51,6 +51,12 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
 
   //----------end states--------------
 
+  const [showPasswordField, setShowPasswordField] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
+  const handlePasswordCheckboxChange = (e) => {
+    setChangePassword(e.target.checked);
+    setShowPasswordField(e.target.checked);
+  };
 
   const Error = ({ errorName }) => {
     return (
@@ -66,7 +72,8 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
       email: email,
       password: password,
       previleges: JSON.stringify(selecttedPrevilege),
-      departments: JSON.stringify(selecttedDepartment)
+      departments: JSON.stringify(selecttedDepartment),
+      changing_password : changePassword,
     };
 
     try {
@@ -124,7 +131,7 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
       setName("");
       setEmail("");
       setPassword("");
-     // setOldPrevileges("");
+      // setOldPrevileges("");
       setIsCheck([]);
 
     }
@@ -219,20 +226,35 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
 
 
                 <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                  <LabelArea label={"password "} />
+                  <LabelArea label={"Change password ?"} />
                   <div className="col-span-8 sm:col-span-4">
-                    <Input
-                      className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                      name="password"
-                      type="password"
-                      placeholder={"password"}
-                      // onBlur={(e) => handleProductSlug(e.target.value)}
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
+                    <input
+                      type="checkbox"
+                      onChange={handlePasswordCheckboxChange}
+                      checked={changePassword}
                     />
-                    <Error errorName={errors.password} />
+                     <span className="ml-2">Yes</span>
                   </div>
                 </div>
+
+                {/* Afficher le champ de mot de passe si l'admin est un super admin et la case est cochée */}
+                {full_access && changePassword && (
+                  <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                    <LabelArea label={"password "} />
+                    <div className="col-span-8 sm:col-span-4">
+                      <Input
+                        className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                        name="password"
+                        type="password"
+                        placeholder={"password"}
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                      />
+                      <Error errorName={errors.password} />
+                    </div>
+                  </div>
+                )}
+
 
 
 

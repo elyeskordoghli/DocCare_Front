@@ -36,6 +36,7 @@ const StaffTable = ({
   isLoading,
   data,
   full,
+  full_access,
   setIsLoading,
 }) => {
   const {
@@ -103,6 +104,7 @@ const StaffTable = ({
             setIsLoading={setIsLoading}
             setIsCheck={setIsCheck}
             isCheck={isCheck}
+            full_access={full_access}
           />
         </MainDrawer>
       )}
