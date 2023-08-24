@@ -24,6 +24,7 @@ import AdminServices from "services/AdminServices";
 import SlidersServices from "services/SlidersServices";
 import CountServices from "services/CountServices";
 import DetailsServices from "services/DetailsServices";
+import HistoryServices from "services/HistoryServices";
 const UploadManyTwo = ({
   title,
   totalDoc,
@@ -46,6 +47,25 @@ const UploadManyTwo = ({
   // console.log(exportData);
 
   const handleExportCSV = () => {
+    if (location.pathname === "/history") {
+      setLoadingExport({ name: "csv", status: true });
+      HistoryServices.getAllHistory({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "history",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
+    }
     if (location.pathname === "/counts") {
       setLoadingExport({ name: "csv", status: true });
       CountServices.getAllCounts({})
@@ -266,6 +286,26 @@ const UploadManyTwo = ({
           console.log(err);
         });
     }
+    if (location.pathname === "/history") {
+      setLoadingExport({ name: "json", status: true });
+     HistoryServices.getAllHistory({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "counts",
+            exportType: exportFromJSON.types.json,
+          });
+
+        })
+        .catch((err) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log(err);
+        });
+    }
     if (location.pathname === "/our-staff") {
       setLoadingExport({ name: "json", status: true });
       AdminServices.getAllStaff({})
@@ -400,6 +440,7 @@ const UploadManyTwo = ({
             title === "Sliders" ||
             title === "Details" ||
             title === "Attribute" ||
+            title === "History" ||
             title === "Extra" ||
             title === "Coupon" ||
             title === "Customers" ||

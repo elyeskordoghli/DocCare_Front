@@ -10,6 +10,9 @@ const QuoteServices = {
   deleteQuote: async (id) => {
     return requests.delete(`/admin/quotes/delete/${id}`);
   },
+  updateQuote: async (id, body) => {
+    return requests.put(`/admin/quotes/update/${id}`, body);
+  },
   searchQuote: async (query) => {
     return requests.get(`/admin/quotes/search_quote?q=${query}`);
   },

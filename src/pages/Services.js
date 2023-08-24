@@ -14,6 +14,7 @@ import {
 } from "@windmill/react-ui";
 import { useTranslation } from "react-i18next";
 import { FiPlus } from "react-icons/fi";
+import Loader from 'components/loader/Loader';
 
 import useAsync from "hooks/useAsync";
 import useToggleDrawer from "hooks/useToggleDrawer";
@@ -34,7 +35,7 @@ import TableLoading from "components/preloader/TableLoading";
 import SettingServices from "services/SettingServices";
 import ServiceServices from "services/ServiceServices";
 import MainModal from "components/modal/MainModal";
-import Loader from 'components/loader/Loader';
+// import Loader from 'components/loader/Loader';
 
 const Services = () => {
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
@@ -55,6 +56,7 @@ const Services = () => {
     limitData,
   } = useContext(SidebarContext);
 
+
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchService, setSearchValue] = useState("");
@@ -64,8 +66,6 @@ const Services = () => {
       let response;
       if (searchService) {
         response = await ServiceServices.searchService(searchService);
-
-
       }
       else {
         response = await ServiceServices.getAllServices();
@@ -83,6 +83,7 @@ const Services = () => {
   useEffect(() => {
     fetchServices(isLoading, searchService); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
   }, [isLoading, searchService]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+
 
 
 
@@ -104,8 +105,16 @@ const Services = () => {
 
     }
   };
+  const [load, setLoad] = useState(true);
 
-
+  const loading = async () => {
+    setLoad(false);
+  }
+  
+  
+  useEffect(() => {
+    loading()
+  }, []);
   const {
     serviceData,
     filename,
@@ -114,14 +123,11 @@ const Services = () => {
     handleUploadMultiple,
     handleRemoveSelectFile,
   } = useProductFilter(data?.Services);
-
-
-  
-
-
+ 
   return (
     <>
-                 {isLoading ? <Loader /> : null}
+       {isLoading ? <Loader /> : null}
+
 
       <PageTitle>{"Services Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -219,8 +225,7 @@ const Services = () => {
           </form>
         </CardBody>
       </Card>
-     
-
+ 
       {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
@@ -247,12 +252,12 @@ const Services = () => {
               setIsLoading={setIsLoading}
               isLoading={isLoading}
               lang={lang}
+              data={data}
               setIsCheck={setIsCheck}
               isCheck={isCheck}
               Services={data?.Services}
               // currency={currency}
               searchService={searchService}
-              data={data}
             />
           </Table>
           <TableFooter>
