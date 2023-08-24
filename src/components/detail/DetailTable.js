@@ -23,8 +23,7 @@ import DetailsServices from "services/DetailsServices";
 import DetailDrawer from "components/drawer/DetailDrawer";
 //internal import  
 
-const DetailTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, Details }) => {
-  const [data, setData] = useState([]);
+const DetailTable = ({ data, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, Details }) => {
   const {
     handleModalOpen,
   
@@ -35,24 +34,7 @@ const DetailTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, se
 
   const  [serviceId, setServiceId] = useState();
   // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-  const fetchDetails = async (isLoading) => {
-    try {
-
-      const response = await DetailsServices.getAllDetails();
-
-      // Mettez à jour la variable data avec les données récupérées
-      setData(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération :", error);
-    }
-    finally {
-      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-    }
-  };
-
-  useEffect(() => {
-    fetchDetails(isLoading); // Appelez la fonction fetchDetails pour récupérer les projets au chargement du composant
-  }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+ 
 
   const getDetail = async () => {
     try {

@@ -105,8 +105,10 @@ const StaffDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
 
 
   const initFormForUpdate = async (id) => {
-
+    setIsLoading(true);
     const res = await AdminServices.getStaffById(id);
+    setIsLoading(false);
+
     setName(res.data.name);
     setEmail(res.data.email);
     setPassword(res.data.password);

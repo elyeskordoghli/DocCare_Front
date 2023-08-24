@@ -690,7 +690,7 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
             </div>
           )}
 
-          {tapValue === "Combination" &&
+          {/* {tapValue === "Combination" &&
             isCombination &&
             (attribue.length < 1 ? (
               <div
@@ -720,7 +720,7 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
               </div>
             ) : (
               <div className="p-6">
-                {/* <h4 className="mb-4 font-semibold text-lg">Variants</h4> */}
+                {/* <h4 className="mb-4 font-semibold text-lg">Variants</h4> 
                 <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3 md:gap-3 xl:gap-3 lg:gap-2 mb-3">
                   <MultiSelect
                     options={attTitle}
@@ -765,7 +765,7 @@ const BlogDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }) 
                   )}
                 </div>
               </div>
-            ))}
+            ))} */}
 
           {isCombination ? (
             <DrawerButton

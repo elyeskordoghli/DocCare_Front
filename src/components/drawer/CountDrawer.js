@@ -169,8 +169,10 @@ const CountDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck })
     }
   };
   const initFormForUpdate = async (id) => {
+    setIsLoading(true);
 
     const res = await CountServices.getCountById(id);
+    setIsLoading(false);
 
 
     setTitle_en(res.data.title_en);

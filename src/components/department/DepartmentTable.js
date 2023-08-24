@@ -21,8 +21,7 @@ import DepartmentServices from "services/DepartementServices";
 import DepartmentDrawer from "components/drawer/DepartmentDrawer";
 //internal import  
 
-const DepartmentTable = ({ setId,searchDepartment, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
-  const [data, setData] = useState([]);
+const DepartmentTable = ({ setId,data, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const {
     handleModalOpen,
     serviceId,
@@ -33,34 +32,12 @@ const DepartmentTable = ({ setId,searchDepartment, isCheck, setIsCheck, currency
 
  
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchDepartments = async (isLoading,searchDepartment) => {
-      try {
-        let response;
-        if (searchDepartment) {
-          response = await DepartmentServices.searchDepartment(searchDepartment);
-      }
-      else{
-        response = await DepartmentServices.getAllDepartment();
-      }
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des departments :", error);
-      }
-      finally {
-        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-      }
-    };
-    
-    useEffect(() => {
-      fetchDepartments(isLoading,searchDepartment); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading,searchDepartment]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+   
 
   const getDepartment = async () => {
     try {
       const dep = await DepartmentServices.getDepartmentById(serviceId)
       setIsCheck([...isCheck, dep.id]);
-      console.log('Department selectionnée : ', dep.id);
 
     } catch (error) {
       console.error("Erreur lors de la récupération de department :", error);

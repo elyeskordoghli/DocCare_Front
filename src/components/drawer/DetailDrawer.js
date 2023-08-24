@@ -184,8 +184,10 @@ const DetailDrawer = ({ data, isLoading, setIsLoading, isCheck, setIsCheck }) =>
     
   };
   const initFormForUpdate = async () => {
+    setIsLoading(true);
 
     const res = await DetailsServices.getAllDetails();
+    setIsLoading(false);
 
     if (res.data && res.data.length > 0) {
       const firstItem = res.data[0];

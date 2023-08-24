@@ -48,14 +48,28 @@ const History = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(() =>
-    HistoryServices.getAllHistorys()
-  );
-  
- 
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading]=useState(true);
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
+  // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
+  const fetchHistory = async (isLoading) => {
+    try {
+      
+      const response = await HistoryServices.getAllHistory();
+    
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération  :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+  
+  useEffect(() => {
+  fetchHistory(isLoading); // Appelez la fonction fetchHistory pour récupérer les projets au chargement du composant
+}, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
   // console.log("product page", data);
   // react hooks
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -68,7 +82,6 @@ const History = () => {
       setIsCheck([]);
     }
   };
-  const [isLoading, setIsLoading]=useState();
 
   // console.log('productss',products)
   const {
@@ -107,9 +120,7 @@ const History = () => {
 
   
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -128,7 +139,7 @@ const History = () => {
               isCheck={isCheck}
               history={data?.history}
               setIsCheck={setIsCheck}
-              currency={currency}
+              data={data}
             /> 
           </Table>
           <TableFooter>

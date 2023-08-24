@@ -23,8 +23,7 @@ import DepartmentDrawer from "components/drawer/DepartmentDrawer";
 import DepartmentContactServices from "services/DepartementContactServices";
 //internal import  
 
-const DepartmentContactTable = ({ setId,searchDepartmentContact, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
-  const [data, setData] = useState([]);
+const DepartmentContactTable = ({ data,searchDepartmentContact, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const {
     handleModalOpen,
     serviceId,
@@ -34,29 +33,7 @@ const DepartmentContactTable = ({ setId,searchDepartmentContact, isCheck, setIsC
 
 
  
-    // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchDepartmentsContact = async (isLoading,searchDepartmentContact) => {
-      try {
-        let response;
-        if (searchDepartmentContact) {
-          response = await DepartmentContactServices.searchContact(searchDepartmentContact);
-      }
-      else{
-        response = await DepartmentContactServices.getAllContact();
-      }
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des contacts :", error);
-      }
-      finally {
-        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-      }
-    };
-    
-    useEffect(() => {
-      fetchDepartmentsContact (isLoading,searchDepartmentContact); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading,searchDepartmentContact]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+   
 
   const getDepartmentContact = async () => {
     try {
@@ -141,6 +118,14 @@ const DepartmentContactTable = ({ setId,searchDepartmentContact, isCheck, setIsC
                 {item?.phone}
               </span>
             </TableCell>
+
+                  <TableCell>
+              <span className="text-sm">
+                {item?.status}
+              </span>
+            </TableCell>
+
+
             <TableCell>
               <span className="text-sm">
                 {item?.department?.title}

@@ -34,6 +34,7 @@ import MainModal from "components/modal/MainModal";
 import SlidersServices from "services/SlidersServices";
 import SliderDrawer from "components/drawer/SliderDrawer";
 import SliderTable from "components/sliders/SliderTable";
+import Loader from 'components/loader/Loader';
 
 const Sliders = () => {
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
@@ -54,14 +55,29 @@ const Sliders = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(() =>
-    SlidersServices.getAllSliders()
-  );
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
+  const fetchSliders = async (isLoading) => {
+    try {
+     
+     const response = await SlidersServices.getAllSliders();
+   
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+  
+  useEffect(() => {
+  fetchSliders(isLoading); // Appelez la fonction fetchSliders pour récupérer les projets au chargement du composant
+}, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
-  // console.log("product page", data);
 
   // react hooks
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -74,7 +90,6 @@ const Sliders = () => {
       setIsCheck([]);
     }
   };
-  const [isLoading, setIsLoading] = useState();
 
   // console.log('productss',products)
   const {
@@ -88,6 +103,8 @@ const Sliders = () => {
 
   return (
     <>
+               {isLoading ? <Loader /> : null}
+
       <PageTitle>{"Sliders Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -156,9 +173,7 @@ const Sliders = () => {
         </CardBody>
       </Card> */}
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -186,8 +201,8 @@ const Sliders = () => {
               isCheck={isCheck}
               Sliders={data?.Sliders}
               setIsCheck={setIsCheck}
-              currency={currency}
-
+              // currency={currency}
+              data={data}
             />
           </Table>
           <TableFooter>

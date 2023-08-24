@@ -40,6 +40,7 @@ import MainModal from "components/modal/MainModal";
 import DetailsServices from "services/DetailsServices";
 import DetailDrawer from "components/drawer/DetailDrawer";
 import DetailTable from "components/detail/DetailTable";
+import Loader from 'components/loader/Loader';
 
 const Details = () => {
   const { id, title, subtitle,serviceId, short_description, description, allId, handleDeleteMany, handleUpdateMany } =
@@ -59,19 +60,33 @@ const Details = () => {
     setSortedField,
     limitData,
   } = useContext(SidebarContext);
+  const [data, setData] = useState([]);
 
-  const { data, loading } = useAsync(() =>
-  DetailsServices.getAllDetails()
-);
+  const [isLoading, setIsLoading] = useState(true);
 
+  const fetchDetails = async (isLoading) => {
+    try {
 
+      const response = await DetailsServices.getAllDetails();
+
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+
+  useEffect(() => {
+    fetchDetails(isLoading); // Appelez la fonction fetchDetails pour récupérer les projets au chargement du composant
+  }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
 
 // console.log("serviceId from details page : " , serviceId);
 
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
   // console.log("product page", data);
 
   // react hooks
@@ -85,7 +100,6 @@ const Details = () => {
       setIsCheck([]);
     }
   };
-  const [isLoading, setIsLoading] = useState();
 
   // console.log('productss',products)
   const {
@@ -102,6 +116,8 @@ const Details = () => {
 
   return (
     <>
+                   {isLoading ? <Loader /> : null}
+
       <PageTitle>{"Details Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -158,9 +174,7 @@ const Details = () => {
           </form>
         </CardBody>
       </Card>
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
            <Table className="border-collapse border-0" style={tableStyle}>
            <TableHeader>
@@ -182,8 +196,7 @@ const Details = () => {
               isCheck={isCheck}
               Details={data?.Details}
               setIsCheck={setIsCheck}
-              currency={currency}
-             
+data={data}             
             />
    </Table>
        

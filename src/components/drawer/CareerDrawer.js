@@ -213,9 +213,9 @@ const CareerDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsCheck }
     }
   };
   const initFormForUpdate = async (id) => {
-
+    setIsLoading(true);
     const res = await CareerServices.getCareerById(id);
-    // console.log('careerInputForm', res.data)
+    setIsLoading(false);
 
     setTitle_en(res.data.title_en);
     

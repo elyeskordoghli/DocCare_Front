@@ -34,6 +34,7 @@ import MainModal from "components/modal/MainModal";
 import CountServices from "services/CountServices";
 import CountDrawer from "components/drawer/CountDrawer";
 import CountTable from "components/count/CountTable";
+import Loader from 'components/loader/Loader';
 
 const Counts = () => {
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
@@ -55,12 +56,29 @@ const Counts = () => {
   } = useContext(SidebarContext);
 
   const [dataLength, setDataLength] = useState(0); // Initialisez la longueur à 0
-  const { data, loading } = useAsync(() =>
-    CountServices.getAllCounts()
-  );  
- 
-  console.log("datacount : ",data);
-console.log("data.lenght  : ",data.length);
+  
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
+  const fetchStatistics = async (isLoading) => {
+    try {
+     
+     const response = await CountServices.getAllCounts();
+   
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+  
+  useEffect(() => {
+  fetchStatistics(isLoading); // Appelez la fonction fetchStatistics pour récupérer les projets au chargement du composant
+}, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
  
   // console.log("product page", data);
 
@@ -75,7 +93,6 @@ console.log("data.lenght  : ",data.length);
       setIsCheck([]);
     }
   };
-  const [isLoading, setIsLoading] = useState();
 
   // console.log('productss',products)
   const {
@@ -89,14 +106,16 @@ console.log("data.lenght  : ",data.length);
 
    useEffect(() => {
     if (data) {
-      setDataLength(data?.data?.length);
+      setDataLength(data?.length);
     } 
    }, [data]); // Assurez-vous de déclencher cela lorsque les données changent
 
-  console.log("dataLength : ",dataLength);
+  
 
   return (
     <>
+                   {isLoading ? <Loader /> : null}
+
       <PageTitle>{"Statistics Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -166,9 +185,7 @@ console.log("data.lenght  : ",data.length);
         </CardBody>
       </Card> */}
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -195,7 +212,7 @@ console.log("data.lenght  : ",data.length);
               isCheck={isCheck}
               Statistics={data?.Statistics}
               setIsCheck={setIsCheck}
-
+data={data}
             />
           </Table>
           <TableFooter>

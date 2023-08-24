@@ -23,8 +23,7 @@ import CountServices from "services/CountServices";
 import CountDrawer from "components/drawer/CountDrawer";
 //internal import  
 
-const CountTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, Sliders }) => {
-  const [data, setData] = useState([]);
+const CountTable = ({ data , isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, Sliders }) => {
   const {
     handleModalOpen,
     serviceId,
@@ -34,25 +33,6 @@ const CountTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, set
 
 
  
-    // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchStatistics = async (isLoading) => {
-      try {
-       
-       const response = await CountServices.getAllCounts();
-     
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération :", error);
-      }
-      finally {
-        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-      }
-    };
-    
-    useEffect(() => {
-    fetchStatistics(isLoading); // Appelez la fonction fetchStatistics pour récupérer les projets au chargement du composant
-  }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const getCount = async () => {
     try {
@@ -78,13 +58,11 @@ const CountTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, set
   }
   const handleClick = (e) => {
     const { id, checked } = e.target;
-    console.log("id hatha", id, checked);
   
     if (checked) {
       setIsCheck([...isCheck, id]);
     } else {
       setIsCheck(isCheck.filter((item) => item !== id));
-      console.log("id tna7a", id, checked);
     }
   };
   return (

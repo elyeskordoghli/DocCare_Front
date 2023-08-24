@@ -10,8 +10,7 @@ import React, { useState, useEffect } from 'react'
 import HistoryServices from "services/HistoryServices";
 //internal import  
 
-const HistoryTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, history }) => {
-  const [data, setData] = useState([]);
+const HistoryTable = ({ data, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, history }) => {
   const {
     handleModalOpen,
     serviceId,
@@ -21,25 +20,6 @@ const HistoryTable = ({ setId, isCheck, setIsCheck, currency, lang, isLoading, s
 
 
  
-    // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-    const fetchHistory = async (isLoading) => {
-      try {
-        
-        const response = await HistoryServices.getAllHistory();
-      
-        // Mettez à jour la variable data avec les données récupérées
-        setData(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération  :", error);
-      }
-      finally {
-        setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-      }
-    };
-    
-    useEffect(() => {
-    fetchHistory(isLoading); // Appelez la fonction fetchHistory pour récupérer les projets au chargement du composant
-  }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
  
 

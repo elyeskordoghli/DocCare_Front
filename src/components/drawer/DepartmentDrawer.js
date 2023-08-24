@@ -108,7 +108,6 @@ const DepartmentDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChe
     setValue,
 
   } = useForm();
-  console.log("department drawer_id", id);
   const [retsData, setRestData] = useState({});
 
 
@@ -131,7 +130,6 @@ const DepartmentDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChe
     formData.append('description_fr', description_fr);
     formData.append('description_ar', description_ar);
 
-    console.log(formData);
     if (id) {
 
       setIsLoading(true);
@@ -166,8 +164,10 @@ const DepartmentDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChe
   };
   const initFormForUpdate = async (id) => {
 
+    setIsLoading(true);
     const res = await DepartmentServices.getDepartmentById(id);
-    console.log('departmentInputForm', res.data)
+    setIsLoading(false);
+
 
     setTitle_en(res.data.title_en);   
     setTitle_fr(res.data.title_fr);   
@@ -178,7 +178,6 @@ const DepartmentDrawer = ({ id, data, isLoading, setIsLoading, isCheck, setIsChe
     setImageUrl(res.data.image);
     setImageBinary(res.data.image);
     setOldImageUrl(res.data.image);
-    console.log('hahahahahah', oldImageUrl);
   };
 
 

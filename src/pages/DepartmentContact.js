@@ -38,6 +38,7 @@ import DepartmentDrawer from "components/drawer/DepartmentDrawer";
 import DepartmentTable from "components/department/DepartmentTable";
 import DepartmentContactTable from "components/department_contact/DepartmentContactTable";
 import DepartmentContactServices from "services/DepartementContactServices";
+import Loader from 'components/loader/Loader';
 
 const DepartmentContact = () => {
   const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
@@ -58,21 +59,42 @@ const DepartmentContact = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  const { data, loading } = useAsync(() =>
-    DepartmentContactServices.getAllContact({
-      name: searchText,
-    })
-  );
+  
   
   const [searchDepartmentContact, setSearchValue] = useState("");
+  const [isLoading, setIsLoading]=useState(true);
+  const [data, setData] = useState([]);
+
+
+  const fetchDepartmentsContact = async (isLoading,searchDepartmentContact) => {
+    try {
+      let response;
+      if (searchDepartmentContact) {
+        response = await DepartmentContactServices.searchContact(searchDepartmentContact);
+    }
+    else{
+      response = await DepartmentContactServices.getAllContact();
+    }
+      // Mettez à jour la variable data avec les données récupérées
+      setData(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des contacts :", error);
+    }
+    finally {
+      setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
+    }
+  };
+  
+  useEffect(() => {
+    fetchDepartmentsContact (isLoading,searchDepartmentContact); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+}, [isLoading,searchDepartmentContact]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
+
   // console.log("product page", data);
 
   // react hooks
@@ -86,7 +108,6 @@ const DepartmentContact = () => {
       setIsCheck([]);
     } 
   };
-  const [isLoading, setIsLoading]=useState();
 
   // console.log('productss',products)
   const {
@@ -100,6 +121,7 @@ const DepartmentContact = () => {
 
   return (
     <>
+    {isLoading ? <Loader /> : null}
       <PageTitle>{"Departments Contact Page"}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
@@ -194,9 +216,7 @@ const DepartmentContact = () => {
         </CardBody>
       </Card>
 
-      {loading ? (
-        <TableLoading row={12} col={7} width={160} height={20} />
-      ) : serviceData?.length !== 0 ? (
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -226,7 +246,7 @@ const DepartmentContact = () => {
               isCheck={isCheck}
               DepartmentsContact={data?.DepartmentsContact}
               setIsCheck={setIsCheck}
-              currency={currency}
+              data={data}
               searchDepartmentContact={searchDepartmentContact}
             /> 
           </Table>
