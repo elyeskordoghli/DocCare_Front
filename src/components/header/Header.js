@@ -153,7 +153,7 @@ const Header = () => {
                     onClick={() => handleLanguageChange("de")}
                     className="focus:outline-none cursor-pointer"
                   >
-                    <img src={de} width={16} alt="lang" /> German
+                    <img src={de} width={16} alt="lang" /> Frensh
                   </div>
                 </div>
               </div>

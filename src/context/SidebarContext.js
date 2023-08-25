@@ -16,7 +16,7 @@ export const SidebarProvider = ({ children }) => {
   const [isBulkDrawerOpen, setIsBulkDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  // const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState("en");
   const [time, setTime] = useState("");
   const [sortedField, setSortedField] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,11 +46,11 @@ export const SidebarProvider = ({ children }) => {
   const closeModal = () => setIsModalOpen(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
-  // const handleLanguageChange = (lang) => {
-  //   Cookies.set("i18next", lang);
-  //   i18n.changeLanguage(lang);
-  //   setLang(lang);
-  // };
+  const handleLanguageChange = (lang) => {
+    Cookies.set("i18next", lang);
+    i18n.changeLanguage(lang);
+    setLang(lang);
+  };
 
   const handleChangePage = (p) => {
     setCurrentPage(p);
@@ -63,28 +63,28 @@ export const SidebarProvider = ({ children }) => {
     setCategory(null);
   };
 
-  // useEffect(() => {
-  //   const language = Cookies.get("i18next");
-  //   // console.log("lang", language);
-  //   const enLang = [
-  //     "en-US",
-  //     "en-GB",
-  //     "en-TT",
-  //     "en-ZA",
-  //     "en-NZ",
-  //     "en-JM",
-  //     "en-IE",
-  //     "en-CA",
-  //     "en-BZ",
-  //     "en-au",
-  //   ];
-  //   if (enLang.includes(language)) {
-  //     setLang("en");
-  //     // console.log("lang", lang, "included");
-  //   } else {
-  //     setLang(Cookies.get("i18next"));
-  //   }
-  // }, [lang, windowDimension]);
+  useEffect(() => {
+    const language = Cookies.get("i18next");
+    // console.log("lang", language);
+    const enLang = [
+      "en-US",
+      "en-GB",
+      "en-TT",
+      "en-ZA",
+      "en-NZ",
+      "en-JM",
+      "en-IE",
+      "en-CA",
+      "en-BZ",
+      "en-au",
+    ];
+    if (enLang.includes(language)) {
+      setLang("en");
+      // console.log("lang", lang, "included");
+    } else {
+      setLang(Cookies.get("i18next"));
+    }
+  }, [lang, windowDimension]);
 
   useEffect(() => {
     function handleResize() {
@@ -113,9 +113,9 @@ export const SidebarProvider = ({ children }) => {
         closeModal,
         isUpdate,
         setIsUpdate,
-        // lang,
-        // setLang,
-        // handleLanguageChange,
+        lang,
+        setLang,
+        handleLanguageChange,
         currentPage,
         setCurrentPage,
         handleChangePage,

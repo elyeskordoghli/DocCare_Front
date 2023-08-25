@@ -6,6 +6,7 @@ const Attributes = lazy(() => import("../pages/Attributes"));
 const ChildAttributes = lazy(() => import("../pages/ChildAttributes"));
 const Products = lazy(() => import("../pages/Products"));
 const Projects = lazy(() => import("../pages/Projects"));
+const Subscribers  = lazy(() => import("../pages/Subscriber"));
 const Services = lazy(() => import("../pages/Services"));
 const Sliders = lazy(() => import("../pages/Sliders"));
 const Counts = lazy(() => import("../pages/Counts"));
@@ -78,6 +79,10 @@ const routes = [
   {
     path: "/dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/subscribers",
+    component: Subscribers,
   },
   {
     path: "/history",

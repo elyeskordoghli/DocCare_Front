@@ -64,12 +64,7 @@ const sidebar = [
     name: "References",
     previleges: ["view_reference", "view_any_reference","create_reference","update_reference","delete_reference"],
   },
-  {
-    path: "/contacts",
-    icon: FiUsers,
-    name: "Contacts",
-    previleges: ["view_contact", "view_any_contact","create_contact","update_contact","delete_contact"],
-  },
+
   {
     path: "/blogs",
     icon: FiBookOpen,
@@ -81,13 +76,6 @@ const sidebar = [
     icon: FiCompass,
     name: "Services",
     previleges: ["view_service", "view_any_service","create_service","update_service","delete_service"],
-
-  },
-  {
-    path: "/quotes",
-    icon: FiFile,
-    name: "Quotes",
-    previleges: ["view_quote", "view_any_quote","create_quote","update_quote","delete_quote"],
 
   },
   {
@@ -106,6 +94,25 @@ const sidebar = [
     previleges: ["view_department", "view_any_department","create_department","update_department","delete_department"],
 
   },
+  {
+    path: "/contacts",
+    icon: FiUsers,
+    name: "Contacts",
+    previleges: ["view_contact", "view_any_contact","create_contact","update_contact","delete_contact"],
+  },
+  {
+    icon: FiActivity,
+    name: "Subscribers ",
+    path: "/subscribers",
+  },
+  {
+    path: "/quotes",
+    icon: FiFile,
+    name: "Quotes",
+    previleges: ["view_quote", "view_any_quote","create_quote","update_quote","delete_quote"],
+
+  },
+
   {
     icon: FiGlobe,
     name: "Website Manager",
@@ -135,14 +142,6 @@ const sidebar = [
 
     ],
   },
-  {
-    path: "/settings",
-    icon: FiSettings,
-    name: "StoreSetting",
-  },
-
-
-
 ];
 
 export default sidebar;

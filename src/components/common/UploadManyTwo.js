@@ -27,6 +27,7 @@ import DetailsServices from "services/DetailsServices";
 import HistoryServices from "services/HistoryServices";
 import DepartmentContactServices from "services/DepartementContactServices";
 import QuoteServices from "services/QuoteServices";
+import SubscriberServices from "services/SubscriberServices";
 const UploadManyTwo = ({
   title,
   totalDoc,
@@ -59,6 +60,25 @@ const UploadManyTwo = ({
           exportFromJSON({
             data: res.data,
             fileName: "history",
+            exportType: exportFromJSON.types.csv,
+          });
+        })
+        .catch((err) => {
+          setLoadingExport({ name: "csv", status: true });
+          setDropDown(false);
+          console.log(err);
+        });
+    }
+    if (location.pathname === "/subscribers") {
+      setLoadingExport({ name: "csv", status: true });
+     SubscriberServices.getAllSubscribers({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "csv", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "subscribers",
             exportType: exportFromJSON.types.csv,
           });
         })
@@ -285,6 +305,26 @@ const UploadManyTwo = ({
   };
 
   const handleExportJSON = () => {
+    if (location.pathname === "/subscribers") {
+      setLoadingExport({ name: "json", status: true });
+      SubscriberServices.getAllSubscribers({})
+        .then((res) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log("Data to be exported:", res.data);
+          exportFromJSON({
+            data: res.data,
+            fileName: "subscribers",
+            exportType: exportFromJSON.types.json,
+          });
+
+        })
+        .catch((err) => {
+          setDropDown(false);
+          setLoadingExport({ name: "json", status: true });
+          console.log(err);
+        });
+    }
     if (location.pathname === "/sliders") {
       setLoadingExport({ name: "json", status: true });
       SlidersServices.getAllSliders({})
@@ -516,6 +556,7 @@ const UploadManyTwo = ({
             title === "Admins" ||
             title === "Counts" ||
             title === "Sliders" ||
+            title === "Subscribers" ||
             title === "Departments Contact" ||
             title === "Quotes" ||
             title === "Details" ||
