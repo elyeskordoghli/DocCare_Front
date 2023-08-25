@@ -39,6 +39,18 @@ import DepartmentTable from "components/department/DepartmentTable";
 import Loader from 'components/loader/Loader';
 import QuoteServices from "services/QuoteServices";
 import QuoteTable from "components/quote/QuoteTable";
+import CardItemTwo from "components/dashboard/CardItemTwo";
+import {
+  FiLayout,
+  FiTruck,
+  FiBookOpen,
+  FiCheck,
+  FiRefreshCw,
+  FiAperture,
+  FiServer,
+  FiTrello,
+  FiGrid,
+} from 'react-icons/fi';
 import {
 
   Badge,
@@ -53,6 +65,9 @@ const Quote = () => {
   const [searchQuote, setSearchValue] = useState("");
 
   const[status,setStatus] =useState('All');
+
+  const [stat, setStat] = useState(['in progress', 'canceled', 'completed']);
+
   const {
     toggleDrawer,
     lang,
@@ -143,7 +158,7 @@ const Quote = () => {
         <CardBody className="">
           <form
             onSubmit={handleSubmitForAll}
-            className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6  xl:flex"
+            className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6 "
           >
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
@@ -156,18 +171,20 @@ const Quote = () => {
                 handleRemoveSelectFile={handleRemoveSelectFile}
               />
             </div>
-            <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-              <div className="flex">
-                <Badge className="bg-red-500  text-white mx-2">
-                  In Progress: {countQuotesByStatus("in progress")}
-                </Badge>
-                <Badge className="bg-red-500 text-white mx-2">
-                  Canceled: {countQuotesByStatus("canceled")}
-                </Badge>
-                <Badge className="bg-green-500 text-white mx-2">
-                  Completed: {countQuotesByStatus("completed")}
-                </Badge>
-              </div>
+
+            {/* <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0"> */}
+            <div className="grid gap-4 mb-8 lg:grid-cols-3 md:grid-cols-3 xl:grid-cols-3 xl:w-100%">
+                {stat?.map((et) => (
+                    <CardItemTwo
+                      // mode={mode}
+                      // currency={currency}
+                      title2={et}
+                      // icon={FiBookOpen}
+                      price={countQuotesByStatus(et)}
+                      className="text-white dark:text-orange-100 bg-dark"
+                    />
+                ))}
+            {/* </div> */}
             </div>
           </form>
         </CardBody>
@@ -236,7 +253,7 @@ const Quote = () => {
               </tr>
             </TableHeader>
             <QuoteTable
-            id={serviceId}
+              id={serviceId}
               setIsLoading={setIsLoading}
               isLoading={isLoading}
               lang={lang}

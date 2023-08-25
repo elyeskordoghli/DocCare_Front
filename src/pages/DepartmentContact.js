@@ -39,6 +39,7 @@ import DepartmentTable from "components/department/DepartmentTable";
 import DepartmentContactTable from "components/department_contact/DepartmentContactTable";
 import DepartmentContactServices from "services/DepartementContactServices";
 import Loader from 'components/loader/Loader';
+import CardItemTwo from "components/dashboard/CardItemTwo";
 
 const DepartmentContact = () => {
   const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
@@ -138,7 +139,8 @@ const DepartmentContact = () => {
     const countContactsByStatus = (status) => {
       return data.filter((contact) => contact.status === status).length;
     };
-  
+    const [stat, setStat] = useState(['in progress', 'canceled', 'completed']);
+
   return (
     <>
       {isLoading ? <Loader /> : null}
@@ -154,7 +156,7 @@ const DepartmentContact = () => {
         <CardBody className="">
           <form
             onSubmit={handleSubmitForAll}
-            className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6  xl:flex"
+            className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6 "
           >
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
@@ -167,18 +169,18 @@ const DepartmentContact = () => {
                 handleRemoveSelectFile={handleRemoveSelectFile}
               />
             </div>
-            <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-              <div className="flex">
-                <Badge className="bg-red-500  text-white mx-2">
-                  In Progress: {countContactsByStatus("in progress")}
-                </Badge>
-                <Badge className="bg-red-500 text-white mx-2">
-                  Canceled: {countContactsByStatus("canceled")}
-                </Badge>
-                <Badge className="bg-green-500 text-white mx-2">
-                  Completed: {countContactsByStatus("completed")}
-                </Badge>
-              </div>
+            <div className="grid gap-4 mb-8 lg:grid-cols-3 md:grid-cols-3 xl:grid-cols-3 xl:w-100%">
+                {stat?.map((et) => (
+                    <CardItemTwo
+                      // mode={mode}
+                      // currency={currency}
+                      title2={et}
+                      // icon={FiBookOpen}
+                      price={countContactsByStatus(et)}
+                      className="text-white dark:text-orange-100 bg-dark"
+                    />
+                ))}
+            {/* </div> */}
             </div>
           </form>
         </CardBody>

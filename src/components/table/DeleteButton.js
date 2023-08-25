@@ -62,7 +62,7 @@ const DeleteButton = ({
         <div className="flex justify-center text-center">
           <button
             // disabled={isCheck?.length > 0}
-            onClick={() => handleModalOpen(id, first_name, Quote)}
+            onClick={() => handleModalOpen(Quote.id, first_name, Quote)}
             className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
           >
             <Tooltip
