@@ -34,7 +34,7 @@ const DeleteButton = ({
 // console.log('cat',category);
 
   const location = useLocation();
-  if (location.pathname === "/contacts"){
+  if (location.pathname.includes('contacts')){
     return (
       <>
       
@@ -55,6 +55,7 @@ const DeleteButton = ({
       </>
     );
   }
+  
   if (location.pathname === "/quotes"){
     return (
       <>

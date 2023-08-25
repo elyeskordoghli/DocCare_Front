@@ -219,7 +219,6 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
     setIsLoading(true);
     const res = await ProjectServices.getProjectById(id);
     setIsLoading(false);
-    
     setTitle_en(res.data.title_en);
     setSubtitle_en(res.data.subtitle_en);
     setShort_description_en(res.data.short_description_en);

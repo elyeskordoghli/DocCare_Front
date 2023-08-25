@@ -142,7 +142,7 @@ const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) 
       closeModal();
       setServiceId();
     }
-    if (location.pathname === "/contacts") {
+    if (location.pathname.includes('contacts')){
       DepartmentContactServices.deleteContact(id)
         .then((res) => {
           setIsLoading(false);
@@ -154,6 +154,7 @@ const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) 
       closeModal();
       setServiceId();
     }
+   
     if (location.pathname === "/services") {
       ServiceServices.deleteService(id)
         .then((res) => {

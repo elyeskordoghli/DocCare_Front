@@ -72,7 +72,8 @@ const Dashboard = () => {
 
       <div className="grid gap-4 mb-8 md:grid-cols-4 xl:grid-cols-4">
         {departmentCounts?.map((department, index) => (
-          <Link to={department.route} key={index}>
+                <Link to={`/contacts/${department.id}`} key={index}>
+
             <CardItemTwo
               mode={mode}
               currency={currency}

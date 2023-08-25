@@ -19,6 +19,9 @@ const DepartmentContactServices = {
   getContactsByStatus: async (status) => {
     return requests.get(`/admin/contacts/get_contacts_by_status/${status}`);
   },
+  getContactsByDepartment: async (department) => {
+    return requests.get(`/admin/contacts/get_contacts_by_dep/${department}`);
+  },
 };
 
 export default DepartmentContactServices;

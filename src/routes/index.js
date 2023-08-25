@@ -169,6 +169,10 @@ const routes = [
     component: DepartmentContactDetails,
   },
   {
+    path: "/contacts/:iddep",
+    component: DepartmentContact,
+  },
+  {
     path: "/quote/:id",
     component: QuoteDetails,
   },

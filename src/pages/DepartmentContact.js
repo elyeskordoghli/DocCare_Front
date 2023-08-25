@@ -12,6 +12,7 @@ import {
   CardBody,
   Pagination,
 } from "@windmill/react-ui";
+import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { FiPlus } from "react-icons/fi";
 import { Badge } from "@windmill/react-ui";
@@ -42,7 +43,7 @@ import Loader from 'components/loader/Loader';
 import CardItemTwo from "components/dashboard/CardItemTwo";
 
 const DepartmentContact = () => {
-  const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  const { id, title, subtitle, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
   const {
@@ -61,27 +62,41 @@ const DepartmentContact = () => {
   } = useContext(SidebarContext);
 
 
+  const { iddep } = useParams();
+
 
   const [searchDepartmentContact, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const[status,setStatus] =useState('All');
 
-  
-  
+  const [stat, setStat] = useState(['in progress', 'canceled', 'completed']);
+  const [selectedDepart, setSelectedDepart] = useState('All');
+  const [departs,setDeparts]=useState();
 
+  useEffect(() => {
+    if (iddep) {
+      setSelectedDepart(iddep);
+    }
+  }, [iddep]);
+console.log("ha : ",iddep);
   const handleStatusChange = (e) => {
     const newStatusValue = e.target.value;
     setStatus(newStatusValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
+  console.log("selectedDepart : ",selectedDepart);
+  console.log("status : ",status);
+  console.log("searchDepartmentContact : ",searchDepartmentContact);
 
-  console.log("statussssssssssssssss : ",status)
-  const fetchDepartmentsContact = async (isLoading, searchDepartmentContact) => {
+  const fetchDepartmentsContact = async (isLoading,selectedDepart, searchDepartmentContact) => {
     try {
       let response;
-      if (status === "All" && !searchDepartmentContact) {
-      
-
+      if(selectedDepart !=="All"){
+        console.log("arte");
+        response = await DepartmentContactServices.getContactsByDepartment(selectedDepart);
+      }
+      else if (status === "All" && !searchDepartmentContact && selectedDepart === "All") {
+    
         // Si la catégorie sélectionnée est "All", récupérer tous les projets
         response = await DepartmentContactServices.getAllContact();
 
@@ -103,8 +118,8 @@ const DepartmentContact = () => {
   };
 
   useEffect(() => {
-    fetchDepartmentsContact(isLoading, searchDepartmentContact); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-  }, [isLoading,status, searchDepartmentContact]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+    fetchDepartmentsContact(isLoading,selectedDepart, searchDepartmentContact); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading,status,selectedDepart,searchDepartmentContact]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
@@ -112,7 +127,20 @@ const DepartmentContact = () => {
   };
 
 
-  // console.log("product page", data);
+  const getDepartementsData = async () => {
+    try {
+      const res = await DepartmentServices.getAllDepartment();
+      // Mettez à jour le state avec les départements récupérés depuis l'API
+      setDeparts(res.data);
+    } catch (err) {
+      console.log(err ? err?.response?.data?.message : err?.message);
+    }
+  }
+
+  useEffect(() => {
+    getDepartementsData();
+  }, [])
+
 
   // react hooks
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -139,7 +167,7 @@ const DepartmentContact = () => {
     const countContactsByStatus = (status) => {
       return data.filter((contact) => contact.status === status).length;
     };
-    const [stat, setStat] = useState(['in progress', 'canceled', 'completed']);
+   
 
   return (
     <>
@@ -220,6 +248,44 @@ const DepartmentContact = () => {
                 <option value="canceled">{t("canceled")}</option>
               </Select>
             </div>
+
+            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+
+            <Select
+            onChange={(e) => setSelectedDepart(e.target.value)}
+            className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+            value={selectedDepart}
+          >
+            <option value="All">
+              {t("All Departments")} 
+            </option>
+            {/* <option value="All" defaultValue hidden>
+              {t("All Departments")}
+            </option> */}
+            {departs?.map((dep) => (
+              <option key={dep.id} value={dep.id}>
+                {dep.title}
+              </option>
+            ))}
+          </Select>
+
+
+
+
+              {/* <Select
+                onChange={handleStatusChange}
+                className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+              >
+                <option value="All" defaultValue hidden>
+                  {t("Department")}
+                </option>
+                <option value="All">{t("All")}</option>
+                <option value="in progress">{t("in progress")}</option>
+                <option value="completed">{t("completed")}</option>
+                <option value="canceled">{t("canceled")}</option>
+              </Select> */}
+            </div>
+
           </form>
         </CardBody>
       </Card>
@@ -255,6 +321,7 @@ const DepartmentContact = () => {
               DepartmentsContact={data?.DepartmentsContact}
               setIsCheck={setIsCheck}
               data={data}
+              selectedDepart={selectedDepart}
               searchDepartmentContact={searchDepartmentContact}
             />
           </Table>

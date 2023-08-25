@@ -256,6 +256,7 @@ const Departments = () => {
       ) : (
         <NotFound title="Department" />
       )}
+
     </>
   );
 };

@@ -23,7 +23,7 @@ import DepartmentDrawer from "components/drawer/DepartmentDrawer";
 import DepartmentContactServices from "services/DepartementContactServices";
 //internal import  
 
-const DepartmentContactTable = ({ data, searchDepartmentContact, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
+const DepartmentContactTable = ({ data, selectedDepart, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading }) => {
   const {
     handleModalOpen,
     serviceId,
@@ -38,9 +38,6 @@ const DepartmentContactTable = ({ data, searchDepartmentContact, isCheck, setIsC
 
     const formData = { status: newStatus, };
     setIsLoading(false);
-
-   
-
 
     // Appelez le service pour mettre à jour le statut dans la base de données
     DepartmentContactServices.updateContact(id,

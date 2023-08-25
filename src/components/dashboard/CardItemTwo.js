@@ -1,6 +1,8 @@
 import { Card, CardBody } from '@windmill/react-ui';
 import Skeleton from 'react-loading-skeleton';
 import { useTranslation } from 'react-i18next';
+import DepartmentContact from "pages/DepartmentContact"
+
 import {
   FiLayout,
   FiTruck,
@@ -73,6 +75,7 @@ const CardItemTwo = ({
           </p>
         </div>
       </CardBody>
+
     </Card>
   );
 };

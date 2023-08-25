@@ -306,8 +306,8 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
             <TableCell>
               <EditDeleteButton
                 id={item.id}
-                isLoading={isLoading} // Passer la variable isLoading
-                setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
+                // isLoading={isLoading} // Passer la variable isLoading
+                // setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
                 data={item}
                 isCheck={serviceId}
                 handleClick={handleClick}

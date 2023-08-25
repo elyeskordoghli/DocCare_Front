@@ -7,7 +7,7 @@ const useToggleDrawer = () => {
   const [allId, setAllId] = useState([]);
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   const [id, setId] = useState("");
 
@@ -15,10 +15,10 @@ const useToggleDrawer = () => {
     useContext(SidebarContext);
 
   const handleUpdate = (id) => {
-    setIsLoading(true);
+    // setIsLoading(true);
     setServiceId(id);
     toggleDrawer();
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const handleUpdateMany = (id) => {

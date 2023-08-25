@@ -89,7 +89,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
         closeModal();
         setIsSubmitting(false);
       }
-      if (location.pathname === "/contacts") {
+      if (location.pathname.includes('contacts')){
         setIsLoading(true);
         const res = await DepartmentContactServices.deleteContact(id);
         setIsLoading(false);
@@ -102,6 +102,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
         closeModal();
         setIsSubmitting(false);
       }
+    
       if (location.pathname === "/projects") {
         setIsLoading(true);
         const res = await ProjectServices.deleteProject(id);
