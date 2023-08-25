@@ -126,20 +126,20 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
               />
             </TableCell>
             <TableCell>
-              <div className="flex items-center">
-                <div>
-                  <h2 className="text-sm font-medium">
-                    {item?.first_name}
-                  </h2>
-                </div>
+            <div className="flex items-center">
+              <div>
+                <h2 className="text-sm font-medium">
+                  {item?.first_name} {item?.last_name} {/* Ajoutez un espace entre les deux variables */}
+                </h2>
               </div>
+            </div>
+          </TableCell>
 
-            </TableCell>
-            <TableCell>
+            {/* <TableCell>
               <span className="text-sm">
                 {item?.last_name}
               </span>
-            </TableCell>
+            </TableCell> */}
             <TableCell>
               <span className="text-sm">
                 {item?.email}

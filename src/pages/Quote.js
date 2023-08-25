@@ -226,7 +226,7 @@ const Quote = () => {
                   />
                 </TableCell>
                 <TableCell>{"First Name"}</TableCell>
-                <TableCell>{"Last Name"}</TableCell>
+                {/* <TableCell>{"Last Name"}</TableCell> */}
                 <TableCell>{"Email"}</TableCell>
                 <TableCell>{"Phone"}</TableCell>
                 <TableCell>{"Status"}</TableCell>
