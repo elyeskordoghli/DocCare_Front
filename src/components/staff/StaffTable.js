@@ -10,7 +10,7 @@ import useToggleDrawer from "hooks/useToggleDrawer";
 import StaffDrawer from "components/drawer/StaffDrawer";
 import DeleteModal from "components/modal/DeleteModal";
 import PrevilegesModal from "components/modal/PrevilegesModal";
-
+import { useTranslation } from "react-i18next";
 import ActiveInActiveButton from "components/table/ActiveInActiveButton";
 import EditDeleteButton from "components/table/EditDeleteButton";
 
@@ -73,6 +73,7 @@ const StaffTable = ({
 
 
   }
+  const { t } = useTranslation();
   
   const handleClick = (e) => {
     const { id, checked } = e.target;
@@ -146,10 +147,10 @@ const StaffTable = ({
             <TableCell>
               {item?.status === 1 ? (
                 <Badge className="bg-green-500 text-white !important">
-                  {"Active"}
+                  {t("Active")}
                 </Badge>
               ) : (
-                <Badge className="bg-green-500 text-white">{"Inactive"}</Badge>
+                <Badge className="bg-green-500 text-white">{t("Inactive")}</Badge>
               )}
             </TableCell>
             {/* <TableCell>
@@ -181,7 +182,7 @@ const StaffTable = ({
 
             <TableCell className="text-center">
               {full === item.previleges.length ? (
-                <Badge type="success">{"FULL ACCESS"}</Badge>
+                <Badge type="success">{t("FULLACCESS")}</Badge>
               ) : (
                 <Link
                   to={`/admin/${item.id}/previleges`}
@@ -190,7 +191,7 @@ const StaffTable = ({
                   <Tooltip
                     id="view"
                     Icon={FiZoomIn}
-                    title={"DetailsTbl"}
+                    title={t("DetailsTbl")}
                     bgColor="#10B981"
                   />
                 </Link>
@@ -207,7 +208,7 @@ const StaffTable = ({
                   ))}
                 </ul>
               ) : (
-                <Badge type="success">{"NO DEPARTMENTS"}</Badge>
+                <Badge type="success">{t("NODEPARTMENTS")}</Badge>
               )}
             </TableCell>
 

@@ -72,7 +72,7 @@ const BlogDetails = () => {
         <BlogDrawer id={id} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
       </MainDrawer>
 
-      <PageTitle>{"Blog Details"}</PageTitle>
+      <PageTitle>{t("BlogDetails")}</PageTitle>
       {loading ? (
         <Loading loading={loading} />
       ) : (
@@ -84,13 +84,13 @@ const BlogDetails = () => {
               <div className="mb-5 ml-10 block ">
 
                 <p className="uppercase font-bold text-lg mb-6 text-gray-500 dark:text-gray-400 ">
-                  {"Blog name"} :{" "}
+                  {t("BlogName")} :{" "}
                   <span className="font-bold text-gray-500 dark:text-gray-500">
                     {data?.name}
                   </span>
                 </p>
                 <p className="uppercase font-bold text-lg  text-gray-500 dark:text-gray-400 ">
-                  {"Blog short_description"} :{" "}
+                  {t("BlogShortDescription")} :{" "}
                   <span className="font-bold text-gray-500 dark:text-gray-500">
                     {data?.short_description}
                   </span>
@@ -101,7 +101,7 @@ const BlogDetails = () => {
             <div className="w-full flex flex-col p-5 md:p-8 text-left">
               <div className="font-serif product-price  dark:text-gray-400">
                 <p className="   text-gray-500 dark:text-gray-400 text-sm">
-                  <div className="uppercase p-4 font-bold" >{"Blog description"} :{" "} </div>
+                  <div className="uppercase p-4 font-bold" >{t("BlogDescription")} :{" "} </div>
 
                   <div
                     className=" text-gray-500 dark:text-gray-400 font-sans"
@@ -118,7 +118,7 @@ const BlogDetails = () => {
                   onClick={() => handleUpdate(data.id)}
                   className="cursor-pointer leading-5 transition-colors duration-150 font-medium text-sm focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300"
                 >
-                  {"Edit Blog"}
+                  {t("EditBlog")}
                 </button>
               </div>
             </div>

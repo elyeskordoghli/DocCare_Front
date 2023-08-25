@@ -20,6 +20,7 @@ import React, { useState, useEffect } from 'react'
 import CareerServices from "services/CareerServices";
 import CareerDrawer from "components/drawer/CareerDrawer";
 import Loader from 'components/loader/Loader';
+import { useTranslation } from "react-i18next";
 
 //internal import  
 
@@ -30,6 +31,7 @@ const CareerTable = ({ setId,data, searchCareer, isCheck, setIsCheck, currency, 
     handleUpdate,
   } = useToggleDrawer();
 
+  const { t } = useTranslation();
 
 
   const getCareer = async () => {
@@ -147,7 +149,7 @@ const CareerTable = ({ setId,data, searchCareer, isCheck, setIsCheck, currency, 
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("Details")}
+                  title={t("DetailsTbl")}
                   bgColor="#ff5a1f"
                 />
               </Link>

@@ -20,6 +20,8 @@ import { Link } from "react-router-dom";
 import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 //internal import  
+import { useTranslation } from "react-i18next";
+
 
 const BlogTable = ({ data,setId,searchBlog, isCheck, setIsCheck, currency, lang, isLoading, setIsLoading, Blogs }) => {
   const {
@@ -32,6 +34,7 @@ const BlogTable = ({ data,setId,searchBlog, isCheck, setIsCheck, currency, lang,
 
  
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
+  const { t } = useTranslation();
    
   const getBlog = async () => {
     try {
@@ -125,21 +128,6 @@ const BlogTable = ({ data,setId,searchBlog, isCheck, setIsCheck, currency, lang,
               </span>
 
             </TableCell>
-
-
-{/* 
-            <TableCell>
-
-              <span className="text-sm ">
-                {item.short_description.length > 30
-                  ? item.short_description.substring(0, 30) + "..."
-                  : item.short_description}
-              </span>
-
-
-            </TableCell> */}
-
-
             <TableCell>
               <span className="text-sm">
                 {item.views} 

@@ -111,7 +111,7 @@ const Blogs = () => {
   return (
     <>
          {isLoading ? <Loader /> : null}
-      <PageTitle>{"Blogs Page"}</PageTitle>
+      <PageTitle>{t("BlogsPage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
@@ -149,7 +149,7 @@ const Blogs = () => {
                     <FiTrash2 />
                   </span>
 
-                  {"Delete"}
+                  {t("Delete")}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -160,7 +160,7 @@ const Blogs = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Blog"}
+                  {t("AddBlog")}
                 </Button>
               </div>
             </div>
@@ -180,7 +180,7 @@ const Blogs = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Blog"
+                placeholder={t("SearchBlog")}
                 onChange={handleSearchInputChange} 
               />
               <button
@@ -206,12 +206,12 @@ const Blogs = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Blog Name"}</TableCell>
+                <TableCell>{t("BlogNameTbl")}</TableCell>
                 
-                <TableCell>{"Blog owner"}</TableCell>
-                <TableCell>{"Blog views"}</TableCell>
-                <TableCell className="text-center">{"Details"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell>{t("BlogOwnerTbl")}</TableCell>
+                <TableCell>{t("BlogViewsTbl")}</TableCell>
+                <TableCell className="text-center">{t("Details")}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <BlogTable
