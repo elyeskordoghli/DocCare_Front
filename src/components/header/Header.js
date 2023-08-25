@@ -139,7 +139,7 @@ const Header = () => {
                   ) : (
                     <img src={en} className="mx-2" alt="lang" width={16} />
                   )}
-                  {currentLanguageCode === "de" ? "GERMAN" : "ENGLISH"}
+                  {currentLanguageCode === "de" ? "FRENSH" : "ENGLISH"}
                 </button>
 
                 <div className="dropdown-content">
