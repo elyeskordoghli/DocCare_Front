@@ -130,10 +130,10 @@ const Header = () => {
           </button>
           <span></span>
 
-          <ul className="flex justify-end items-center flex-shrink-0 space-x-6">
+          <ul className=" flex justify-end items-center flex-shrink-0 space-x-6">
             <li className="changeLanguage">
               <div className="dropdown">
-                <button className="dropbtn focus:outline-none">
+                <button className="dropbtn focus:outline-none ">
                   {currentLanguageCode === "de" ? (
                     <img src={de} width={16} alt="lang" className="mx-2" />
                   ) : (
@@ -147,13 +147,13 @@ const Header = () => {
                     onClick={() => handleLanguageChange("en")}
                     className="focus:outline-none cursor-pointer"
                   >
-                    <img src={en} width={16} alt="lang" /> English{" "}
+                    <img src={en} width={16} alt="lang" /> <span className=" text-gray-500 dark:text-gray-400">English{" "}</span>
                   </div>
                   <div
                     onClick={() => handleLanguageChange("de")}
                     className="focus:outline-none cursor-pointer"
                   >
-                    <img src={de} width={16} alt="lang" /> Frensh
+                    <img className="border border-solid border-gray-500" src={de} width={16} alt="lang" /> <span className=" text-gray-500 dark:text-gray-400">Frensh</span>
                   </div>
                 </div>
               </div>
