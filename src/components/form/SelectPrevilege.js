@@ -7,12 +7,12 @@ const SelectPrevilege = ({ setSelecttedPrevilege, oldprevileges, label ,data, pr
     value: previlege.id,
     label: previlege?.name,
   }));
- console.log("oldold : ",oldprevileges);
+//  console.log("oldold : ",oldprevileges);
   const handleChange = (selectedOption) => {
     console.log(selectedOption, '__')
     setSelecttedPrevilege(selectedOption?.map(obj => {return obj.value}));
   };
-  console.log('statepp',selecttedPrevilege)
+  // console.log('statepp',selecttedPrevilege)
 
   return (
     <>

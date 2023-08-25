@@ -99,7 +99,7 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
     <>
       {/* {isCheck?.length < 1 && <DeleteModal id={serviceId} title={title} />}  */}
       {isCheck?.length < 1 && <DeleteModal
-        id={id}
+        id={serviceId}
         title={data?.first_name}
         isLoading={isLoading} // Passer la variable isLoading
         setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
@@ -107,7 +107,7 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
 
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <DepartmentDrawer id={id} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck} />
+          <DepartmentDrawer id={serviceId} isLoading={isLoading} setIsLoading={setIsLoading} setIsCheck={setIsCheck} isCheck={isCheck} />
         </MainDrawer>
       )}
 
