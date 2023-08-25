@@ -118,7 +118,7 @@ const Careers = () => {
   return (
     <>
        {isLoading ? <Loader /> : null}
-      <PageTitle>{"Careers Page"}</PageTitle>
+      <PageTitle>{t("CareersPage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
@@ -155,7 +155,7 @@ const Careers = () => {
                     <FiTrash2 />
                   </span>
 
-                  {"Delete"}
+                  {t("Delete")}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -166,7 +166,7 @@ const Careers = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Career"}
+                  {t("AddCareer")}
                 </Button>
               </div>
             </div>
@@ -186,7 +186,7 @@ const Careers = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Career"
+                placeholder={t("SearchCareer")}
                 onChange={handleSearchInputChange} 
               />
               <button
@@ -212,11 +212,11 @@ const Careers = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Career Title"}</TableCell>
-                <TableCell>{"Career Short Description"}</TableCell>
-                <TableCell>{"Applies"}</TableCell>
-                <TableCell className="text-center">{"Details"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell>{t("CareerTitleTbl")}</TableCell>
+                <TableCell>{t("CareerShortDescriptionTbl")}</TableCell>
+                <TableCell>{t("AppliesTbl")}</TableCell>
+                <TableCell className="text-center">{t("Details")}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <CareerTable
