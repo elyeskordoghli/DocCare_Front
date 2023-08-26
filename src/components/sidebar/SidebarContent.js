@@ -3,8 +3,8 @@ import { NavLink, Route } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Button, WindmillContext } from "@windmill/react-ui";
 import { IoLogOutOutline } from "react-icons/io5";
-import logoDark from "assets/img/logo/sim_new.svg";
-import logoLight from "assets/img/logo/sim_new_white.svg";
+import logoDark from "assets/img/logo/sim_new.jpg";
+import logoLight from "assets/img/logo/sim_new_white.jpg";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -70,9 +70,9 @@ const SidebarContent = () => {
     <div className="py-4  text-gray-500 dark:text-gray-400">
       <a className="text-gray-900 dark:text-gray-200" href="/dashboard">
         {mode === "dark" ? (
-          <img src={logoLight} alt="dashtar" width="130" className="pl-6" />
+          <img src={logoLight} alt="dashtar" width="130"   style={{ borderRadius: '5px', marginLeft: '50px' }} />
         ) : (
-          <img src={logoDark} alt="dashtar" width="130" className="pl-6 " />
+          <img src={logoDark} alt="dashtar" width="130"    style={{ borderRadius: '5px', marginLeft: '50px' }} />
         )}
       </a>
       <ul className="mt-8 ">
