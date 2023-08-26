@@ -95,7 +95,7 @@ const History = () => {
 
   return (
     <>
-      <PageTitle>{"History Page"}</PageTitle>
+      <PageTitle>{t("HistoryPage")}</PageTitle>
       
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
@@ -126,10 +126,10 @@ const History = () => {
             <TableHeader>
               <tr>
             
-                <TableCell>{"Id"}</TableCell>
-                <TableCell>{"Admin Id"}</TableCell>
-                <TableCell>{"Action"}</TableCell>
-                <TableCell>{"Description"}</TableCell>
+                <TableCell>{t("ID")}</TableCell>
+                <TableCell>{t("ADMINIDTbl")}</TableCell>
+                <TableCell>{t("ACTIONTbl")}</TableCell>
+                <TableCell>{t("DESCRIPTIONTbl")}</TableCell>
               </tr>
             </TableHeader>
             <HistoryTable

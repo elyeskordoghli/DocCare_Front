@@ -211,7 +211,7 @@ const Careers = () => {
                     isChecked={isCheckAll}
                     handleClick={handleSelectAll}
                   />
-                </TableCell>
+                </TableCell>                
                 <TableCell>{t("CareerTitleTbl")}</TableCell>
                 <TableCell>{t("CareerShortDescriptionTbl")}</TableCell>
                 <TableCell>{t("AppliesTbl")}</TableCell>

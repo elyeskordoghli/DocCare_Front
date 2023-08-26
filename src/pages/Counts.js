@@ -116,7 +116,7 @@ const Counts = () => {
     <>
                    {isLoading ? <Loader /> : null}
 
-      <PageTitle>{"Statistics Page"}</PageTitle>
+      <PageTitle>{t("StatisticsPage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
@@ -154,7 +154,7 @@ const Counts = () => {
                     <FiTrash2 />
                   </span>
 
-                  {"Delete"}
+                  {t("Delete")}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -166,7 +166,7 @@ const Counts = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Statistic"}
+                  {t("AddStatistic")}
                 </Button>
               </div>
             </div>
@@ -199,10 +199,10 @@ const Counts = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Statistic Title"}</TableCell>
-                <TableCell>{"Statistic number"}</TableCell>
-                <TableCell>{"Statistic icon"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell>{("StatisticTitle")}</TableCell>
+                <TableCell>{("Statisticnumber")}</TableCell>
+                <TableCell>{("StatisticIcon")}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <CountTable

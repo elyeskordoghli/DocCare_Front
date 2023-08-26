@@ -40,38 +40,13 @@ const ServiceDetails = () => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
   const [isLoading, setIsLoading]=useState();
-
-  // const { data, loading } = useAsync(() => ServiceServices.getServiceById(id));
-  // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-
-  // const currency = globalSetting?.default_currency || "$";
-
-  // const { handleChangePage, totalResults, resultsPerPage, dataTable } =
-  //   useFilter(data?.variants);
-  // // console.log('data',data)
-
-  // useEffect(() => {
-  //   if (!loading) {
-  //     const res = Object.keys(Object.assign({}, ...data?.variants));
-
-  //     const varTitle = attribue?.filter((att) =>
-  //       // res.includes(att.title.replace(/[^a-zA-Z0-9]/g, ''))
-  //       res.includes(att._id)
-  //     );
-
-  //     setVariantTitle(varTitle);
-  //   }
-  // }, [attribue, data?.variants, loading, lang]);
-
-  // // console.log("data.variants", globalSetting);
-  // console.log("data.title", data);
   return ( 
     <> 
       <MainDrawer product> 
       <ServiceDrawer id={id} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
       </MainDrawer> 
  
-      <PageTitle>{"Service Details"}</PageTitle> 
+      <PageTitle>{t("ReferenceDetails")}</PageTitle> 
       {loading ? ( 
         <Loading loading={loading} /> 
       ) : ( 

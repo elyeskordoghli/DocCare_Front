@@ -129,7 +129,7 @@ const Services = () => {
        {isLoading ? <Loader /> : null}
 
 
-      <PageTitle>{"Services Page"}</PageTitle>
+      <PageTitle>{t("ServicesPage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
@@ -160,19 +160,6 @@ const Services = () => {
               />
             </div>
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-              {/* <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
-                <Button
-                  disabled={isCheck.length < 1}
-                  onClick={() => handleUpdateMany(isCheck)}
-                  className="w-full rounded-md h-12 btn-gray text-gray-600 sm:mb-3"
-                >
-                  <span className="mr-2">
-                    <FiEdit />
-                  </span> 
-                  {"BulkAction"}
-                </Button>
-              </div> */}
-
               <div className="w-full md:w-32 lg:w-32 xl:w-32 mr-3 mb-3 lg:mb-0">
                 <Button
                   disabled={isCheck?.length < 1}
@@ -183,7 +170,7 @@ const Services = () => {
                     <FiTrash2 />
                   </span>
 
-                  {"Delete"}
+                  {t("Delete")}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -194,7 +181,7 @@ const Services = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Service"}
+                  {t("AddService")}
                 </Button>
               </div>
             </div>
@@ -214,7 +201,7 @@ const Services = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Service"
+                placeholder={t("SearchService")}
                 onChange={handleSearchInputChange}
               />
               <button
@@ -240,12 +227,12 @@ const Services = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Service Title"}</TableCell>
-                <TableCell>{"Service SubTitle"}</TableCell>
-                <TableCell>{"Catalogue"}</TableCell>
-                <TableCell className="text-center">{"Details"}</TableCell>
+                <TableCell>{t("ServiceTitleTbl")}</TableCell>
+                <TableCell>{t("ServiceSubTitleTbl")}</TableCell>
+                <TableCell>{t("Catalogue")}</TableCell>
+                <TableCell className="text-center">{t("Details")}</TableCell>
 
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <ServiceTable

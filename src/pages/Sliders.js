@@ -105,7 +105,7 @@ const Sliders = () => {
     <>
                {isLoading ? <Loader /> : null}
 
-      <PageTitle>{"Sliders Page"}</PageTitle>
+      <PageTitle>{t("SlidersPage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
@@ -143,7 +143,7 @@ const Sliders = () => {
                     <FiTrash2 />
                   </span>
 
-                  {"Delete"}
+                  {t("Delete")}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -154,25 +154,13 @@ const Sliders = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Slider"}
+                  {t("AddSlider")}
                 </Button>
               </div>
             </div>
           </form>
         </CardBody>
       </Card>
-
-      {/* <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 rounded-t-lg rounded-0 mb-4">
-        <CardBody>
-          <form
-            onSubmit={handleSubmitForAll}
-            className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex"
-          >
-
-          </form>
-        </CardBody>
-      </Card> */}
-
       {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
@@ -187,11 +175,11 @@ const Sliders = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Slider Title"}</TableCell>
-                <TableCell>{"Slider Subtitle"}</TableCell>
-                <TableCell>{"Slider Video"}</TableCell>
-                <TableCell className="text-center">{"Details"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell>{t("SliderTitleTbl")}</TableCell>
+                <TableCell>{t("SliderSubtitleTbl")}</TableCell>
+                <TableCell>{t("SliderVideoTbl")}</TableCell>
+                <TableCell className="text-center">{t("Details")}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <SliderTable

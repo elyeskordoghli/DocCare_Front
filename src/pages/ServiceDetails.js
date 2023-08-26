@@ -39,38 +39,13 @@ const ServiceDetails = () => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
   const [isLoading, setIsLoading]=useState();
-
-  // const { data, loading } = useAsync(() => ServiceServices.getServiceById(id));
-  // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-
-  // const currency = globalSetting?.default_currency || "$";
-
-  // const { handleChangePage, totalResults, resultsPerPage, dataTable } =
-  //   useFilter(data?.variants);
-  // // console.log('data',data)
-
-  // useEffect(() => {
-  //   if (!loading) {
-  //     const res = Object.keys(Object.assign({}, ...data?.variants));
-
-  //     const varTitle = attribue?.filter((att) =>
-  //       // res.includes(att.title.replace(/[^a-zA-Z0-9]/g, ''))
-  //       res.includes(att._id)
-  //     );
-
-  //     setVariantTitle(varTitle);
-  //   }
-  // }, [attribue, data?.variants, loading, lang]);
-
-  // // console.log("data.variants", globalSetting);
-  // console.log("data.title", data);
   return ( 
     <> 
       <MainDrawer product> 
       <ServiceDrawer id={id} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
       </MainDrawer> 
  
-      <PageTitle>{"Service Details"}</PageTitle> 
+      <PageTitle>{t("ServiceDetails")}</PageTitle> 
       {loading ? ( 
         <Loading loading={loading} /> 
       ) : ( 
@@ -82,13 +57,13 @@ const ServiceDetails = () => {
               <div className="mb-5 ml-10 block "> 
                 
                 <p className="uppercase font-bold text-lg mb-6 text-gray-500 dark:text-gray-400 "> 
-                  {"Service title"} :{" "} 
+                  {t("Servicetitle")} :{" "} 
                   <span className="font-bold text-gray-500 dark:text-gray-500"> 
                     {data?.title} 
                   </span> 
                 </p> 
                 <p className="uppercase font-bold text-lg  text-gray-500 dark:text-gray-400 "> 
-                  {"Service subtitle"} :{" "} 
+                  {t("Servicesubtitle")} :{" "} 
                   <span className="font-bold text-gray-500 dark:text-gray-500"> 
                     {data?.subtitle} 
                   </span> 
@@ -99,7 +74,7 @@ const ServiceDetails = () => {
             <div className="w-full flex flex-col p-5 md:p-8 text-left"> 
               <div className="font-serif product-price  dark:text-gray-400"> 
                 <p className="   text-gray-500 dark:text-gray-400 text-sm"> 
-               <div className="uppercase p-4 font-bold" >{"Service description"} :{" "} </div>  
+               <div className="uppercase p-4 font-bold" >{t("Servicedescription")} :{" "} </div>  
                  
                     <div 
                       className=" text-gray-500 dark:text-gray-400 font-sans" 
@@ -116,48 +91,13 @@ const ServiceDetails = () => {
                   onClick={() => handleUpdate(data.id)} 
                   className="cursor-pointer leading-5 transition-colors duration-150 font-medium text-sm focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300" 
                 > 
-                  {"Edit Service"} 
+                  {t("EditService")} 
                 </button> 
               </div> 
             </div> 
           </div> 
         </div> 
       )} 
-      {/* {data?.isCombination && variantTitle?.length > 0 && !loading && ( 
-          <> 
-            <PageTitle>{t("ProductVariantList")}</PageTitle> 
-            <TableContainer className="mb-8 rounded-b-lg"> 
-              <Table> 
-                <TableHeader> 
-                  <tr> 
-                    <TableCell>{t("SR")}</TableCell> 
-                    <TableCell>{t("Image")}</TableCell> 
-                    <TableCell>{t("Combination")}</TableCell> 
-                    <TableCell>{t("Sku")}</TableCell> 
-                    <TableCell>{t("Barcode")}</TableCell> 
-                    <TableCell>{t("OrginalPrice")}</TableCell> 
-                    <TableCell>{t("SalePrice")}</TableCell> 
-                    <TableCell>{t("Quantity")}</TableCell> 
-                  </tr> 
-                </TableHeader> 
-                <AttributeList 
-                  lang={lang} 
-                  variants={dataTable} 
-                  currency={currency} 
-                  variantTitle={variantTitle} 
-                /> 
-              </Table> 
-              <TableFooter> 
-                <Pagination 
-                  totalResults={totalResults} 
-                  resultsPerPage={resultsPerPage} 
-                  onChange={handleChangePage} 
-                  label="Product Page Navigation" 
-                /> 
-              </TableFooter> 
-            </TableContainer> 
-          </> 
-        )} */} 
     </> 
   );
 };

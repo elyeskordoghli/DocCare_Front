@@ -46,7 +46,7 @@ const DepartmentContactDetails = () => {
     <>
 
 
-      <PageTitle>{"Contact  Details"}</PageTitle>
+      <PageTitle>{t("ContactDetails")}</PageTitle>
       {loading ? (
         <Loading loading={loading} />
       ) : (
@@ -55,7 +55,7 @@ const DepartmentContactDetails = () => {
             <TableBody className="bg-gray-50 border-0">
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Name:</strong>
+                  <strong>{t("Name")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.name}</span>
@@ -63,7 +63,7 @@ const DepartmentContactDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Email:</strong>
+                  <strong>{t("Email")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.email}</span>
@@ -71,7 +71,7 @@ const DepartmentContactDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Phone:</strong>
+                  <strong>{t("Phone")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.phone}</span>
@@ -79,7 +79,7 @@ const DepartmentContactDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Appointment Date:</strong>
+                  <strong>{t("AppointmentDate")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.Appointment_date}</span>
@@ -87,7 +87,7 @@ const DepartmentContactDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Appointment Hour:</strong>
+                  <strong>{t("AppointmentHour")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.Appointment_heure}</span>
@@ -95,7 +95,7 @@ const DepartmentContactDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong> Subject:</strong>
+                  <strong> {t("Subject")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.subject}</span>
@@ -103,7 +103,7 @@ const DepartmentContactDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className="font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Message:</strong>
+                  <strong>{t("Message")}:</strong>
                 </TableCell>
                 <TableCell>
                   {data?.message && (
@@ -120,7 +120,7 @@ const DepartmentContactDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Department:</strong>
+                  <strong>{t("Department")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.department?.title}</span>

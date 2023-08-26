@@ -40,30 +40,7 @@ const DepartmentDetails = () => {
   const [isCheck, setIsCheck] = useState([]);
   const [isLoading, setIsLoading]=useState();
 
-  // const { data, loading } = useAsync(() => ServiceServices.getServiceById(id));
-  // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-
-  // const currency = globalSetting?.default_currency || "$";
-
-  // const { handleChangePage, totalResults, resultsPerPage, dataTable } =
-  //   useFilter(data?.variants);
-  // // console.log('data',data)
-
-  // useEffect(() => {
-  //   if (!loading) {
-  //     const res = Object.keys(Object.assign({}, ...data?.variants));
-
-  //     const varTitle = attribue?.filter((att) =>
-  //       // res.includes(att.title.replace(/[^a-zA-Z0-9]/g, ''))
-  //       res.includes(att._id)
-  //     );
-
-  //     setVariantTitle(varTitle);
-  //   }
-  // }, [attribue, data?.variants, loading, lang]);
-
-  // // console.log("data.variants", globalSetting);
-  // console.log("data.title", data);
+  
   return ( 
     <> 
       <MainDrawer product> 

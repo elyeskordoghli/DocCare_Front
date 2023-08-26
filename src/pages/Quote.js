@@ -146,7 +146,7 @@ const Quote = () => {
   return (
     <>
     {isLoading ? <Loader /> : null}
-      <PageTitle>{"Quote Page"}</PageTitle>
+      <PageTitle>{t("QuotePage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
@@ -202,7 +202,7 @@ const Quote = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Quote"
+                placeholder={t("SearchQuote")}
                 onChange={handleSearchInputChange} 
               />
               <button
@@ -219,7 +219,7 @@ const Quote = () => {
                   {t("Status")}
                 </option>
                 <option value="All">{t("All")}</option>
-                <option value="in progress">{t("in progress")}</option>
+                <option value="in progress">{t("inprogress")}</option>
                 <option value="completed">{t("completed")}</option>
                 <option value="canceled">{t("canceled")}</option>
               </Select>
@@ -242,14 +242,13 @@ const Quote = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"First Name"}</TableCell>
-                {/* <TableCell>{"Last Name"}</TableCell> */}
-                <TableCell>{"Email"}</TableCell>
-                <TableCell>{"Phone"}</TableCell>
-                <TableCell>{"Status"}</TableCell>
-                <TableCell>{"Service"}</TableCell>
-                <TableCell className="text-center">{"Details"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell>{t("NameTbl")}</TableCell>
+                <TableCell>{t("EmailTbl")}</TableCell>
+                <TableCell>{t("PhoneTbl")}</TableCell>
+                <TableCell>{t("StatusTbl")}</TableCell>
+                <TableCell>{t("ServiceTbl")}</TableCell>
+                <TableCell className="text-center">{t("Details")}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <QuoteTable
