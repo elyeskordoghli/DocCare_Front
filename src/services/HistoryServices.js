@@ -5,6 +5,11 @@ import requests from "./httpService";
     return requests.get("admin/history", body);
   },
  
+
+  getLastHistory : async(body) =>{
+     return requests.get("admin/last_history",body);
+  }
 };
+
 
 export default HistoryServices;
