@@ -557,7 +557,8 @@ const UploadManyTwo = ({
             title === "Counts" ||
             title === "Sliders" ||
             title === "Subscribers" ||
-            title === "Departments Contact" ||
+            title === "Departments Contact" || 
+            title === "Departments" || 
             title === "Quotes" ||
             title === "Details" ||
             title === "Attribute" ||

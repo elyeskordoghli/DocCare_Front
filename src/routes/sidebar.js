@@ -36,7 +36,7 @@ const sidebar = [
 
   {
     icon: FiSlack,
-    name: "Projects ",
+    name: "Projects",
     path: "/projects",
     previleges: ["view_project", "view_any_project","create_project","update_project","delete_project"],
 
@@ -102,7 +102,7 @@ const sidebar = [
   },
   {
     icon: FiActivity,
-    name: "Subscribers ",
+    name: "Subscribers",
     path: "/subscribers",
   },
   {
@@ -115,7 +115,7 @@ const sidebar = [
 
   {
     icon: FiGlobe,
-    name: "Website Manager",
+    name: "WebsiteManager",
     routes: [
       {
         path: "/languages",
@@ -123,19 +123,19 @@ const sidebar = [
       },
       {
         path: "/sliders",
-        name: "Slider management",
+        name: "SliderManagement",
       },
       {
         path: "/counts",
-        name: "Counts management",
+        name: "CountsManagement",
       },
       {
         path: "/details",
-        name: "Our Details",
+        name: "OurDetails",
       },
       {
         path: "/history",
-        name: "Our History",
+        name: "OurHistory",
         previleges: ["view_history"],
 
       },
