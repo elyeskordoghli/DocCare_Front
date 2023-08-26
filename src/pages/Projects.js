@@ -315,9 +315,9 @@ const Projects = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{("ProjectTitleTbl")}</TableCell>
-                <TableCell>{("ProjectSubTitleTbl")}</TableCell>
-                <TableCell>{("CategoryTbl")}</TableCell>
+                <TableCell>{t("ProjectTitleTbl")}</TableCell>
+                <TableCell>{t("ProjectSubTitleTbl")}</TableCell>
+                <TableCell>{t("CategoryTbl")}</TableCell>
                 <TableCell className="text-center">{t("Details")}</TableCell>
                 <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
