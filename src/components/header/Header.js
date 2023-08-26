@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import AdminServices from "services/AdminServices";
+import { format } from 'date-fns';
 
 import { useHistory } from 'react-router-dom'
 import {
@@ -26,6 +27,7 @@ import { AdminContext } from "context/AdminContext";
 import { SidebarContext } from "context/SidebarContext";
 import { emptySetting } from "redux/Actions/SettingActions";
 import { emptySideBarMenu } from "redux/Actions/SideBarActions";
+import HistoryServices from "services/HistoryServices";
 
 const Header = () => {
   const reduxDisPatch = useDispatch();
@@ -68,6 +70,20 @@ const Header = () => {
       console.log('Erreur lors de la déconnexion', error);
     }
   };
+
+  const[logs,setLogs]=useState();
+
+  const getlogs = async () => {
+    let response;
+    response = await HistoryServices.getLastHistory();
+    setLogs(response.data);
+  }
+
+  useEffect(() => {
+    getlogs();
+  },[notificationOpen]);
+
+  console.log("logs : ",logs);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -192,161 +208,49 @@ const Header = () => {
                   <div className="notification-box">
                     <Scrollbars>
                       <ul className="block text-sm border-t border-gray-100 dark:border-gray-700 rounded-md">
-                        <li className="flex justify-between items-center font-serif font-normal text-sm py-3 border-b border-gray-100 dark:border-gray-700 px-3 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-gray-100 cursor-pointer">
-                          <div className="flex items-center">
-                            <Avatar
-                              className="p-1 mr-2 md:block bg-gray-50 border border-gray-200"
-                              src="https://i.postimg.cc/tCsSNSxS/Yellow-Sweet-Corn-Bag-each.jpg"
-                              alt="image"
-                            />
+                        
+                      {logs && logs.map((log, index) => (
+                         <li className="flex justify-between items-center font-serif font-normal text-sm py-3 border-b border-gray-100 dark:border-gray-700 px-3 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-gray-100 cursor-pointer">
+                         <div className="flex items-center">
+                         <Avatar
+                          className="p-1 mr-2 md:block bg-gray-50 border border-gray-200"
+                          src={
+                            log.action.includes('add') || log.action.includes('Ajout')
+                              ? 'https://img.icons8.com/?size=512&id=102544&format=png'
+                              : log.action.includes('Mise à jour') || log.action.includes('update')
+                              ? 'https://img.icons8.com/?size=512&id=63693&format=png'
+                              : log.action.includes('Suppression') || log.action.includes('delete')
+                              ? 'https://img.icons8.com/?size=512&id=107448&format=png'
+                              : '' // Utilisation d'une URL vide si aucune condition n'est satisfaite
+                          }
+                          alt="image"
+                        />
 
-                            <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">
-                                Yellow Sweet Corn Stock out, please check!
-                              </h6>
 
-                              <p className="flex items-center text-xs text-gray-400">
-                                <Badge type="danger">Stock Out</Badge>
+                           <div className="notification-content">
+                             <h6 className="font-medium text-gray-500">
+                               {log.description}
+                             </h6>
 
-                                <span className="ml-2">Dec 12 2021 - 12:40PM</span>
-                              </p>
-                            </div>
-                          </div>
+                             <p className="flex items-center just text-xs text-gray-400">
+                             <Badge type="danger" className="items-center justify-center" style={{ width: '185px' }}>
+                                {log.action}
+                              </Badge>
+                              <span className="ml-6">
+                                    {format(new Date(log.created_at), "MMM d yyyy - HH:mmaaa")}
+                              </span>                             
+                            </p>
+                           </div>
+                         </div>
 
-                          <span className="px-2">
-                            <IoClose />
-                          </span>
-                        </li>
+                         <span className="px-2">
+                           <IoClose />
+                         </span>
+                       </li>
+                      ))}
+                       
 
-                        <li className="flex justify-between items-center font-serif font-normal text-sm py-3 border-b border-gray-100 dark:border-gray-700 px-3 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-gray-100 cursor-pointer">
-                          <div className="flex items-center">
-                            <Avatar
-                              className="mr-2 md:block bg-gray-50 border border-gray-200"
-                              src="https://i.ibb.co/ZTWbx5z/team-1.jpg"
-                              alt="image"
-                            />
-
-                            <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">
-                                Sam L. Placed <span className="font-bold">$300</span> USD order!
-                              </h6>
-
-                              <p className="flex items-center text-xs text-gray-400">
-                                <Badge type="success">New Order</Badge>
-
-                                <span className="ml-2">Nov 30 2021 - 2:40PM</span>
-                              </p>
-                            </div>
-                          </div>
-
-                          <span className="px-2">
-                            <IoClose />
-                          </span>
-                        </li>
-
-                        <li className="flex justify-between items-center font-serif font-normal text-sm py-3 border-b border-gray-100 dark:border-gray-700 px-3 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-gray-100 cursor-pointer">
-                          <div className="flex items-center">
-                            <Avatar
-                              className="p-1 mr-2 md:block bg-gray-50 border border-gray-200"
-                              src="https://i.postimg.cc/5y7rNDFv/Radicchio-12ct.jpg"
-                              alt="image"
-                            />
-
-                            <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">
-                                Radicchio Stock out, please check!
-                              </h6>
-
-                              <p className="flex items-center text-xs text-gray-400">
-                                <Badge type="danger">Stock Out</Badge>
-
-                                <span className="ml-2">Dec 15 2021 - 12:40PM</span>
-                              </p>
-                            </div>
-                          </div>
-
-                          <span className="px-2">
-                            <IoClose />
-                          </span>
-                        </li>
-
-                        <li className="flex justify-between items-center font-serif font-normal text-sm py-3 border-b border-gray-100 dark:border-gray-700 px-3 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-gray-100 cursor-pointer">
-                          <div className="flex items-center">
-                            <Avatar
-                              className="mr-2 md:block bg-gray-50 border border-gray-200"
-                              src="https://i.postimg.cc/SNmQX9Yx/Organic-Baby-Carrot-1oz.jpg"
-                              alt="image"
-                            />
-
-                            <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">
-                                Organic Baby Carrot Stock out, please check!
-                              </h6>
-
-                              <p className="flex items-center text-xs text-gray-400">
-                                <Badge type="danger">Stock Out</Badge>
-
-                                <span className="ml-2">Dec 20 2021 - 12:40PM</span>
-                              </p>
-                            </div>
-                          </div>
-
-                          <span className="px-2">
-                            <IoClose />
-                          </span>
-                        </li>
-
-                        <li className="flex justify-between items-center font-serif font-normal text-sm py-3 border-b border-gray-100 dark:border-gray-700 px-3 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-gray-100 cursor-pointer">
-                          <div className="flex items-center">
-                            <Avatar
-                              className="mr-2 md:block bg-gray-50 border border-gray-200"
-                              src="https://i.postimg.cc/nM8QfhcP/Orange-20ct.jpg"
-                              alt="image"
-                            />
-
-                            <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">
-                                Orange Stock out, please check!
-                              </h6>
-
-                              <p className="flex items-center text-xs text-gray-400">
-                                <Badge type="danger">Stock Out</Badge>
-
-                                <span className="ml-2">Dec 25 2021 - 12:40PM</span>
-                              </p>
-                            </div>
-                          </div>
-
-                          <span className="px-2">
-                            <IoClose />
-                          </span>
-                        </li>
-
-                        <li className="flex justify-between items-center font-serif font-normal text-sm py-3 border-b border-gray-100 dark:border-gray-700 px-3 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-gray-100 cursor-pointer">
-                          <div className="flex items-center">
-                            <Avatar
-                              className="mr-2 md:block bg-gray-50 border border-gray-200"
-                              src="https://i.ibb.co/GWVWYNn/team-7.jpg"
-                              alt="Josh"
-                            />
-
-                            <div className="notification-content">
-                              <h6 className="font-medium text-gray-500">
-                                John Doe Placed <span className="font-bold">$513</span> USD order!
-                              </h6>
-
-                              <p className="flex items-center text-xs text-gray-400">
-                                <Badge type="success">New Order</Badge>
-
-                                <span className="ml-2">Dec 18 2021 - 12:40PM</span>
-                              </p>
-                            </div>
-                          </div>
-
-                          <span className="px-2">
-                            <IoClose />
-                          </span>
-                        </li>
+                   
                       </ul>
                     </Scrollbars>
                   </div>

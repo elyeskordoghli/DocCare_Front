@@ -30,7 +30,9 @@ const useLoginSubmit = () => {
             Cookies.set('adminInfo', JSON.stringify(res.Admin), {
               expires: cookieTimeOut,
             });
-            history.replace('/');
+    
+            // Rediriger vers /dashboard en provoquant un rafraîchissement
+            window.location.href = '/dashboard';
           }
         })
         .catch((err) => {
@@ -38,6 +40,7 @@ const useLoginSubmit = () => {
           setLoading(false);
         });
     }
+    
 
     if (location.pathname === '/signup') {
       AdminServices.registerAdmin({ name, email, password, last_login_at, last_login_ip, status, previleges,full_access})
