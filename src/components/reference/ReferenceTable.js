@@ -12,6 +12,7 @@ import EditDeleteButton from "components/table/EditDeleteButton";
 import ShowHideButton from "components/table/ShowHideButton";
 import Tooltip from "components/tooltip/Tooltip";
 import useToggleDrawer from "hooks/useToggleDrawer";
+import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { FiZoomIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -30,6 +31,7 @@ const ReferenceTable = ({ setId,searchReference,data, isCheck, setIsCheck, curre
   } = useToggleDrawer();
 
 
+  const { t } = useTranslation();
  
    
 
@@ -97,19 +99,13 @@ const ReferenceTable = ({ setId,searchReference,data, isCheck, setIsCheck, curre
 
             <TableCell>
               <div className="flex items-center">
-                {/* {data?.image ? ( */}
+                
                 <Avatar
                   className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
                   src={item?.image}
                   alt="Reference"
                 />
-                {/* ) : ( */}
-                {/* <Avatar */}
-                {/* //   src={`https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png`}
-                  //   alt="Service"
-                  // />
-                // ) */}
-                {/* } */}
+              
                 <div>
                   <h2 className="text-sm font-medium">
                     {item.name}

@@ -114,6 +114,7 @@
   "QuoteDetails" : "Quote Details",
   "FirstName" : "First Name",
   "LastName" : "Last Name" ,
+  "Resume" : "Resume",
   "Company" : "Company",
   "SiteAddress" : "Site Address",
   "City" : "City",

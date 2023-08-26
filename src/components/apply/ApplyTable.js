@@ -50,9 +50,9 @@ const ApplyTable = () => {
                 <Table className="border-collapse border-0">
                     <TableHeader>
                         <tr>
-                            <TableCell>{t("First Name ")}</TableCell>
-                            <TableCell>{t("Last Name")}</TableCell>
-                            <TableCell>{t("Email ")}</TableCell>
+                            <TableCell>{t("FirstName")}</TableCell>
+                            <TableCell>{t("LastName")}</TableCell>
+                            <TableCell>{t("Email")}</TableCell>
                             <TableCell>{t("Phone")}</TableCell>
                             <TableCell>{t("Resume")}</TableCell>
                         </tr>
@@ -80,7 +80,7 @@ const ApplyTable = () => {
 
                                 <TableCell>
                                     <span className="text-sm">
-                                        <a href={item?.resume_path}>{item?.first_name} Resume</a>
+                                        <a href={item?.resume_path}>{item?.first_name} {t("Resume")}</a>
                                     </span>
                                 </TableCell>
                             </TableRow>

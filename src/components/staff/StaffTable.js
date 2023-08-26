@@ -109,10 +109,6 @@ const StaffTable = ({
           />
         </MainDrawer>
       )}
-      {/* <MainDrawer>
-        <StaffDrawer id={serviceId} />
-      </MainDrawer> */}
-
       <TableBody>
         {data?.map((item) => (
           <TableRow key={item.id}>
@@ -153,33 +149,7 @@ const StaffTable = ({
                 <Badge className="bg-green-500 text-white">{t("Inactive")}</Badge>
               )}
             </TableCell>
-            {/* <TableCell>
-              {item?.previleges ? (
-                <ul className="list-disc pl-6">
-                  {item.previleges.map((previlege, index) => (
-                    <li key={index} className="text-sm font-semibold">
-                      {previlege.name}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <span className="text-sm font-semibold">Aucun privilège</span>
-              )}
-            </TableCell> */}
-
-            {/* <TableCell>
-            {item?.departments ? (
-              item.departments.map((department, index) => (
-                <span key={index} className="text-sm font-semibold">
-                  {department.title}
-                  {index !== item.departments.length - 1 && ", "} 
-                </span>
-              ))
-            ) : (
-              <span className="text-sm font-semibold">Aucun department</span>
-            )}
-          </TableCell> */}
-
+           
             <TableCell className="text-center">
               {full === item.previleges.length ? (
                 <Badge type="success">{t("FULLACCESS")}</Badge>

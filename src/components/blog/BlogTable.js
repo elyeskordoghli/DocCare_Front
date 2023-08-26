@@ -100,28 +100,19 @@ const BlogTable = ({ data,setId,searchBlog, isCheck, setIsCheck, currency, lang,
 
             <TableCell>
               <div className="flex items-center">
-                {/* {data?.image ? ( */}
+             
                 <Avatar
                   className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
                   src={item?.image}
                   alt="Blog"
                 />
-                {/* ) : ( */}
-                {/* <Avatar */}
-                {/* //   src={`https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png`}
-                  //   alt="Service"
-                  // />
-                // ) */}
-                {/* } */}
                 <div>
                   <h2 className="text-sm font-medium">
                     {item.name}
                   </h2>
                 </div>
               </div>
-
             </TableCell>
-
             <TableCell>
               <span className="text-sm">
                 {item.owner}

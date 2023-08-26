@@ -124,19 +124,12 @@ const ServiceTable = ({
 
             <TableCell>
               <div className="flex items-center">
-                {/* {data?.image ? ( */}
+               
                 <Avatar
                   className="hidden p-1 mr-2 md:block bg-gray-50 shadow-none"
                   src={item?.image}
                   alt="Service"
                 />
-                {/* ) : ( */}
-                {/* <Avatar */}
-                {/* //   src={`https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png`}
-                  //   alt="Service"
-                  // />
-                // ) */}
-                {/* } */}
                 <div>
                   <h2 className="text-sm font-medium">
                     {item.title}
@@ -153,23 +146,9 @@ const ServiceTable = ({
 
             </TableCell>
 
-
-            {/* 
-            <TableCell>
-
-              <span className="text-sm ">
-                {item.short_description.length > 30
-                  ? item.short_description.substring(0, 30) + "..."
-                  : item.short_description}
-              </span>
-
-
-            </TableCell> */}
-
-
             <TableCell>
               <span className="text-sm">
-                <a href={item.catalogue}>{item.title} Catalogue</a>
+                <a href={item.catalogue}>{item.title} {t("Catalogue")}</a>
               </span>
             </TableCell>
             <TableCell>
@@ -180,7 +159,7 @@ const ServiceTable = ({
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={t("Details")}
+                  title={t("DetailsTbl")}
                   bgColor="#ff5a1f"
                 />
               </Link>

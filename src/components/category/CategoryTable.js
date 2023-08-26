@@ -27,19 +27,6 @@ const CategoryTable = ({
   data
 }) => {
   const { title, serviceId, handleModalOpen, handleUpdate} = useToggleDrawer();
-
-  // const handleClick = (e) => {
-  //   const { id, checked } = e.target;
-  //   setIsCheck([...isCheck, id]);
-  //   if (!checked) {
-  //     setIsCheck(isCheck.filter((item) => item !== id));
-  //   }
-  // };
-  
-
-
-
-
     const getCategory = async () => {
       try {
         const cat = await CategoryServices.getCategoryById(isCheck)
@@ -86,11 +73,6 @@ const CategoryTable = ({
         setIsLoading={setIsLoading} />
         </MainDrawer>
       )}
-
-      {/* <MainDrawer>
-        <CategoryDrawer id={serviceId} data={data} lang={lang} />
-      </MainDrawer> */}
-
       <TableBody>
         {data?.map((category) => (
           <TableRow key={category.id}>
@@ -115,20 +97,6 @@ const CategoryTable = ({
             <TableCell className="text-sm">
               {category?.slug}
             </TableCell>
-
-            {/* <TableCell>
-              {category?.projects ? (
-                <ul className="list-disc pl-6"> 
-                  {category.projects.map((project, index) => (
-                    <li key={index} className="text-sm ">
-                      {project.title}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <span className="text-sm font-semibold">Aucun privilège</span>
-              )}
-            </TableCell> */}
             <TableCell>
               <EditDeleteButton
                 id={category?.id}

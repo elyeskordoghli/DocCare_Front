@@ -216,16 +216,6 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
 
         {data?.map((item, i) => (
           <TableRow key={i + 1}>
-
-            {/* <TableCell>
-              <CheckBox
-                type="checkbox"
-                name={item.title_en}
-                id={item.id}
-                isChecked={isCheck?.includes(item.id)}
-                handleClick={handleClick}
-              />
-            </TableCell> */}
             <TableCell>
               <CheckBox
                 id={item.id}
@@ -267,26 +257,6 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
                 {item?.category ? item.category.name_en : "No Category"}
               </span>
             </TableCell>
-
-
-            {/* <TableCell className="truncate max-w-xs">
-              <span className="text-sm font-semibold">
-                {item.short_description.length > 30
-                  ? item.short_description.substring(0, 30) + "..."
-                  : item.short_description}
-              </span>
-            </TableCell> */}
-
-
-
-            {/* 
-            <TableCell >
-              <span className="text-sm font-semibold">
-              {data.description.length >20 ? data.description.substring(0,30) +"...": data.description}
-              </span>
-            </TableCell> */}
-
-
             <TableCell>
               <Link
                 to={`/project/${item.id}`}

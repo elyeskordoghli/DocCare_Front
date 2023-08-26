@@ -16,6 +16,7 @@ import useToggleDrawer from "hooks/useToggleDrawer";
 import { t } from "i18next";
 import { FiZoomIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { showingTranslateValue } from "utils/translate";
 import React, { useState, useEffect } from 'react'
 import DepartmentServices from "services/DepartementServices";
@@ -55,6 +56,7 @@ const DepartmentContactTable = ({ data, selectedDepart, isCheck, setIsCheck, cur
       });
   };
 
+  const { t } = useTranslation();
 
 
   const getDepartmentContact = async () => {
@@ -152,9 +154,9 @@ const DepartmentContactTable = ({ data, selectedDepart, isCheck, setIsCheck, cur
                       : ""
                   }`}
               >
-                <option className="text-black bg-white border-none" value="in progress">in progress</option>
-                <option className="text-black bg-white border-none" value="completed">completed</option>
-                <option className="text-black bg-white border-none" value="canceled">canceled</option>
+                <option className="text-black bg-white border-none" value="in progress">{t("inprogress")}</option>
+                <option className="text-black bg-white border-none" value="completed">{t("completed")}</option>
+                <option className="text-black bg-white border-none" value="canceled">{t("canceled")}</option>
               </select>
             </TableCell>
 
@@ -175,7 +177,7 @@ const DepartmentContactTable = ({ data, selectedDepart, isCheck, setIsCheck, cur
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={"Details"}
+                  title={t("DetailsTbl")}
                   bgColor="#10B981"
                 />
               </Link>

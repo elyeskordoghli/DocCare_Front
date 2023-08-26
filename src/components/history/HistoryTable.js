@@ -17,16 +17,6 @@ const HistoryTable = ({ data, isCheck, setIsCheck, currency, lang, isLoading, se
     handleUpdate,
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
-
-
- 
-
- 
-
-
-
-
-
   return (
     <>
   

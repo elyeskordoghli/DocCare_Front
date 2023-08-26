@@ -13,6 +13,8 @@ import DeleteButton from "components/table/DeleteButton";
 import ShowHideButton from "components/table/ShowHideButton";
 import Tooltip from "components/tooltip/Tooltip";
 import useToggleDrawer from "hooks/useToggleDrawer";
+import { useTranslation } from "react-i18next";
+
 import { t } from "i18next";
 import { FiZoomIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -32,6 +34,7 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
     // Destructurer d'autres valeurs ou fonctions nécessaires depuis useToggleDrawer si besoin 
   } = useToggleDrawer();
   const [status, setStatus] = useState("");
+  const { t } = useTranslation();
 
 
   console.log("id from quoteTable : ", serviceId);
@@ -163,9 +166,9 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
                         : ""
                   }`}
               >
-                <option className="text-black bg-white border-none" value="in progress">in progress</option>
-                <option className="text-black bg-white border-none" value="completed">completed</option>
-                <option className="text-black bg-white border-none" value="canceled">canceled</option>
+               <option className="text-black bg-white border-none" value="in progress">{t("inprogress")}</option>
+                <option className="text-black bg-white border-none" value="completed">{t("completed")}</option>
+                <option className="text-black bg-white border-none" value="canceled">{t("canceled")}</option>
               </select>
             </TableCell>
 
@@ -181,7 +184,7 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
                   ))}
                 </ul>
               ) : (
-                <span className="text-sm font-semibold">Aucun service</span>
+                <span className="text-sm font-semibold">{t("NoService")}</span>
               )}
             </TableCell>
 
@@ -195,7 +198,7 @@ const QuoteTable = ({ id, setId, data, searchQuote, isCheck, setIsCheck, currenc
                 <Tooltip
                   id="view"
                   Icon={FiZoomIn}
-                  title={"Details"}
+                  title={t("DetailsTbl")}
                   bgColor="#10B981"
                 />
               </Link>

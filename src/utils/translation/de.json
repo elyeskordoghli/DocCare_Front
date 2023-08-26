@@ -389,6 +389,7 @@
   "ThisOrderAlreadyHadReturnitems": "Cette commande a déjà des articles retournés !",
   "StaffPageTitle": "Tous les administrateurs",
   "AddAdmin": "Ajouter un administrateur",
+  "Resume" : "CV",
   "SearchAdmin": "Rechercher un administrateur",
   "LastLoginAt": "Dernière connexion le",
   "LastLoginIp": "Dernière adresse IP de connexion",
