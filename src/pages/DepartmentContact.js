@@ -172,7 +172,7 @@ console.log("ha : ",iddep);
   return (
     <>
       {isLoading ? <Loader /> : null}
-      <PageTitle>{"Departments Contact Page"}</PageTitle>
+      <PageTitle>{t("ContactPage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data?.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data?.title} setIsLoading={setIsLoading} />
 
@@ -226,7 +226,7 @@ console.log("ha : ",iddep);
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Department Contact"
+                placeholder={t("SearchDepartmentContact")}
                 onChange={handleSearchInputChange}
               />
               <button
@@ -243,7 +243,7 @@ console.log("ha : ",iddep);
                   {t("Status")}
                 </option>
                 <option value="All">{t("All")}</option>
-                <option value="in progress">{t("in progress")}</option>
+                <option value="in progress">{t("inprogress")}</option>
                 <option value="completed">{t("completed")}</option>
                 <option value="canceled">{t("canceled")}</option>
               </Select>
@@ -257,7 +257,7 @@ console.log("ha : ",iddep);
             value={selectedDepart}
           >
             <option value="All">
-              {t("All Departments")} 
+              {t("AllDepartments")} 
             </option>
             {/* <option value="All" defaultValue hidden>
               {t("All Departments")}
@@ -268,22 +268,6 @@ console.log("ha : ",iddep);
               </option>
             ))}
           </Select>
-
-
-
-
-              {/* <Select
-                onChange={handleStatusChange}
-                className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-              >
-                <option value="All" defaultValue hidden>
-                  {t("Department")}
-                </option>
-                <option value="All">{t("All")}</option>
-                <option value="in progress">{t("in progress")}</option>
-                <option value="completed">{t("completed")}</option>
-                <option value="canceled">{t("canceled")}</option>
-              </Select> */}
             </div>
 
           </form>
@@ -304,13 +288,13 @@ console.log("ha : ",iddep);
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Contact name"}</TableCell>
-                <TableCell>{"Contact Email"}</TableCell>
-                <TableCell>{"Contact Phone"}</TableCell>
-                <TableCell>{"Status"}</TableCell>
-                <TableCell>{"Contact Department"}</TableCell>
-                <TableCell className="text-center">{"Details"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell>{t("ContactNameTbl")}</TableCell>
+                <TableCell>{t("ContactEmailTbl")}</TableCell>
+                <TableCell>{t("ContactPhoneTbl")}</TableCell>
+                <TableCell>{t("StatusTbl")}</TableCell>
+                <TableCell>{t("ContactDepartmentTbl")}</TableCell>
+                <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <DepartmentContactTable

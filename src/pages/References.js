@@ -41,7 +41,7 @@ import ReferenceDrawer from "components/drawer/ReferenceDrawer";
 import Loader from 'components/loader/Loader';
 
 const References = () => {
-  const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
   const {
@@ -54,26 +54,26 @@ const References = () => {
     setCategory,
     searchRef,
     handleSubmitForAll,
-    sortedField, 
+    sortedField,
     setSortedField,
     limitData,
   } = useContext(SidebarContext);
   const [data, setData] = useState([]);
   const [searchReference, setSearchValue] = useState("");
-  const [isLoading, setIsLoading]=useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-   // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
-   const fetchReferences = async (isLoading,searchReference) => {
+  // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
+  const fetchReferences = async (isLoading, searchReference) => {
     try {
       let response;
       if (searchReference) {
         response = await ReferencesServices.searchReference(searchReference);
-      
 
-    }
-    else{
-      response = await ReferencesServices.getAllReferences();
-    }
+
+      }
+      else {
+        response = await ReferencesServices.getAllReferences();
+      }
       // Mettez à jour la variable data avec les données récupérées
       setData(response.data);
     } catch (error) {
@@ -83,22 +83,17 @@ const References = () => {
       setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
     }
   };
-  
+
   useEffect(() => {
-    fetchReferences(isLoading,searchReference); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-}, [isLoading,searchReference]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
-  
+    fetchReferences(isLoading, searchReference); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading, searchReference]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+
 
   const handleSearchInputChange = (e) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
-  // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  // const currency = globalSetting?.default_currency || "$";
-  // console.log("product page", data);
-
-  // react hooks
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
@@ -107,7 +102,7 @@ const References = () => {
     setIsCheck(data?.Services.map((li) => li._id));
     if (isCheckAll) {
       setIsCheck([]);
-    } 
+    }
   };
 
   // console.log('productss',products)
@@ -122,22 +117,22 @@ const References = () => {
 
   return (
     <>
-               {isLoading ? <Loader /> : null}
+      {isLoading ? <Loader /> : null}
 
-      <PageTitle>{"References Page"}</PageTitle>
+      <PageTitle>{t("ReferencesPage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
-        <ReferenceDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
+        <ReferenceDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
           <form
             onSubmit={handleSubmitForAll}
             className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6  xl:flex"
-          > 
+          >
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
                 title="References"
@@ -150,19 +145,6 @@ const References = () => {
               />
             </div>
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-              {/* <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
-                <Button
-                  disabled={isCheck.length < 1}
-                  onClick={() => handleUpdateMany(isCheck)}
-                  className="w-full rounded-md h-12 btn-gray text-gray-600 sm:mb-3"
-                >
-                  <span className="mr-2">
-                    <FiEdit />
-                  </span>
-                  {"BulkAction"}
-                </Button>
-              </div> */}
-
               <div className="w-full md:w-32 lg:w-32 xl:w-32 mr-3 mb-3 lg:mb-0">
                 <Button
                   disabled={isCheck?.length < 1}
@@ -173,7 +155,7 @@ const References = () => {
                     <FiTrash2 />
                   </span>
 
-                  {"Delete"}
+                  {t("Delete")}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -184,7 +166,7 @@ const References = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Reference"}
+                  {t("AddReference")}
                 </Button>
               </div>
             </div>
@@ -204,19 +186,19 @@ const References = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Reference"
-                onChange={handleSearchInputChange} 
+                placeholder={t("SearchReference")}
+                onChange={handleSearchInputChange}
               />
               <button
                 type="submit"
                 className="absolute right-0 top-0 mt-5 mr-1"
               ></button>
             </div>
-   </form>
+          </form>
         </CardBody>
       </Card>
 
-       {serviceData?.length !== 0 ? (
+      {serviceData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
@@ -230,9 +212,9 @@ const References = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Reference Name"}</TableCell>
-                <TableCell>{"Reference Working field"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell>{t("ReferenceName")}</TableCell>
+                <TableCell>{t("ReferenceWorkingField")}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <ReferenceTable
@@ -243,7 +225,7 @@ const References = () => {
               data={data}
               setIsCheck={setIsCheck}
               searchReference={searchReference}
-            /> 
+            />
           </Table>
           <TableFooter>
             <Pagination

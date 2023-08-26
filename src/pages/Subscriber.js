@@ -123,7 +123,7 @@ const Subscriber = () => {
   return (
     <>
       {isLoading ? <Loader /> : null}
-      <PageTitle>{"Subscriber Page"}</PageTitle>
+      <PageTitle>{t("SubscriberPage")}</PageTitle>
 
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
@@ -153,7 +153,7 @@ const Subscriber = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Subscriber"
+                placeholder={t("SearchSubscriber")}
                 onChange={handleSearchInputChange}
               />
               <button
@@ -180,9 +180,9 @@ const Subscriber = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Id"}</TableCell>
+                <TableCell>{t("ID")}</TableCell>
                 
-                <TableCell>{"Email"}</TableCell>
+                <TableCell>{t("EmailTbl")}</TableCell>
               </tr>
             </TableHeader>
             <SubscriberTable

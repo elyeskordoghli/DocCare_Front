@@ -39,7 +39,7 @@ import DepartmentTable from "components/department/DepartmentTable";
 import Loader from 'components/loader/Loader';
 
 const Departments = () => {
-  const { id,title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  const { id, title, subtitle, short_description, description, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
   const { t } = useTranslation();
   const {
@@ -57,22 +57,22 @@ const Departments = () => {
     limitData,
   } = useContext(SidebarContext);
 
-  
-  
+
+
   const [searchDepartment, setSearchValue] = useState("");
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
 
-  const fetchDepartments = async (isLoading,searchDepartment) => {
+  const fetchDepartments = async (isLoading, searchDepartment) => {
     try {
       let response;
       if (searchDepartment) {
         response = await DepartmentServices.searchDepartment(searchDepartment);
-    }
-    else{
-      response = await DepartmentServices.getAllDepartment();
-    }
+      }
+      else {
+        response = await DepartmentServices.getAllDepartment();
+      }
       // Mettez à jour la variable data avec les données récupérées
       setData(response.data);
     } catch (error) {
@@ -82,10 +82,10 @@ const Departments = () => {
       setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
     }
   };
-  
+
   useEffect(() => {
-    fetchDepartments(isLoading,searchDepartment); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
-}, [isLoading,searchDepartment]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
+    fetchDepartments(isLoading, searchDepartment); // Appelez la fonction fetchServices pour récupérer les projets au chargement du composant
+  }, [isLoading, searchDepartment]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
 
 
 
@@ -106,7 +106,7 @@ const Departments = () => {
     setIsCheck(data?.Services.map((li) => li._id));
     if (isCheckAll) {
       setIsCheck([]);
-    } 
+    }
   };
 
   const {
@@ -120,21 +120,21 @@ const Departments = () => {
 
   return (
     <>
-             {isLoading ? <Loader /> : null}
-      <PageTitle>{"Departments Page"}</PageTitle>
+      {isLoading ? <Loader /> : null}
+      <PageTitle>{t("DepartmentsPage")}</PageTitle>
       <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
       {/* <BulkActionDrawer ids={allId} data={data} title="Services" /> */}
       <MainDrawer>
-        <DepartmentDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck}/>
+        <DepartmentDrawer id={serviceId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
       </MainDrawer>
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody className="">
           <form
             onSubmit={handleSubmitForAll}
             className="py-3 md:pb-0 grid gap-4 lg:gap-6 xl:gap-6  xl:flex"
-          > 
+          >
             <div className="flex justify-start xl:w-1/2  md:w-full">
               <UploadManyTwo
                 title="Departments"
@@ -147,19 +147,6 @@ const Departments = () => {
               />
             </div>
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-              {/* <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
-                <Button
-                  disabled={isCheck.length < 1}
-                  onClick={() => handleUpdateMany(isCheck)}
-                  className="w-full rounded-md h-12 btn-gray text-gray-600 sm:mb-3"
-                >
-                  <span className="mr-2">
-                    <FiEdit />
-                  </span>
-                  {"BulkAction"}
-                </Button>
-              </div> */}
-
               <div className="w-full md:w-32 lg:w-32 xl:w-32 mr-3 mb-3 lg:mb-0">
                 <Button
                   disabled={isCheck?.length < 1}
@@ -170,7 +157,7 @@ const Departments = () => {
                     <FiTrash2 />
                   </span>
 
-                  {"Delete"}
+                  {t("Delete")}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -181,7 +168,7 @@ const Departments = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Department"}
+                  {t("AddDepartment")}
                 </Button>
               </div>
             </div>
@@ -201,15 +188,15 @@ const Departments = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search Department"
-                onChange={handleSearchInputChange} 
+                placeholder={t("SearchDepartment")}
+                onChange={handleSearchInputChange}
               />
               <button
                 type="submit"
                 className="absolute right-0 top-0 mt-5 mr-1"
               ></button>
             </div>
-   </form>
+          </form>
         </CardBody>
       </Card>
 
@@ -227,9 +214,9 @@ const Departments = () => {
                     handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{"Department title"}</TableCell>
-                <TableCell>{"Department Description"}</TableCell>
-                <TableCell className="text-right">{"Actions"}</TableCell>
+                <TableCell>{t("DepartmentTitleTbl")}</TableCell>
+                <TableCell>{t("DepartmentDescriptionTbl")}</TableCell>
+                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
             <DepartmentTable
@@ -242,7 +229,7 @@ const Departments = () => {
               // currency={currency}
               data={data}
               searchDepartment={searchDepartment}
-            /> 
+            />
           </Table>
           <TableFooter>
             <Pagination

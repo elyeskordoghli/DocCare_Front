@@ -53,29 +53,29 @@ const Staff = () => {
   const [full_access, setFullAccess] = useState(false);
 
 
-   const  fetchAdminAccess = async () => {
-      try {
-        const adminInfoString = Cookies.get("adminInfo");
-        if (adminInfoString) {
-          const adminInfo = JSON.parse(adminInfoString);
+  const fetchAdminAccess = async () => {
+    try {
+      const adminInfoString = Cookies.get("adminInfo");
+      if (adminInfoString) {
+        const adminInfo = JSON.parse(adminInfoString);
 
-          if (adminInfo && adminInfo.id) {
-            const response = await AdminServices.getStaffById(adminInfo.id);
+        if (adminInfo && adminInfo.id) {
+          const response = await AdminServices.getStaffById(adminInfo.id);
 
-            const adminAccess = response.data.full_access;
-            setFullAccess(adminAccess); // Utiliser le même nom d'état ici
-            console.log("user full_access", adminAccess);
-          } else {
-            console.log('ID de l\'admin non trouvé dans les informations');
-          }
+          const adminAccess = response.data.full_access;
+          setFullAccess(adminAccess); // Utiliser le même nom d'état ici
+          console.log("user full_access", adminAccess);
         } else {
-          console.log('Cookie adminInfo non trouvé');
+          console.log('ID de l\'admin non trouvé dans les informations');
         }
-      } catch (error) {
-        console.log('Erreur lors de la récupération d\'access', error);
+      } else {
+        console.log('Cookie adminInfo non trouvé');
       }
-    };
-    useEffect(() => {
+    } catch (error) {
+      console.log('Erreur lors de la récupération d\'access', error);
+    }
+  };
+  useEffect(() => {
     fetchAdminAccess();
   }, []);
 
@@ -184,7 +184,7 @@ const Staff = () => {
                     <FiTrash2 />
                   </span>
 
-                  {"Delete"}
+                  {t("Delete")}
                 </Button>
               </div>
               <div className="w-full md:w-48 lg:w-48 xl:w-48">
@@ -195,43 +195,13 @@ const Staff = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Add Admin"}
+                  {t("AddAdmin")}
                 </Button>
               </div>
             </div>
           </form>
         </CardBody>
       </Card>
-      {/* <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
-        <CardBody>
-         
-           <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
-             
-            </div>
-            <div className="w-full md:w-32 lg:w-32 xl:w-32 mr-3 mb-3 lg:mb-0">
-              <Button
-                disabled={isCheck?.length < 1}
-                onClick={() => handleDeleteMany(isCheck, data.products)}
-                className="w-full rounded-md h-12 bg-red-300 disabled btn-red"
-              >
-                <span className="mr-2">
-                  <FiTrash2 />
-                </span>
-
-                {"Delete"}
-              </Button>
-            </div>
-            <div className="w-full md:w-56 lg:w-56 xl:w-56">
-              <Button onClick={toggleDrawer} className="w-full rounded-md h-12">
-                <span className="mr-3">
-                  <FiPlus />
-                </span>
-                {t("AddStaff")}
-              </Button>
-            </div>
-          </form>
-        </CardBody>
-      </Card> */}
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 rounded-t-lg rounded-0 mb-4">
         <CardBody>
           <form
@@ -244,7 +214,7 @@ const Staff = () => {
                 className="border h-16 md:h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder={t("Search Admin")}
+                placeholder={t("SearchAdmin")}
                 onChange={handleSearchInputChange}
               />
               <button
@@ -269,16 +239,16 @@ const Staff = () => {
                   // handleClick={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>{t("Name")}</TableCell>
-                <TableCell>{t("Email")}</TableCell>
-                <TableCell>{t("Last login at")}</TableCell>
-                <TableCell>{t("Last login ip")}</TableCell>
-                <TableCell>{t("Status")}</TableCell>
+                <TableCell>{t("NameTbl")}</TableCell>
+                <TableCell>{t("EmailTbl")}</TableCell>
+                <TableCell>{t("LastLoginAt")}</TableCell>
+                <TableCell>{t("LastLoginIp")}</TableCell>
+                <TableCell>{t("StatusTbl")}</TableCell>
                 {/* <TableCell className="text-center">{t("OderStatusTbl")}</TableCell>
                 <TableCell className="text-center">{t("PublishedTbl")}</TableCell>*/}
 
                 <TableCell>{t("Previleges")}</TableCell>
-                <TableCell>{t("Department")}</TableCell>
+                <TableCell>{t("DepartmentTbl")}</TableCell>
                 <TableCell className="text-right">{t("StaffActionsTbl")}</TableCell>
               </tr>
             </TableHeader>

@@ -47,7 +47,7 @@ const SlidersDetails = () => {
         <SliderDrawer id={id} setIsCheck={setIsCheck} setIsLoading={setIsLoading} isLoading={isLoading} isCheck={isCheck} />
       </MainDrawer>
 
-      <PageTitle>{"Slider Details"}</PageTitle>
+      <PageTitle>{t("SliderDetails")}</PageTitle>
       {loading ? (
         <Loading loading={loading} />
       ) : (
@@ -59,13 +59,13 @@ const SlidersDetails = () => {
               <div className="mb-5 ml-10 block ">
 
                 <p className="uppercase font-bold text-lg mb-6 text-gray-500 dark:text-gray-400 ">
-                  {"Slider title"} :{" "}
+                  {t("SliderTitle")} :{" "}
                   <span className="font-bold text-gray-500 dark:text-gray-500">
                     {data?.title}
                   </span>
                 </p>
                 <p className="uppercase font-bold text-lg  text-gray-500 dark:text-gray-400 ">
-                  {"Slider video youtube"} :{" "}
+                  {t("SliderYoutubeVideo")} :{" "}
                   <span className="font-bold text-gray-500 dark:text-gray-500">
                     {data?.id_video_youtube}
                   </span>
@@ -76,7 +76,7 @@ const SlidersDetails = () => {
             <div className="w-full flex flex-col p-5 md:p-8 text-left">
               <div className="font-serif product-price  dark:text-gray-400">
                 <p className="   text-gray-500 dark:text-gray-400 text-sm">
-                  <div className="uppercase p-4 font-bold" >{"Slider subtitle"} :{" "} </div>
+                  <div className="uppercase p-4 font-bold" >{t("SliderSubtitle")} :{" "} </div>
 
                   <div
                     className=" text-gray-500 dark:text-gray-400 font-sans"
@@ -89,7 +89,7 @@ const SlidersDetails = () => {
               </div>
               <div className="font-serif product-price  dark:text-gray-400">
                 <p className="   text-gray-500 dark:text-gray-400 text-sm">
-                  <div className="uppercase p-4 font-bold" >{"Slider description"} :{" "} </div>
+                  <div className="uppercase p-4 font-bold" >{t("SliderDescription")} :{" "} </div>
 
                   <div
                     className=" text-gray-500 dark:text-gray-400 font-sans"
@@ -106,7 +106,7 @@ const SlidersDetails = () => {
                   onClick={() => handleUpdate(data.id)}
                   className="cursor-pointer leading-5 transition-colors duration-150 font-medium text-sm focus:outline-none px-5 py-2 rounded-md text-white bg-orange-500 border border-transparent active:bg-orange-600 hover:bg-orange-600 focus:ring focus:ring-purple-300"
                 >
-                  {"Edit Slider"}
+                  {t("EditSlider")}
                 </button>
               </div>
             </div>

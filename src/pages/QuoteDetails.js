@@ -47,7 +47,7 @@ const QuoteDetails = () => {
     <>
 
 
-      <PageTitle>{"Quote  Details"}</PageTitle>
+      <PageTitle>{t("QuoteDetails")}</PageTitle>
       {loading ? (
         <Loading loading={loading} />
       ) : (
@@ -56,7 +56,7 @@ const QuoteDetails = () => {
             <TableBody className="bg-gray-50 border-0">
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>First Name:</strong>
+                  <strong>{t("FirstName")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.first_name}</span>
@@ -64,7 +64,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Last Name:</strong>
+                  <strong>{t("LastName")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.last_name}</span>
@@ -72,7 +72,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Email:</strong>
+                  <strong>{t("Email")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.email}</span>
@@ -80,7 +80,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Phone:</strong>
+                  <strong>{t("Phone")}:</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.phone}</span>
@@ -88,7 +88,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Company :</strong>
+                  <strong>{t("Company")} :</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.company}</span>
@@ -96,7 +96,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Site Address :</strong>
+                  <strong>{t("SiteAddress")} :</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.site_address}</span>
@@ -104,7 +104,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>City  :</strong>
+                  <strong>{t("City")} :</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.city}</span>
@@ -112,7 +112,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>State  :</strong>
+                  <strong>{t("State")}  :</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.state}</span>
@@ -120,7 +120,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>ZIP  :</strong>
+                  <strong>{t("ZIP")}  :</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.zip}</span>
@@ -128,7 +128,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Country  :</strong>
+                  <strong>{t("Country")} :</strong>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm ">{data?.country}</span>
@@ -136,7 +136,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className="font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Message:</strong>
+                  <strong>{t("Message")} :</strong>
                 </TableCell>
                 <TableCell>
                   {data?.message && (
@@ -153,7 +153,7 @@ const QuoteDetails = () => {
               </TableRow>
               <TableRow >
                 <TableCell className=" font-bold text-lg mb-6 text-gray-500 dark:text-gray-400">
-                  <strong>Service :</strong>
+                  <strong>{t("Service")} :</strong>
                 </TableCell>
                 <TableCell>
                   {data?.services ? (
@@ -165,7 +165,7 @@ const QuoteDetails = () => {
                       ))}
                     </ul>
                   ) : (
-                    <span className="text-sm font-semibold">Aucun service</span>
+                    <span className="text-sm font-semibold">{t("NoService")}</span>
                   )}
                 </TableCell>
               </TableRow>
