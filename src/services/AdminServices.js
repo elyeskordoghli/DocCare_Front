@@ -2,11 +2,11 @@ import requests from "./httpService";
 
 const AdminServices = {
   registerAdmin: async (body) => {
-    return requests.post("/admin/register", body);
+    return requests.post("/Doctor/NewDoctorSignUp", body);
   },
 
   loginAdmin: async (body) => {
-    return requests.post(`/admin/admin/login`, body);
+    return requests.post(`/Doctor/Login`, body);
   },
   logoutAdmin: async (body) => {
     return requests.post(`/admin/admin/logout`, body);
@@ -19,9 +19,9 @@ const AdminServices = {
     return requests.put("/admin/reset-password", body);
   },
 
-  // signUpWithProvider: async (body) => {
-  //   return requests.post("/admin/signup", body);
-  // },
+  signUpWithProvider: async (body) => {
+    return requests.post("/admin/signup", body);
+  },
 
   addStaff: async (body) => {
     return requests.post("/admin/store", body);
