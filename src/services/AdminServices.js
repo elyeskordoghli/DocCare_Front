@@ -2,11 +2,11 @@ import requests from "./httpService";
 
 const AdminServices = {
   registerAdmin: async (body) => {
-    return requests.post("/Doctor/NewDoctorSignUp", body);
+    return requests.post("/admin/register", body);
   },
 
   loginAdmin: async (body) => {
-    return requests.post(`/Doctor/Login`, body);
+    return requests.post(`/admin/admin/login`, body);
   },
   logoutAdmin: async (body) => {
     return requests.post(`/admin/admin/logout`, body);
