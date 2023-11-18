@@ -27,7 +27,7 @@ const useLoginSubmit = () => {
             setLoading(false);
             notifySuccess('Login Success!');
             dispatch({ type: 'USER_LOGIN', payload: res });
-            Cookies.set('adminInfo', JSON.stringify(res.Admin), {
+            Cookies.set('adminInfo', JSON.stringify(res.admin), {
               expires: cookieTimeOut,
             });
     

@@ -22,6 +22,7 @@ import React, { useState, useEffect } from 'react'
 import { useAsync } from "hooks/useAsync";
 import CategoryServices from "services/CategoryServices";
 import Loader from 'components/loader/Loader';
+import PatientDrawer from "components/drawer/PatientDrawer";
 
 //internal import 
 
@@ -192,7 +193,7 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
   
       {isCheck?.length < 2 && (
         <MainDrawer>
-          <ProjectDrawer 
+          <PatientDrawer 
             id={serviceId}
             isLoading={isLoading} // Passer la variable isLoading
             setIsLoading={setIsLoading}
@@ -283,7 +284,7 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
                 handleClick={handleClick}
                 handleUpdate={handleUpdate}
                 handleModalOpen={beforeHandleModalOpen}
-                title={showingTranslateValue(item?.title, lang)}
+                title={showingTranslateValue(item?.nom, lang)}
               />
 
             </TableCell>

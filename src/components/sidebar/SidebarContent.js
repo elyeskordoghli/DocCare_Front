@@ -24,32 +24,32 @@ const SidebarContent = () => {
 
   const [adminprevilegesList, setAdminprevilegesList] = useState([]);
 
-  useEffect(() => {
-    async function fetchAdminprevileges() {
-      try {
-        const adminInfoString = Cookies.get("adminInfo");
+  // useEffect(() => {
+  //   async function fetchAdminprevileges() {
+  //     try {
+  //       const adminInfoString = Cookies.get("adminInfo");
   
-        if (adminInfoString) {
-          const adminInfo = JSON.parse(adminInfoString);
+  //       if (adminInfoString) {
+  //         const adminInfo = JSON.parse(adminInfoString);
   
-          if (adminInfo && adminInfo.id) {
-            const response = await AdminServices.getStaffById(adminInfo.id);
+  //         if (adminInfo && adminInfo.id) {
+  //           const response = await AdminServices.getStaffById(adminInfo.id);
   
-            const adminprevileges = response.data.previleges.map(obj => { return obj.slug });
-            setAdminprevilegesList(adminprevileges);
-          } else {
-            console.log('ID de l\'admin non trouvé dans les informations');
-          }
-        } else {
-          console.log('Cookie adminInfo non trouvé');
-        }
-      } catch (error) {
-        console.log('Erreur lors de la récupération des privilèges', error);
-      }
-    }
+  //           const adminprevileges = response.data.previleges.map(obj => { return obj.slug });
+  //           setAdminprevilegesList(adminprevileges);
+  //         } else {
+  //           console.log('ID de l\'admin non trouvé dans les informations');
+  //         }
+  //       } else {
+  //         console.log('Cookie adminInfo non trouvé');
+  //       }
+  //     } catch (error) {
+  //       console.log('Erreur lors de la récupération des privilèges', error);
+  //     }
+  //   }
   
-    fetchAdminprevileges();
-  }, []);
+  //   fetchAdminprevileges();
+  // }, []);
   
   const handleLogOut = async () => {
     try {
@@ -98,9 +98,7 @@ const SidebarContent = () => {
                   <span className="ml-4  hover:text-orange-500" >{t(`${route.name}`)}</span>
                 </a>
               ) : (
-                ( !route.previleges || route.previleges.some((previlege) =>
-                  adminprevilegesList.includes(previlege)
-                ) ) && (
+                 (
                   <NavLink
                     exact
                     to={route.path}

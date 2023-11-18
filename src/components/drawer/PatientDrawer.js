@@ -19,7 +19,6 @@ import "react-responsive-modal/styles.css";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
-
 import useProjectSubmit from "hooks/useProjectSubmit";
 import ProjectServices from "services/ProjectServices";
 import UploaderThree from "components/image-uploader/UploaderThree";
@@ -46,11 +45,12 @@ import axios from "axios";
 import CategoryServices from "services/CategoryServices";
 import SelectCategory from "components/form/SelectCategory";
 import SelectReferences from "components/form/SelectReferences";
-       
+import PatientServices from "services/PatientServices";
+
 
 //internal import
 
-const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,References,categories, isCheck, setIsCheck }) => {
+const PatientDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,References,categories, isCheck, setIsCheck }) => {
   const { t } = useTranslation();
 
   const {
@@ -97,6 +97,8 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
 
 
+  
+
   const currency = globalSetting?.default_currency || "$";
 
   const [imageUrl, setImageUrl] = useState("");
@@ -129,7 +131,14 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
   const [slug_ar, setSlug_ar] = useState("");
 
 
-
+//les states du patient : 
+const [nom , setNom]=useState("");
+const [prenom , setPrenom]=useState("");
+const [DateN , setDateN]=useState("");
+const [Adresse , setAdresse]=useState("");
+const [Num , setNum]=useState("");
+const [DossMedical,setDMedical]=useState("");
+//fin des states du patient . 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
 
@@ -140,33 +149,20 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
     };
     setCategory(categories);
 
-    const formData = new FormData();
+    
+      const formData = {
+        nom: nom,
+        prenom: prenom,
+        DateN: DateN,
+        Adresse: Adresse,
+        Num: Num,
+        DossMedical: DossMedical,
+      };
+    
 
-    formData.append('title_en', title_en);
-    formData.append('subtitle_en', SubTitle_en);
-    formData.append('short_description_en', Short_Description_en);
-    formData.append('description_en', description_en);
-    formData.append('seo_description_en', Seo_Description_en);
-    formData.append('slug_en', title_en);
+    
 
-    formData.append('title_fr', title_fr);
-    formData.append('subtitle_fr', subtitle_fr);
-    formData.append('short_description_fr', Short_Description_fr);
-    formData.append('description_fr', Description_fr);
-    formData.append('seo_description_fr', Seo_Description_fr);
-    formData.append('slug_fr', title_fr);
 
-    formData.append('title_ar', title_ar);
-    formData.append('subtitle_ar', SubTitle_ar);
-    formData.append('short_description_ar', Short_Description_ar);
-    formData.append('description_ar', description_ar);
-    formData.append('seo_description_ar', seo_description_ar);
-    formData.append('slug_ar', title_ar);
-
-    formData.append('seo_keywords', Seo_Keywords);
-    formData.append('reference_id', selectedReference);
-    formData.append('category_id', selectedCategory);
-    formData.append('image', imageUrl);
 
     const handleSubmitClick = () => {
       // Place your submission logic here
@@ -176,7 +172,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
       if (id == null) {
         setIsLoading(true);
 
-        const res = await ProjectServices.addProject(formData, {
+        const res = await PatientServices.addPatient(formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -217,39 +213,14 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
   const initFormForUpdate = async (id) => {
     setIsLoading(true);
-    const res = await ProjectServices.getProjectById(id);
+    const res = await PatientServices.Details(id);
     setIsLoading(false);
-    setTitle_en(res.data.title_en);
-    setSubtitle_en(res.data.subtitle_en);
-    setShort_description_en(res.data.short_description_en);
-    setDescription_en(res.data.description_en);
-    setSeo_description_en(res.data.seo_description_en);
-    setSlug_en(res.data.title_en);
-
-    setTitle_fr(res.data.title_fr);
-    setSubtitle_fr(res.data.subtitle_fr);
-    setShort_description_fr(res.data.short_description_fr);
-    setDescription_fr(res.data.description_fr);
-    setSeo_description_fr(res.data.seo_description_fr);
-    setSlug_fr(res.data.title_fr);
-
-    setTitle_ar(res.data.title_ar);
-    setSubtitle_ar(res.data.subtitle_ar);
-    setShort_description_ar(res.data.short_description_ar);
-    setDescription_ar(res.data.description_ar);
-    setSeo_description_ar(res.data.seo_description_ar);
-    setSlug_ar(res.data.title_ar);
-
-    setSeo_keywords(res.data.seo_keywords);
-    setSelectedReferences(res.data.reference_id);
-    setSelectedCategory(res.data.category_id);
-
-
-    setImageUrl(res.data.image);
-    setImageBinary(res.data.image);
-    setOldImageUrl(res.data.image)
-
-
+    setNom(res.data.nom);
+    setPrenom(res.data.prenom);
+    setDateN(res.data.DateN);
+    setAdresse(res.data.description_en);
+    setNum(res.data.Adresse);
+    setDMedical(res.data.Num);
   };
 
   useEffect(() => {
@@ -259,34 +230,16 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
     } else {
 
-      setTitle_en("");
-      setSubtitle_en("");
-      setShort_description_en("");
-      setDescription_en("");
-      setSeo_description_en("");
-      setSlug_en("");
+     
 
-      setTitle_fr("");
-      setSubtitle_fr("");
-      setShort_description_fr("");
-      setDescription_fr("");
-      setSeo_description_fr("");
-      setSlug_fr("");
+setNom("");
+setPrenom("");
+setDateN("");
+setAdresse("");
+setNum("");
+setDMedical("");
 
-      setTitle_ar("");
-      setSubtitle_ar("");
-      setShort_description_ar("");
-      setDescription_ar("");
-      setSeo_description_ar("");
-      setSlug_ar("");
-
-      setSeo_keywords();
-      setSelectedReferences();
-      setSelectedCategory();
-      
-      setImageUrl("");
-      setImageBinary("");
-      setOldImageUrl("")
+    
 
     }
   }, [id]);
@@ -421,12 +374,12 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
                 <div className="col-span-8 sm:col-span-4">
                   <Input
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title_en"
+                    name="nom"
                     type="text"
                     placeholder={"Nom du patien  "}
 
-                    onChange={(e) => setTitle_en(e.target.value)}
-                    value={title_en}
+                    onChange={(e) => setNom(e.target.value)}
+                    value={nom}
                   />
                   <Error errorName={errors.title_en} />
                 </div>
@@ -434,36 +387,36 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Prenom Project Drawer  : "} />
+                <LabelArea label={"Prenom  : "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
 
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="SubTitle_en"
+                    name="prenom"
                     id="SubTitle_en"
                     type="text"
                     placeholder={"Prenom du patien  "}
-                    onChange={(e) => setSubtitle_en(e.target.value)}
-                    value={SubTitle_en}
+                    onChange={(e) => setPrenom(e.target.value)}
+                    value={prenom}
                   />
                   <Error errorName={errors.SubTitle_en} />
                 </div>
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"date de naissance :  "} />
+                <LabelArea label={"Prenom  : "} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Textarea
-                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                  <Input
 
-                    name="Short_Description_en"
-                    placeholder={"  "}
-                    rows="4"
-                    spellCheck="false"
-                    onChange={(e) => setShort_description_en(e.target.value)}
-                    value={Short_Description_en}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    name="Date de naissance"
+                    id="DateN"
+                    type="text"
+                    placeholder={"Date de naissance "}
+                    onChange={(e) => setDateN(e.target.value)}
+                    value={DateN}
                   />
-                  <Error errorName={errors.Short_Description_en} />
+                  <Error errorName={errors.SubTitle_en} />
                 </div>
               </div>
 
@@ -473,12 +426,12 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
                   <Textarea
                     className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
 
-                    name="description_en"
+                    name="Adresse"
                     placeholder={"Adresse : "}
                     rows="4"
                     spellCheck="false"
-                    onChange={(e) => setDescription_en(e.target.value)}
-                    value={description_en}
+                    onChange={(e) => setAdresse(e.target.value)}
+                    value={Adresse}
                   />
                   <Error errorName={errors.description_en} />
                 </div>
@@ -489,12 +442,12 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
                 <div className="col-span-8 sm:col-span-4">
                   <Input
 
-                    name="Seo_Keywords"
+                    name="Num"
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     type="text"
                     placeholder={"Numero de telephone  "}
-                    onChange={(e) => setSeo_keywords(e.target.value)}
-                    value={Seo_Keywords}
+                    onChange={(e) => setNum(e.target.value)}
+                    value={Num}
                   />
                   <Error errorName={errors.Seo_Keywords} />
                 </div>
@@ -512,17 +465,11 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
                     name="imageUrl"
                     type="file"
                     placeholder={"Image "}
-                    onChange={(e) => { setImageUrl(e.target.files[0]) }}
+                    onChange={(e) => { setDMedical(e.target.files[0]) }}
 
                   />
                   <Error errorName={errors.imageUrl} />
-                  {imageUrl && (
-                    <img
-                      src={oldImageUrl} // Utiliser l'URL existante pour afficher l'image
-                      alt="Old Image"
-                      style={{ maxWidth: '100px', marginTop: '10px' }}
-                    />
-                  )}
+                  
                 </div>
               </div> 
 
@@ -889,7 +836,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
             <DrawerButton
               id={id}
               save
-              title="Project "
+              title="Patient"
               isSubmitting={isSubmitting}
               handleProjectTap={handleProjectTap}
              />
@@ -901,7 +848,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
             id ? (
               <>
                 {tapValue === "Anglais" && (
-                  <DrawerButton id={id} title="Submit" value="Submit" onClick={isSubmitting} />
+                  <DrawerButton id={id} title="Patient" value="aaaa" onClick={handleSubmit} />
                 )}
                 {/* {tapValue === "French" && (
                   <DrawerButton id={id} title="Next" value="submit" onClick={handleNextClick} />
@@ -913,7 +860,7 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
             ) : (
               <>
                 {tapValue === "Anglais" && (
-                  <DrawerButton id={id} title="Submit" value="Submit" onClick={isSubmitting} />
+                  <DrawerButton id={id} title="Patient" value="aaaa" onClick={handleSubmit} />
                 )}
                 {/* {tapValue === "French" && (
                   <DrawerButton id={id} title="Next" value="next" onClick={handleNextClick} />
@@ -975,4 +922,4 @@ const ProjectDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
   );
 };
 
-export default React.memo(ProjectDrawer);
+export default React.memo(PatientDrawer);

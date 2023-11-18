@@ -36,8 +36,8 @@ const sidebar = [
 
   {
     icon: FiSlack,
-    name: "Projects",
-    path: "/projects",
+    name: "Les patients",
+    path: "/Patients",
     previleges: ["view_project", "view_any_project","create_project","update_project","delete_project"],
 
   },

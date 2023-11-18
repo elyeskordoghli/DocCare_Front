@@ -22,10 +22,9 @@ import UploadManyTwo from "components/common/UploadManyTwo";
 import NotFound from "components/table/NotFound";
 import PageTitle from "components/Typography/PageTitle";
 import { SidebarContext } from "context/SidebarContext";
-import ProjectTable from "components/project/ProjectTable";
 import SelectCategory from "components/form/SelectCategory";
 import MainDrawer from "components/drawer/MainDrawer";
-import ProjectDrawer from "components/drawer/ProjectDrawer";
+
 import CheckBox from "components/form/CheckBox";
 import useProductFilter from "hooks/useProductFilter";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
@@ -37,7 +36,16 @@ import ProjectServices from "services/ProjectServices";
 import CategoryServices from "services/CategoryServices";
 import Loader from 'components/loader/Loader';
 import ReferencesServices from "services/ReferencesServices";
-const Projects = () => {
+
+
+//nouvelle importation : 
+import PatientTable from "components/Patient/PatientTable";
+import PatientDrawer from "components/drawer/PatientDrawer";
+import PatientServices from "services/PatientServices";
+
+
+
+const Patient = () => {
   const { allId, serviceId, handleDeleteMany } =
     useToggleDrawer();
 
@@ -49,7 +57,6 @@ const Projects = () => {
     // searchText,
     searchRef,
     handleSubmitForAll,
-
     limitData,
   } = useContext(SidebarContext);
 
@@ -70,42 +77,41 @@ const Projects = () => {
   }
 
 
-  useEffect(() => {
-    loading()
-  }, []);
+  
 
 
 
   //---------------------------------------------------------
-  const fetchProjects = async (selectedCategory, search) => {
+  const fetchPatients = async () => {
     try {
       let response;
-
-      if (selectedCategory === "All" && !search) {
-
-
-        // Si la catégorie sélectionnée est "All", récupérer tous les projets
-        response = await ProjectServices.getAllProjects();
-
-      }
-      else if (search && selectedCategory) {
-
-        // console.log("hihihi : ",selectedCategory);
-
-        response = await ProjectServices.search(search, selectedCategory);
-
-
-      } else if (selectedCategory !== "All") {
-
-        response = await ProjectServices.getProjectByCategoryId(selectedCategory);
-
-      }
-
-
+      response = await PatientServices.getAllPatients();
       setData(response.data);
+    //   if (selectedCategory === "All" && !search) {
+
+
+    //     // Si la catégorie sélectionnée est "All", récupérer tous les projets
+    //     response = await PatientServices.getAllPatients();
+
+    //   }
+    //   else if (search && selectedCategory) {
+
+    //     // console.log("hihihi : ",selectedCategory);
+
+    //     //response = await ProjectServices.search(search, selectedCategory);
+
+
+    //   } else if (selectedCategory !== "All") {
+
+    //    // response = await ProjectServices.getProjectByCategoryId(selectedCategory);
+
+    //   }
+
+
+      
       // console.log("data new data : ",response.data)
     } catch (error) {
-      console.error("Erreur lors de la récupération des projets :", error);
+      console.error("Erreur lors de la récupération des patients :", error);
     }
     finally {
       setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
@@ -113,8 +119,11 @@ const Projects = () => {
   };
 
   useEffect(() => {
-    fetchProjects(selectedCategory, search);
-  }, [selectedCategory, isLoading, search]);
+    fetchPatients();
+    loading();
+  }, [isLoading]);
+
+
   //---------------------------------------------------------
 
 
@@ -123,39 +132,39 @@ const Projects = () => {
 
 
 
-  const getReferencesData = async () => {
-    try {
-      const res = await ReferencesServices.getAllReferences();
-      // Mettez à jour le state avec les départements récupérés depuis l'API
-      setReference(res.data);
+//   const getReferencesData = async () => {
+//     try {
+//       const res = await ReferencesServices.getAllReferences();
+//       // Mettez à jour le state avec les départements récupérés depuis l'API
+//       setReference(res.data);
 
-    } catch (err) {
-      console.log(err ? err?.response?.data?.message : err?.message);
+//     } catch (err) {
+//       console.log(err ? err?.response?.data?.message : err?.message);
 
-    }
-  }
+//     }
+//   }
 
-  const getCategoriesData = async () => {
-    try {
-      const res = await CategoryServices.getAllCategories();
-      // Mettez à jour le state avec les départements récupérés depuis l'API
-      setCategory(res.data);
-    } catch (err) {
-      console.log(err ? err?.response?.data?.message : err?.message);
-    }
-  }
+//   const getCategoriesData = async () => {
+//     try {
+//       const res = await CategoryServices.getAllCategories();
+//       // Mettez à jour le state avec les départements récupérés depuis l'API
+//       setCategory(res.data);
+//     } catch (err) {
+//       console.log(err ? err?.response?.data?.message : err?.message);
+//     }
+//   }
 
 
-  useEffect(() => {
-    getCategoriesData();
-    getReferencesData();
-  }, []);
+//   useEffect(() => {
+//     getCategoriesData();
+//     getReferencesData();
+//   }, []);
 
 
   // console.log("categories project",categories)
 
-  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
-  const currency = globalSetting?.default_currency || "$";
+//   const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
+//   const currency = globalSetting?.default_currency || "$";
 
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
@@ -188,17 +197,18 @@ const Projects = () => {
     handleRemoveSelectFile,
   } = useProductFilter(data);
 
+  console.log('Patients lkol  mel patient: ',data)
 
   return (
     <>
       {isLoading ? <Loader /> : null}
 
-      <PageTitle>{"Toutes les consultations"}</PageTitle>
-      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} isLoading={isLoading} setIsLoading={setIsLoading} title={data.title} />
-      <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} setIsCheck={setIsCheck} />
-      <BulkActionDrawer ids={allId} title="Projects" />
+      <PageTitle>{"Toutes les patients"}</PageTitle>
+      <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} isLoading={isLoading} setIsLoading={setIsLoading}  />
+      <MainModal id={isCheck}  setIsLoading={setIsLoading} setIsCheck={setIsCheck} />
+      <BulkActionDrawer ids={allId} title="Patients" />
       <MainDrawer>
-        <ProjectDrawer
+        <PatientDrawer
         // id={serviceId}  
         // isLoading={isLoading} // Passer la variable isLoading
         // setIsLoading={setIsLoading} 
@@ -252,7 +262,7 @@ const Projects = () => {
                   <span className="mr-2">
                     <FiPlus />
                   </span>
-                  {"Ajouter une consultation"}
+                  {" Add patient "}
                 </Button>
               </div>
             </div>
@@ -321,10 +331,12 @@ const Projects = () => {
                 <TableCell className="text-center">{"Adresse"}</TableCell>
                 <TableCell className="text-right">{"Numero de telephone"}</TableCell>
                 <TableCell className="text-right">{"Dossier Medical"}</TableCell>
+                <TableCell className="text-right">{"Action"}</TableCell>
+
 
               </tr>
             </TableHeader>
-            <ProjectTable
+            <PatientTable
               categories={categories}
               References={References}
               setCategory={setCategory}
@@ -333,7 +345,6 @@ const Projects = () => {
               isCheck={isCheck}
               data={data}
               setIsCheck={setIsCheck}
-              currency={currency}
               selectedCategory={selectedCategory}
               setIsLoading={setIsLoading}
               isLoading={isLoading}
@@ -359,6 +370,6 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default Patient;
 
 
