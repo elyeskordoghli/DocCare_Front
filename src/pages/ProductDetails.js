@@ -167,7 +167,7 @@ const ProductDetails = () => {
               id="edit"
               Icon={FiEdit}
               title={t("Edit")}
-              bgColor="#ff5a1f"
+              bgColor="#1a5184"
             />
           </button>
               </div>

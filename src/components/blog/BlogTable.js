@@ -134,7 +134,7 @@ const BlogTable = ({ data,setId,searchBlog, isCheck, setIsCheck, currency, lang,
                   id="view"
                   Icon={FiZoomIn}
                   title={t("DetailsTbl")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
             </TableCell>

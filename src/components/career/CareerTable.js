@@ -144,7 +144,7 @@ const CareerTable = ({ setId,data, searchCareer, isCheck, setIsCheck, currency, 
                   id="view"
                   Icon={FiZoomIn}
                   title={t("DetailsTbl")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
             </TableCell>

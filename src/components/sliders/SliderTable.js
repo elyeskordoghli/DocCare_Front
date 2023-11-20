@@ -130,7 +130,7 @@ const SliderTable = ({ data, isCheck, setIsCheck, currency, lang, isLoading, set
                   id="view"
                   Icon={FiZoomIn}
                   title={t("DetailsTbl")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
             </TableCell>

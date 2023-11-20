@@ -85,6 +85,8 @@ const useFilter = (data) => {
   const [delivered, setDelivered] = useState([]);
   const [status, setStatus] = useState("");
   const [role, setRole] = useState("");
+  const [genre, setGenre] = useState("");
+
   const [time, setTime] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [dataTable, setDataTable] = useState([]); //tableTable for showing on table according to filtering
@@ -759,6 +761,7 @@ const useFilter = (data) => {
     setSortedField,
     setStatus,
     setRole,
+    setGenre,
     time,
     setTime,
     handleChangePage,

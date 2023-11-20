@@ -49,7 +49,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={"View"}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -62,7 +62,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -76,7 +76,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -99,7 +99,6 @@ const EditDeleteButton = ({
       </>
     );
   }
-
 
 
 
@@ -117,7 +116,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={"View"}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -130,7 +129,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -144,7 +143,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -152,7 +151,7 @@ const EditDeleteButton = ({
           <button
 
             // disabled={isCheck?.length > 0}
-            onClick={() => handleModalOpen(id, title, slider)}
+            onClick={() => handleModalOpen(id, title, count)}
             className="p-2 cursor-pointer text-gray-400 hover:text-red-600 focus:outline-none"
           >
             <Tooltip
@@ -167,7 +166,6 @@ const EditDeleteButton = ({
       </>
     );
   }
-
 
 
 
@@ -186,7 +184,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={"View"}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -199,7 +197,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -213,7 +211,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -253,7 +251,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={"View"}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -266,7 +264,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -280,7 +278,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -320,7 +318,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={t("View")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -333,7 +331,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -347,7 +345,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -385,7 +383,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={t("View")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -398,7 +396,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -412,7 +410,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -450,7 +448,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={t("View")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -463,7 +461,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -477,7 +475,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -515,7 +513,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={t("View")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -528,7 +526,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -542,7 +540,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -580,7 +578,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={"View"}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -593,7 +591,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -607,7 +605,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}
@@ -646,7 +644,7 @@ const EditDeleteButton = ({
                     id="view"
                     Icon={FiZoomIn}
                     title={"View"}
-                    bgColor="#ff5a1f"
+                    bgColor="#1a5184"
                   />
                 </Link>
     
@@ -659,7 +657,7 @@ const EditDeleteButton = ({
                     id="edit"
                     Icon={FiEdit}
                     title={t("Edit")}
-                    bgColor="#ff5a1f"
+                    bgColor="#1a5184"
                   />
                 </button>
               </>
@@ -673,7 +671,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             )}
@@ -712,7 +710,7 @@ const EditDeleteButton = ({
                 id="view"
                 Icon={FiZoomIn}
                 title={"View"}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </Link>
 
@@ -725,7 +723,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           </>
@@ -739,7 +737,7 @@ const EditDeleteButton = ({
               id="edit"
               Icon={FiEdit}
               title={t("Edit")}
-              bgColor="#ff5a1f"
+              bgColor="#1a5184"
             />
           </button>
         )}
@@ -776,7 +774,7 @@ const EditDeleteButton = ({
                   id="view"
                   Icon={FiZoomIn}
                   title={"View"}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </Link>
   
@@ -789,7 +787,7 @@ const EditDeleteButton = ({
                   id="edit"
                   Icon={FiEdit}
                   title={t("Edit")}
-                  bgColor="#ff5a1f"
+                  bgColor="#1a5184"
                 />
               </button>
             </>
@@ -803,7 +801,7 @@ const EditDeleteButton = ({
                 id="edit"
                 Icon={FiEdit}
                 title={t("Edit")}
-                bgColor="#ff5a1f"
+                bgColor="#1a5184"
               />
             </button>
           )}

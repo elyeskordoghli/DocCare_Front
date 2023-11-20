@@ -1,16 +1,13 @@
 import requests from "./httpService";
     const PatientServices = {
-      getAllPatients: async (body) => {
-        // const searchId = id !== null ? id : "";
-        // const searchCategory = category_id !== null ? category_id : "";
-        // const searchTitle = title !== null ? title : "";
-        // const searchSubTitle = subtitle !== null ? subtitle : "";
-        // const searchShortDescription = short_description !== null ? short_description : "";
-        // const searchDescription = description !== null ? description : "";
-        return requests.get(
-          `Patient/GetAll`,body
-        );
-      },
+
+
+
+
+  
+  getAllPatients: async (body) => {
+      return requests.get(`Patient/GetAll`,body);
+    },
 
       
   
@@ -19,18 +16,22 @@ import requests from "./httpService";
 //     return requests.get(`admin/projects/projects_by_category/${id}`);
 //   },
   
-//   getProjectById: async (id) => {
-//     return requests.get(`admin/projects/project/${id}`);
-//   },
+   Details: async (id) => {
+     return requests.get(`Patient/getPatientById/${id}`);
+   },
    addPatient: async (body) => {
      return requests.post("Patient/Create", body);
+   },
+
+   deletePatient: async (id) => {
+    return requests.post(`Patient/DeletePatient/${id}`);
    },
 //   // getAllProjects: async (body) => {
 //   //   return requests.get("admin/projects", body);
 //   // },
-//   updateProject: async (id, body) => {
-//     return requests.post(`/admin/projects/update/${id}`, body);
-//   },
+   updatePatient: async (id, body) => {
+     return requests.post(`/Patient/EditPatient/${id}`, body);
+   },
 //   // updateManyProjects: async (body) => {
 //   //   return requests.patch("Projects/update/many", body);
 //   // },
@@ -38,13 +39,15 @@ import requests from "./httpService";
 //   //   return requests.put(`/Projects/status/${id}`, body);
 //   // },
 
-//   deleteProject: async (id) => {
-//     return requests.delete(`/admin/projects/delete/${id}`);
-//   },
+   
 
-//   search: async (query, id) => {
-//     return requests.post(`/admin/projects/search/${id}?q=${query}`);
-//   },
+SearchPatient: async (query) => {
+  return requests.get(`Patient/SearchPatient?q=${query}`);
+},
+
+DownloadDossierMedical: async (id) => {
+  return requests.get(`Patient/DownloadDossierMedical/${id}`);
+},
 //   // deleteManyProjects: async (body) => {
 //   //   return requests.patch("/Projects/delete/many", body);
 //   // },

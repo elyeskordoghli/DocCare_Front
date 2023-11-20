@@ -97,7 +97,6 @@ const PatientDrawer = ({ id, isLoading, setIsLoading, setCategory,setServiceId,R
 
 
 
-  
 
   const currency = globalSetting?.default_currency || "$";
 
@@ -150,15 +149,19 @@ const [DossMedical,setDMedical]=useState("");
     setCategory(categories);
 
     
-      const formData = {
-        nom: nom,
-        prenom: prenom,
-        DateN: DateN,
-        Adresse: Adresse,
-        Num: Num,
-        DossMedical: DossMedical,
-      };
+    const formData = new FormData();
+
+    // Ajout du fichier à FormData
+    formData.append('DossMedical', DossMedical);
     
+    // Ajout des autres champs
+    formData.append('nom', nom);
+    formData.append('prenom', prenom);
+    formData.append('DateN', DateN);
+    formData.append('Adresse', Adresse);
+    formData.append('Num', Num);
+    
+      
 
     
 
@@ -178,6 +181,8 @@ const [DossMedical,setDMedical]=useState("");
           },
 
         });
+
+        
         closeDrawer();
         setIsLoading(false);
         setServiceId();
@@ -189,7 +194,7 @@ const [DossMedical,setDMedical]=useState("");
 
       } else {
         setIsLoading(true);
-        const response = await ProjectServices.updateProject(id, formData, {
+        const response = await PatientServices.updatePatient(id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -211,16 +216,18 @@ const [DossMedical,setDMedical]=useState("");
   };
 
 
+  console.log("id ta patient : ",id);
+
   const initFormForUpdate = async (id) => {
     setIsLoading(true);
     const res = await PatientServices.Details(id);
     setIsLoading(false);
     setNom(res.data.nom);
     setPrenom(res.data.prenom);
-    setDateN(res.data.DateN);
-    setAdresse(res.data.description_en);
-    setNum(res.data.Adresse);
-    setDMedical(res.data.Num);
+    setDateN(res.data.dateN);
+    setNum(res.data.num);
+    setAdresse(res.data.adresse);
+    setDMedical(res.data.DossMedical);
   };
 
   useEffect(() => {
@@ -228,19 +235,13 @@ const [DossMedical,setDMedical]=useState("");
 
       initFormForUpdate(id);
 
-    } else {
-
-     
-
-setNom("");
-setPrenom("");
-setDateN("");
-setAdresse("");
-setNum("");
-setDMedical("");
-
-    
-
+    } else{
+      setNom("");
+      setPrenom("");
+      setDateN("");
+      setAdresse("");
+      setNum("");
+      setDMedical("");
     }
   }, [id]);
 
@@ -404,7 +405,7 @@ setDMedical("");
               </div>
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Prenom  : "} />
+                <LabelArea label={"Date de naissance   : "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
 
@@ -458,13 +459,10 @@ setDMedical("");
                 <LabelArea label={"Dossier medicale : "} />
                 <div className="col-span-8 sm:col-span-4">
                   <Input
-                    {...register(`imageUrl`, {
-                      required: "Image is required!",
-                    })}
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="imageUrl"
+                    name="DossMedical"
                     type="file"
-                    placeholder={"Image "}
+                    placeholder={"Dossier Medical  "}
                     onChange={(e) => { setDMedical(e.target.files[0]) }}
 
                   />
@@ -475,363 +473,9 @@ setDMedical("");
 
 
 
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Seo Description (en)"} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    name="Seo_Description_en"
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    type="text"
-                    placeholder={"Project Seo description  "}
-                    onChange={(e) => setSeo_description_en(e.target.value)}
-                    value={Seo_Description_en}
-                  />
-                  <Error errorName={errors.Seo_Description_en} />
-                </div>
-              </div>
-
-
-
-
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label="Category" />
-                <div className="col-span-8 sm:col-span-4">
-                  <SelectCategory
-                    label="Category"
-                    name="category"
-                    categories={categories}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={(value) => setSelectedCategory(value)}
-                  />
-                  <Error errorName={errors.categories} />
-                </div>
-              </div>
-
-
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label="Reference" />
-                <div className="col-span-8 sm:col-span-4">
-                  <SelectReferences
-                    label="Reference"
-                    name="reference"
-                    References={References}
-                    selectedReference={selectedReference}
-                    setSelectedReferences={(value) => setSelectedReferences(value)}
-                  />
-                  <Error errorName={errors.References} />
-                </div>
-              </div>
-
-
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Slug"} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                   
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug_en"
-                    type="text"
-                    defaultValue={slug}
-                    placeholder={"Project Slug"}
-                    onChange={(e) => setSlug_en(e.target.value)}
-                    value={slug_en}
-                  />
-                  <Error errorName={errors.slug_en} />
-                </div>
-              </div> 
+              
             </div>
           )}
-
-          {tapValue === "French" && (
-            <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Title (fr) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title_fr"
-                    type="text"
-                    placeholder={"Project Title (fr) "}
-                    onChange={(e) => setTitle_fr(e.target.value)}
-                    value={title_fr}
-                  />
-                  <Error errorName={errors.title_fr} />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project SubTitle (fr)  "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="subtitle_fr"
-                    type="text"
-                    placeholder={"Project SubTitle  (fr)  "}
-                    onChange={(e) => setSubtitle_fr(e.target.value)}
-                    value={subtitle_fr}
-                  />
-                  <Error errorName={errors.subtitle_fr} />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Short_Description (fr) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Textarea
-                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-
-                    name="Short_Description_fr"
-                    placeholder={"Project Short_Description (fr) "}
-                    rows="4"
-                    spellCheck="false"
-                    onChange={(e) => setShort_description_fr(e.target.value)}
-                    value={Short_Description_fr}
-                  />
-                  <Error errorName={errors.Short_Description_fr} />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Description (fr) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Textarea
-                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-
-                    name="Description_fr"
-                    placeholder={"Project Description (fr) "}
-                    rows="4"
-                    spellCheck="false"
-                    onChange={(e) => setDescription_fr(e.target.value)}
-                    value={Description_fr}
-                  />
-                  <Error errorName={errors.Description_fr} />
-                </div>
-              </div>
-
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Seo Description (fr)"} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    name="Seo_Description_fr"
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    type="text"
-                    placeholder={"Project Seo description  "}
-                    onChange={(e) => setSeo_description_fr(e.target.value)}
-                    value={Seo_Description_fr}
-                  />
-                  <Error errorName={errors.Seo_Description_fr} />
-                </div>
-              </div>
-
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Slug"} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                    
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug_fr"
-                    type="text"
-                    defaultValue={slug}
-                    placeholder={"Project Slug (fr)"}
-                    onChange={(e) => setSlug_fr(e.target.value)}
-                    value={slug_fr}
-                  />
-                  <Error errorName={errors.slug_fr} />
-                </div>
-              </div> 
-            </div>
-          )}
-
-          {tapValue === "Arabic" && (
-            <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Title  "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="title_ar"
-                    type="text"
-                    placeholder={"Project Title (ar)"}
-                    onChange={(e) => setTitle_ar(e.target.value)}
-                    value={title_ar}
-                  />
-                  <Error errorName={errors.title_ar} />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project SubTitle (ar)  "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="SubTitle_ar"
-                    type="text"
-                    placeholder={"Project SubTitle (ar)  "}
-                    onChange={(e) => setSubtitle_ar(e.target.value)}
-                    value={SubTitle_ar}
-                  />
-                  <Error errorName={errors.SubTitle_ar} />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Short_Description (ar) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Textarea
-                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-
-                    name="Short_Description_ar"
-                    placeholder={"Project Short_Description (ar) "}
-                    rows="4"
-                    spellCheck="false"
-                    onChange={(e) => setShort_description_ar(e.target.value)}
-                    value={Short_Description_ar}
-                  />
-                  <Error errorName={errors.Short_Description_ar} />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Description (ar) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Textarea
-                    className="border text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
-
-                    name="description_ar"
-                    placeholder={"Project Description (ar) "}
-                    rows="4"
-                    spellCheck="false"
-                    onChange={(e) => setDescription_ar(e.target.value)}
-                    value={description_ar}
-                  />
-                  <Error errorName={errors.description_ar} />
-                </div>
-              </div>
-
-
-
-              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Seo Description (ar) "} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-
-                    name="seo_description_ar"
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    type="text"
-                    placeholder={"Project Seo description  "}
-                    onChange={(e) => setSeo_description_ar(e.target.value)}
-                    value={seo_description_ar}
-                  />
-                  <Error errorName={errors.seo_description_ar} />
-                </div>
-              </div> */}
-
-              {/* <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Project Slug"} />
-                <div className="col-span-8 sm:col-span-4">
-                  <Input
-                   
-                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                    name="slug_ar"
-                    type="text"
-                    defaultValue={slug}
-                    placeholder={"Project Slug (ar)"}
-                    onChange={(e) => setSlug_ar(e.target.value)}
-                    value={slug_ar}
-                  />
-                  <Error errorName={errors.slug_ar} />
-                </div>
-              </div> */}
-            </div>
-          )}
-
-          {/* {tapValue === "Combination" &&
-            isCombination &&
-            (attribue.length < 1 ? (
-              <div
-                className="bg-teal-100 border border-teal-600 rounded-md text-teal-900 px-4 py-3 m-4"
-                role="alert"
-              >
-                <div className="flex">
-                  <div className="py-1">
-                    <svg
-                      className="fill-current h-6 w-6 text-teal-500 mr-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm">
-                      {"AddCombinationsDiscription"}{" "}
-                      <Link to="/attributes" className="font-bold">
-                        {"AttributesFeatures"}
-                      </Link>
-                      {"AddCombinationsDiscriptionTwo"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="p-6">
-                {/* <h4 className="mb-4 font-semibold text-lg">Variants</h4> 
-                <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3 md:gap-3 xl:gap-3 lg:gap-2 mb-3">
-                  <MultiSelect
-                    options={attTitle}
-                    value={attributes}
-                    onChange={(v) => handleAddAtt(v)}
-                    labelledBy="Select"
-                  />
-
-                  {attributes?.map((attribute, i) => (
-                    <div key={attribute._id}>
-                      <div className="flex w-full h-10 justify-between font-sans rounded-tl rounded-tr bg-gray-200 px-4 py-3 text-left text-sm font-normal text-gray-700 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                        {"Select"}
-                        {showingTranslateValue(attribute?.title, language)}
-                      </div>
-
-                      <AttributeOptionTwo
-                        id={i + 1}
-                        values={values}
-                        lang={language}
-                        attributes={attribute}
-                        setValues={setValues}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex justify-end mb-6">
-                  {attributes?.length > 0 && (
-                    <Button
-                      onClick={handleGenerateCombination}
-                      type="button"
-                      className="mx-2"
-                    >
-                      <span className="text-xs">{"GenerateVariants"}</span>
-                    </Button>
-                  )}
-
-                  {variantTitle.length > 0 && (
-                    <Button onClick={handleClearVariant} className="mx-2">
-                      <span className="text-xs">{t("ClearVariants")}</span>
-                    </Button>
-                  )}
-                </div>
-              </div>
-            ))} */}
-
             {isCombination ? (
             <DrawerButton
               id={id}

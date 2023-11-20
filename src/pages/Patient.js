@@ -85,21 +85,19 @@ const Patient = () => {
   const fetchPatients = async () => {
     try {
       let response;
-      response = await PatientServices.getAllPatients();
+   
+      if (!search) {
+
+        // Si la catégorie sélectionnée est "All", récupérer tous les projets
+        response = await PatientServices.getAllPatients();
+
+      }
+      else if (search ) {
+
+        response = await PatientServices.SearchPatient(search);
+      }
+
       setData(response.data);
-    //   if (selectedCategory === "All" && !search) {
-
-
-    //     // Si la catégorie sélectionnée est "All", récupérer tous les projets
-    //     response = await PatientServices.getAllPatients();
-
-    //   }
-    //   else if (search && selectedCategory) {
-
-    //     // console.log("hihihi : ",selectedCategory);
-
-    //     //response = await ProjectServices.search(search, selectedCategory);
-
 
     //   } else if (selectedCategory !== "All") {
 
@@ -121,7 +119,7 @@ const Patient = () => {
   useEffect(() => {
     fetchPatients();
     loading();
-  }, [isLoading]);
+  }, [isLoading,search]);
 
 
   //---------------------------------------------------------

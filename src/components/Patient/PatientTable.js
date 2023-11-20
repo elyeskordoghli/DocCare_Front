@@ -49,113 +49,12 @@ import PatientDrawer from "components/drawer/PatientDrawer";
     } = useToggleDrawer();
     
   
-    // useEffect(() => {
-    //   handleServiceIdChange(serviceId)
-    // }, [serviceId])
-   
-    //----------------------------------------------------------------
   
   
-    // Utilisez la fonction getAllProjects pour récupérer les données des projets depuis l'API
-    // const fetchProjects = async () => {
-    //   try {
-    //     const response = await ProjectServices.getAllProjects({
-    //     });
-    //     setData(response.data);
-    //   } catch (error) {
-    //     console.error("Erreur lors de la récupération des projets :", error);
-    //   }  finally {
-    //     setIsLoading(false); // Mettre à jour l'état pour indiquer que le chargement est terminé
-    //   }
-    // };
-  
-    // useEffect(() => {
-    //   fetchProjects(); // Appelez la fonction fetchProjects pour récupérer les projets au chargement du composant
-    // }, [isLoading]); // Utilisez une dépendance vide pour que cela ne s'exécute qu'une fois au chargement du composant
-  
-    // const fetchProjects = async (selectedCategory, isLoading, search) => {
-    //   try {
-    //     let response;
-    //     setIsLoading(true);
-  
-    //     if (selectedCategory === "All" && !search) {
-        
-  
-    //       // Si la catégorie sélectionnée est "All", récupérer tous les projets
-    //       response = await ProjectServices.getAllProjects();
-  
-    //     }
-    //     else if (search && selectedCategory ) {
-    //       console.log("hihihi : ",selectedCategory);
-  
-    //       response = await ProjectServices.search(search, selectedCategory);
-  
-  
-    //     } else if (selectedCategory !== "All") {
-  
-    //       response = await ProjectServices.getProjectByCategoryId(selectedCategory);
-  
-    //     }
-    //     setIsLoading(false);
-  
-  
-    //     setData(response.data);
-    //     console.log("data new data : ",response.data)
-    //   } catch (error) {
-    //     console.error("Erreur lors de la récupération des projets :", error);
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // };
-    // useEffect(() => {
-    //   fetchProjects(selectedCategory, isLoading, search);
-    // }, [selectedCategory, search]);
-  
-  
-  
-    //----------------------------------------------------------------
-  
-    // const getProject = async () => {
-    //   try {
-    //     const pr = await ProjectServices.getProjectById(serviceId)
-    //     setIsCheck([...isCheck, pr.id]);
-  
-    //   } catch (error) {
-    //     console.error("Erreur lors de la récupération de projet :", error);
-  
-    //   }
-    // }
   
   
     
 
-    //----------------------------------------------------------------
-  
-  
-    // const introjects = async (selectedCategory) =>{
-    //   try {
-    //     // setIsLoading(true);
-    //     const response = await ProjectServices.getProjectByCategoryId(selectedCategory);
-    //     setData(response.data);
-    //     console.log('projectcat',data)
-    //     // setIsLoading(false);
-    //     // Vérifier si response.data est un tableau avant d'utiliser .map()
-  
-  
-    //   } catch (error) {
-    //     console.error("Erreur lors de la récupération des projets :", error);
-    //   } 
-    // }
-  
-    // console.log('selected categoriiiiiiiii',selectedCategory)
-  
-  
-    // useEffect(() =>{
-    //   introjects(selectedCategory);
-    // },[selectedCategory,isLoading])
-  
-  
-    //----------------------------------------------------------------
   
   
   
@@ -172,6 +71,38 @@ import PatientDrawer from "components/drawer/PatientDrawer";
   
     }
   
+
+    const handleDownload = async (id) => {
+      try {
+        const response = await PatientServices.DownloadDossierMedical(id);
+        
+        // Créer un Blob à partir de la réponse
+        const blob = new Blob([response.data], { type: 'application/zip' });
+    
+        // Créer un lien pour le téléchargement du fichier
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `DossierMedical_Patient_${id}.zip`);
+    
+        // Ajouter le lien au document et déclencher le téléchargement
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      } catch (error) {
+        console.error('Erreur lors du téléchargement du dossier médical :', error);
+        // Gérer les erreurs
+      }
+    };
+    
+    
+
+
+
+
+ 
+
+
    
 
   
@@ -180,7 +111,7 @@ import PatientDrawer from "components/drawer/PatientDrawer";
   
         {isCheck?.length < 1 && <DeleteModal
           id={serviceId}
-        //   title={data.nom}
+          title={data.nom}
           isLoading={isLoading} // Passer la variable isLoading
           setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
         />}
@@ -277,29 +208,22 @@ import PatientDrawer from "components/drawer/PatientDrawer";
               </TableCell>
 
               <TableCell>
-                <div className="flex items-center">
-                  <div>
-                    <h2 className="text-sm font-medium">
-                      {item.dossierMedical}
-                    </h2>
-                  </div>
-                </div>
                 <Link
-                  to={`/project/${item.id}`}
+                  to={`/Patients`}
                   className="flex justify-center text-gray-400 hover:text-orange-600"
-                  handleUpdate={handleUpdate}
-  
+                  onClick={() => handleDownload(item.id)}
                 >
                   <Tooltip
                     id="view"
                     Icon={FiZoomIn}
                     title={t("DetailsTbl")}
-                    bgColor="#ff5a1f"
+                    bgColor="#1a5184"
                   />
                 </Link>
-             
-              
               </TableCell>
+
+
+
   
               <TableCell>
                 <EditDeleteButton

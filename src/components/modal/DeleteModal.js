@@ -32,6 +32,7 @@ import CareerServices from "services/CareerServices";
 import SlidersServices from "services/SlidersServices";
 import CountServices from "services/CountServices";
 import DetailsServices from "services/DetailsServices";
+import PatientServices from "services/PatientServices";
 
 const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoading, setServiceId, setIsLoading }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -58,6 +59,23 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
         closeModal();
         setIsSubmitting(false);
       }
+
+
+
+      if (location.pathname === "/Patients") {
+        setIsLoading(true);
+        const res = await PatientServices.deletePatient(id);
+        setIsLoading(false);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
+      }
+
+
+
+
       if (location.pathname === "/our-staff") {
         setIsLoading(true);
         const res = await AdminServices.deleteStaff(id);

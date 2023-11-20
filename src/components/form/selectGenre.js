@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select } from '@windmill/react-ui';
 
-const SelectRole = ({ setRole, register, name, label }) => {
+const selectGenre = ({ setRole, register, name, label }) => {
   return (
     <>
       <Select
@@ -13,17 +13,14 @@ const SelectRole = ({ setRole, register, name, label }) => {
         })}
       >
         <option value="" defaultValue hidden>
-         choisir une Specialite
+         selectionner votre genre 
         </option>
-        <option value="Cardiologue">Cardiologue</option>
-        <option value="Dermatologue">Dermatologue</option>
-        <option value="Pédiatre">Pédiatre</option>
-        <option value="Neurologue">Neurologue</option>
-        <option value="Psychiatre"> Psychiatre </option>
-        <option value="Orthopédiste">Orthopédiste</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        
       </Select>
     </>
   );
 };
 
-export default SelectRole;
+export default selectGenre;

@@ -21,6 +21,7 @@ import CareerServices from "services/CareerServices";
 import SlidersServices from "services/SlidersServices";
 import CountServices from "services/CountServices";
 import DetailsServices from "services/DetailsServices";
+import PatientServices from "services/PatientServices";
 
 const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
@@ -101,11 +102,31 @@ const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) 
           notifySuccess(res.message);
         })
 
+       
+
         .catch((err) => notifyError(err.message));
       setIsCheck([]);
       setServiceId();
       closeModal();
     }
+
+    if (location.pathname === "/Patients") {
+      PatientServices.deletePatient(id)
+        .then((res) => {
+          setIsLoading(false);
+          setIsUpdate(true);
+          setIsCheck([]);
+          setServiceId();
+          notifySuccess(res.message);
+        })
+
+        .catch((err) => notifyError(err.message));
+        setIsCheck([]);
+        setServiceId();
+        closeModal();
+      }
+
+
     if (location.pathname === "/references") {
       ReferencesServices.deleteReference(id)
         .then((res) => {

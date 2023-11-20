@@ -17,8 +17,12 @@ const useLoginSubmit = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = ({ name, email, last_login_at, last_login_ip, status, previleges, password,full_access }) => {
+  const onSubmit = ({ nom,prenom,adresse,num,image,genre, email, specialite, password }) => {
+
     setLoading(true);
+    console.log("specialite dans submit : ",specialite);
+    console.log("nom dans submit : ",nom);
+
     const cookieTimeOut = 0.5;
     if (location.pathname === '/login') {
       AdminServices.loginAdmin({ email, password })
@@ -43,7 +47,7 @@ const useLoginSubmit = () => {
     
 
     if (location.pathname === '/signup') {
-      AdminServices.registerAdmin({ name, email, password, last_login_at, last_login_ip, status, previleges,full_access})
+      AdminServices.registerAdmin({  nom,prenom,adresse,num,image,genre, email, specialite, password })
         .then((res) => {
           if (res) { 
             setLoading(false);
