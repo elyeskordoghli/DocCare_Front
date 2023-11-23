@@ -43,8 +43,8 @@ const sidebar = [
   },
   {
     icon: FiCodepen,
-    path: "/careers",
-    name: "Careers",
+    path: "/Consultations",
+    name: "Consultations",
     previleges: ["view_career", "view_any_career","create_career","update_career","delete_career"],
 
   },

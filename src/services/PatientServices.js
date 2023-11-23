@@ -2,7 +2,9 @@ import requests from "./httpService";
     const PatientServices = {
 
 
-
+      getAllSpecialites: async (body) => {
+        return requests.get(`Specialite/getAll`,body);
+      },
 
   
   getAllPatients: async (body) => {
@@ -32,6 +34,8 @@ import requests from "./httpService";
    updatePatient: async (id, body) => {
      return requests.post(`/Patient/EditPatient/${id}`, body);
    },
+
+   
 //   // updateManyProjects: async (body) => {
 //   //   return requests.patch("Projects/update/many", body);
 //   // },

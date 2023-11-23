@@ -208,8 +208,8 @@ const Patient = () => {
       <MainDrawer>
         <PatientDrawer
         // id={serviceId}  
-        // isLoading={isLoading} // Passer la variable isLoading
-        // setIsLoading={setIsLoading} 
+        isLoading={isLoading} // Passer la variable isLoading
+        setIsLoading={setIsLoading} 
         // isCheck ={isCheck}
         // categories={categories}
         // setIsCheck={setIsCheck}

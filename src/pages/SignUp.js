@@ -10,8 +10,11 @@ import SelectRole from "components/form/SelectRole";
 import useLoginSubmit from "hooks/useLoginSubmit";
 import ImageLight from "assets/img/create-account-office.jpeg";
 import ImageDark from "assets/img/create-account-office-dark.jpeg";
+import back from "assets/img/signup.jpg";
+import PatientServices from "services/PatientServices";
+
 import { Select } from '@windmill/react-ui';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 const SignUp = () => {
   const {t}=useTranslation()
@@ -24,34 +27,75 @@ const SignUp = () => {
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
   const [num,setNum]=useState("");
-  const [specialite,setSpecialite]=useState("");
   const [genre,setGenre]=useState("");
   const [adresse,setAdresse]=useState("");
 
+  const [specialites, setSpecialites] = useState([]);
+  const [selectedSpecialite, setSelectedSpecialite] = useState(0); // Initialisez-le à 0 ou à toute autre valeur numérique par défaut
+
+
+  const [data, setdata] = useState({
+    nom: nom,
+    prenom: prenom,
+    adresse: adresse,
+    num: num,
+    genre: genre,
+    email: email,
+    specialite: selectedSpecialite,
+    password: password,
+    image: image, // Ajoutez un champ pour stocker l'image
+  });
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
-    setImage(selectedImage);
 
+    if (selectedImage) {
+      const imageUrl = URL.createObjectURL(selectedImage);
+      setImage(imageUrl); // Stocker l'URL de l'image dans l'état
+    }
   };
+    
+  const handleFormSubmit = (data) => {
+    // Exécutez la fonction onSubmit de useLoginSubmit avec toutes les données du formulaire
+    onSubmit(data);
+  };
+
+
+    //---------------------------------------------------------
+    const fetchspecialites = async () => {
+      try {
+        let response;
+        response = await PatientServices.getAllSpecialites();
+        setSpecialites(response.data);
+        // console.log("data new data : ",response.data)
+      } catch (error) {
+        console.error("Erreur lors de la récupération des specailite :", error);
+      }
+      
+    };
+    useEffect(() => {
+      fetchspecialites();
+    }, []);
+
+    console.log("les specialites : " , specialites);
   
 
 
   return (
     <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
-      <div className="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+      <div className="flex-1 h-full max-w-5xl mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex flex-col overflow-y-auto md:flex-row">
           <div className="h-32 md:h-auto md:w-1/2">
             <img
               aria-hidden="true"
               className="object-cover w-full h-full dark:hidden"
-              src={ImageLight}
+              src={back}
               alt="Office"
             />
             <img
               aria-hidden="true"
               className="hidden object-cover w-full h-full dark:block"
-              src={ImageDark}
+              src={back}
               alt="Office"
             />
           </div>
@@ -60,18 +104,15 @@ const SignUp = () => {
               <h1 className="mb-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 {"Cree un compte"}
               </h1>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(handleFormSubmit)}>
 
               
-              <div className="w-full px-32 mb-4">
               <div className="flex items-center">
-                <label htmlFor="image-upload" className="cursor-pointer">
-                  <img src={image ? URL.createObjectURL(image) : 'https://cdn.pixabay.com/photo/2017/08/16/00/29/add-person-2646097_960_720.png'} alt="Upload" className="w-20 h-20 object-cover rounded-full" />
-                  <input id="image-upload" type="file" className="hidden"  onChange={handleImageChange} accept="image/*" />
-                </label>
-              </div>
-              <Error errorName={errors.image} />
-            </div>
+                    <label htmlFor="image-upload" className="cursor-pointer">
+                      <img src={image || 'https://cdn.pixabay.com/photo/2017/08/16/00/29/add-person-2646097_960_720.png'} alt="Upload" className="w-20 h-20 object-cover rounded-full" />
+                      <input id="image-upload" type="file" {...register('image')}  className="hidden" onChange={handleImageChange} accept="image/*" />
+                    </label>
+                  </div>
 
 
 
@@ -79,7 +120,7 @@ const SignUp = () => {
              <div className="flex flex-wrap -mx-4">
 
 
-             <div className="w-full md:w-1/2 px-4 mb-4">
+             <div className="w-full md:w-1/2 px-6 mb-4">
                 <LabelArea label="Nom" />
                 <InputArea
                  register={register}
@@ -87,7 +128,7 @@ const SignUp = () => {
                   name="nom"
                   type="text"
                   placeholder="Admin"
-                  onChange={(e) => setNom(e.target.value)} // Utilisation directe de setNom
+                  onChange={(e) =>  setdata(e.target.value)} // Utilisation directe de setNom
                 />
                 <Error errorName={errors.name} />
               </div>
@@ -152,22 +193,21 @@ const SignUp = () => {
               <div className="w-full md:w-1/2 px-4 mb-4">
                 <LabelArea label="Genre" />
                 <div className="col-span-8 sm:col-span-4">
-                <Select
-                  register={register}
-                  onChange={(e) => setGenre(e.target.value)}
-                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
-                  
-                >
-                  <option value="" defaultValue hidden>
-                  Votre genre 
-                  </option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  
-                </Select>                  
-                <Error errorName={errors.role} />
+                  <Select
+                    {...register('genre')} // Enregistrement du champ de sélection ('genre')
+                    onChange={(e) => setGenre(e.target.value)}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                  >
+                    <option value="" defaultValue hidden>
+                      Votre genre 
+                    </option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </Select>
+                  <Error errorName={errors.role} />
                 </div>
               </div>
+
 
               <div className="w-full px-4 mb-4">
                 <LabelArea label="Adresse" />
@@ -187,21 +227,20 @@ const SignUp = () => {
                 <LabelArea label="Specialite" />
                 <div className="col-span-8 sm:col-span-4">
                 <Select
-                  register={register}
-                  name="specialite" // Ajoutez l'attribut 'name' pour spécifier le nom du champ
-                  onChange={(e) => setSpecialite(e.target.value)}
-                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
+                    {...register('specialite')} // Enregistrement du champ de sélection ('genre')
+                    name="specialite" // Ajoutez l'attribut 'name' pour spécifier le nom du champ
+                    onChange={(e) => setSelectedSpecialite(e.target.value)}
+                    className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                   
                   >
                   <option value="" defaultValue hidden>
                   selectionner votre specialite
                   </option>
-                  <option value="Cardiologue">Cardiologue</option>
-                  <option value="Dermatologue">Dermatologue</option>
-                  <option value="Pédiatre">Pédiatre</option>
-                  <option value="Neurologue">Neurologue</option>
-                  <option value="Psychiatre"> Psychiatre </option>
-                  <option value="Orthopédiste">Orthopédiste</option>
+                  {specialites.map((specialite) => (
+                    <option key={specialite.specialiteId} value={specialite.specialiteId}>
+                      {specialite.nom}
+                    </option>
+                  ))}
                   
                 </Select>                    
                 <Error errorName={errors.role} />
@@ -231,9 +270,16 @@ const SignUp = () => {
                 </Button>
               </form>
 
-              <hr className="my-10" />
+              <p className="mt-4">
+                <Link
+                  className="text-sm font-medium text-orange-500 dark:text-orange-400 hover:underline"
+                  to="/login"
+                >
+                 {t("AlreadyAccount")}
+                </Link>
+              </p>
 
-              <button
+              {/* <button
                 disabled
                 className="text-sm inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold font-serif text-center justify-center rounded-md focus:outline-none text-gray-700 bg-gray-100 shadow-sm my-2 md:px-2 lg:px-3 py-4 md:py-3.5 lg:py-4 hover:text-white hover:bg-blue-600 h-11 md:h-12 w-full mr-2"
               >
@@ -244,16 +290,9 @@ const SignUp = () => {
                 className="text-sm inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold font-serif text-center justify-center rounded-md focus:outline-none text-gray-700 bg-gray-100 shadow-sm my-2  md:px-2 lg:px-3 py-4 md:py-3.5 lg:py-4 hover:text-white hover:bg-red-500 h-11 md:h-12 w-full"
               >
                 <ImGoogle className="w-4 h-4 mr-2" /> <span className="ml-2">{t("LoginWithGoogle")}</span>
-              </button>
+              </button> */}
 
-              <p className="mt-4">
-                <Link
-                  className="text-sm font-medium text-orange-500 dark:text-orange-400 hover:underline"
-                  to="/login"
-                >
-                 {t("AlreadyAccount")}
-                </Link>
-              </p>
+              
             </div>
           </main>
         </div>

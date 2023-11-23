@@ -46,6 +46,7 @@ import CategoryServices from "services/CategoryServices";
 import SelectCategory from "components/form/SelectCategory";
 import SelectReferences from "components/form/SelectReferences";
 import PatientServices from "services/PatientServices";
+import JSZip from 'jszip';
 
 
 //internal import
@@ -136,7 +137,9 @@ const [prenom , setPrenom]=useState("");
 const [DateN , setDateN]=useState("");
 const [Adresse , setAdresse]=useState("");
 const [Num , setNum]=useState("");
-const [DossMedical,setDMedical]=useState("");
+const [zipBlob, setZipBlob] = useState(null);
+
+const [dossiersMedicale, setDossiersMedicaux] = useState([]);
 //fin des states du patient . 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Assurez-vous d'annuler le comportement par défaut du formulaire si nécessaire
@@ -146,13 +149,13 @@ const [DossMedical,setDMedical]=useState("");
         <div className="text-red-500 text-sm mt-1">{errorName && errorName.message}</div>
       );
     };
-    setCategory(categories);
 
+    
     
     const formData = new FormData();
 
     // Ajout du fichier à FormData
-    formData.append('DossMedical', DossMedical);
+    formData.append('dossierMedical', zipBlob);
     
     // Ajout des autres champs
     formData.append('nom', nom);
@@ -162,14 +165,18 @@ const [DossMedical,setDMedical]=useState("");
     formData.append('Num', Num);
     
       
-
+    // const patientData = {
+    //   nom: nom,
+    //   prenom: prenom,
+    //   DateN: DateN,
+    //   Adresse: Adresse,
+    //   Num: Num,
+    // };
     
 
 
-
-    const handleSubmitClick = () => {
-      // Place your submission logic here
-    };
+    
+   
 
     try {
       if (id == null) {
@@ -190,7 +197,7 @@ const [DossMedical,setDMedical]=useState("");
         setIsSubmitting(false);
    
         notifySuccess(res.message);
-   
+
 
       } else {
         setIsLoading(true);
@@ -214,7 +221,26 @@ const [DossMedical,setDMedical]=useState("");
     }
    
   };
-
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+    if (files.length > 0) {
+      const zip = new JSZip();
+  
+      // Ajouter chaque fichier sélectionné à JSZip
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        zip.file(file.name, file);
+      }
+  
+      // Générer le fichier .zip avec JSZip
+      zip.generateAsync({ type: 'blob' }).then((blob) => {
+        // Mettre à jour le state avec le blob du fichier .zip
+        setZipBlob(blob);
+        // Enregistrer le blob dans le state ou effectuer d'autres opérations nécessaires
+      });
+    }
+  };
+  
 
   console.log("id ta patient : ",id);
 
@@ -227,7 +253,7 @@ const [DossMedical,setDMedical]=useState("");
     setDateN(res.data.dateN);
     setNum(res.data.num);
     setAdresse(res.data.adresse);
-    setDMedical(res.data.DossMedical);
+    setDossiersMedicaux(res.data.dossiersMedicaux);
   };
 
   useEffect(() => {
@@ -241,7 +267,7 @@ const [DossMedical,setDMedical]=useState("");
       setDateN("");
       setAdresse("");
       setNum("");
-      setDMedical("");
+      setDossiersMedicaux("");
     }
   }, [id]);
 
@@ -277,6 +303,7 @@ const [DossMedical,setDMedical]=useState("");
     fetchImageBinary();
   }, [imageUrl]);
 
+  
 
   return (
     <>
@@ -456,20 +483,18 @@ const [DossMedical,setDMedical]=useState("");
 
 
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-                <LabelArea label={"Dossier medicale : "} />
+                <LabelArea label={"Dossiers médicaux : "} />
                 <div className="col-span-8 sm:col-span-4">
-                  <Input
+                  <input
                     className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 dark:bg-white border-transparent focus:bg-white"
                     name="DossMedical"
                     type="file"
-                    placeholder={"Dossier Medical  "}
-                    onChange={(e) => { setDMedical(e.target.files[0]) }}
-
+                    multiple // Permet la sélection de plusieurs fichiers
+                    onChange={handleFileChange}
                   />
                   <Error errorName={errors.imageUrl} />
-                  
                 </div>
-              </div> 
+              </div>
 
 
 

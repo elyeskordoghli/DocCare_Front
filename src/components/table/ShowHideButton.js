@@ -10,6 +10,8 @@ import CouponServices from "services/CouponServices";
 import CurrencyServices from "services/CurrencyServices";
 import LanguageServices from "services/LanguageServices";
 import ProductServices from "services/ProductServices";
+import ConsultationServices from "services/ConsultationServices";
+
 import { notifyError, notifySuccess } from "utils/toast";
 
 const ShowHideButton = ({ id, status, category, currencyStatusName }) => {
@@ -25,6 +27,14 @@ const ShowHideButton = ({ id, status, category, currencyStatusName }) => {
         newStatus = "hide";
       } else {
         newStatus = "show";
+      }
+
+      if (location.pathname === "/Consultations") {
+        const res = await ConsultationServices.UpdateConsultations(id, {
+          status: newStatus,
+        });
+        setIsUpdate(true);
+        notifySuccess(res.message);
       }
 
       if (location.pathname === "/categories" || category) {

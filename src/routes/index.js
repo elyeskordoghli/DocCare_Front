@@ -1,3 +1,4 @@
+import ConsultationTable from "components/Consultation/ConsultationTable";
 import { lazy } from "react";
 
 // use lazy for better code splitting
@@ -66,6 +67,8 @@ const EditProfile = lazy(() => import("../pages/EditProfile"));
 const Languages = lazy(() => import("../pages/Languages"));
 const Currencies = lazy(() => import("../pages/Currencies"));
 const Setting = lazy(() => import("../pages/Setting"));
+const Consultations = lazy(() => import("../pages/Consultation"));
+
 /*
 //  * ⚠ These are internal routes!
 //  * They will be rendered inside the app, using the default `containers/Layout`.
@@ -89,6 +92,10 @@ const routes = [
   {
     path: "/history",
     component: History,
+  },
+  {
+    path: "/Consultations",
+    component: Consultations,
   },
   {
     path: "/careers",

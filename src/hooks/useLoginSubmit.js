@@ -17,11 +17,13 @@ const useLoginSubmit = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = ({ nom,prenom,adresse,num,image,genre, email, specialite, password }) => {
+  const onSubmit = ( data ) => {
+
+    const { nom,prenom,adresse,num,image,genre, email, specialite, password  } = data;
 
     setLoading(true);
-    console.log("specialite dans submit : ",specialite);
-    console.log("nom dans submit : ",nom);
+    console.log("data from useloginsubmit : ",data);
+    
 
     const cookieTimeOut = 0.5;
     if (location.pathname === '/login') {
