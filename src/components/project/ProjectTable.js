@@ -121,7 +121,7 @@ const ProjectTable = ({ isCheck, setIsCheck,categories ,setReference,setCategory
       setIsCheck([...isCheck, pr.id]);
 
     } catch (error) {
-      console.error("Erreur lors de la récupération de projet :", error);
+      console.error("Erreur lors de la récupération de cette projet :", error);
 
     }
   }
