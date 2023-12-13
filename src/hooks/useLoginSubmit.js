@@ -5,11 +5,19 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { AdminContext } from 'context/AdminContext';
 import AdminServices from 'services/AdminServices';
 import { notifyError, notifySuccess } from 'utils/toast';
+import Category from 'pages/Category';
 
 const useLoginSubmit = () => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(AdminContext);
   const history = useHistory();
+
+  const [connectedDoctorId, setConnectedDoctorId] = useState(""); // State pour conserver l'ID du docteur connecté
+
+  <Category
+  connectedDoctorId={connectedDoctorId}
+  />
+
   const location = useLocation();
   const {
     register,
@@ -22,21 +30,22 @@ const useLoginSubmit = () => {
     const { nom,prenom,adresse,num,image,genre, email, specialite, password  } = data;
 
     setLoading(true);
-    console.log("data from useloginsubmit : ",data);
     
 
     const cookieTimeOut = 0.5;
     if (location.pathname === '/login') {
-      AdminServices.loginAdmin({ email, password })
+      let response = AdminServices.loginAdmin({ email, password })
         .then((res) => {
-          if (res) {
+          if (response) {
+            setConnectedDoctorId(response.message); // Supposons que la réponse contienne l'ID du docteur
+
             setLoading(false);
             notifySuccess('Login Success!');
-            dispatch({ type: 'USER_LOGIN', payload: res });
+            dispatch({ type: 'USER_LOGIN', payload: response });
             Cookies.set('adminInfo', JSON.stringify(res.admin), {
               expires: cookieTimeOut,
             });
-    
+
             // Rediriger vers /dashboard en provoquant un rafraîchissement
             window.location.href = '/dashboard';
           }

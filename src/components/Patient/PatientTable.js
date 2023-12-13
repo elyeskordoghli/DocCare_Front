@@ -71,11 +71,10 @@ import PatientDrawer from "components/drawer/PatientDrawer";
   
     }
   
-
     const handleDownload = async (id) => {
       try {
-        const response = await PatientServices.DownloadDossierMedical(id);
-        
+        const response = await PatientServices.DownloadDossierMedical(id, { responseType: 'arraybuffer' });
+    
         // Créer un Blob à partir de la réponse
         const blob = new Blob([response.data], { type: 'application/zip' });
     
@@ -94,6 +93,10 @@ import PatientDrawer from "components/drawer/PatientDrawer";
         // Gérer les erreurs
       }
     };
+    
+    
+    
+    
     
     
 

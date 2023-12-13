@@ -54,7 +54,7 @@ const sidebar = [
   {
     icon: FiArchive,
     path: "/categories",
-    name: "Categories",
+    name: "Disponibilité",
     previleges: ["view_category", "view_any_category","create_category","update_category","delete_category"],
 
   },

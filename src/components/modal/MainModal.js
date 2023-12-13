@@ -23,7 +23,7 @@ import CountServices from "services/CountServices";
 import DetailsServices from "services/DetailsServices";
 import PatientServices from "services/PatientServices";
 
-const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) => {
+const MainModal = ({ id, isLoading, setIsLoading, isCheck, setIsCheck }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const { setServiceId } = useToggleDrawer();
   const location = useLocation();
@@ -199,7 +199,7 @@ const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) 
       setServiceId();
     }
     if (location.pathname === "/categories") {
-      CategoryServices.deleteCategory(id)
+      CategoryServices.DeleteDispo(id)
         .then((res) => {
           setIsLoading(false);
           setIsUpdate(true);
@@ -258,7 +258,7 @@ const MainModal = ({ id, title, isLoading, setIsLoading, isCheck, setIsCheck }) 
           </span>
           <h2 className="text-xl font-medium mb-1">
             Are You Sure! Want to Delete{" "}
-            <span className="text-red-500">{title}</span> Record?
+            <span className="text-red-500"></span> Record?
           </h2>
           <p>
             Do you really want to delete these records? You can't view this in

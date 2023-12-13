@@ -18,6 +18,7 @@ import spinnerLoadingImage from "../../assets/img/spinner.gif";
 import { SidebarContext } from "../../context/SidebarContext";
 import ProductServices from "../../services/ProductServices";
 import CategoryServices from "../../services/CategoryServices";
+import PatientServices from "services/PatientServices";
 
 import ServiceServices from "services/ServiceServices";
 import AdminServices from "services/AdminServices";
@@ -50,16 +51,16 @@ const UploadManyTwo = ({
   // console.log(exportData);
 
   const handleExportCSV = () => {
-    if (location.pathname === "/history") {
+    if (location.pathname === "/Patients") {
       setLoadingExport({ name: "csv", status: true });
-      HistoryServices.getAllHistory({})
+      PatientServices.getAllPatients({})
         .then((res) => {
           setDropDown(false);
           setLoadingExport({ name: "csv", status: true });
           console.log("Data to be exported:", res.data);
           exportFromJSON({
             data: res.data,
-            fileName: "history",
+            fileName: "Patients",
             exportType: exportFromJSON.types.csv,
           });
         })

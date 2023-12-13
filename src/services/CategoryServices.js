@@ -1,13 +1,26 @@
 import requests from "./httpService";
 
 const CategoryServices = {
-  //  getAllCategory: async () => {
-  //    return requests.get("/category");
-  //  },
+  createDispo: async (body) => {
+    return requests.post("Disponibilite/Create",body);
+  },
+
+
+  DeleteDispo: async (id) => {
+    return requests.post(`Disponibilite/Delete/${id}`);
+  },
+
 
   getAllCategories: async () => {
     return requests.get("/admin/categories/");
   },
+
+
+  getAllDispo: async () => {
+    return requests.get("Disponibilite/getAll");
+  },
+
+  
 
   getCategoryById: async (id) => {
     return requests.get(`/admin/categories/category/${id}`);
@@ -29,9 +42,9 @@ const CategoryServices = {
      return requests.put(`/category/status/${id}`, body);
    },
 
-  deleteCategory: async (id) => {
-    return requests.delete(`/admin/categories/delete/${id}`);
-  },
+  // deleteCategory: async (id) => {
+  //   return requests.delete(`/admin/categories/delete/${id}`);
+  // },
 
    updateManyCategory: async (body) => {
      return requests.patch("/category/update/many", body);

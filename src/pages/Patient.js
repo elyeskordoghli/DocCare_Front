@@ -280,7 +280,7 @@ const Patient = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder={t("SearchProject")}
+                placeholder={"search patient"}
                 onChange={handleSearchInputChange} // Ajoutez cet attribut onChange
 
               />
@@ -291,7 +291,7 @@ const Patient = () => {
             </div>
 
             {/* categorie */}
-            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
+            {/* <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
               <SelectCategory
                 setCategory={setCategory}
                 categories={categories}
@@ -301,7 +301,7 @@ const Patient = () => {
                 isLoading={isLoading} // Passer la variable isLoading
                 setIsLoading={setIsLoading} // Passer la fonction setIsLoadingisLoading={true} 
               />
-            </div>
+            </div> */}
             {/*end categorie */}
           </form>
         </CardBody>

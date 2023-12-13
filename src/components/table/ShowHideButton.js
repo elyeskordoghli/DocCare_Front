@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext ,useEffect,useState} from "react";
 import Switch from "react-switch";
 import { useLocation } from "react-router-dom";
 
@@ -14,27 +14,32 @@ import ConsultationServices from "services/ConsultationServices";
 
 import { notifyError, notifySuccess } from "utils/toast";
 
-const ShowHideButton = ({ id, status, category, currencyStatusName }) => {
+const ShowHideButton = ({ id, initialStatus , category, currencyStatusName }) => {
   // console.log('from staf')
   const location = useLocation();
   const { setIsUpdate } = useContext(SidebarContext);
-  //  console.log('coupns')
+  const [status, setStatus] = useState(initialStatus);
+
+  useEffect(() => {
+    setStatus(initialStatus);
+  }, [initialStatus]);
+
+
   const handleChangeStatus = async (id) => {
     // return notifyError("CRUD operation is disabled for this option!");
     try {
-      let newStatus;
-      if (status === "show") {
-        newStatus = "hide";
-      } else {
-        newStatus = "show";
-      }
+      let newStatus = status === "show" ? "hide" : "show";
+      
+
+      const formData = new FormData();
+      formData.append("Status", newStatus);
 
       if (location.pathname === "/Consultations") {
-        const res = await ConsultationServices.UpdateConsultations(id, {
-          status: newStatus,
-        });
+        const res = await ConsultationServices.UpdateConsultations(id,formData);
+        setStatus(newStatus);
         setIsUpdate(true);
         notifySuccess(res.message);
+        
       }
 
       if (location.pathname === "/categories" || category) {
@@ -60,6 +65,7 @@ const ShowHideButton = ({ id, status, category, currencyStatusName }) => {
         setIsUpdate(true);
         notifySuccess(res.message);
       }
+      
       if (location.pathname === "/currencies") {
         if (currencyStatusName === "status") {
           const res = await CurrencyServices.updateEnabledStatus(id, {
@@ -119,7 +125,7 @@ const ShowHideButton = ({ id, status, category, currencyStatusName }) => {
   return (
     <Switch
       onChange={() => handleChangeStatus(id)}
-      checked={status === "show" ? true : false}
+      checked={status === "show"}
       className="react-switch md:ml-0"
       uncheckedIcon={
         <div

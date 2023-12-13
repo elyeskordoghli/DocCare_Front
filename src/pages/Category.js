@@ -33,30 +33,50 @@ import CheckBox from "components/form/CheckBox";
 import CategoryTable from "components/category/CategoryTable";
 import NotFound from "components/table/NotFound";
 import Loader from 'components/loader/Loader';
+import Calender from 'components/Calender/Calender';
+import Cookies from 'js-cookie';
 
 const Category = () => {
   const { toggleDrawer, lang,categoryRef } = useContext(SidebarContext);
-
   const [data, setData] = useState([]); 
+
+  const [dataa, setDataa] = useState([]); 
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearchValue] = useState("");
 
-  const fetch = async (search) => {
+
+  const [connectedDoctorId, setConnectedDoctorId] = useState(""); // State pour conserver l'ID du docteur connecté
+
+  const getConnectedDoctorIdFromCookie = () => {
+    const adminInfoCookie = Cookies.get('adminInfo');
+    if (adminInfoCookie) {
+      const adminInfo = JSON.parse(adminInfoCookie);
+      if (adminInfo && adminInfo.id) {
+        setConnectedDoctorId(adminInfo.id);
+
+      }
+    }
+    return null; // Retourner null si aucune information n'est trouvée dans le cookie
+  };
+
+  
+
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(""); 
+
+
+  console.log("id admin : ", connectedDoctorId);
+
+  const handleTimeChange = (event) => {
+    setTime(event.target.value); // Mettre à jour le state time avec la valeur saisie
+  };
+  
+  const fetch = async (isLoading) => {
     try {
       let response;
-      // console.log('search category ==> ', search)
-
-      if (search) {
       // Si la catégorie sélectionnée est "All", récupérer tous les projets
-        response = await CategoryServices.searchCategory(search);
-
-      }
-        else {
-          // console.log('hey');
-          response = await CategoryServices.getAllCategories();
-
-      }
-      setData(response.data);
+        response = await CategoryServices.getAllDispo();
+      setDataa(response);
     } catch (error) {
       console.error("Erreur lors de la récupération des categories :", error);
     } finally {
@@ -65,8 +85,38 @@ const Category = () => {
   };
 
   useEffect(() => {
-    fetch(search);
-  }, [isLoading,search])
+    fetch(isLoading);
+  }, [isLoading])
+  
+  const donnee = {
+    DocteurId: connectedDoctorId,
+    Time: time,
+    Date: date
+  };
+
+  const addDispo = async () => {
+    try {
+      // Si la catégorie sélectionnée est "All", récupérer tous les projets
+      setIsLoading(true);
+
+        const res = await CategoryServices.createDispo(donnee, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setIsLoading(false);
+
+    } catch (error) {
+      console.error("Erreur lors de la récupération des categories :", error);
+    } 
+  };
+
+
+  
+
+  useEffect(() => {
+    getConnectedDoctorIdFromCookie();
+  }, [])
 
   const { handleDeleteMany, allId, handleUpdateMany, serviceId } = useToggleDrawer();
 
@@ -105,12 +155,13 @@ const Category = () => {
     setSearchValue(newSearchValue); // Mettez à jour l'état avec la nouvelle valeur de recherche
   };
 
+
   return (
     <>
            {isLoading ? <Loader /> : null}
 
-     <PageTitle>{t("Category")}</PageTitle>
-     <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} title={data.title} setIsLoading={setIsLoading} />
+     <PageTitle>{"All Disponibities"}</PageTitle>
+     <DeleteModal id={serviceId} ids={allId} setIsCheck={setIsCheck} setIsLoading={setIsLoading} />
       {/* <DeleteModal ids={allId} setIsCheck={setIsCheck} /> */}
       <MainModal id={isCheck} title={data.title} setIsLoading={setIsLoading} />
 
@@ -156,7 +207,7 @@ const Category = () => {
                     <FiPlus />
                   </span>
 
-                  {t("AddCategory")}
+                  {"Add Disponibility"}
                 </Button>
               </div>
             </div>
@@ -171,28 +222,53 @@ const Category = () => {
             className="py-3 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex"
           >
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <Input
+              {/* <Input
                 ref={categoryRef}
                 type="search"
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 placeholder={t("SearchCategory")}
                 onChange={handleSearchInputChange} // Ajoutez cet attribut onChange
-              />
+              /> */}
             </div>
           </form>
         </CardBody>
       </Card>
-{/* 
-      <SwitchToggleChildCat
-        title=" "
-        handleProcess={setShowChild}
-        processOption={showChild}
-        name={showChild}
-      /> */}
-      
-        {data?.length !== 0 ? ( 
-        <TableContainer className="mb-8">
+
+      <div className="flex items-start justify-between">
+
+          <div className="flex flex-col items-start justify-between">
+            {/* Calender */}
+            <Calender date={date} setDate={setDate} />
+
+            {/* Input en-dessous du Calender */}
+            <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow mt-6 w-full md:w-auto lg:w-full xl:w-full">
+                <Input
+                  ref={categoryRef}
+                  type="search"
+                  className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
+                  placeholder={"Time"}
+                  onChange={handleTimeChange} // Appeler la fonction handleTimeChange lors de l'événement onChange
+                  />
+              </div>
+              <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow mt-6 w-full md:w-auto lg:w-full xl:w-full">
+                <Button onClick={addDispo} className="rounded-md h-12 w-full">
+                  <span className="mr-2">
+                    <FiPlus />
+                  </span>
+
+                  {"Add disponibility"}
+                </Button>
+              </div>
+
+          </div>
+
+              
+            
+              {dataa?.length !== 0 ? ( 
+              <TableContainer className="mb-8 ml-32">
+
           <Table>
+          
             <TableHeader>
               <tr>
                 <TableCell>
@@ -205,28 +281,22 @@ const Category = () => {
                   />
                 </TableCell>
 
-                <TableCell>{t("catIdTbl")}</TableCell>
+                <TableCell>{"ID"}</TableCell>
                 {/* <TableCell>{t("catIconTbl")}</TableCell> */}
-                <TableCell>{t("CatTbName")}</TableCell>
-                <TableCell>{t("Slug")}</TableCell>
+                <TableCell>{"Date"}</TableCell>
+                <TableCell>{"Time"}</TableCell>
                 {/* <TableCell>{t("Projects")}</TableCell> */}
                 <TableCell className="text-right">{t("catActionsTbl")}</TableCell>
               </tr>
             </TableHeader>
-
             <CategoryTable
-             setIsLoading={setIsLoading}
-              isLoading={isLoading}
-              data={data}
-              lang={lang}
-              isCheck={isCheck}
-              categories={dataTable}
-              setIsCheck={setIsCheck}
-              showChild={showChild}
-              search={search}
+            dataa={dataa}
+            isLoading={isLoading}
             />
+            
+            
           </Table>
-
+          
           <TableFooter>
             <Pagination
               totalResults={totalResults}
@@ -236,10 +306,15 @@ const Category = () => {
             />
           </TableFooter>
         </TableContainer>
+      
        ) : (
         <NotFound title="Sorry, There are no categories right now." />
       )} 
+      </div>
+      
+
     </>
+    
   );
 };
 

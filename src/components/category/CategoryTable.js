@@ -24,24 +24,27 @@ const CategoryTable = ({
   isLoading, 
   setIsLoading,
   search,
-  data
+  data,
+  dataa
 }) => {
   const { title, serviceId, handleModalOpen, handleUpdate} = useToggleDrawer();
-    const getCategory = async () => {
-      try {
-        const cat = await CategoryServices.getCategoryById(isCheck)
-        setIsCheck([...isCheck, cat.id]);
+//     const getCategory = async () => {
+//       try {
+//         const cat = await CategoryServices.getAllDispo()
+//        // setIsCheck([...isCheck, cat.id]);
 
-      } catch (error) {
-        console.error("Erreur lors de la récupération du category :", error);
+//       } catch (error) {
+//         console.error("Erreur lors de la récupération du category :", error);
 
-      }
-    }
+//       }finally{
+//         setIsLoading(false);
+//       }
+//     }
+// console.log("dataa from cat table : ",dataa);
 
-
-    useEffect(() => {
-      getCategory();
-    }, [])
+//     useEffect(() => {
+//       getCategory();
+//     }, [isLoading])
 
     const handleClick = (e) => {
       const { id, checked } = e.target;
@@ -58,7 +61,7 @@ const CategoryTable = ({
       {isCheck?.length < 1 && (
         <DeleteModal 
         id={serviceId} 
-        title={data.title}
+        title={dataa.id}
         isLoading={isLoading} // Passer la variable isLoading
         setIsLoading={setIsLoading}  />
       )}
@@ -74,7 +77,7 @@ const CategoryTable = ({
         </MainDrawer>
       )}
       <TableBody>
-        {data?.map((category) => (
+        {dataa?.map((category) => (
           <TableRow key={category.id}>
             <TableCell>
               <CheckBox
@@ -92,10 +95,10 @@ const CategoryTable = ({
             </TableCell>
 
             <TableCell className="font-medium text-sm ">
-                <span>{category?.name}</span>
+                <span>{category?.date}</span>
             </TableCell>
             <TableCell className="text-sm">
-              {category?.slug}
+              {category.time}
             </TableCell>
             <TableCell>
               <EditDeleteButton

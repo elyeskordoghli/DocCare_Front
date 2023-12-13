@@ -154,14 +154,14 @@ const Consultation = () => {
 
 
             <div className="flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-              <Input
+              {/* <Input
                 ref={searchRef}
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
                 placeholder={t("SearchSubscriber")}
                 onChange={handleSearchInputChange}
-              />
+              /> */}
               <button
                 type="submit"
                 className="absolute right-0 top-0 mt-5 mr-1"

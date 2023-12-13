@@ -45,7 +45,7 @@ const SignUp = () => {
     password: password,
     image: image, // Ajoutez un champ pour stocker l'image
   });
-
+console.log("hahah : ",image);
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
 

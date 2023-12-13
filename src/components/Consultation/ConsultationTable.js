@@ -20,6 +20,8 @@ import {
   import { showingTranslateValue } from "utils/translate";
   import React, { useState, useEffect } from 'react'
 import Consultation from "pages/Consultation";
+import PatientServices from "services/PatientServices";
+
   //internal import  
   
   const ConsultationTable = ({
@@ -52,7 +54,28 @@ import Consultation from "pages/Consultation";
   
     // Utilisez la fonction getAllServices pour récupérer les données des projets depuis l'API
    
-  
+    const handleDownload = async (id) => {
+      try {
+        const response = await PatientServices.DownloadDossierMedical(id, { responseType: 'arraybuffer' });
+    
+        // Créer un Blob à partir de la réponse
+        const blob = new Blob([response.data], { type: 'application/zip' });
+    
+        // Créer un lien pour le téléchargement du fichier
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `DossierMedical_Patient_${id}.zip`);
+    
+        // Ajouter le lien au document et déclencher le téléchargement
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      } catch (error) {
+        console.error('Erreur lors du téléchargement du dossier médical :', error);
+        // Gérer les erreurs
+      }
+    };
   
     
     return (
@@ -108,16 +131,15 @@ import Consultation from "pages/Consultation";
                 </span>
               </TableCell>
   
-              <TableCell className="text-center">
-              <ShowHideButton id={item.id} status={item.status} />
-              {/* {product.status} */}
+            <TableCell className="text-center">
+              <ShowHideButton id={item.id} initialStatus={item.status} />
             </TableCell>
   
               <TableCell>
                 <Link
                   to={`/Consultations`}
                   className="flex justify-center text-gray-400 hover:text-orange-600"
-                  onClick={() => handleDownload(item.id)}
+                 onClick={() => handleDownload(item.id)}
                 >
                   <Tooltip
                     id="view"

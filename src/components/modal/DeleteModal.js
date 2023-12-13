@@ -43,6 +43,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
     setServiceId();
 
   };
+  console.log("id selectionne : ",id);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleDelete = async () => {
@@ -72,6 +73,8 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
         closeModal();
         setIsSubmitting(false);
       }
+
+      
 
 
 
@@ -237,7 +240,7 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId, isLoadi
 
       if (location.pathname === "/categories") {
         setIsLoading(true);
-        const res = await CategoryServices.deleteCategory(id);
+        const res = await CategoryServices.DeleteDispo(id);
         setIsLoading(false);
         setIsUpdate(true);
         notifySuccess(res.message);
